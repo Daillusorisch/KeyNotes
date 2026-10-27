@@ -1,0 +1,189 @@
+# 理论力学 {#sec-theoretical-mechanics}
+
+牛顿力学很好，但理论力学妙不可言。它并不告诉你任何新东西，却让你从不同角度思考同一件事。理论力学利用系统的约束来解决问题。约束限制了系统可能具有的_自由度_，并可用于减少求解运动所需的坐标数。这种形式体系很适合任意选择坐标，在此背景下称为_广义坐标_。系统的动能和势能用这些广义坐标或动量表示，运动方程也容易建立，因此分析力学使许多力学问题的求解比完全使用矢量的方法更有效率。_对于非保守力或摩擦等耗散力，这种方法并不总是有效，此时可以回到牛顿力学_。
+
+## 广义坐标
+
+在牛顿力学中，通常使用全部三个笛卡尔坐标，或其他三维坐标系，来表示物体运动时的位置。然而，在物理系统中，某种结构或其他系统通常会约束物体的运动，使其不能沿某些方向或路径运动。因此，往往不需要完整的笛卡尔坐标集，因为约束决定了坐标之间随时间变化的关系，这些关系可以用对应于约束的方程建模。在拉格朗日和哈密顿形式体系中，约束被纳入运动的几何描述，使坐标数量减少到描述运动所需的最小值。这些坐标称为广义坐标，记为 $q_i\, (i = 1, 2, 3...)$。
+
+## 达朗贝尔原理
+
+这一原理是理论力学中与牛顿第二定律相对应的原理。它指出，力在可逆位移上所做的无穷小虚功为零；该功是与系统理想约束相容的力所做的功。约束的概念很有用——因为它限制了系统能够做什么，并能为求解系统运动提供步骤。达朗贝尔原理的方程为：
+$$
+\delta W = \mathbf{Q}\cdot \mathrm{d}\mathbf{q} = 0
+$$
+其中
+$$
+\mathbf{Q} = (Q_1, Q_2, ..., Q_N)
+$$
+是广义力（这里使用花体 Q 而非普通 Q，以避免与下面的正则变换冲突），$\mathbf{q}$ 是广义坐标。这导出了用理论力学语言表达的牛顿定律的广义形式：
+$$
+\mathbf{Q} = \frac{\mathrm{d}}{\mathrm{d}t}\Big( \frac{\partial T}{\partial\dot{\mathbf{q}}} \Big) - \frac{\partial T}{\partial\mathbf{q}}
+$$
+其中 T 是系统的总动能，记号为
+$$
+\frac{\partial}{\partial\mathbf{q}} = \Big( \frac{\partial}{\partial q_1},\frac{\partial}{\partial q_2}, ..., \frac{\partial}{\partial q_N} \Big)
+$$
+
+## 拉格朗日力学
+
+**拉格朗日量和欧拉－拉格朗日方程**
+
+引入广义坐标和基本的拉格朗日函数：
+$$
+L(\mathbf{q},\dot{\mathbf{q}},t) = T(\mathbf{q},\dot{\mathbf{q}},t) - V(\mathbf{q},\dot{\mathbf{q}},t)
+$$
+其中 $T$ 是整个系统的总动能，$V$ 是总势能。随后无论通过变分法还是使用上述公式，都能导出欧拉－拉格朗日方程：
+$$
+\frac{\mathrm{d}}{\mathrm{d}t}\Big( \frac{\partial L}{\partial\dot{\mathbf{q}}} \Big) = \frac{\partial L}{\partial\mathbf{q}}
+$$
+这是一组 N 个二阶常微分方程，每个 $q_i(t)$ 对应一个。在假定总能量固定、且不对经过时间施加条件的情况下，这种表述将实际运动路径确定为动能的时间积分最小的路径。
+
+## 哈密顿力学
+
+**哈密顿量和哈密顿方程**
+
+对拉格朗日量作勒让德变换，将广义坐标和速度 $(\mathbf{q}, \dot{\mathbf{q}})$ 替换为 $(\mathbf{q}, \mathbf{p})$，即广义坐标及其共轭广义动量：
+$$
+\mathbf{p} = \frac{\partial L}{\partial\dot{\mathbf{q}}} = \Big(\frac{\partial L}{\partial\dot{q}_1},\frac{\partial L}{\partial\dot{q}_2},,...,\frac{\partial L}{\partial\dot{q}_N} \Big) = (p_1, p_2, ..., p_N)
+$$
+并引入哈密顿量（用广义坐标和动量表示）：
+$$
+H(\mathbf{q},\mathbf{p},t) = \mathbf{p}\cdot\dot{\mathbf{q}} - L(\mathbf{q},\dot{\mathbf{q}},t)
+$$
+
+这导出哈密顿方程：
+$$
+\dot{\mathbf{p}} = -\frac{\partial H}{\partial\mathbf{q}},\quad\dot{\mathbf{q}} = \frac{\partial H}{\partial \mathbf{p}}
+$$
+
+它们现在是一组 2N 个一阶常微分方程，每个 $q_i(t)$ 和 $p_i(t)$ 各对应一个。勒让德变换的另一个结果将拉格朗日量和哈密顿量的时间导数联系起来：
+$$
+\frac{dH}{\mathrm{d}t} = -\frac{\partial L}{\partial t}
+$$
+它经常被视为除其他方程之外的另一个哈密顿运动方程。广义动量可以按与牛顿第二定律相同的方式用广义力表示：
+$$
+\dot{\mathbf{p}} = \mathbf{Q}
+$$
+
+哈密顿方程在等离子体物理中的一个有趣应用是证明弗拉索夫方程（见 Giulia 的笔记）：
+$$
+\frac{df(\mathbf{q},\mathbf{p},t)}{\mathrm{d}t} = 0
+$$
+
+还可以看到它在推导回旋动理学方程中的应用。
+
+## 洛伦兹方程的哈密顿－拉格朗日形式
+
+有两种数学上等价的形式体系描述带电粒子动力学，即
+
+1. 洛伦兹方程
+$$
+m\frac{\mathrm{d}\mathbf{v}}{\mathrm{d}t} = q(\mathbf{E} + \mathbf{v}\times\mathbf{B})
+$$
+
+2. 哈密顿－拉格朗日动力学。
+
+这两种形式体系相辅相成：洛伦兹方程直观，适合近似方法；而更抽象的哈密顿－拉格朗日形式利用时间和空间对称性。下面简要回顾哈密顿－拉格朗日形式，重点讨论与带电粒子动力学相关的方面。
+
+出发点是假定存在一个称为拉格朗日量的函数 $L$，它：
+
+1. 包含给定情况下粒子动力学的_全部_信息；
+2. 仅依赖于适合该问题的广义坐标 $Q_i(t),\dot{Q}_i(t)$；
+3. 可能显式依赖于时间 $t$。
+
+如果这样的函数 $L(Q_i(t), \dot{Q}_i(t), t)$ 存在，就可以通过处理_作用量积分_获得粒子动力学的信息：
+$$
+S = \int_{t_1}^{t_2}L(Q_i(t), \dot{Q}_i(t), t) \mathrm{d}t
+$$
+
+这一处理基于达朗贝尔最小作用量原理。根据这一原理，考虑粒子从初始位置 $Q_{i}(t_1)$ 到最终位置 $Q_i(t_2)$ 可能经过的无穷多条轨迹，并假定实际轨迹是使 $S$ 取最小值的那一条。因此，$S$ 的值必须最小化（注意这里的 $S$ 是作用量，而不是熵）。最小化 $S$ 并不直接给出实际轨迹，而是给出可以求解以得到实际轨迹的运动方程。
+
+为了使 $S$ 最小化，考虑一条任意的附近替代轨迹 $Q_i(t)+\delta Q_i(t)$，它与实际轨迹具有相同的起点和终点，即 $\delta Q_i(t_1)=Q_i(t_2)=0$。为使变分论证更加精确，将 $\delta Q_i$ 表示为
+$$
+\delta Q_i(t) = \epsilon \eta_i(t)
+$$
+其中 $\epsilon$ 是可以任意调整的标量，假定它足够小，使 $\epsilon^2 < \epsilon$；$\eta_i(t)$ 是 $t$ 的函数，在 $t=t_1$ 或 $t=t_2$ 时为零，其余情况下任意。计算 $\delta S$ 到 $\epsilon$ 的二阶，得到
+$$
+\begin{aligned}
+\delta S &= \int_{t_1}^{t_2}L(Q_i+\delta Q_i, \dot{Q}_i + \delta\dot{Q}_i, t) \mathrm{d}t - \int_{t_1}^{t_2}L(Q_i(t), \dot{Q}_i(t), t) \mathrm{d}t \\
+&= \int_{t_1}^{t_2}L(Q_i+\epsilon\eta_i, \dot{Q}_i + \epsilon \dot{\eta}_i, t) \mathrm{d}t - \int_{t_1}^{t_2}L(Q_i(t), \dot{Q}_i(t), t) \mathrm{d}t \\
+&= \int_{t_1}^{t_2} \left( \epsilon\eta_i\frac{\partial L}{\partial Q_i} + \frac{(\epsilon \eta_i)^2}{2}\frac{\partial^2 L}{\partial Q_i^2} + \epsilon \dot{\eta}_i\frac{\partial L}{\partial\dot{Q}_i} + \frac{(\epsilon\dot{\eta}_i)^2}{2}\frac{\partial^2 L}{\partial\dot{Q}_i^2} \right)\mathrm{d}t
+\end{aligned}
+$$
+
+假设轨迹 $Q_i(t)$ 是使 $S$ 最小的轨迹。任何其他轨迹都必须产生更大的 $S$ 值，因此对于任何有限的 $\epsilon$ 值，$\delta S$ 必须为正。如果选择足够小的 $\epsilon$，则上面 $\epsilon^2$ 阶各项的绝对值将小于 $\epsilon$ 的线性项的绝对值。此时可以选择 $\epsilon$ 的符号使 $\delta S$ 为负，但这会违反 $\delta S$ 必须为正的要求。摆脱这一困境的唯一办法是要求 $\epsilon$ 线性项之和为零，使 $\delta S\sim \epsilon^2$，因此按要求始终为正。要求 $\epsilon$ 线性项之和为零意味着
+$$
+0 = \int_{t_1}^{t_2} \left( \eta_i\frac{\partial L}{\partial Q_i} + \dot{\eta}_i\frac{\partial L}{\partial\dot{Q}_i} \right)\mathrm{d}t
+$$
+
+利用 $\dot{\eta}_i = \mathrm{d}\eta_i/\mathrm{d}t$，可对上式分部积分，得到
+$$
+\begin{aligned}
+0 &= \int_{t_1}^{t_2} \left( \eta_i\frac{\partial L}{\partial Q_i} + \dot{\eta}_i\frac{\partial L}{\partial\dot{Q}_i} \right)\mathrm{d}t \\
+&= \left[ \eta_i\frac{\partial L}{\partial \dot{Q}_i} \right]_{t_1}^{t_2} + \int_{t_1}^{t_2}\left[ \eta_i\frac{\partial L}{\partial Q_i} - \eta_i\frac{\mathrm{d}}{\mathrm{d}t}\left( \frac{\partial L}{\partial \dot{Q}_i} \right) \right]\mathrm{d}t
+\end{aligned}
+$$
+
+由于 $\eta_i(t_{1,2})=0$，积分边界项为零；又由于 $\eta_i$ 是 $t$ 的任意函数，被积表达式中 i 的系数必须为零，从而得到拉格朗日方程
+$$
+\frac{\mathrm{d}P_i}{\mathrm{d}t} = \frac{\partial L}{\partial Q_i}
+$$ {#eq-lagrange}
+其中_正则动量_ $P_i$ 定义为
+$$
+P_i \equiv \frac{\partial L}{\partial\dot{Q}_i}
+$$ {#eq-canonical-momentum}
+
+拉格朗日方程表明，如果 $L$ 不依赖于某个特定的广义坐标 $Q_j$，则 $\mathrm{d}P_j/\mathrm{d}t=0$，此时正则动量 $P_j$ 是_运动常量_；坐标 $Q_j$ 称为_循环坐标_或_可忽略坐标_。这是一个非常有力而深刻的结果。说拉格朗日函数不依赖于某个坐标，等价于说系统在该坐标上具有_对称性_，或相对于该坐标具有平移不变性。量 $P_j$ 和 $Q_j$ 称为共轭量，而作用量的量纲是这两个量乘积的量纲。
+
+哈密顿通过引入一个与拉格朗日量相关的新函数扩展了这一形式体系。这个新函数称为哈密顿量，提供了更多有用信息，其定义为
+$$
+H \equiv \left( \sum_i P_i \dot{Q}_i \right) - L
+$$ {#eq-hamiltonian}
+
+对 $H$ 分别关于 $P_i$ 和 $Q_i$ 求偏导，得到哈密顿方程
+$$
+\dot{Q}_i = \frac{\partial H}{\partial P_i},\quad \dot{P}_i = -\frac{\partial H}{\partial Q_i}
+$$
+这是一组与相空间概念密切相关的运动方程。
+哈密顿量的时间导数为
+$$
+\frac{\mathrm{d}H}{\mathrm{d}t} = \sum_i \frac{\mathrm{d}P_i}{\mathrm{d}t}\dot{Q}_i + \sum_i P_i\frac{\mathrm{d}\dot{Q}_i}{\mathrm{d}t} - \left( \sum_i\frac{\partial L}{\partial Q_i}\dot{Q}_i + \sum_i\frac{\partial L}{\partial\dot{Q}_i}\frac{\mathrm{d}\dot{Q}_i}{\mathrm{d}t} + \frac{\partial L}{\partial t} \right) = -\frac{\partial L}{\partial t}
+$$ {#eq-hamiltonian-time-derivative}
+
+这表明，如果 $L$ 不显式依赖于时间，哈密顿量 $H$ 就是_运动常量_。正如后面将要说明的，$H$ 对应于系统的能量，因此如果 $\partial L/\partial t=0$，能量就是运动常量。由此，能量与时间共轭，类似于正则动量与位置共轭（注意能量 $\times$ 时间的单位也是作用量的单位）。如果拉格朗日量不显式依赖于时间，那么可以认为系统关于时间是“对称的”，或相对于时间具有“平移”不变性。
+
+电磁场中带电粒子的拉格朗日量为
+$$
+L = \frac{mv^2}{2} + q\mathbf{v}\cdot\mathbf{A}(\mathbf{x},t) - q\phi(\mathbf{x},t)
+$$ {#eq-lagrangian-charged-particle}
+
+现在通过证明 @eq-lagrangian-charged-particle 代入拉格朗日方程后产生洛伦兹方程，来确立其有效性。由于没有假定任何对称性，没有理由使用任何特殊坐标系，因此采用普通笛卡尔坐标作为正则坐标，此时 @eq-canonical-momentum 给出的正则动量为
+$$
+\mathbf{P} = m\mathbf{v} + q\mathbf{A}(\mathbf{x},t)
+$$
+
+@eq-lagrange 的左侧变为
+$$
+\frac{\mathrm{d}\mathbf{P}}{\mathrm{d}t} = m\frac{\mathrm{d}\mathbf{v}}{\mathrm{d}t} + q\left( \frac{\partial\mathbf{A}}{\partial t} + \mathbf{v}\cdot\nabla\mathbf{A} \right)
+$$
+而 @eq-lagrange 的右侧变为
+$$
+\begin{aligned}
+\frac{\partial L}{\partial\mathbf{x}} &= q\nabla(\mathbf{v}\cdot\mathbf{A}) - q\nabla\phi = q(\mathbf{v}\cdot\nabla\mathbf{A} + \mathbf{v}\times\nabla\times\mathbf{A}) - q\nabla\phi \\
+&= q(\mathbf{v}\cdot\nabla\mathbf{A} + \mathbf{v}\times\mathbf{B}) - q\nabla\phi
+\end{aligned}
+$$
+
+令上述两个表达式相等，得到洛伦兹方程，其中根据法拉第定律，电场定义为 $\mathbf{E}=-\partial\mathbf{A}/\partial t - \nabla\phi$。这证明了 @eq-lagrangian-charged-particle 与最小作用量原理一起使用时，在数学上等价于洛伦兹方程。
+
+与这一拉格朗日量对应的哈密顿量在笛卡尔坐标中为
+$$
+\begin{aligned}
+H &= \mathbf{P}\cdot\mathbf{v} - L = \frac{mv^2}{2} + q\phi \\
+&= \frac{\left(\mathbf{P} - q\mathbf{A}(\mathbf{x},t)\right)^2}{2m} + q\phi(\mathbf{x},t)
+\end{aligned}
+$$ {#eq-hamiltonian-charged-particle}
+其中最后一行是更适合用于哈密顿方程的形式，即 $H=H(\mathbf{x},\mathbf{P},t)$。@eq-hamiltonian-charged-particle 也表明，正如前面所说，$H$ 是粒子的能量。如果使用广义坐标，能量可以用一般形式写为 $E=H(Q,P,t)$。@eq-hamiltonian-time-derivative 表明，尽管 $Q$ 和 $P$ 都依赖于时间，只有当 $H$ 显式依赖于时间时，能量才依赖于时间。因此，在 $H$ 不显式依赖于时间的情况下，能量具有 $E=H(Q(t),P(t)) = \mathrm{const}$ 的形式。
+
+必须认识到，正则动量和能量都依赖于参考系。例如，在飞机上沿与飞机运动方向相反的方向发射一颗子弹，且其速度大小等于飞机的速度时，在飞机参考系中测得的能量很大，但地面观察者测得的能量为零。一个更微妙的例子（对后续波和朗道阻尼的分析很重要）是 $\mathbf{A}$ 和／或 $\phi$ 具有波动形式的依赖关系，例如 $\phi(\mathbf{x},t)=\phi(\mathbf{x}-\mathbf{v}_{\mathrm{ph}}t)$，其中 $\mathbf{v}_{\mathrm{ph}}$ 是波的相速度。这个电势在实验室参考系中依赖于时间，因此相应的拉格朗日量在实验室参考系中显式依赖于时间，这意味着_能量在实验室参考系中不是运动常量_。相比之下，$\phi$ 在波参考系中不依赖于时间，因此能量在波参考系中是_运动常量_。运动常量的存在降低了方程组的复杂性，通常使得至少一个方程可以用闭式积分。因此，在运动常量最多的参考系中分析系统是有利的。

@@ -1,0 +1,103 @@
+# 色散关系 {#sec-dispersion}
+
+## 控制方程：Vlasov-Maxwell 系统
+
+我们从无碰撞、磁化的等离子体出发。组分 $s$ 的分布函数 $f_s(\mathbf{x}, \mathbf{v}, t)$ 的演化由 Vlasov 方程控制：
+$$
+\frac{\partial f_s}{\partial t} + \mathbf{v} \cdot \nabla f_s + \frac{q_s}{m_s} \left( \mathbf{E} + \mathbf{v} \times \mathbf{B} \right) \cdot \nabla_{\mathbf{v}} f_s = 0
+$$
+
+场 $\mathbf{E}$ 和 $\mathbf{B}$ 是自洽的，由 Maxwell 方程控制：
+$$
+\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}, \quad \nabla \times \mathbf{B} = \mu_0 \mathbf{J} + \frac{1}{c^2} \frac{\partial \mathbf{E}}{\partial t}
+$$
+其中
+$$
+\mathbf{J} = \sum_s q_s \int \mathbf{v} f_s \mathrm{d}^3v
+$$
+
+## 线性化与傅里叶分析
+
+假设等离子体初始处于均匀平衡态 $f_{s0}(\mathbf{v})$，具有恒定的背景磁场 $\mathbf{B}_0 = B_0 \hat{z}$，且没有背景电场（$\mathbf{E}_0 = 0$）。
+
+施加一个小扰动：
+$$
+f_s = f_{s0} + \delta f_s, \quad \mathbf{B} = \mathbf{B}_0 + \delta \mathbf{B}, \quad \mathbf{E} = \delta \mathbf{E}
+$$
+
+假设所有扰动都按平面波变化：$\sim \exp[i(\mathbf{k}\cdot\mathbf{x} - \omega t)]$。
+
+线性化的 Vlasov 方程（仅保留一阶项）变为：
+$$
+-i(\omega - \mathbf{k}\cdot\mathbf{v}) \delta f_s + \frac{q_s}{m_s} (\mathbf{v} \times \mathbf{B}_0) \cdot \nabla_{\mathbf{v}} \delta f_s = -\frac{q_s}{m_s} (\delta \mathbf{E} + \mathbf{v} \times \delta \mathbf{B}) \cdot \nabla_{\mathbf{v}} f_{s0}
+$$
+
+利用法拉第定律（$\nabla \times \delta \mathbf{E} = i\omega \delta \mathbf{B}$），我们可以消去 $\delta \mathbf{B}$，用 $\delta \mathbf{E}$ 表示：
+$$
+\delta \mathbf{B} = \frac{\mathbf{k} \times \delta \mathbf{E}}{\omega}
+$$
+
+## 求解 $\delta f_s$：特征线法
+
+这是数学上最困难的一步。我们必须求出 $\delta f_s$。线性化方程的左侧表示沿未扰动粒子轨道的全导数：
+$$
+\frac{d}{dt} \delta f_s \bigg|_{\text{orbit}} = \left( \frac{\partial}{\partial t} + \mathbf{v} \cdot \nabla + \frac{q}{m}(\mathbf{v} \times \mathbf{B}_0) \cdot \nabla_{\mathbf{v}} \right) \delta f_s
+$$
+
+为了求出 $\delta f_s(\mathbf{v}, t)$，我们沿粒子过去的运动历史（轨道上的 $\tau$ 从 $-\infty$ 到 $t$）对右侧的扰动力积分。
+$$
+\delta f_s(\mathbf{v}) = -\frac{q_s}{m_s} \int_{-\infty}^{t} \mathrm{d}\tau \left[ \left( \delta \mathbf{E} + \mathbf{v}(\tau) \times \frac{\mathbf{k} \times \delta \mathbf{E}}{\omega} \right) \cdot \nabla_{\mathbf{v}} f_{s0} \right]_{\mathbf{v}(\tau)}
+$$
+
+- 贝塞尔函数的来源：
+未扰动轨道 $\mathbf{v}(\tau)$ 是螺旋线。
+$$
+v_x(\tau) = v_\perp \cos(\Omega \tau + \phi), \quad v_y(\tau) = v_\perp \sin(\Omega \tau + \phi)
+$$
+将这种螺旋运动代入相位因子 $e^{i \mathbf{k} \cdot \mathbf{x}(\tau)}$ 时，会得到形如 $e^{i \frac{k_\perp v_\perp}{\Omega} \sin(\dots)}$ 的项。
+利用 Jacobi-Anger 展开恒等式：
+$$
+e^{i z \sin \theta} = \sum_{n=-\infty}^{\infty} J_n(z) e^{i n \theta}
+$$
+
+这就是色散关系中出现贝塞尔函数（$J_n$）的原因。它们表示波与粒子回旋谐波之间的耦合。
+
+完成这一大量积分后，我们得到 $\delta f_s$ 的解析形式。
+
+## 介电张量 $\mathbf{\epsilon}$
+
+现在我们有了以 $\delta \mathbf{E}$ 表示的 $\delta f_s$。计算扰动电流：
+$$
+\delta \mathbf{J} = \sum_s q_s \int \mathbf{v} \delta f_s d^3v = \pmb{\sigma} \cdot \delta \mathbf{E}
+$$
+
+将其代入波动方程（含 $\delta \mathbf{J}$ 的 Maxwell 方程）：
+$$
+\mathbf{k} \times (\mathbf{k} \times \delta \mathbf{E}) + \frac{\omega^2}{c^2} \pmb{\epsilon} \cdot \delta \mathbf{E} = 0
+$$
+其中 $\pmb{\epsilon} = \mathbf{I} + \frac{i}{\epsilon_0 \omega} \pmb{\sigma}$。
+
+这可以改写为经典的色散矩阵方程：
+$$
+\mathbf{D}(\mathbf{k}, \omega) \cdot \delta \mathbf{E} = 0
+$$
+$$
+\mathbf{D} = \epsilon - \left(\frac{kc}{\omega}\right)^2 \left( \mathbf{I} - \hat{k}\hat{k} \right)
+$$
+要得到非平凡解（$\delta \mathbf{E} \neq 0$），必须满足色散关系：
+$$
+\det(\mathbf{D}(\mathbf{k}, \omega)) = 0
+$$
+
+## 困难所在
+
+张量 $\mathbf{\epsilon}$ 的各元素涉及如下形式的积分：
+$$
+\chi \sim \sum_n \int_{0}^{\infty} v_\perp dv_\perp \int_{-\infty}^{\infty} dv_\parallel \frac{H_n(v_\perp, v_\parallel) J_n^2(\lambda)}{\omega - k_\parallel v_\parallel - n\Omega}
+$$
+
+这一积分是求解色散关系的瓶颈，也是至今仍有新的求解器不断出现的原因。
+
+在谢华生近期的工作中，他将任意 $f_0$ 展开为 Hermite 多项式之和[^hermite]。借助 Hermite 多项式，可以一次性解析求出这些积分。然后，他用有理函数（Padé/J-pole）近似共振项 $1/(\omega - k v - n\Omega)$，以避开奇点。这样，高度复杂的积分方程就变成了标准线性代数问题 $\mathbf{M} \mathbf{X} = \omega \mathbf{X}$，使我们无需积分就能同时求解所有模态。
+
+[^hermite]: Hermite 多项式是一组正交多项式，可用于以函数的矩来表示函数。洛斯阿拉莫斯开发的多矩流体模型也采用了这一思路。

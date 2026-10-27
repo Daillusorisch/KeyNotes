@@ -54,6 +54,8 @@ bibliography: files/bibliography.bib
 
 format:
   html:
+    css: language-switch.css
+    include-after-body: language-switch.html
     theme:
       light: cosmo
       dark: [cosmo, theme-dark.scss]

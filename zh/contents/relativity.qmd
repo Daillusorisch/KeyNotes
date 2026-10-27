@@ -1,0 +1,116 @@
+# 相对论 {#sec-relativity}
+
+## 速度
+
+物体在三维空间中（在惯性参考系内）的轨迹可以用时间 $t$ 的三个空间坐标函数 $x^i(t)$ 表示，其中指标 $i$ 取值为 1、2、3。
+
+这三个坐标组成三维位置矢量，写成列矢量为
+$$
+\mathbf{x}(t)=
+\begin{bmatrix}
+x^{1}(t)\\
+x^{2}(t)\\
+x^{3}(t)
+\end{bmatrix}
+$$
+
+世界线上任意一点的速度 $\mathbf{u}$（与曲线相切）的分量为
+$$
+\mathbf{u}=
+\begin{bmatrix}
+u^{1}\\
+u^{2}\\
+u^{3}
+\end{bmatrix}
+=\frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t}=
+\begin{bmatrix}
+\frac{\mathrm{d}x^{1}}{\mathrm{d}t} \\
+\frac{\mathrm{d}x^{2}}{\mathrm{d}t} \\
+\frac{\mathrm{d}x^{3}}{\mathrm{d}t} 
+\end{bmatrix}
+$$ {#eq-velocity}
+
+每个分量可简单地写为 $u^i = \mathrm{d}x^i / \mathrm{d}t$。
+
+## 相对论
+
+在爱因斯坦的相对论中，相对于特定参考系运动的物体的轨迹由四个坐标函数 $x_\mu(\tau)$ 定义，其中 $\mu$ 是时空指标，类时分量取值为 0，类空坐标取值为 1、2、3。第零分量定义为时间坐标乘以 c：
+$$
+x^0 = ct
+$$ {#eq-time-coordinate}
+
+每个函数都依赖于一个称为其_固有时_的参数 $\tau$。写成列矢量为
+$$
+\mathbf{x}=
+\begin{bmatrix}
+x^{0}(\tau)\\
+x^{1}(\tau)\\
+x^{2}(\tau)\\
+x^{3}(\tau)
+\end{bmatrix}
+$$
+
+**时间膨胀**
+
+根据时间膨胀，坐标时间 $t$ 和固有时 $\tau$ 的微分满足
+$$
+\mathrm{d}t = \gamma(u)\mathrm{d}\tau
+$$ {#eq-time-dilation}
+其中洛伦兹因子
+$$
+\gamma(u) = \frac{1}{\sqrt{1 - \frac{u^2}{c^2}}}
+$$ {#eq-lorentz-factor}
+是三维速度矢量 $\mathbf{u}$ 的欧几里得范数 $u$ 的函数：
+$$
+u=\left\|\ {\mathbf{u}}\ \right\|=\sqrt{\left(u^{1}\right)^{2}+\left(u^{2}\right)^{2}+\left(u^{3}\right)^{2}}
+$$
+
+### 四维速度
+
+_四维速度_是四维时空中的一个_四维矢量_，是速度在相对论中的对应物；速度是空间中的三维矢量。
+
+物理事件对应于时间和空间中的数学点，所有这些点共同构成物理四维时空的数学模型。物体的历史在时空中描绘出一条曲线，称为其世界线。如果物体具有质量，其速率必然小于光速，则世界线可以用物体的固有时参数化。四维速度是沿曲线的四维位置对固有时的变化率。相比之下，速度是观察者所见的物体在（三维）空间中的位置对观察者时间的变化率。
+
+四维速度是类时世界线的切四维矢量。世界线 $\mathbf{X}(\tau)$ 上任意一点的四维速度 $\mathbf{U}$ 定义为
+$$
+\mathbf{U} = \frac{\mathrm{d}\mathbf{X}}{\mathrm{d}\tau}
+$$ {#eq-four-velocity}
+其中 $\mathbf{X}$ 是四维位置，$\tau$ 是固有时。[^existence]
+
+[^existence]: 对于以光速传播的光子等无质量物体的世界线，此处用物体固有时定义的四维速度不存在。
+
+时间 $t$ 与坐标时间 $x^0$ 的关系定义为
+$$
+x^0 = ct
+$$ {#eq-four-velocity-0}
+
+对其关于固有时 $\tau$ 求导，得到 $\mu = 0$ 时的速度分量 $U_\mu$：
+$$
+U^{0}=\frac{\mathrm{d}x^{0}}{\mathrm{d}\tau}={\frac{\mathrm{d}(ct)}{\mathrm{d}\tau}}=c\frac{\mathrm{d}t}{\mathrm{d}\tau}=c\gamma(u)
+$$ {#eq-four-velocity-1}
+对另外三个分量关于固有时求导，得到 $\mu = 1, 2, 3$ 时的速度分量 $U_\mu$：
+$$
+U^{i}=\frac{\mathrm{d}x^{i}}{\mathrm{d}\tau} = \frac{\mathrm{d}x^{i}}{\mathrm{d}t}{\frac{\mathrm{d}t}{\mathrm{d}\tau}} = \frac {\mathrm{d}x^{i}}{\mathrm{d}t} \gamma(u) = \gamma(u)u^{i}
+$$ {#eq-four-velocity-3}
+其中使用了 @eq-velocity 和 @eq-time-dilation 的链式法则。
+
+因此，四维速度 $\mathbf{U}$ 为：
+$$
+\mathbf{U}= \gamma
+\begin{bmatrix}
+c \\
+\mathbf{u}
+\end{bmatrix}
+$$
+
+用标准的四维矢量记号写为
+$$
+\mathbf{U}=\gamma \left(c,{\mathbf{u}}\right) = \left(\gamma c,\gamma {\mathbf{u}}\right)
+$$ {#eq-four-velocity-vector}
+其中 $\gamma c$ 是时间分量，$\gamma \mathbf{u}$ 是空间分量。与大多数其他四维矢量不同，四维速度只有 3 个独立分量 $u_{x},u_{y},u_{z}$，而不是 4 个。$\gamma$ 因子是三维速度 $\mathbf{u}$ 的函数。
+
+利用静止参考系中四维位置的微分，可由号差为 (−, +, +, +) 的闵可夫斯基度规得到四维速度的大小：
+$$
+\left\|\mathbf{U} \right\|^{2}=\eta_{\mu\nu}U^{\mu}U^{\nu}=\eta_{\mu\nu}{\frac{\mathrm{d}X^{\mu}}{\mathrm{d}\tau}}{\frac{\mathrm{d}X^{\nu}}{\mathrm{d}\tau}}=-c^{2}
+$$ {#eq-four-velocity-mag}
+它始终是一个固定常数。

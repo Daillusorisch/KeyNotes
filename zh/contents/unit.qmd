@@ -1,0 +1,177 @@
+# 单位换算 {#sec-unit}
+
+## 公式换算 {#sec-unit-formula}
+
+本章部分内容参考了 [NRL 等离子体公式手册](https://www.nrl.navy.mil/News-Media/Publications/nrl-plasma-formulary/)和 Dana Longcope 的笔记。
+
+要从以高斯（CGS）单位表示的公式推导出量纲正确的 SI 公式，对每个量按照 $\bar{Q} = \bar{k}Q$ 进行替换，其中 $\bar{k}$ 是 @tbl-formula-conversion 第二列中与 $Q$ 对应的系数（上横线表示以高斯单位表示的变量）。要从 SI 转换到 $\hbar = c = 1$ 的自然单位，使用 $Q = \hat{k}^{-1}\hat{Q}$，其中 $\hat{k}$ 是第三列中对应的系数。
+
+这里
+$$
+\begin{aligned}
+\alpha &= 10^2\,\text{cm}\,\text{m}^{-1} \\
+\beta &= 10^7\,\text{erg}\,\text{J}^{-1} \\
+\epsilon_0 &= 8.8542\times 10^{-12}\,\text{F}\,\text{m}^{-1} \\
+\mu_0 &= 4\pi\times 10^7\,\text{H}\,\text{m}^{-1} \\
+c &= (\epsilon_0\mu_0)^{-1/2} = 2.9979\times 10^8\,\text{m}\,\text{s}^{-1} \\
+\hbar &= 1.0546\times 10^{-34}\,\text{J}\,\text{s}
+\end{aligned}
+$$
+
+| 物理量 | CGS 单位至 SI | 自然单位至 SI |
+|---------------------|-----------------|---------------------|
+| 电容 | $\alpha/4\pi\epsilon_0$ | $\epsilon_0^{-1}$ |
+| 电荷 | $(\alpha\beta/4\pi\epsilon_0)^{1/2}$ | $(\epsilon_0 \hbar c)^{-1/2}$ |
+| 电荷密度 | $(\beta/4\pi\alpha^5\epsilon_0)^{1/2}$ | $(\epsilon_0 \hbar c)^{-1/2}$ |
+| 电流 | $(\alpha\beta/4\pi\epsilon_0)^{1/2}$ | $(\mu_0/\hbar c)^{1/2}$ |
+| 电流密度 | $(\beta/4\pi\alpha^3\epsilon_0)^{1/2}$ | $(\mu_0/\hbar c)^{1/2}$ |
+| 电场 | $(4\pi\beta\epsilon_0/\alpha^3)^{1/2}$ | $(\epsilon_0/\hbar c)^{1/2}$ |
+| 电势 | $(4\pi\beta\epsilon_0/\alpha)^{1/2}$ | $(\epsilon_0/\hbar c)^{1/2}$ |
+| 电导率 | $(4\pi\epsilon_0)^{-1}$ | $\epsilon_0^{-1}$ |
+| 能量 | $\beta$ | $(\hbar c)^{-1}$ |
+| 能量密度 | $\beta/\alpha^3$ | $(\hbar c)^{-1}$ |
+| 力 | $\beta/\alpha$ | $(\hbar c)^{-1}$ |
+| 频率 | 1 | $c^{-1}$ |
+| 电感 | $4\pi\epsilon_0/\alpha$ | $\mu_0^{-1}$ |
+| 长度 | $\alpha$ | 1 |
+| 磁感应强度 | $(4\pi\beta/\alpha^3\mu_0)^{1/2}$ | $(\mu_0\hbar c)^{-1/2}$ |
+| 磁场强度 | $(4\pi\mu_0\beta/\alpha^3)^{1/2}$ | $(\mu_0\hbar c)^{-1/2}$ |
+| 质量 | $\beta/\alpha^2$ | $c/\hbar$ |
+| 动量 | $\beta/\alpha$ | $\hbar^{-1}$ |
+| 功率 | $\beta$ | $(\hbar c^2)^{-1}$ |
+| 压力 | $\beta/\alpha^3$ | $(\hbar c)^{-1}$ |
+| 电阻 | $4\pi\epsilon_0/\alpha$ | $(\epsilon_0/\mu_0)^{1/2}$ |
+| 时间 | 1 | c |
+| 速度 | $\alpha$ | $c^{-1}$ |
+
+: 公式换算系数 {#tbl-formula-conversion}
+
+* CGS 制中的玻尔半径：$\bar{a}_0 = \bar{\hbar}^2 / \bar{m}\bar{e}^2$
+
+在 SI 制中：$\alpha a_0 = (\hbar \beta)^2/[(m\beta/\alpha^2)(e^2 \alpha\beta / 4\pi\epsilon_0)]$，或 $a_0 = \epsilon_0 h^2 / \pi m e$。
+
+### 麦克斯韦方程组
+
+* 法拉第定律
+  * SI：$\nabla\times\mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}$
+  * CGS：$\nabla\times\mathbf{E} = -\frac{1}{c}\frac{\partial\mathbf{B}}{\partial t}$
+
+* 安培定律
+  * SI：$\nabla\times\mathbf{H} = \frac{\partial\mathbf{D}}{\partial t} + \mathbf{J}$
+  * CGS：$\nabla\times\mathbf{H} = \frac{1}{c}\frac{\partial\mathbf{D}}{\partial t} + \frac{4\pi}{c}\mathbf{J}$
+
+* 泊松方程
+  * SI：$\nabla\cdot\mathbf{D} = \rho$
+  * CGS：$\nabla\cdot\mathbf{D} = 4\pi\rho$
+
+* 磁单极子不存在
+  * SI：$\nabla\cdot\mathbf{B} = 0$
+  * CGS：$\nabla\cdot\mathbf{B} = 0$
+
+* 作用于电荷 $q$ 的洛伦兹力
+  * SI：$q(\mathbf{E} + \mathbf{v}\times\mathbf{B})$
+  * CGS：$q\left(\mathbf{E} + \frac{1}{c}\mathbf{v}\times\mathbf{B}\right)$
+
+* 本构关系
+  * SI 和 CGS：$\mathbf{D} = \epsilon\mathbf{E}$，$\mathbf{B} = \mu\mathbf{H}$
+
+体积 V 中的电磁能量为
+$$
+\begin{aligned}
+W =& \frac{1}{2}\int_V\mathrm{d}V(\mathbf{H}\cdot\mathbf{B} + \mathbf{E}\cdot\mathbf{D})\quad\text{SI} \\
+=& \frac{1}{8\pi}\int_V\mathrm{d}V(\mathbf{H}\cdot\mathbf{B} + \mathbf{E}\cdot\mathbf{D})\quad\text{CGS}
+\end{aligned}
+$$ {#eq-em-energy}
+
+坡印廷定理为
+$$
+\frac{\partial W}{\partial t} + \int_S \mathbf{N}\cdot\mathrm{d}\mathbf{S} = -\int_V\mathrm{d}V \mathbf{J}\cdot\mathbf{E}
+$$ {#eq-poynting-thm}
+其中 S 是包围 V 的闭合曲面，坡印廷矢量（穿过 S 的能量通量）为
+$$
+\begin{aligned}
+\mathbf{N} =& \mathbf{E}\times\mathbf{H}\quad\text{(SI)} \\
+=& c\mathbf{E}\times\mathbf{H}/4\pi\quad\text{(CGS)}
+\end{aligned}
+$$ {#eq-poynting-vector}
+
+使用 @tbl-em-formula-conversion 左列中的替换关系，可以将 SI 制电磁公式转换为相应的 CGS 制公式。前三项是单位制之间的基本关系。接下来的三项由所列方程得到，最后三项是相关变量。
+
+| 物理量 | SI | CGS |
+|---------------------|----|-----|
+| 磁场 | $\mathbf{B}$ | $\mathbf{B}$ |
+| 真空磁导率 | $\mu_0$ | $4\pi$ |
+| 真空介电常数 | $\epsilon_0$ | $1/4\pi c^2$[^change-speed-of-light] |
+| 电场 | $\mathbf{E}$ | $c\mathbf{E}$ |
+| 电流密度 | $\mathbf{J}$ | $\mathbf{J}/c$ |
+| 电荷密度 | $\rho$ | $\rho/c$ |
+| 电荷 | $q$ | $q/c$ |
+| 电流 | $I$ | $I/c$ |
+| 电阻率 | $\eta$ | $c^2\eta$ |
+
+: 电磁公式换算 {#tbl-em-formula-conversion}
+
+[^change-speed-of-light]: 从单位换算可以看出，在数值模拟中修改光速只会改变 $\epsilon_0$，而不会改变 $\mu_0$。
+
+@tbl-em-formula-conversion-examples 列出了一些常见表达式的换算。
+
+| SI | CGS |
+|-----------|-------------|
+| $q\mathbf{v}\times\mathbf{B}$ | $q\frac{\mathbf{v}}{c}\times\mathbf{B}$ |
+| $\mathbf{J}\times\mathbf{B}$ | $\frac{1}{c}\mathbf{J}\times\mathbf{B}$ |
+| $\frac{q_1 q_2}{4\pi\epsilon_0}$ | $q_1 q_2$ |
+| $\frac{B}{\sqrt{\mu_0 \rho}}$ | $\frac{B}{\sqrt{4\pi \rho}}$ |
+| $\frac{1}{2\mu_0}B^2$ | $\frac{1}{8\pi}B^2$ |
+| $\frac{\epsilon_0}{2}E^2$ | $\frac{1}{8\pi}E^2$ |
+| $\omega_p^2 = \frac{q^2 n}{\epsilon_0 m}$ | $\omega_p^2 = \frac{4\pi q^2 n}{m}$ |
+| $\Omega_c=\frac{qB}{m}$ | $\Omega_c = \frac{qB}{mc}$ |
+
+: 电磁公式换算示例 {#tbl-em-formula-conversion-examples}
+
+## 单位制换算 {#sec-unit-value}
+
+一个经验法则是检查系统中的常数数量：令一个常数等于 1，需要将基本变量的数量减少 1。在理想 MHD @eq-ideal-mhd 中，有 4 个基本量（长度、质量、时间和电流密度）和 1 个物理常数 $\mu_0$。如果计入温度，则有 5 个基本量和 2 个物理常数 $\mu_0$、$R$。这表明，要在归一化单位中使这 2 个物理常数等于 1，需要 3 个参考量。例如，在地球磁层中，我们选择参考长度，例如 $l_0=1\,\mathrm{R}_\mathrm{E}$；参考质量密度，例如 $\rho_0 = 1.67\times10^{-17}\,\mathrm{kg}\cdot\mathrm{m}^{-3}$；以及参考磁场，例如 $B_0 = 3.12\times 10^{-5}\,\mathrm{T}$（地球赤道处的磁场强度）。其余所有换算系数都可以由这些参考量以及以 SI 单位表示的物理常数 $\mu_0, R, m_i$ 推导出来。（温度需要 $R$，数密度需要 $m_i$。）代入最初选定的数值，就得到从归一化单位的变量 $n^\prime, B^\prime, u^\prime, p^\prime, T^\prime, \mathcal{E}^\prime$ 到 SI 单位的变量 $n, B, u, p, T, \mathcal{E}$ 的一整套换算系数：
+$$
+U_\mathrm{SI} = U^\prime * U_0
+$$
+各换算系数汇总于 @tbl-mhd-unit-conversion。注意，在数密度的定义中，分母是 $m_i$ 而非 $m_0$，且 $R=2k_B/m_i$ 只出现在温度中。这是因为质量不出现在理想 MHD 中：对于给定的 $\rho$，数密度小的重粒子与数密度大的轻粒子会得到相同结果，例如 $\rho=2m_i n_i = m_i 2n_i$。原则上我们可以任意选择参考质量，但这里为了使 SI 单位中的数值“看起来好看”，选择 $m_i$。如果需要与混合模型比较，一个进行自洽换算的简单方法是用质量 $m_0=m_i$ 替代任意一个基本变量。在这种情况下，无量纲量满足 $\rho=n$。还要注意，在 @tbl-mhd-unit-conversion 中，MHD 压力和温度分别是电子和离子的压力与温度之和，这就是温度定义中出现因子“2”的原因。如果要与假设电子无质量的混合模型比较，适当的修改是 $p_0=\rho_0v_0^2/2$ 和 $T_0=p_0*m_i/(k_B\,\rho_0)=m_i v_0^2 / k_B$。
+
+::: {#tbl-mhd-unit-conversion layout-nrow=2}
+| 基本变量 | 符号 | 定义 | 数值 |
+|----------------|----------|------------|-------|
+| 长度 | $l_0$ | $l_0=\mathrm{R}_\mathrm{E}$ | $6.371\times10^6\,\mathrm{m}$ |
+| 磁场 | $B_0$ | $B_0=B_\mathrm{E}$ | $3.12\times10^{-5}\,\mathrm{T}$ |
+| 质量密度 | $\rho_0$ | $\rho_0=\rho_\mathrm{E}$ | $1.67\times10^{-17}\,\mathrm{kg}\cdot\mathrm{m}^{-3}$ |
+
+: MHD 基本量示例
+
+| 导出变量 | 符号 | 定义 | 数值 |
+|------------------|---------------|------------|-------|
+| 质量 |$m_0$ | $m_0=\rho_0 l_0^3$| $4.32\times10^3\,\mathrm{kg}$ |
+| 速度 |$v_0$ | $v_0=B_0/\sqrt{\mu_0\rho_0}$| $6.81\times10^6\,\mathrm{m}\cdot\mathrm{s}^{-1}$|
+| 时间 |$t_0$ | $t_0=l_0/v_0$ | $0.94\,\mathrm{s}$ |
+| 数密度 |$n_0$ | $n_0=\rho_0/m_i$ | $10^{10}\,\mathrm{m}^{-3}$ |
+| 压力 |$p_0$ | $p_0=\rho_0v_0^2$ | $7.75\times10^{-4}\,\mathrm{N}\cdot\mathrm{m}^{-2}$ |
+| 温度 |$T_0$ | $T_0=m_i v_0^2 / (2k_B)$ | $2.81\times10^9\,\mathrm{K}$ |
+| 能量密度 |$\mathcal{E}_0$| $\mathcal{E}_0=p_0$ | $7.75\times10^{-4}\,\mathrm{J}\cdot\mathrm{m}^{-3}$ |
+
+: MHD 导出量示例
+
+MHD 单位换算。
+:::
+
+### 示例：从 $\rho,\rho\mathbf{u},\mathcal{E},\mathbf{B}$ 到 $n,u,T$
+
+处理速度分布函数时，一种简单的方法是写成 $f(\mathbf{v})=f(\mathbf{v}; n,\mathbf{u},T)$。例如，三维麦克斯韦分布为
+$$
+f(\mathbf{v}) = n\left( \frac{m}{2\pi k_B T} \right)^{3/2} \exp\left(-\frac{m(\mathbf{v}-\mathbf{u})^2}{2k_B T}\right)
+$$
+从无量纲守恒变量 $(\rho,\rho\mathbf{u},\mathcal{E},\mathbf{B})$ 到 SI 单位中的 $(n,\mathbf{u},T,\mathbf{B})$，有
+$$
+\begin{aligned}
+n_\mathrm{SI} &= n_0\,n = \rho_\mathrm{SI} / m_i = \frac{\rho_0}{m_i}\rho \\
+u_\mathrm{SI} &= u_0\left( \frac{\rho u}{\rho} \right) \\
+T_\mathrm{SI} &= T_0\frac{(\gamma-1)}{\rho}\left[ \mathcal{E} - \frac{1}{2}\rho u^2 - \frac{1}{2}B^2 \right] \\
+B_\mathrm{SI} &= B_0\,B \\
+\end{aligned}
+$$

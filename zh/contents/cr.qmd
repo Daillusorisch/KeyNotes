@@ -1,0 +1,836 @@
+# 宇宙射线 {#sec-cosmic-ray}
+
+宇宙射线（CR）是具有非热谱的相对论性带电粒子群，在宇宙中无处不在。它们遍布各种尺度的系统，从恒星系统到整个星系，从星系团到星系团间介质。宇宙射线输运的建模和宇宙射线数据的解释，最终都依赖于对带电粒子与湍流磁场相互作用的充分理解。
+
+@mertsch2020test 提供了开展宇宙射线试验粒子模拟的详尽指南。
+
+## 基本定义
+
+本部分取自 Riaan Steenkamp 2018 年的 CERN 讲义。
+
+宇宙射线各向同性地到达地球，来自外层空间的各个方向，能量范围极广，从约 $10^9$ eV 一直延伸到超过 $10^{20}$ eV。其源包括太阳、超新星遗迹、活动星系核及其他高能天体物理现象。
+在 $\mathbf{r}$ 附近体积元 $\mathrm{d}^3\,r$ 中、动量位于 $\mathbf{p}$ 附近区间 $\mathrm{d}^3 p$ 内的粒子数为
+$$
+\mathrm{d}n = F(\mathbf{r}, \mathbf{p}, t)\mathrm{d}^3 r\mathrm{d}^3 p
+$$
+其中 $F$ 是分布函数。在 $\mathbf{p}$ 方向附近立体角 $\mathrm{d}\Omega$ 内，粒子数为
+$$
+\mathrm{d}n = F(\mathbf{r}, \mathbf{p}, t)\mathrm{d}^3 r\, p^2 \mathrm{d} p\,\mathrm{d}\Omega
+$$
+
+通常我们不能直接测量 $F$，只能测量它在动量空间中的平均值。对 $F$ 沿所有方向取平均得到
+$$
+f(\mathbf{r}, p, t) = \frac{1}{4\pi}\int_\Omega F(\mathbf{r}, \mathbf{p}, t)\mathrm{d}\Omega
+$$
+其中 $\int_\Omega \mathrm{d}\Omega = 4\pi$。
+
+$\mathrm{d}^3 r$ 内动量位于 $(p, p+\mathrm{d}p)$ 区间的粒子数 $\mathrm{d}N$（不依赖于 $\mathbf{p}$ 的方向）为
+$$
+\mathrm{d}N = 4\pi p^2 f(\mathbf{r}, p, t)\mathrm{d}^3 r\mathrm{d}p = n_p(\mathbf{r}, p, t)\mathrm{d}^3 r\mathrm{d}p
+$$
+其中微分数密度 $n_p$ 定义为 $\mathbf{r}$ 附近 $\mathrm{d}^3 r$ 内、动量位于 $(p, p+\mathrm{d}p)$ 区间的粒子数：
+$$
+n_p(\mathbf{r}, p, t) = 4\pi p^2 f(\mathbf{r}, p, t)
+$$
+其单位为［每单位体积、每单位动量的粒子数］。注意，有些作者（例如 Riaan Steenkamp 的 CERN 讲义）将这一量记为 $U_p$。
+
+探测器测量的不是 $n_p$，而是微分强度。若粒子速度大小为 $v$，则微分强度为
+$$
+j_p = v\, n_p
+$$
+其单位为［粒子数 / 单位动量 / 单位面积 / 单位时间］，表示从所有方向穿过探测器的粒子。
+通常将它归一化到单位立体角：
+$$
+j_p = \frac{v\, n_p}{4\pi}
+$$
+单位为［粒子数 / 单位动量 / 单位面积 / 单位时间 / 单位弧度］。实际测量通常按动能区间 $\mathrm{d}T$ 而不是动量区间 $\mathrm{d}p$ 进行。
+
+由能量与动量的关系
+$$
+E^2 = p^2 c^2 + E_0^2 = (p\,c)^2 + (m_0\,c^2)^2
+$$
+及能量守恒
+$$
+E = E_0 + T
+$$
+和 $p=\gamma m_0 v$，可得
+$$
+\frac{\mathrm{d}E}{\mathrm{d}p} = \frac{E}{pc^2}, \quad \mathrm{d}T = \mathrm{d}E
+$$
+$$
+\frac{\mathrm{d}E}{\mathrm{d}p} = \frac{\mathrm{d}T}{\mathrm{d}p} = \frac{1}{v}
+$$
+
+由于这两种方式描述的是同一批粒子，因此 $j_T\mathrm{d}T = j_p\mathrm{d}p$，并且
+$$
+j_T = j_p \frac{\mathrm{d}p}{\mathrm{d}T} = \frac{1}{v}j_p
+$$
+
+现在可以总结以下重要关系：
+$$
+j_T = \frac{n_p}{4\pi} = p^2 f(\mathbf{r}, p, t)
+$$
+即实验测得的微分强度与理论研究中使用的 $n_p$ 和 $f$ 之间存在简单关系。
+
+## 宇宙射线连续性方程
+
+考虑分布函数 $F(\mathbf{r}, \mathbf{p}, t)$ 的全时间导数：
+$$
+\frac{\mathrm{d}F}{\mathrm{d}t} = \frac{\partial F}{\partial t} + \mathbf{v}\cdot\nabla F + \dot{\mathbf{p}}\cdot\nabla_p F
+$$
+其中 $\nabla_p$ 是动量空间中的梯度算符。对动量空间的所有方向积分得
+$$
+\int_\Omega \frac{\mathrm{d}F}{\mathrm{d}t} \mathrm{d}\Omega = \int_\Omega \left(\frac{\partial F}{\partial t} + \mathbf{v}\cdot\nabla F + \dot{\mathbf{p}}\cdot\nabla_p F \right)\mathrm{d}\Omega
+$$
+
+$$
+\begin{aligned}
+\int_\Omega \frac{\mathrm{d}F}{\mathrm{d}t} \mathrm{d}\Omega = \frac{\mathrm{d}}{\mathrm{d}t}\int F \mathrm{d}\Omega = 4\pi \frac{\mathrm{d}f}{\mathrm{d}t} \\
+\int_\Omega \frac{\partial F}{\partial t} \mathrm{d}\Omega = \frac{\mathrm{d}}{\mathrm{d}t}\int F \mathrm{d}\Omega = 4\pi \frac{\partial f}{\partial t}
+\end{aligned}
+$$
+
+$$
+4\pi \frac{\mathrm{d}f}{\mathrm{d}t} = 4\pi \frac{\partial f}{\partial t} + \int_\Omega \mathbf{v}\cdot\nabla F \mathrm{d}\Omega + \int_\Omega \dot{\mathbf{p}}\cdot\nabla_p F \mathrm{d}\Omega
+$$
+
+接下来需要计算右侧的第二项和第三项。先看 $x$ 分量：
+$$
+\begin{aligned}
+\int_\Omega v_x\frac{\partial F}{\partial x}\mathrm{d}\Omega &= \int_\Omega \left[ \frac{\partial}{\partial x}\left( v_x F \right) - \cancel{\frac{\partial v_x}{\partial x}}F \right] \\
+&= \frac{\partial}{\partial x} \int_\Omega v_x F\mathrm{d}\Omega
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\left< v_x \right> = \frac{\int_\Omega v_x F\mathrm{d}\Omega}{\int_\Omega F\mathrm{d}\Omega} = \frac{1}{4\pi f}\int_\Omega v_x F\mathrm{d}\Omega \\
+4\pi f \left< v_x \right> = \int_\Omega v_x F\mathrm{d}\Omega
+\end{aligned}
+$$
+因此
+$$
+\int_\Omega v_x\frac{\partial F}{\partial x}\mathrm{d}\Omega = 4\pi \frac{\partial}{\partial x}\left( \left< v_x \right> f \right)
+$$
+
+推广到完整的三维矢量算符，得到第二项的表达式：
+$$
+\int_\Omega \mathbf{v}\cdot\nabla F \mathrm{d}\Omega = 4\pi \nabla\cdot \left( \left< \mathbf{v} \right> f \right)
+$$
+
+第三项更复杂：
+$$
+\begin{aligned}
+\int_\Omega \dot{\mathbf{p}}\cdot\nabla_p F\mathrm{d}\Omega &= \int_\Omega \left[ \nabla_p\cdot\left( \dot{\mathbf{p}}F - F\nabla_p \cdot\dot{\mathbf{p}} \right) \right] \mathrm{d}\Omega  \\
+&= \int_\Omega \nabla_p\cdot\left( \dot{\mathbf{p}}F\right) \mathrm{d}\Omega
+\end{aligned}
+$$
+因为电磁力包含叉积 $\dot{\mathbf{p}} = q\left( \mathbf{E} + \mathbf{p}\times\mathbf{B}/m \right)$，所以 $\nabla_p \cdot\dot{\mathbf{p}} = 0$。
+
+利用高斯定理：
+$$
+\int \nabla_p\cdot\left( \dot{\mathbf{p}F}\right) \mathrm{d}^3 p = \int_\Omega \left( \dot{\mathbf{p}}F\right)\cdot\hat{e}_p p^2\mathrm{d}\Omega = \int_\Omega p^2\dot{p}F \mathrm{d}\Omega
+$$
+
+如果将上式从 $p$ 积分到 $p+\mathrm{d}p$，则
+$$
+\begin{aligned}
+\int_{p}^{p+\mathrm{d}p} \nabla_p\cdot\left( \dot{\mathbf{p}F}\right) \mathrm{d}^3 p &= \int_{\Omega, p+\mathrm{d}p} p^2\dot{p}F \mathrm{d}\Omega - \int_{\Omega,p} p^2\dot{p}F \mathrm{d}\Omega \\
+&= 4\pi \left[ \left( p^2\dot{p} f \right)_{p+\mathrm{d}p} - \left( p^2\dot{p} f \right)_{p} \right] \\
+&= 4\pi \frac{\partial}{\partial p}\left( p^2\dot{p} f \right)\mathrm{d}p
+\end{aligned}
+$$
+
+因此
+$$
+\begin{aligned}
+\int_\Omega \dot{\mathbf{p}}\cdot\nabla_p F\mathrm{d}\Omega &= \int_\Omega \nabla_p \cdot \left( \dot{\mathbf{p} F}\right) \mathrm{d}\Omega \\
+&= \frac{1}{p^2\mathrm{d}p}\int \nabla_p\cdot\left( \dot{\mathbf{p}F}\right) \mathrm{d}^3 p = \frac{4\pi}{p^2}\frac{\partial}{\partial p}\left( p^2\left<\dot{p}\right> f \right)
+\end{aligned}
+$$
+最终得到
+$$
+4\pi \frac{\mathrm{d}f}{\mathrm{d}t} = 4\pi \frac{\partial f}{\partial t} + 4\pi \nabla\cdot \left( \left< \mathbf{v} \right> f \right) + \frac{4\pi}{p^2}\frac{\partial}{\partial p}\left( p^2\left<\dot{p}\right> f \right)
+$$
+或者利用 $n_p=4\pi p^2 f$ 得到
+$$
+\frac{\mathrm{d}n_p}{\mathrm{d}t} = \frac{\partial n_p}{\partial t} + \nabla\cdot\mathbf{S}_p + \frac{\partial}{\partial p}\left( \left< \dot{p} \right> n_p \right)
+$$
+其中 $\mathbf{S}_p = \left< \mathbf{v} \right> n_p$ 是微分通量。通常 $\frac{\mathrm{d}n_p}{\mathrm{d}t} = 0$，上式就是连续性方程。若存在源或汇 $Q_p$，则可写为
+$$
+\frac{\partial n_p}{\partial t} + \nabla\cdot\mathbf{S}_p + \frac{\partial}{\partial p}\left( \left< \dot{p} \right> n_p \right) = Q_p
+$$ {#eq-cr-transport}
+上述宇宙射线连续性方程通常称为**输运方程**。
+
+## Parker 输运方程
+
+Parker 输运方程的假设：
+
+- 导引中心近似：宇宙射线绕磁力线快速回旋。我们关注的是其导引中心的运动。
+- 扩散近似：散射足够频繁，使分布函数 $f$ 在局部等离子体静止系中近似各向同性。
+- 太阳风参考系：我们通常在以太阳风（或背景等离子体）速度 $\mathbf{U}_\text{sw}$ 运动的参考系中研究。
+- 太阳风参考系中可忽略的大尺度电场：在与理想导电太阳风共同运动的参考系中，通常假设大尺度电场为零，即 $\mathbf{E}^\prime = \mathbf{E} + \mathbf{U}_\text{sw} \times \mathbf{B} \approx 0$。这意味着 $\mathbf{E}\approx -\mathbf{U}_\text{sw} \times \mathbf{B}$。
+- 全向分布函数：我们通常关心全向分布函数 $f_0(\mathbf{x},p,t)$，即在等离子体参考系中对 $f$ 的所有动量方向取平均。或者，更常用的是微分数密度 $n_p(\mathbf{x},p,t)=4\pi p^2\,f_0(\mathbf{x},p,t)$（单位体积、单位动量大小内的粒子数），或 $N(\mathbf{x},T,t)$（相对于动能 $T$ 的微分强度）。
+
+在实验室参考系中，由于流动和扩散，分布函数 $f$ 并非完全各向同性。可以将其展开为：
+$$
+f(\mathbf{x}, \mathbf{p}, t) = f_0(\mathbf{x}, p, t) + f_1(\mathbf{x}, \mathbf{p}, t) + ...
+$$
+其中 $f_0$ 是各向同性部分，$f_1$ 是一阶各向异性，
+$$
+f_1 = -\frac{\mathbf{p}}{p}\cdot \pmb{\xi}(\mathbf{x}, p, t)
+$$ {#eq-cr-anisotropy}
+其中 $\pmb{\xi}$ 是各向异性矢量。粒子通量（或流）$\mathbf{S}_\text{cr}$ 与这一各向异性有关；见 @sec-parker-derivation。
+
+碰撞项描述宇宙射线受到磁场不规则结构的散射。在扩散近似下，这种散射倾向于使等离子体静止系中的分布各向同性化。这一过程导致空间扩散。等离子体参考系中的扩散通量 $\mathbf{S}_\text{diff}$ 由菲克定律给出：
+$$
+\mathbf{S}_\text{diff} = - \pmb{\kappa}\cdot\nabla f_0
+$$
+其中 $\pmb{\kappa}$ 是扩散张量。用微分数密度 $n_p = 4\pi p^2 f_0$ 表示时，同一关系写为 $\mathbf{S}_p = -\pmb{\kappa}\cdot\nabla n_p$。扩散张量通常具有各向异性：
+$$
+\kappa_{ij} = \kappa_\parallel b_i b_j + \kappa_\perp(\delta_{ij} - b_i b_j) + \kappa_A \epsilon_{ijk} b_k
+$$
+
+- $\kappa_\parallel$ 是平行于平均磁场方向 $\mathbf{b}$ 的扩散系数。
+- $\kappa_\perp$ 是垂直于 $\mathbf{b}$ 的扩散系数。
+- $\kappa_A$ 是扩散张量的反对称部分，描述梯度和曲率漂移。
+
+从动理学方程出发，对俯仰角取平均（假设等离子体参考系中近似各向同性），可以导出 $f_0$ 的方程。这是一个漫长的过程（例如参见 Schlickeiser 2002，《Cosmic Ray Astrophysics》，或 Parker 1965）。关键步骤是
+
+- 将动理学方程变换到等离子体参考系；
+- 在等离子体参考系的动量空间中展开 $f$（$f = f_0 + f_1 + ...$）；
+- 对动理学方程取零阶矩（对动量空间中的立体角积分），得到输运方程；
+- 取一阶矩，得到各向异性部分 $f_1$（流）的关系式。
+
+这些步骤在 @sec-parker-derivation 中详细展开。
+
+### Parker 输运方程的推导 {#sec-parker-derivation}
+
+Parker 输运方程描述高能带电粒子（如宇宙射线）在以整体速度 $\mathbf{U}(\mathbf{x}, t)$ 运动的背景等离子体中受到磁涨落散射时的相空间演化。标准推导过程是：以混合坐标写出动理学方程，采用准各向同性俯仰角展开，然后取角度矩。
+
+**1. 混合坐标下的动理学方程**
+
+设 $\mathbf{x}$ 和 $t$ 表示固定观测者（惯性）参考系中的位置和时间，$\mathbf{p} = \gamma m\mathbf{v}$ 表示在局部等离子体静止系中计算的相对论粒子动量，其中 $m$ 是粒子静质量，$\mathbf{v}$ 是流体参考系中的粒子速度，$\gamma = (1 - v^2/c^2)^{-1/2}$ 是相应的洛伦兹因子。选择流体参考系是因为磁湍流导致的共振俯仰角散射主要使高能粒子相对于运动的等离子体各向同性化。
+
+假设背景流是非相对论性的（$U \ll c$），且粒子速度远大于流速（$U \ll v$），则观测者参考系动量 $\mathbf{p}_\text{obs}$ 与流体参考系动量 $\mathbf{p}$ 之间的洛伦兹变换在 $U/v$ 一阶近似下化为
+$$
+\mathbf{p}_\text{obs} \approx \mathbf{p} + \frac{E}{c^2}\mathbf{U} = \mathbf{p} + \gamma m\mathbf{U}
+$$
+其中 $E = \gamma mc^2$ 是粒子在流体参考系中的能量。沿粒子轨道对该关系求导，得到流体参考系中动量的变化率，
+$$
+\dot{\mathbf{p}} = \frac{\mathrm{d}\mathbf{p}_\text{obs}}{\mathrm{d}t} - \gamma m\frac{\mathrm{d}\mathbf{U}}{\mathrm{d}t}
+$$ {#eq-cr-pdot-mixed}
+在惯性系中，粒子运动遵循精确的洛伦兹力方程，
+$$
+\frac{\mathrm{d}\mathbf{p}_\text{obs}}{\mathrm{d}t} = q\left( \mathbf{E}_\text{obs} + \mathbf{v}_\text{obs}\times\mathbf{B} \right)
+$$
+在理想 MHD 近似下，局部等离子体静止系中的电场为零（$\mathbf{E}^\prime = 0$），因此观测者参考系中的电场纯粹由感应产生，$\mathbf{E}_\text{obs} = -\mathbf{U}\times\mathbf{B}$。将 $\mathbf{v}_\text{obs} \approx \mathbf{v} + \mathbf{U}$ 代入洛伦兹力得到
+$$
+\frac{\mathrm{d}\mathbf{p}_\text{obs}}{\mathrm{d}t} = q\left( -\mathbf{U}\times\mathbf{B} + \left( \mathbf{v} + \mathbf{U} \right)\times\mathbf{B} \right) = q\left( \mathbf{v}\times\mathbf{B} \right)
+$$
+因此宏观运动电场完全抵消。由于 $q(\mathbf{v}\times\mathbf{B})$ 严格垂直于流体参考系中的速度 $\mathbf{v}$，它在流体参考系中不对粒子做功，也不能改变动量大小 $p = \vert\mathbf{p}\vert$。
+
+将磁场分解为大尺度引导场和湍流涨落，$\mathbf{B} = \mathbf{B}_0 + \delta\mathbf{B}$，两种磁场贡献采用不同处理方式。大尺度部分 $q(\mathbf{v}\times\mathbf{B}_0)$ 仅产生绕平均场的回旋：它在固定 $p$ 下旋转 $\hat{\mathbf{p}}$，在导引中心层次，其净效应归入漂移和垂直扩散系数。由 $\delta\mathbf{B}$ 产生的快速随机偏转则从平滑的相空间平流中分离出来，吸收到右侧的有效碰撞算符中，
+$$
+-q\left( \mathbf{v}\times\delta\mathbf{B} \right)\cdot\frac{\partial f}{\partial \mathbf{p}} \longrightarrow \left( \frac{\delta f}{\delta t} \right)_\text{coll}
+$$
+因此，@eq-cr-pdot-mixed 中剩余的长期动量变化完全由背景流空间变化所产生的惯性力驱动，
+$$
+\dot{\mathbf{p}}_\text{inertial} = -\gamma m\frac{\mathrm{d}\mathbf{U}}{\mathrm{d}t} = -\gamma m\left[ \frac{\partial \mathbf{U}}{\partial t} + \left( \mathbf{v}_\text{obs}\cdot\nabla \right)\mathbf{U} \right]
+$$
+对于 $v \gg U$ 的高能粒子，粒子穿过流体梯度的速率超过局部流体加速率，因此 $\mathrm{d}\mathbf{U}/\mathrm{d}t \approx (\mathbf{v}\cdot\nabla)\mathbf{U}$；利用 $\mathbf{p} = \gamma m\mathbf{v}$，惯性变化率简化为
+$$
+\dot{\mathbf{p}} = -(\mathbf{p}\cdot\nabla)\mathbf{U}
+$$ {#eq-cr-pdot-inertial}
+汇总沿 $\mathbf{v}_\text{obs} = \mathbf{U} + \mathbf{v}$ 的空间输运、动量空间中的惯性力及湍流散射算符，混合坐标下的动理学方程为
+$$
+\frac{\partial f}{\partial t} + (\mathbf{U} + \mathbf{v})\cdot\nabla f + \dot{\mathbf{p}}\cdot\nabla_{\mathbf{p}} f = \left( \frac{\delta f}{\delta t} \right)_\text{coll}
+$$ {#eq-cr-kinetic-mixed}
+将 @eq-cr-pdot-inertial 中的 $\dot{\mathbf{p}}$ 代入，得到
+$$
+\frac{\partial f}{\partial t} + (\mathbf{U} + \mathbf{v})\cdot\nabla f - \left[ (\mathbf{p}\cdot\nabla)\mathbf{U} \right]\cdot\frac{\partial f}{\partial \mathbf{p}} = \left( \frac{\delta f}{\delta t} \right)_\text{coll}
+$$ {#eq-cr-kinetic-mixed-force}
+
+**2. 俯仰角展开**
+
+在频繁的俯仰角散射下，分布函数在流体参考系中保持近似各向同性。将 $f(\mathbf{x}, \mathbf{p}, t)$ 按球谐函数展开至一阶各向异性（偶极矩），得到
+$$
+f(\mathbf{x}, \mathbf{p}, t) \approx f_0(\mathbf{x}, p, t) + \hat{\mathbf{p}}\cdot\mathbf{f}_1(\mathbf{x}, p, t)
+$$
+其中 $\hat{\mathbf{p}} = \mathbf{p}/p$，$f_0 = \left< f \right> = \frac{1}{4\pi}\int f\,\mathrm{d}\Omega$ 是各向同性部分，且 $\vert\mathbf{f}_1\vert \ll f_0$。与 @eq-cr-anisotropy 的展开式比较，那里引入的各向异性矢量为 $\pmb{\xi} = -\mathbf{f}_1$。
+
+用俯仰角扩散算符对散射项建模，或者采用弛豫时间近似，
+$$
+\left( \frac{\delta f}{\delta t} \right)_\text{coll} \approx -\nu\,\hat{\mathbf{p}}\cdot\mathbf{f}_1
+$$
+其中 $\nu(p)$ 是散射的有效碰撞频率。弛豫时间形式已经给出正确的结构；求解完整的俯仰角扩散算符只会改变 $\nu$ 与空间扩散系数之间的数值关系。
+
+**3. 零阶矩与一阶矩**
+
+利用以下恒等式，计算对动量方向 $\hat{\mathbf{p}}$ 的角平均 $\left< \dots \right> \equiv \frac{1}{4\pi}\int \dots \,\mathrm{d}\Omega$
+$$
+\left< \hat{p}_i \right> = 0, \quad \left< \hat{p}_i \hat{p}_j \right> = \frac{1}{3}\delta_{ij}, \quad \left< \hat{p}_i \hat{p}_j \hat{p}_k \right> = 0
+$$
+
+**平均规则：哪些量被平均，哪些不被平均。** 这一步最容易造成混淆，因此在使用之前明确列出规则：
+
+- 只对动量*方向* $\hat{\mathbf{p}}$ 取平均。所有不依赖 $\hat{\mathbf{p}}$ 的量在平均中保持不变：位置 $\mathbf{x}$、时间 $t$、动量大小 $p$、各向同性部分 $f_0$、整体速度 $\mathbf{U}$ 及其空间导数，以及偶极矢量 $\mathbf{f}_1$（它依赖于 $\mathbf{x}$、$p$、$t$，但不依赖 $\hat{\mathbf{p}}$）。对于任何这样的量 $A$ 和任何方向函数 $g(\hat{\mathbf{p}})$，有 $\left< A\,g(\hat{\mathbf{p}}) \right> = A\left< g(\hat{\mathbf{p}}) \right>$。
+- 角度依赖恰好出现在三个地方：展开式中显式的 $\hat{\mathbf{p}}$ 因子、粒子速度 $\mathbf{v} = v\hat{\mathbf{p}}$，以及对 $\mathbf{p}$ 的导数。
+- 空间梯度作用于 $\mathbf{x}$ 依赖，而不作用于 $\hat{\mathbf{p}}$；$\hat{\mathbf{p}}$ 因子不受影响，可直接从平均中提出，例如 $\nabla_i\left( f_0 + \hat{p}_j f_{1,j} \right) = \nabla_i f_0 + \hat{p}_j\nabla_i f_{1,j}$。
+- 动量空间梯度的行为不同。由于 $f_0$ 仅通过动量大小 $p = \vert\mathbf{p}\vert$ 依赖于 $\mathbf{p}$，链式法则会产生一个 $\hat{\mathbf{p}}$ 因子，
+$$
+\frac{\partial f_0}{\partial p_k} = \frac{\partial p}{\partial p_k}\frac{\partial f_0}{\partial p} = \hat{p}_k\frac{\partial f_0}{\partial p}
+$$
+换句话说，$\partial/\partial\mathbf{p}$ 作用于各向同性函数时仍会产生偶极（依赖于 $\hat{\mathbf{p}}$）结果，而 $\nabla$ 作用于同一函数时则不会。遗漏这一因子是推导中最常见的错误。
+- 只有 $\hat{\mathbf{p}}$ 的偶数次幂保留下来；所有奇数阶矩均为零。因此，任何含有单个未缩并 $\hat{\mathbf{p}}$ 的项都会从零阶矩中消失，而含三个 $\hat{\mathbf{p}}$ 因子的项会从一阶矩中消失。这就是方程层级恰好在各向异性一阶闭合的原因：二阶（四极）项不会进入 $f_0$ 和 $\mathbf{f}_1$ 的方程。
+
+**零阶矩（各向同性部分）。** 对 @eq-cr-kinetic-mixed-force 在所有立体角上取平均，得到
+$$
+\left< \frac{\partial f}{\partial t} \right> + \mathbf{U}\cdot\nabla\left< f \right> + \left< \mathbf{v}\cdot\nabla f \right> - \left< \left[ (\mathbf{p}\cdot\nabla)\mathbf{U} \right]\cdot\frac{\partial f}{\partial \mathbf{p}} \right> = 0
+$$
+平均基本不改变对流项：由于 $\mathbf{U}$ 和 $\nabla$ 不依赖于 $\hat{\mathbf{p}}$，直接有 $\left< \mathbf{U}\cdot\nabla f \right> = \mathbf{U}\cdot\nabla\left< f \right> = \mathbf{U}\cdot\nabla f_0$，因为 $\left< \hat{\mathbf{p}} \right> = 0$ 消去了偶极部分。其余两项计算如下：
+
+- $\left< \mathbf{v}\cdot\nabla f \right> = \left< v\hat{p}_i \nabla_i \left( f_0 + \hat{p}_j f_{1,j} \right) \right> = v\left< \hat{p}_i \right>\nabla_i f_0 + v\left< \hat{p}_i\hat{p}_j \right>\nabla_i f_{1,j} = \frac{v}{3}\nabla\cdot\mathbf{f}_1$，即只有偶极部分的流保留下来；
+- 对于动量导数，写出 $\left[ (\mathbf{p}\cdot\nabla)\mathbf{U} \right]_k = p\hat{p}_i\,\partial U_k/\partial x_i$，其中 $\partial U_k/\partial x_i$ 不依赖于 $\hat{\mathbf{p}}$，并对各向同性部分使用 $\partial f_0/\partial p_k = \hat{p}_k\,\partial f_0/\partial p$，
+$$
+\left< p\,\hat{p}_i \frac{\partial U_k}{\partial x_i} \frac{\partial f}{\partial p_k} \right> \approx \frac{\partial U_k}{\partial x_i} \left< \hat{p}_i \hat{p}_k \right> p\frac{\partial f_0}{\partial p} = \frac{1}{3}(\nabla\cdot\mathbf{U})\,p\frac{\partial f_0}{\partial p}
+$$
+其中舍去了 $\partial(\hat{\mathbf{p}}\cdot\mathbf{f}_1)/\partial p_k$ 的贡献，因为它小了 $\mathcal{O}(f_1/f_0)$。
+
+因此零阶矩方程化为
+$$
+\frac{\partial f_0}{\partial t} + \mathbf{U}\cdot\nabla f_0 + \frac{v}{3}\nabla\cdot\mathbf{f}_1 - \frac{1}{3}(\nabla\cdot\mathbf{U})\,p\frac{\partial f_0}{\partial p} = 0
+$$ {#eq-cr-zeroth-moment}
+它已经具有输运方程的结构，只是通量 $\frac{v}{3}\mathbf{f}_1$ 仍然未知。
+
+**一阶矩（偶极各向异性）。** 将 @eq-cr-kinetic-mixed-force 乘以 $\hat{\mathbf{p}}$ 并对立体角取平均，使各向同性部分的流与散射项平衡。所有其他贡献均被舍去，值得列出原因：
+
+- 舍去 $\left< \hat{\mathbf{p}}\,\partial f/\partial t \right> = \frac{1}{3}\partial\mathbf{f}_1/\partial t$：各向异性在散射时间 $1/\nu$ 内弛豫，远短于 $f_0$ 演化的输运时间尺度，因此 $\mathbf{f}_1$ 是准稳态的；
+- $\left< \hat{\mathbf{p}}\left( \mathbf{U}\cdot\nabla f \right) \right> = \frac{1}{3}\left( \mathbf{U}\cdot\nabla \right)\mathbf{f}_1$ 的量级为 $\mathcal{O}(U/v\cdot f_1)$，因此舍去；
+- $\left< \hat{\mathbf{p}}\left( \mathbf{v}\cdot\nabla \right)\left( \hat{\mathbf{p}}\cdot\mathbf{f}_1 \right) \right> \propto \left< \hat{p}_i\hat{p}_j\hat{p}_k \right> = 0$ 恒为零，因此不产生四极项；
+- 惯性项 $\left< \hat{\mathbf{p}}\left[ (\mathbf{p}\cdot\nabla)\mathbf{U} \right]\cdot\partial f/\partial\mathbf{p} \right>$ 要么作为奇数阶矩而消失（对于 $f_0$ 部分），要么小了 $\mathcal{O}(U/v)$，同样被舍去。
+
+剩下的是各向同性部分的流与碰撞相平衡，
+$$
+\left< \hat{\mathbf{p}}\left( \mathbf{v}\cdot\nabla f_0 \right) \right> = \frac{v}{3}\nabla f_0 = -\nu\left< \hat{\mathbf{p}}\left( \hat{\mathbf{p}}\cdot\mathbf{f}_1 \right) \right> = -\frac{\nu}{3}\mathbf{f}_1
+$$
+求解 $\mathbf{f}_1$，
+$$
+\mathbf{f}_1 = -\frac{v}{\nu}\nabla f_0
+$$
+空间扩散系数定义为 $\kappa = \frac{v^2}{3\nu}$。在具有各向异性散射和磁漂移的磁化等离子体中，它推广为扩散张量 $\pmb{\kappa}$，因此
+$$
+\frac{v}{3}\mathbf{f}_1 = -\pmb{\kappa}\cdot\nabla f_0
+$$
+乘以 $4\pi p^2$ 得到粒子通量 $\mathbf{S}_p = 4\pi p^2\frac{v}{3}\mathbf{f}_1 = -\pmb{\kappa}\cdot\nabla n_p$，这恰好是上面的菲克定律，其中 $\pmb{\xi} = -\mathbf{f}_1 = \frac{3}{v}\pmb{\kappa}\cdot\nabla f_0$。
+
+**4. Parker 输运方程**
+
+将 $\frac{v}{3}\mathbf{f}_1 = -\pmb{\kappa}\cdot\nabla f_0$ 代入零阶矩方程，得到
+$$
+\frac{\partial f_0}{\partial t} + \mathbf{U}\cdot\nabla f_0 = \nabla\cdot\left( \pmb{\kappa}\cdot\nabla f_0 \right) + \frac{1}{3}(\nabla\cdot\mathbf{U})\,p\frac{\partial f_0}{\partial p}
+$$
+或者写成守恒通量形式，
+$$
+\frac{\partial f_0}{\partial t} = \nabla\cdot\left( \pmb{\kappa}\cdot\nabla f_0 - \mathbf{U}f_0 \right) + \frac{1}{3}(\nabla\cdot\mathbf{U})\frac{1}{p^2}\frac{\partial}{\partial p}\left( p^3 f_0 \right) + Q
+$$
+其中 $Q(\mathbf{x}, p, t)$ 是局部源（或注入）项。
+
+**各项的物理解释**
+
+- $\nabla\cdot\left( \pmb{\kappa}\cdot\nabla f_0 \right)$：由磁场不规则结构引起的共振俯仰角散射造成的空间扩散（以及漂移和垂直输运）。
+- $\mathbf{U}\cdot\nabla f_0$：粒子随流体整体流动的对流。
+- $\frac{1}{3}(\nabla\cdot\mathbf{U})\,p\frac{\partial f_0}{\partial p}$：绝热能量变化。对于太阳风等膨胀流（$\nabla\cdot\mathbf{U} > 0$），它表示绝热减速；在 $\nabla\cdot\mathbf{U} < 0$ 的激波处，它提供扩散激波加速。
+
+全向分布函数 $f_0(\mathbf{x}, p, t)$ 的 Parker 输运方程的一种常见形式为
+$$
+\begin{aligned}
+\frac{\partial f_0}{\partial t} + (\mathbf{U} + \mathbf{V}_d)\cdot\nabla f_0 - \frac{1}{3}\nabla\cdot\mathbf{U}\frac{\partial f_0}{\partial \ln{p}} = \nabla\cdot \left( \pmb{\kappa} \cdot\nabla f_0 \right) + Q
+\end{aligned}
+$$ {#eq-parker-transport}
+其中 $f_0(\mathbf{x}, p, t)$ 是粒子位置 $\mathbf{x}$、动量大小 $p$（假设动量各向同性）及时间 $t$ 的全向分布函数；$\pmb{\kappa}$ 是空间扩散系数张量，$\mathbf{U}$ 是等离子体整体速度，$\mathbf{V}_d = \frac{pv}{3q}\nabla\times\left( \mathbf{B}/B^2 \right)$ 是粒子漂移速度，其中 $p=\gamma m v$ 是粒子动量，$q$ 是其电荷。[^form] 因子 $1/3$ 来自对各向同性俯仰角分布取平均。注意，这个漂移项有时被纳入扩散张量 $\pmb{\kappa}$ 的反对称部分（$\kappa_A$）。如果这样做，扩散项变为 $\nabla\cdot\left( \pmb{\kappa}_s\cdot\nabla f_0 - \left< \mathbf{v}_D \right> f_0 \right)$，其中 $\pmb{\kappa}_s$ 是对称部分。
+
+- $\frac{1}{3}\nabla\cdot\mathbf{U}\frac{\partial f_0}{\partial \ln{p}}$ 是绝热能量变化。$\nabla\cdot\mathbf{U}$ 的符号反映宇宙射线在太阳风等离子体压缩过程中是失去还是获得能量。
+
+[^form]: 这是 [GPAT 模型](https://stochastic-parker.readthedocs.io/en/latest/theory/parker_intro.html)给出的形式。Riaan Steenkamp 的笔记给出了略有不同的导引中心漂移版本，将绝热能量变化纳入扩散张量。另请注意 $\frac{\partial f_0}{\partial \ln{p}} = p\,\partial f_0 / \partial p$。
+
+## 随机微分方程方法
+
+除了在 $(\mathbf{x}, p)$ 网格上离散化 @eq-parker-transport，还可以利用 Fokker-Planck 型偏微分方程与随机朗之万方程系综之间的数学等价性来求解。此时，分布由大量离散样本构成的统计系综表示，这些样本称为_伪粒子_（或随机示踪粒子），它们的随机游走再现输运方程的解。这种方法很有吸引力：在三维空间加一维动量中，基于网格的求解器扩展性差，在强梯度（如激波）处存在数值扩散，并需要对大型矩阵求逆，而随机微分方程（SDE）方法避免了这三个问题。
+
+### 从输运方程到 Fokker-Planck 方程
+
+首先用微分数密度 $n_p(\mathbf{x}, p, t) = 4\pi p^2 f_0(\mathbf{x}, p, t)$ 重写方程，使 $\int n_p\,\mathrm{d}^3 x\,\mathrm{d}p$ 为物理粒子的总数，$n_p$ 恰好是伪粒子采样的量。将 @eq-parker-transport 乘以 $4\pi p^2$，并利用 $4\pi\partial_p(p^3 f_0) = \partial_p(p\,n_p)$，守恒形式为
+$$
+\frac{\partial n_p}{\partial t} = -\nabla\cdot\left[ (\mathbf{U} + \mathbf{V}_d)n_p - \pmb{\kappa}_S\cdot\nabla n_p \right] - \frac{\partial}{\partial p}\left[ \dot{p}_\text{ad}\,n_p \right] + Q_p
+$$ {#eq-parker-conservative-np}
+其中 $\pmb{\kappa}_S$ 是空间扩散张量的对称部分，$\mathbf{V}_d = \nabla\cdot\pmb{\kappa}_A$ 是由其反对称部分产生的漂移速度（等价于导引中心漂移 $\mathbf{V}_d = \frac{pv}{3q}\nabla\times\left( \mathbf{B}/B^2 \right)$），而
+$$
+\dot{p}_\text{ad} = -\frac{1}{3}(\nabla\cdot\mathbf{U})\,p
+$$ {#eq-pdot-ad}
+是绝热动量变化率。
+
+为将空间部分写成 Fokker-Planck 形式，使用适用于空间变化张量的恒等式，
+$$
+\nabla\cdot\left( \pmb{\kappa}_S\cdot\nabla n_p \right) = \sum_{i,j}\frac{\partial^2}{\partial x_i\partial x_j}\left( \kappa_{S,ij}\,n_p \right) - \nabla\cdot\left[ \left( \nabla\cdot\pmb{\kappa}_S \right) n_p \right]
+$$
+其中 $\left( \nabla\cdot\pmb{\kappa}_S \right)_i = \partial\kappa_{S,ij}/\partial x_j$。注意负号：正是由于它，扩散张量的梯度在下面的运动方程中表现为额外的_确定性_漂移，有时称为虚假漂移。代入 @eq-parker-conservative-np，得到状态矢量 $\mathbf{Y} = (\mathbf{x}, p)^T$ 的标准前向 Kolmogorov（Fokker-Planck）方程，
+$$
+\frac{\partial n_p}{\partial t} = -\sum_i\frac{\partial}{\partial Y_i}\left[ a_i(\mathbf{Y}, t)\,n_p \right] + \frac{1}{2}\sum_{i,j}\frac{\partial^2}{\partial Y_i\partial Y_j}\left[ D_{ij}(\mathbf{Y}, t)\,n_p \right] + Q_p
+$$ {#eq-parker-fp}
+其中漂移矢量和扩散矩阵为
+$$
+\mathbf{a} = \left( \mathbf{U} + \mathbf{V}_d + \nabla\cdot\pmb{\kappa}_S,\ \dot{p}_\text{ad} \right)^T, \quad \mathbf{D} = \begin{pmatrix} 2\pmb{\kappa}_S & 0 \\ 0 & 0 \end{pmatrix}
+$$ {#eq-sde-coefficients}
+$\mathbf{D}$ 的动量块为零，反映标准 Parker 输运方程（PTE）不包含动量扩散（忽略二阶费米加速），因此沿轨迹的动量变化完全是确定性的。（SDE 文献中通常将 $\mathbf{a}$ 和 $\mathbf{D}$ 记为 $\mathbf{A}$ 和 $\mathbf{B}$；这里不用这些符号，因为它们已用于矢势和磁场。）
+
+根据伊藤引理，@eq-parker-fp 等价于伊藤随机微分方程
+$$
+\mathrm{d}\mathbf{Y}(t) = \mathbf{a}(\mathbf{Y}, t)\,\mathrm{d}t + \pmb{\sigma}(\mathbf{Y}, t)\cdot\mathrm{d}\mathbf{W}(t)
+$$ {#eq-sde-ito}
+其中 $\pmb{\sigma}$ 是满足 $\mathbf{D} = \pmb{\sigma}\pmb{\sigma}^T = 2\pmb{\kappa}_S$ 的任意矩阵（例如 $2\pmb{\kappa}_S$ 的 Cholesky 因子，或在局部沿场参考系中取 $\mathrm{diag}\left( \sqrt{2\kappa_\parallel}, \sqrt{2\kappa_\perp}, \sqrt{2\kappa_\perp} \right)$），$\mathrm{d}\mathbf{W}$ 是多维维纳过程，满足 $\left< \mathrm{d}\mathbf{W} \right> = 0$ 和 $\left< \mathrm{d}W_i\,\mathrm{d}W_j \right> = \delta_{ij}\mathrm{d}t$，即大小为 $\mathrm{d}\mathbf{W} \sim \sqrt{\mathrm{d}t}$ 的高斯增量。
+
+### 伪粒子的运动方程
+
+将状态矢量重新分为 $\mathbf{x}$ 和 $p$，每个伪粒子按以下方程推进
+$$
+\mathrm{d}\mathbf{x} = \left[ \mathbf{U} + \nabla\cdot\pmb{\kappa} \right]\mathrm{d}t + \pmb{\sigma}\cdot\mathrm{d}\mathbf{W}_\mathbf{x}
+$$ {#eq-sde-x}
+而对于动量，
+$$
+\mathrm{d}p = -\frac{1}{3}(\nabla\cdot\mathbf{U})\,p\,\mathrm{d}t
+$$ {#eq-sde-p}
+
+- $\mathbf{U}$ 是流体整体平流。
+- $\nabla\cdot\pmb{\kappa} = \mathbf{V}_d + \nabla\cdot\pmb{\kappa}_S$ 是有效确定性漂移，将磁场梯度／曲率漂移（$\nabla\cdot\pmb{\kappa}_A$）与扩散系数自身的梯度（$\nabla\cdot\pmb{\kappa}_S$，即虚假漂移）结合起来。
+- $\pmb{\sigma}\cdot\mathrm{d}\mathbf{W}_\mathbf{x}$ 是随机扰动，表示粒子受湍流磁涨落作用而发生的微观俯仰角散射。
+- @eq-sde-p 中没有维纳项，因为标准 PTE 中的空间扩散不涉及动量扩散。
+
+### 伪粒子与相空间图像
+
+伪粒子既不是沿回旋轨道运动的物理宇宙射线粒子，也不是单个带电离子：
+
+- **统计代表**：它是带有统计权重 $w_k$ 的数值示踪粒子，即概率密度 $n_p(\mathbf{x}, p, t)$ 的一个样本，而不是一团物质。
+- **粗粒化轨迹**：物理粒子沿由洛伦兹力控制的螺旋轨道运动，并有小幅散射偏离；伪粒子完全跳过回旋轨道和俯仰角尺度，通过维纳增量 $\mathrm{d}\mathbf{W}\sim\sqrt{\mathrm{d}t}$ 在宏观扩散尺度上跳跃。轨迹连续但处处不可微。另请注意，@eq-sde-x 按伊藤约定写出：若改用 Stratonovich 形式，一部分虚假漂移 $\nabla\cdot\pmb{\kappa}_S$ 会移入噪声项，因此约定必须与时间积分格式一致。
+- **重建**：当伪粒子穿过边界、与源相互作用或到达探测器时，其权重 $w_k$ 被计入相空间直方图；除以 $4\pi p^2$ 即恢复 $f_0(\mathbf{x}, p, t)$。
+
+**与刘维尔定理和测试粒子模拟的联系。** 对比本笔记使用的两种「粒子」图像很有启发性。在测试粒子模拟（见 @sec-test-particle）中，对某个湍流场实现中的标记粒子积分运动方程 @eq-charge-particle-motion。由于底层系统是哈密顿系统，刘维尔定理保证相空间体积守恒，因而相空间密度 $F(\mathbf{r}, \mathbf{p}, t)$ 沿流守恒（@eq-liouville）。因此数值标记粒子只是追踪确定性、不可压缩的正则（辛）映射 $(\mathbf{r}_0, \mathbf{p}_0)\mapsto(\mathbf{r}, \mathbf{p})$；随后对湍流实现的系综取平均，得到 Fokker-Planck 系数（@sec-fokker-planck），包括上面使用的扩散张量 $\pmb{\kappa}$。
+
+SDE 方法以相反的顺序进行粗粒化：_首先_对回旋相位和俯仰角取平均，得到 $\pmb{\kappa}$ 和 $\mathbf{V}_d$，然后才推进伪粒子。得到的随机映射是马尔可夫过程，而非正则变换：由于输运现在是扩散性的，相空间体积不再守恒，每一步都跨过回旋和散射尺度。两种方法共同之处在于，都将粒子解释为相空间密度的样本：一方面是沿刘维尔特征线追踪 $F(\mathbf{r}, \mathbf{p}, t)$ 的标记粒子，另一方面是沿伊藤轨迹采样 $n_p(\mathbf{x}, p, t)$ 的粒子，因此可以使用相同的分箱方法重建分布函数。
+
+### 前向与后向 SDE
+
+SDE 表述有两个计算方向：
+
+- **前向 SDE（从源到观测者）**：在 $t = 0$ 时从源（超新星遗迹、太阳耀斑激波等）注入伪粒子，沿时间向前传播，直至它们离开系统或到达探测器。这种方式自然给出事件演化的随时间变化的空间分布。
+- **后向 SDE（从观测者到源）**：如果只关心特定位置的能谱，例如位于 $1\,\text{AU}$ 的航天器处，前向计算会浪费算力，因为大多数伪粒子不会到达探测器。利用伴随（后向 Kolmogorov）方程，在观测时刻从探测器出发，沿时间向后积分伪粒子（$\tau = -t$）；对其路径终点处遇到的源项和边界条件加权，得到 $f_0(\mathbf{x}_\text{obs}, p, t)$，而不浪费轨迹。
+
+### 相对于网格求解器的实际优势
+
+- **无网格、无 CFL 限制**：无需对空间网格进行求逆或分辨，也没有数值扩散抹平强梯度或激波界面。
+- **点值计算效率**：后向 SDE 只需 $\mathcal{O}(N)$ 次运算即可计算单个局部位置的能谱，无需求解整个全局体积。
+- **易于并行**：每条伪粒子轨迹在统计上都与其他轨迹独立，因此该方法在 CPU 线程和 GPU 上具有近乎理想的扩展效率。
+
+## 准线性理论
+
+自提出以来超过 50 年，_准线性理论（QLT）_ [@jokipii1966cosmic; Kennel and Engelmann 1966; Hall and Sturrock 1967; Hasselmann and Wibberenz 1970] 仍是银河宇宙射线唯象应用的重要范式。在 QLT 中，描述宇宙射线相空间密度时间演化的 Fokker-Planck 方程通过微扰方法导出：沿规则背景场中的未扰动轨道计算湍流磁场对粒子的力。对于由湍流磁场的两点函数参数化的给定湍流模型，可以计算 Fokker-Planck 系数，其中最重要的是空间扩散张量的各分量。众所周知，QLT 发现等离子体波与粒子之间的相互作用具有共振性，这意味着具有特定回旋半径 $r_L = v/\Omega$（$\Omega$ 表示回旋频率）的粒子只受波数 k 满足 $k r_L \mu \approx 1$ 的波影响（对于阿尔芬波等低频波）；其中 $\mu$ 是俯仰角的余弦，俯仰角即粒子动量 $\mathbf{p}$ 与规则磁场 $\left<\mathbf{B}\right>$ 之间的夹角，$\mu \equiv \mathbf{p}\cdot\left< \mathbf{B} \right> / (|\mathbf{p}||\left< \mathbf{B} \right>|)$。
+
+尽管 QLT 的一些预测在定性上得到数据证实，例如扩散系数对刚度的依赖，但仍有若干问题。最著名的是 $90^\circ$ 问题：由于共振条件，俯仰角接近 $90^\circ$（$\mu\approx 0$）的粒子只能与非常大的波数 k 共振，而在通常的湍流谱中，这些波数所含能量很少。在 $\mu\rightarrow 0$ 的极限下，散射率消失，粒子无法沿背景场改变方向，导致_弹道_输运。这显然与观测推断出的扩散输运不符。
+
+$90^\circ$ 问题的根源是 QLT 中未扰动轨道的假设。非线性理论对此进行了修正：关联的衰减使共振条件展宽，从而允许足够有效地散射穿过 $90^\circ$。不过，任何此类 QLT 扩展都需要额外假设，例如关于粒子轨道时间去相关的形式。
+
+QLT 的成功和普及可以归因于它概念简单，并在太阳风、星际介质和星系团等若干重要环境中有效。此外，QLT 在原则上简单，因此可以直接计算输运参数，尽管实际计算可能变得极其复杂。最后，这些结果可以与观测推断相符，例如银河扩散系数的归一化和幂律形状。
+
+### Fokker-Planck 方程的推导 {#sec-fokker-planck}
+
+为保持内容自洽，这里重复列出所有方程，而不链接到笔记的其他部分。Philipp Mertsch 在下列方程中使用 CGS 单位制。
+
+电场 $\mathbf{E}$ 和磁场 $\mathbf{B}$ 中的带电粒子受到洛伦兹力，
+$$
+\mathbf{F}_L = e\left( \mathbf{E} + \mathbf{v}\times\mathbf{B}/c \right)
+$$ {#eq-lorentz-force-cgs}
+
+通常将磁场分解为大尺度、均匀的规则背景场 $\langle \mathbf{B} \rangle$ 和小尺度湍流随机场 $\delta\mathbf{B}$，即 $\mathbf{B} = \langle\mathbf{B}\rangle$，且 $\langle\delta\mathbf{B}\rangle = 0$。尖括号表示对湍流磁场系综取平均。
+
+不失一般性，除非另有说明，下文假设规则场沿 z 方向，$\langle\mathbf{B}\rangle = B_z\hat{z}$。通常忽略大尺度电场，$\langle\mathbf{E}\rangle = 0$，因为天体物理等离子体中的电荷具有很高的迁移率，可以有效屏蔽规则电场（即远大于德拜长度的尺度上的电场）。小尺度电场 $\delta\mathbf{E}$ 必然存在，但根据法拉第感应定律，可以估计其大小为 $|\delta\mathbf{E}| \sim ( v_{\text{A}} / c) |\delta\mathbf{B}|$，其中 $v_\text{A}$ 是阿尔芬速度，在大多数天体物理环境中 $v_A/c \ll 1$。[^cgs_em] 因此，在 $(v_\text{A}/c)$ 的最低阶近似下没有电场，而磁力不对粒子做功，所以粒子能量守恒。注意，在 $(v_\text{A}/c)$ 的更高阶近似中，粒子能量可以通过二阶费米型过程变化。为简单起见，这里只考虑产生俯仰角散射的最低阶情况。
+
+[^cgs_em]: 在 CGS 单位制中，电场和磁场具有相同的单位。
+
+只要可以忽略耗散过程（或任何形式的能量损失），磁场中的带电粒子就构成哈密顿系统。其一个结果是_刘维尔定理_，即相空间体积在正则变换下守恒。由于时间演化是一种正则变换，相空间体积随时间守恒。结合粒子数守恒，这意味着相空间密度 $f = f(\mathbf{r},\mathbf{p},t)$ 守恒。这可以方便地用我们称为_刘维尔方程_的式子表示，
+$$
+\frac{\mathrm{d}f}{\mathrm{d}t} = \frac{\partial f}{\partial t} + \frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} \cdot \mathbf{\nabla}_{\mathbf{r}} f + \frac{\mathrm{d}\mathbf{p}}{\mathrm{d}t} \cdot \mathbf{\nabla}_{\mathbf{p}} f = 0
+$$ {#eq-liouville}
+它描述了相空间流的不可压缩性。这里，
+$$
+\frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} = \mathbf{v},\quad \frac{\mathrm{d}\mathbf{p}}{\mathrm{d}t} = e\left( \mathbf{E} + \frac{\mathbf{v}\times\mathbf{B}}{c} \right)
+$$ {#eq-charge-particle-motion}
+是运动方程。注意，哈密顿系统的一个必要条件是力具有守恒性且可微（「p 散度为零」，详情见 [@bellan2008fundamentals]）。
+
+处于外部 $\mathbf{E}$ 和 $\mathbf{B}$ 场作用下的无碰撞等离子体是哈密顿系统的一个例子。其哈密顿量为（Jackson 1998）
+$$
+H = \sqrt{(c\mathbf{P} - e\mathbf{A})^2 + m^2c^4} + e\phi
+$$ {#eq-charge-particle-hamiltonian}
+其中 $\mathbf{P} = \mathbf{p} + (e/c)\mathbf{A}$ 是正则动量，$\mathbf{A}$ 是矢势，m 是粒子质量，e 是其电荷，$\phi$ 是电势。因此，这种无碰撞等离子体的相空间密度满足 @eq-liouville，将洛伦兹力 @eq-lorentz-force-cgs 代入 @eq-liouville 得到 Vlasov 方程，
+$$
+\frac{\partial f}{\partial t} + \frac{\mathrm{d} \mathbf{r}}{\mathrm{d} t} \cdot \mathbf{\nabla}_{\mathbf{r}} f + e \left ( \mathbf{E} + \frac{\mathbf{v} \times \mathbf{B}}{c} \right ) \cdot \mathbf{\nabla}_{\mathbf{p}} f = 0
+$$ {#eq-vlasov-cgs}
+它与麦克斯韦方程共同构成等离子体动理学理论的基础。对于有碰撞等离子体，需要在右侧加入一项，即著名的碰撞算符。对于无碰撞等离子体（适用于宇宙射线），右侧保持为零。
+
+考虑湍流场时，相空间密度也成为随机场，$f = \langle f\rangle + \delta f$，其中期望值为 $\langle f \rangle$，围绕期望值的涨落 $\delta f$ 满足 $\langle \delta f \rangle=0$。
+
+在任何真实的天体物理情况下，当然不可能知道所有位置的小尺度湍流场，从而精确求解 @eq-vlasov-cgs。我们只能期望预测湍流磁场统计系综的相空间密度统计矩。传统上人们主要关心一阶矩，即系综平均，但也可以求得更高阶的矩。
+
+由于上面解释的原因，下文忽略 $\mathbf{E}$。对 @eq-vlasov-cgs 取平均得到（Jokipii 1972）
+$$
+\begin{aligned}
+\frac{\mathrm{d} \langle f \rangle}{\mathrm{d} t} &= \frac{\partial \langle f \rangle }{\partial t} + \frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} \cdot \mathbf{\nabla}_{\mathbf{r}} \langle f \rangle + e \frac{\mathbf{v} \times \langle \mathbf {B} \rangle}{c} \cdot \mathbf{\nabla}_{\mathbf{p}} \langle f \rangle \\
+&= - \left \langle e \frac{\mathbf{v} \times \mathbf{\delta B}}{c} \cdot \nabla _{\mathbf{p}} \delta f \right \rangle \neq 0
+\end{aligned}
+$$ {#eq-vlasov-averaged-cgs}
+
+注意，与相空间密度 $f$ 不同，系综平均的相空间密度 $\langle f \rangle$ 不守恒，$\mathrm{d}\langle f\rangle /\mathrm{d}t \neq 0$。（后面还会讨论！）
+
+从 @eq-vlasov-averaged-cgs 获得物理认识的一种方法是将其右侧视为阻尼项（Earl 等 1988；Webb 1989），
+$$
+\left \langle e \frac{\mathbf{v} \times \mathbf{\delta B}}{c} \cdot \nabla_{\mathbf{p}} \delta f \right \rangle \to \nu \left( \langle f \rangle - \frac{1}{4\pi}\int\mathrm{d}\hat{\mathbf{p}} \, \langle f \rangle \right)
+$$
+（其中 $\hat{\mathbf{p}}=\mathbf{p}/|\mathbf{p}|$），即以速率 $\nu$ 驱动相空间密度趋于各向同性；这一方法也可由气体动理学理论得到启发（Bhatnagar 等 1954）。这样可以求解 @eq-vlasov-averaged-cgs，并证明它导出空间扩散方程。平行扩散系数可确定为 $\kappa_\parallel = v^2 / (3\nu)$，而垂直扩散系数满足 $\kappa_\perp / \kappa_\parallel = (1 + \Omega^2 / \nu^2)^{-1}$；这一结果称为_经典散射极限_（Gleeson 1969）。这里 $\Omega$ 是粒子的回旋频率。
+
+然而，QLT 通过描述涨落 $\delta f$ 时间演化的方程，寻求更系统的 $f$ 解。将原始 Vlasov 方程 @eq-vlasov-cgs 减去系综平均的 Vlasov 方程 @eq-vlasov-averaged-cgs，即可得到这样的方程，
+$$
+\begin{aligned}
+& \frac{\partial \delta f}{\partial t} + \frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} \cdot \mathbf{\nabla}_{\mathbf{r}} \delta f + e \left(\frac{\mathbf{v} \times \langle \mathbf{B}\rangle}{c}\right) \cdot \mathbf{\nabla}_{\mathbf{p}} \delta f \\
+& \simeq -e \left(\frac{\mathbf{v} \times \mathbf{\delta B}}{c} \right) \cdot \mathbf{\nabla}_{\mathbf{p}} \langle f \rangle
+\end{aligned}
+$$ {#eq-vlasov-fluctuation-cgs}
+这里我们选择忽略差值
+$$
+e \frac{\mathbf{v} \times \mathbf{\delta B}}{c} \cdot \nabla_{\mathbf{p}} \delta f - \left \langle e \frac{\mathbf{v} \times \mathbf{\delta B}}{c} \cdot \nabla_{\mathbf{p}} \delta f \right \rangle
+$$
+它是扰动量 $\delta\mathbf{B}$ 和 $\delta f$ 的二阶项。这当然假设 $|\delta\mathbf{B}|\ll |\langle \mathbf{B} \rangle|$，因此 $\delta f \ll \langle f \rangle$。现在可以用特征线法积分 @eq-vlasov-fluctuation-cgs，形式解为
+$$
+\delta f = \delta f_{0} - \int _{t_{0}}^{t} \mathrm {d} t' \left[ e \left( \frac{\mathbf{v} \times \mathbf{\delta B}}{c} \right) \cdot \mathbf{\nabla}_{\mathbf{p}} \langle f \rangle \right]_{P(t')}
+$$ {#eq-f-fluctuation-solution}
+这里 $\delta f_{0} \equiv \delta f(\mathbf{r}, \mathbf{p}, t_{0})$ 表示时刻 $t_0$ 的相空间密度，下标 $P(t')$ 表示方括号中的位置和动量沿 @eq-vlasov-fluctuation-cgs 的特征线计算，即运动方程 @eq-charge-particle-motion 的解，其中 $\mathbf{B}$ 仅用规则场 $\langle\mathbf{B}\rangle$ 代替（并且同样没有电场）。这些解 $P$ 通常称为_未扰动轨道_或_未扰动轨迹_。对于这里假设的均匀规则磁场 $\langle\mathbf{B}\rangle = B_z\hat{z}$，它们当然是沿 z 方向的螺旋线。
+
+现在可以将 @eq-f-fluctuation-solution 代入 @eq-vlasov-averaged-cgs，
+$$
+\begin{aligned}
+& \frac{\partial \langle f \rangle }{\partial t} + \frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} \cdot \mathbf{\nabla}_{\mathbf{r}} \langle f \rangle + e \frac{\mathbf{v} \times \langle \mathbf {B} \rangle}{c} \cdot \mathbf{\nabla}_{\mathbf{p}} \langle f \rangle \\
+&\simeq \int _{t_{0}}^{t} \!\! \mathrm {d} t' \! \left \langle e \frac{\mathbf{v} \! \times \! \mathbf{\delta B}}{c} \! \cdot \! \nabla _{\mathbf{p}} \left [ e \frac{\mathbf{v} \! \times \! \mathbf{\delta B}}{c} \! \cdot \! \mathbf{\nabla}_{\mathbf{p}} \langle f \rangle \right ]_{P(t')} \right \rangle
+\end{aligned}
+$$ {#eq-vlasov-averaged-cgs2}
+其中我们舍去了 $\propto \delta f_0$ 项。此时已经可以看出，右侧将产生扩散项（由于两个动量导数），且它依赖于沿未扰动轨迹 $P(t')$ 积分的湍流磁场两点函数。为进一步推导，考虑球坐标中的动量 $\mathbf{p}$，即 $\mathbf{p} = p\left( \sqrt{1-\mu^2}\cos\phi, \sqrt{1-\mu^2}\sin\phi, \mu \right)^T$，并引入湍流磁场的相关长度 $l_c$ 和相关时间 $\tau_c$，定义为[^correlation]
+$$
+\langle \delta B^{2} \rangle l_{\text{c}} \equiv \int _{0}^{\infty} \mathrm {d} \Delta r \, \langle \delta B(\mathbf{r}) \delta B(\mathbf{r}+\mathbf{\Delta r}) \rangle
+$$ {#eq-turbulence-correlation-length}
+$$
+\langle \delta B^{2} \rangle \tau_{\text{c}} \equiv \int _{0}^{\infty} \mathrm {d} \Delta t \, \langle \delta B(t) \delta B(t+\Delta t) \rangle
+$$ {#eq-turbulence-correlation-time}
+这里 $\delta B(t)$ 是 $\left[\delta B(\mathbf{r}) \right]_{P(t)}$ 的简写，即在时刻 t 沿未扰动轨迹计算的 $\delta B(\mathbf{r})$。
+
+[^correlation]: 严格来说，由于两点函数中磁场的矢量性质，相关长度和时间是张量；但这里仅用它们进行数量级论证，因此不区分不同分量。
+
+@eq-vlasov-averaged-cgs2 的右侧仍然相当繁琐，要进一步推导需要若干假设。除了
+
+1. 扰动很小，$|\mathbf{\delta B}| \ll |\langle \mathbf{B} \rangle|$
+
+之外，还有：
+
+2. 回旋对称性：系综平均相空间密度 $\langle f \rangle$ 不依赖于方位角 $\phi$，因此 $\langle f \rangle (\mathbf{r}, p, \mu, \phi, t) \to \langle f \rangle (\mathbf{r}, p, \mu, t)$。
+
+3. 绝热近似：相空间密度只在远大于湍流磁场相关时间 $\tau_c$ 的时间尺度上变化，
+$$
+\langle f \rangle \left / \frac{\partial \langle f \rangle }{\partial t} \right . \gg \tau _{\text{c}}
+$$ {#eq-adiabatic-approx}
+
+4. 有限相关时间：湍流磁场的相关时间远大于拉莫尔时间，$\tau_c \gg \Omega^{-1}$。
+
+5. 均匀平稳湍流：统计矩在空间和时间平移下不变。通俗地说，湍流的统计性质不依赖于测量的时间和地点。
+
+在这些条件下，系综平均 Vlasov 方程最终得到 Fokker-Planck 型方程（Fokker 1914；Planck 1917），也称 Kolmogorov 前向方程（Kolmogorov 1931）或 Smoluchowski 方程（Bogoliubov and Krylov 1939），它描述俯仰角扩散，
+$$
+\frac{\partial \langle f \rangle }{\partial t} + v \mu \frac{\partial \langle f \rangle }{\partial z} = \frac{\partial }{\partial \mu } \left ( D_{\mu \mu } \frac{\partial \langle f \rangle }{\partial \mu } \right ) \, .
+$$ {#eq-fokker-planck}
+
+按照上面概述的方法，俯仰角扩散系数
+$$
+D_{\mu \mu} \equiv \frac{\langle (\Delta \mu )^{2} \rangle }{2 \Delta t}
+$$ {#eq-pitch-angle-diffusion-coef}
+可以用磁场相关函数表示。（怎么做到？？？）
+
+如果没有决定忽略所有电场，Fokker-Planck 方程 @eq-fokker-planck 中还会出现与动量 $\mathbf{p}$ 和俯仰角变化有关的附加项，扩散系数 $D_{\mu p} = D_{p\mu}$ 和 $D_{pp}$ 的定义与 @eq-pitch-angle-diffusion-coef 类似。
+
+我们还假设 $v_A / v \ll 1$，以使 $D_{xx}, D_{yy}, D_{xy}$ 和 $D_{yx}$ 可忽略。如果不这样假设，就需要将附加项
+$$
+\frac{\partial}{\partial x} \left (D_{xx} \frac{\partial \langle f \rangle }{\partial x} + D_{xy} \frac{\partial \langle f \rangle }{\partial y} \right ) + \frac{\partial}{\partial y} \left (D_{yx} \frac{\partial \langle f \rangle }{\partial x} + D_{yy} \frac{\partial \langle f \rangle }{\partial y} \right )
+$$
+加到 @eq-fokker-planck 的右侧。
+
+总之，在湍流磁场影响下，带电粒子在俯仰角上进行随机游走，系综平均后表现为俯仰角（余弦）扩散。
+
+### 扩散近似
+
+如果 i 方向的均方位移 $\langle \Delta x_i^2 \rangle$ 具有幂律依赖关系，便可以方便地对粒子输运分类，[^ballistic]
+$$
+\langle \Delta {r}_{i}^{2} \rangle \propto (\Delta t)^{\alpha}
+$$ {#eq-diffusion-power-law}
+分类如下：
+$$
+\begin{array}{r@{\quad } l}
+\alpha < 1: & \text{亚扩散，} \\
+\alpha = 1: & \text{正常扩散，} \\
+\alpha > 1:& \text{超扩散，特别是} \\
+\alpha = 2: & \text{弹道输运。}
+\end{array}
+$$
+
+[^ballistic]: 在粒子输运中，弹道运动指粒子运动受到环境的影响极小。想象一个粒子沿无摩擦的直线轨迹运动，几乎像一颗子弹。这就是弹道输运！
+
+显然，在任何满足 $|\mathbf{\delta B}| \ll |\langle \mathbf{B} \rangle|$ 的微扰理论中，足够早的输运必然是弹道性的：粒子只绕 $\langle\mathbf{B}\rangle$ 回旋，且 $\langle \Delta z^{2} \rangle = (v \mu \Delta t)^{2}$，而在完整回旋周期上积分时 $\langle \Delta x^{2} \rangle = \langle \Delta y^{2} \rangle = 0$。在较晚时刻，即 $t \gg D_{\mu\mu}^{-1}$ 时，我们预计沿磁场的输运表现为扩散。
+
+为了将这一图像形式化，我们从 Fokker-Planck 方程 @eq-fokker-planck 导出空间扩散方程。为此，将 $\langle f\rangle$ 分解为各向同性部分 $g$ 和各向异性部分 $h$，
+$$
+\langle f \rangle (p, \mu, t) = g(p, t) + h(p, \mu, t)
+$$
+其中
+$$
+g(p, t) = \frac{1}{2}\int_{-1}^{1} \mathrm{d}\mu \langle f \rangle (p, \mu, t)
+$$
+以及
+$$
+\int_{-1}^{1} \mathrm{d}\mu\, h(p, \mu, t) = 0
+$$
+
+如果 $g$ 随时间和位置仅缓慢变化，
+$$
+g \left / \frac{\partial g}{\partial t} \right . \gg \tau_{\text{sc}} \quad \text{且} \quad g \left / \frac{\partial g}{\partial z} \right . \gg \lambda_{\text{sc}}
+$$
+其中 $\tau_{\text{sc}} \sim D_{\mu \mu }^{-1}$ 和 $\lambda_{\text{sc}} \sim v \tau_{\text{sc}}$ 分别是散射时间和平均自由程，则相空间密度将非常接近各向同性，$h\ll g$。此时，可以为各向同性部分 $g$ 导出空间扩散方程（例如 Hasselmann and Wibberenz 1970），
+$$
+\frac{\partial g}{\partial t} - \frac{\partial }{\partial z} \left( \kappa_{\parallel} \frac{\partial g}{\partial z} \right) = 0
+$$ {#eq-isotropic-diffusion}
+其中平行扩散系数为
+$$
+\kappa_{\parallel} = \frac{v^{2}}{8} \int_{-1}^{1} \mathrm{d} \mu \frac{(1- \ \mu^{2})^{2}}{D_{\mu\mu}}
+$$ {#eq-parallel-diffusion-coef}
+
+此外，我们预计各向异性部分 $h$ 由_偶极各向异性_主导（？？？），即 $h\approx h_1\mu$，其中
+$$
+h_{1} = \frac{3}{2} \int_{-1}^{1} \mathrm{d} \mu \, \mu \, h(\mu) = - \frac{2}{v} \kappa_{\parallel} \frac{\partial g}{\partial z}
+$$ {#eq-dipole-anisotropy}
+
+### 输运系数的计算
+
+到目前为止，我们尚未指定 Fokker-Planck 系数（例如俯仰角扩散系数 $D_{\mu\mu}$）的函数形式，也未指定它对推导 Fokker-Planck 方程 @eq-fokker-planck 时出现的湍流两点相关函数 $P_{ij}(\mathbf{k})$ 的依赖。@sec-fokker-planck 中推导的另一种方法是直接从运动方程的解计算 Fokker-Planck 系数。事实上，任意 Fokker-Planck 系数 $D_{PQ}$ 都可以用所涉及变量 P 和 Q 的平均位移来定义。例如，俯仰角扩散系数可以作为时变扩散系数在 $t\to\infty$ 时的极限导出，
+$$
+D_{\mu\mu}(t) = \frac{1}{2} \frac{\mathrm{d}}{\mathrm{d}t}\left \langle (\Delta \mu )^{2} \right \rangle
+$$ {#eq-running-diffusion-coef}
+
+这是 Taylor-Green-Kubo 公式的结果（Taylor 1922；Green 1951；Kubo 1957），
+$$
+D_{\mu\mu} = \int_{0}^{\infty} \mathrm{d} t \langle \dot{\mu}(0) \dot{\mu}(t) \rangle
+$$ {#eq-TGK}
+其中上方的点表示对时间求导。对于扩散输运，@eq-pitch-angle-diffusion-coef 和 @eq-running-diffusion-coef 当然一致。此外，这使我们能够直接计算平行扩散系数 $\kappa_\parallel$，而不必先计算 $D_{\mu\mu}$ 再应用扩散近似 @eq-parallel-diffusion-coef。
+
+从运动方程 @eq-lorentz-force-cgs 得到（怎么得到？？？） 
+$$
+\dot{\mu} = \frac{e}{c p} \left( \mathbf{v} \times \mathbf{B} \right)_{z} = \frac{1}{r_{\text{g}} B_z} \left(v_{x} \delta B_{x}(\mathbf{r}) - v_{y} \delta B_{y}(\mathbf{r}) \right)
+$$ {#eq-pitch-angle-cosine-time-derivative}
+因此
+$$
+D_{\mu\mu} = \frac{1}{ B_{z} ^{2} r_{\text{g}}^{2}} \int_{0}^{\infty }\mathrm{d} t \left[ v_{x}(t) v_{x}(0) \mathcal{P}_{yy}(t) + v_{y}(t) v_{y}(0) \mathcal{P}_{xx}(t) \right]
+$$ {#eq-pitch-angle-coef}
+
+这里定义了
+$$
+\mathcal{P}_{ij}(t) \equiv \langle \delta B_{i}(0) \delta B_{j}(t) \rangle
+$$ {#eq-two-point-func}
+速度和磁场均沿未扰动轨迹计算。注意，Fokker-Planck 系数仅依赖于两点函数，这意味着我们可以只考虑湍流磁场的高斯部分。
+
+### 湍流几何形态与频谱
+
+为了进一步推导，需要指定湍流相关张量 $\mathcal{P}_{ij}$。推导 Fokker-Planck 方程时，我们必须假设湍流是均匀和平稳的（假设 5）。在这种情况下，场可以在傅里叶空间中非常简洁地表示。为此，引入傅里叶变换对
+$$
+\begin{aligned}
+\delta \tilde{B}_{j}(\mathbf{k}, t) &= (2\pi)^{-3/2} \int_{-\infty }^{\infty} \mathrm{d}^{3} r \, \delta B_{j}(\mathbf{r}, t) \mathrm{e} ^{\imath \mathbf{k} \cdot \mathbf{r}} \\
+\delta B_{j}(\mathbf{x}, t) &= (2\pi)^{-3/2} \int_{-\infty}^{\infty} \mathrm{d}^{3} k \, \delta \tilde{B}_{j}(\mathbf{k}, t) \mathrm{e} ^{-\imath \mathbf{k} \cdot \mathbf{r}}
+\end{aligned}
+$$ {#eq-turbulence-B-fourier}
+
+注意，为使磁场取实值，即 $\delta B_{j}(\mathbf{r}) = \delta B^{*}_{j}(\mathbf{r})$，傅里叶分量及其复共轭必须满足
+$$
+\delta \tilde{B}^{*}_{j}(\mathbf{k}) = \delta \tilde{B}_{j}(-\mathbf{k})
+$$
+
+均匀性和平稳性保证两点函数 $\langle \delta B_{i}(\mathbf{r}, t) \delta B_{j}(\mathbf{r}', t') \rangle$ 对位置 $\mathbf{r}$、$\mathbf{r}'$ 和时间 $t$、$t'$ 的依赖仅通过差值 $\Delta \mathbf{r} \equiv (\mathbf{r} - \mathbf{r}')$ 和 $(t-t')$ 体现。于是容易看出傅里叶空间中的两点函数是对角的，
+$$
+\begin{aligned}
+& \langle \delta \tilde{B}_{i}(\mathbf{k}, t) \delta \tilde{B}^{*}_{j}(\mathbf{k}', t') \rangle \\ &= \! (2 \pi )^{-3} \!\!\! \int \!\! \mathrm {d} ^{3} r \, \mathrm {e} ^{ \imath \mathbf{k} \cdot \mathbf{r}} \!\!\! \int \!\! \mathrm {d} ^{3} r' \mathrm {e} ^{-\imath \mathbf{k}' \cdot \mathbf{r}'} \!\! \langle \delta B_{i}(\mathbf{r}, t) \delta B_{j}(\mathbf{r}'\!, t') \rangle \\
+&= \delta ^{(3)} (\mathbf{k} - \mathbf{k}') P_{ij}(\mathbf{k}, t-t')
+\end{aligned}
+$$
+其中湍流相关张量 $P_{ij}(\mathbf{k}, \Delta t)$ 是坐标空间两点函数的傅里叶变换
+$$
+\begin{aligned}
+P_{ij}(\mathbf{k}, \Delta t) \equiv & (2 \pi )^{-3/2} \int _{-\infty}^{\infty} \mathrm {d} ^{3} (\Delta r) \, \mathrm {e} ^{\imath \mathbf{k} \cdot \Delta \mathbf{r}} \\ & \times \langle \delta B_{i}(\mathbf{r}, t) \delta B_{j}(\mathbf{r} - \Delta \mathbf{r}\!, t') \rangle
+\end{aligned}
+$$ {#eq-turbulence-correlation-tensor}
+
+它包含计算 Fokker-Planck 系数时所需的全部磁湍流（统计）信息：
+
+* 湍流几何形态的信息，例如波传播是否具有优先方向；
+* 湍流谱的信息，即能量在不同湍流尺度之间的分布；
+* 相关性的时间依赖信息。
+
+通常假设 $P_{ij}(\mathbf{k}, \Delta t)$ 可分解为不依赖时间的磁静态相关张量 $P_{ij}(\mathbf{k}) \equiv P_{ij}(\mathbf{k}, 0)$ 和依赖时间的动力学相关函数 $\Gamma(\mathbf{k}, \Delta t)$，
+$$
+P_{ij}(\mathbf{k}, \Delta t) = P_{ij}(\mathbf{k}) \Gamma (\mathbf{k}, \Delta t)
+$$ {#eq-turbulence-correlation-tensor-decomposition}
+
+在磁静态近似中，完全忽略任何时间依赖，因此
+$$
+\Gamma \equiv 1
+$$
+
+虽然实际中的 $P_{ij}$ 可能极其复杂，但在输运系数解析研究和数值测试粒子模拟的文献中，三种湍流几何形态占据主导地位。这三种形态概念简单，特别适合解析计算扩散张量各分量和其他 Fokker-Planck 系数：
+
+* 三维各向同性湍流
+* 板状湍流
+* 板状湍流与二维各向同性湍流的组合
+
+#### 三维各向同性湍流
+
+对于三维各向同性湍流，磁静态相关张量具有如下形式（Batchelor 1982）
+$$
+P^{\text{3D}}_{ij}(\mathbf{k}) = g^{\text{3D}}(k) \left( \delta _{ij} - \frac{k_{i} k_{j}}{k^{2}} + \imath \sigma(k) \epsilon_{ijm} \frac{k_{m}}{k} \right)
+$$ {#eq-correlation-tensor-3disotropic}
+
+依赖于 k 的实函数 $g^{\text{3D}}(k)$ 和 $\sigma(k)$ 分别用于对总体频谱和依赖于波数的螺度建模。注意，对于线偏振波，$\sigma(k)\equiv 0$。通过要求下式确定 $g^{\text{3D}}(k)$ 的归一化
+$$
+\begin{aligned}
+\delta B^{2} &\equiv \langle \mathbf{\delta B}^{2}(\mathbf{x}) \rangle \! = \!\! \int \mathrm {d} ^{3} k \left ( P^{\text{3D}}_{xx}(\mathbf{k}) + P^{\text{3D}}_{yy}( \mathbf{k}) + P^{\text{3D}}_{zz}(\mathbf{k}) \right ) \\ &= 2 \int \mathrm {d} ^{3} k \, g^{\text{3D}}(k) = 8 \pi \int _{0}^{\infty } \mathrm {d} k \, k^{2} g^{\text{3D}}(k)
+\end{aligned}
+$$ {#eq-isotropic-normalization}
+
+#### 板状湍流
+
+在板状湍流中，假设所有量都不依赖于垂直背景场的坐标（x 和 y），且湍流场没有 z 分量。因此波矢 $\mathbf{k}\parallel \hat{z}$；如果进一步要求湍流轴对称，湍流相关张量为
+$$
+P^{\text{slab}}_{ij}(\mathbf{k}) = g^{\text{slab}}(k_{\parallel }) \frac{\delta (k_{\perp })}{k_{\perp }} \left ( \delta _{ij} + \imath \sigma (k_{\parallel }) \epsilon _{ijz} \right )
+$$ {#eq-correlation-tensor-slab}
+其中 $i, j \in x, y$，其余情况下为零。在这里 $k_\parallel = k_z$，$k_{\perp } = \sqrt{k_{x}^{2} + k_{y}^{2}}$。同样，$\sigma(k_\parallel)$ 允许螺度依赖波数，但在线偏振时为零。归一化为
+$$
+\begin{aligned}
+\delta B^{2} &\equiv \int \mathrm{d} ^{3} k \left( P^{\text{slab}}_{xx}( \mathbf{k}) + P^{\text{slab}}_{yy}(\mathbf{k}) \right) \\
+&= 4 \pi \int _{-\infty}^{\infty} \mathrm{d} k_{\parallel} \, g^{ \text{slab}}(k_{\parallel})
+\end{aligned}
+$$ {#eq-slab-normalization}
+
+虽然板状湍流作为湍流模型似乎限制较多，但由于简单而很有吸引力。此外，在湍流由宇宙射线分布的各向异性自发产生的情况下，它可以被认为具有物理意义（Kulsrud and Pearce 1969；Skilling 1975）：已有研究表明（例如 Tademaru 1969），波矢沿背景磁场的模态增长最快。
+
+#### 复合（板状 + 二维各向同性）湍流
+
+
+#### 湍流频谱
+
+回顾了三种简单湍流几何形态后，为计算输运系数，需要指定频谱形状 $g(k)$。在湍流级联模型中，能量在最大尺度上注入，即所谓的_注入（能量）区_。非线性相互作用在所谓的_惯性区_将能量传递到较小尺度。在非常小的尺度上，湍流能量在所谓的_耗散区_耗散。分隔注入区与惯性区的尺度称为_湍流外尺度_，分隔惯性区与耗散区的尺度称为_耗散尺度_。
+
+大多数研究采用两种频谱之一。第一种是谱指数为 $q$、低波数截断为 $k_0$ 的简单幂律，对应外尺度 $(2\pi/k_0)$，
+$$
+g_{\text{PL}}(k) = \left \{ \textstyle\begin{array}{l@{\quad }l} g_{0} (k/k_{0})^{-q} & \text{当 } k \geq k_{0} \, , \\ 0 & \text{其他情况。} \end{array}\displaystyle \right .
+$$
+
+另一种是折断幂律：波数低于 $k_0$ 时频谱平坦，高于该值时具有幂律斜率 $q$，
+$$
+g_{\text{BPL}}(k) = g_{0} \left ( 1 + \left ( \frac{k}{k_{0}} \right )^{1/s} \right )^{-q s} \, .
+$$
+这里 $s$ 表征折断的平滑程度，$s\to 0$ 对应尖锐折断。假设折断幂律形式也有可能描述注入区，即 $k<k_0$ 时的湍流。
+
+#### 具有折断幂律谱的板状湍流
+
+下面以板状湍流和折断幂律谱的俯仰角扩散系数结果为例（Shalchi 2009）。
+$$
+g^{\text{slab}}(k_{\parallel }) = \frac{C \left (q, \frac{1}{2} \right )}{2 \pi k_{0}} \delta B^{2} \left ( 1 + \left ( \frac{k}{k_{0}} \right )^{2} \right )^{-q/2} \, .
+$$ {#eq-g-slab-turbulence}
+
+函数 $C(q, s)$ 由归一化条件确定，见 @eq-slab-normalization，
+$$
+\begin{aligned}
+\frac{1}{C(q, s)} & \equiv \frac{4}{k_{0}} \int_{0}^{\infty} \mathrm {d} k \, \left ( 1 + \left( \frac{k}{k_{0}} \right )^{1/s} \right)^{-q s} \\
+&= \frac{4}{k_{0}} \frac{\Gamma (s(q-1)) \Gamma (1+s)}{\Gamma (q \, s)}
+\end{aligned}
+$$ {#eq-slab-normalization2}
+
+其中 $\Gamma (\cdot)$ 表示伽马函数。我们假设 $q>1$，以使 @eq-slab-normalization2 中对 k 的积分收敛。而对于 $q=1$，需要假设一个截断，即当 $k_{\parallel} > k_{\text{max}}$ 时 $g^{\text{slab}} = 0$。
+
+将 @eq-g-slab-turbulence 代入 @eq-correlation-tensor-slab 和 @eq-pitch-angle-coef，会出现共振函数（Schlickeiser 2002）
+$$
+R^{\text{slab}} = \pi \delta (k_{\parallel } \mu v \pm \Omega )
+$$ {#eq-slab-turbulence-resonance}
+
+最终，它简化为
+$$
+D_{\mu \mu } = \frac{\pi }{2} C \! \left ( \! q, \frac{1}{2} \! \right ) q k_{0} \frac{\delta B^{2}}{B_{z}^{2}} \frac{(1 - \mu ^{2}) \mu ^{q-1} (r_{\text{L}} k_{0})^{q-2}}{(1 + \mu ^{2} (r_{\text{L}} k_{0}))^{q/2}}
+$$ {#eq-diffusion-coef-slab-turbulence}
+
+### 磁力线随机游走
+
+@eq-TGK 和 @eq-pitch-angle-coef 中俯仰角扩散系数的计算，基于沿绕均匀背景场的轨迹计算洛伦兹力的湍流部分。只要扰动很小，这就给出平行扩散系数 @eq-parallel-diffusion-coef 的主导贡献。
+
+然而，对于垂直输运，还有另一个重要贡献，原因是磁力线并非完全均匀。沿磁力线考察粒子所处的大尺度磁场时，其方向随沿该磁力线的距离而变化。在某些条件下，可以证明这种运动是扩散性的，见下文。如果在计算均方位移时（或等价地通过 Taylor-Green-Kubo 方法）纳入这一效应造成的粒子运动，便得到对垂直输运的所谓_磁力线随机游走（FLRW）_贡献。不包含这一效应的贡献通常称为_微观贡献_。
+
+对于板状湍流，微观扩散系数为零（输运实际上是亚扩散的），因此唯一的贡献来自 FLRW。对于其他湍流几何形态，FLRW 也可能有贡献，但不一定占主导。
+
+再次假设规则背景场 $\langle \mathbf{B} \rangle = B_{z} \hat{z}$ 相对于扰动 $\delta\mathbf{B}$ 占主导。确定磁力线 $\{ x(z), y(z) \}$ 的方程为
+$$
+\frac{\mathrm{d}x}{\mathrm{d}z} = \frac{\delta B_{x}}{B_{z}} \, ,\frac{\mathrm{d}y}{\mathrm{d}z} = \frac{\delta B_{y}}{B_{z}}
+$$
+形式上可以对其积分，得到垂直方向的均方位移，例如
+$$
+\langle (\Delta x)^{2} \rangle \! = \! \frac{1}{B_{z}^{2}} \int _{0}^{z} \!\! \! \mathrm {d} z' \!\! \int _{0}^{z} \!\!\! \mathrm {d} z'' \langle \delta B_{x}(\mathbf{r}(z')) \delta B_{x}(\mathbf{r}(z'')) \rangle
+$$ {#eq-mean-sqr-displacement-perp}
+
+在板状湍流中，被积函数只依赖于 z，容易证明垂直均方位移 $\langle (\Delta r_{\perp})^{2} \rangle$ 在小 z 时是弹道性的，在大 z 时是扩散性的，例如
+$$
+\langle (\Delta x)^{2} \rangle = \left \{ \textstyle\begin{array}{l@{\quad } l} z^{2} \left ( \delta B_{x} / B_{z} \right )^{2} & \text{当 } z \to 0 \, , \\ 2 \kappa _{\text{FLRW}} |z| & \text{当 } z \to \infty \, , \end{array}\displaystyle \right .
+$$
+其中 FLRW 扩散系数为
+$$
+\kappa _{\text{FLRW}} = \frac{2 \pi ^{2}}{B_{z}^{2}} g^{\text{slab}}(0)
+$$
+
+在其他湍流几何形态中，@eq-mean-sqr-displacement-perp 的被积函数还依赖于 x 和 y，因此没有进一步假设就无法得到显式解。
+
+如果假设粒子沿磁力线扩散，$\langle (\Delta z)^{2} \rangle \propto \Delta t$，FLRW 会导致亚扩散的垂直输运，$\langle (\Delta r_{\perp})^{2} \rangle \propto \sqrt{\Delta t}$；这一现象称为_复合（亚）扩散_（Jokipii 1966）。复合亚扩散已应用于实验室等离子体、日球层、近源输运以及激波加速等多种环境。
+
+### QLT 的不足
+
+尽管 QLT 广泛使用，它仍存在若干问题。磁静态 QLT 最著名的缺陷是无法使粒子散射穿过 $90^\circ$。虽然这一问题存在于多种湍流几何形态中，但在板状湍流中最容易说明，因为此时俯仰角扩散系数 $D_{\mu\mu}$ 对频谱 $g^{\text{slab}}(k)$ 的依赖变得非常简单。事实上，考察 @eq-diffusion-coef-slab-turbulence 可见，当 $\mu\to 0$ 时 $D_{\mu\mu}\to 0$。
+
+$90^\circ$ 问题的根源是磁静态 QLT 中狭窄的共振条件 $k_{\parallel } \mu \, r_{\text{L}} = \pm 1$（@eq-slab-turbulence-resonance）。具有有限 $\mu$ 的粒子与平行波数有限的波共振，$k_{\parallel} = \pm 1 / (\mu r_{\text{L}})$。然而，当 $\mu\to 0$ 时，共振平行波数无限增大。由于湍流频谱是递减幂律，小尺度上的能量很少，俯仰角散射率趋于零。实际上，在低于耗散尺度的尺度上当然完全没有能量。
+
+
+## 测试粒子模拟 {#sec-test-particle}
+
+由于尚无广泛接受的准线性理论扩展，还必须通过数值模拟研究波粒相互作用，即在湍流磁场的一个实现中直接求解运动方程。这类宇宙射线测试粒子模拟有多种应用：检验输运理论、计算扩散系数等参数，或预测标准扩散理论之外的现象，例如宇宙射线的小尺度各向异性。
+
+理想情况下，应通过将预测与观测数据比较，检验这些超越 QLT 的非线性理论。虽然日球层研究界正在采用这种方法，但仍有一个困难：实际湍流（如果已知）远比解析输运理论中通常假设的复杂。另一种方法是通过将输运理论的预测与数值实验结果比较来检验理论。
+
+测试粒子模拟计算高能带电粒子在给定电磁场中的输运，而不考虑高能粒子对电磁场的影响。为此，生成湍流磁场的一个实现，并求解测试粒子的运动方程，也就是说忽略宇宙射线粒子对电磁场的贡献。给定足够多测试粒子的轨迹，就可以数值计算 Fokker-Planck 系数。
+
+除了通过比较解析计算和模拟得到的扩散系数来检验输运理论，测试粒子模拟至少还有另外两种应用：
+
+1. 对于距离近于或接近散射平均自由程的源，扩散输运理论不一定适用。求解扩散方程时一个经常被提及的缺陷是出现超光速传播。近年来，人们对输运的弹道阶段与扩散阶段之间的过渡越来越感兴趣，测试粒子模拟使我们能够在给定湍流电磁场的情况下探索这一过渡。
+
+2. 解析输运理论通常只预测系综平均相空间密度，并通常假设观测到的相空间密度接近系综平均值。如今这一假设受到质疑，特别是考虑到在 TeV-PeV 宇宙射线到达方向上观测到了小尺度各向异性。测试粒子模拟自然地模拟湍流场各个实现对应的宇宙射线分布，因此能够直接研究这类随机性效应。
+
+需要指出，如果相对论粒子的密度足够高，粒子可以自行产生波并改变湍流。在这种情况下，测试粒子模型不再能够有效描述相关物理。
+
+
+
+
+
+
+
+

@@ -1,0 +1,57 @@
+# 射线追踪 {#sec-ray-tracing}
+
+波加热是将等离子体加热至高温的最重要方法之一。在磁约束等离子体中，常用的波从高频（∼100 GHz）到低频（<1 MHz）包括电子回旋波（ECW，或哨声波）、低杂波（LHW）、离子回旋波（ICW）和阿尔芬波（AW）。还有快波（FW）、慢波（SW）、螺旋波等术语。研究波传播和加热的一种简单而又准确的方法是使用_几何光学近似_，由此得到_射线追踪方程_。
+
+## 背景
+
+在光学中，折射率衡量光穿过材料时发生弯曲或折射的程度。它定义为真空中的光速与材料中的光速之比：
+$$
+n = \frac{c}{v}
+$$
+其中 $c$ 是真空中的光速，$v$ 是材料中的光速。
+
+在等离子体中，折射率取决于密度、温度和磁场等等离子体参数。等离子体折射率为：
+$$
+n = 1 - \frac{\omega_p^2}{\omega^2 - \omega_{ce}^2 - i\omega_{en} \omega}
+$$ {#eq-plasma-refractive-index}
+其中 $\omega_p$ 是等离子体频率（@eq-plasma_frequency），$\omega_{ce}=eB/m_e$ 是电子回旋频率，$\omega_{en}$ 是电子与中性粒子的碰撞频率，$\omega$ 是入射波频率，$i$ 是虚数单位。等离子体折射率可以是复数，也就是说它既有实部又有虚部：
+
+* 折射率的实部决定光在等离子体中的速度；
+* 虚部决定波穿过等离子体时的衰减或吸收。
+
+折射率在决定电磁波在等离子体中的行为方面发挥重要作用，因此是等离子体射线追踪模拟中的关键参数。
+
+## 工作原理
+
+在等离子体射线追踪中，先根据密度、温度和磁场等参数计算等离子体的折射率，然后在斯涅尔定律中使用计算出的折射率，追踪射线穿过等离子体的路径：
+$$
+n_1 \sin(\theta_1) = n_2 \sin(\theta_2)
+$$ {#eq-snell-law}
+其中 $n_1$ 和 $n_2$ 分别是界面两侧介质的折射率，$'theta_1$ 是入射角，$'theta_2$ 是折射角。这样我们就可以研究波如何与等离子体相互作用，以及如何利用波探测和操控等离子体的性质。
+
+直角坐标系中的射线追踪方程为
+$$
+\begin{aligned}
+\frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} = \frac{\partial \omega}{\partial \mathbf{k}} = -\frac{\partial D/\partial \mathbf{k}}{\partial D/\partial \omega} = \mathbf{v}_g \\
+\frac{\mathrm{d}\mathbf{k}}{\mathrm{d}t} = -\frac{\partial \omega}{\partial \mathbf{r}} = \frac{\partial D/\partial \mathbf{r}}{\partial D/\partial \omega}
+\end{aligned}
+$$
+其中色散关系为
+$$
+D(\omega,\mathbf{k},\mathbf{r}) = 0
+$$
+这里 $\mathbf{r}=(x,y,z)$ 是空间位置，$\mathbf{k}=(k_x, k_y, k_z)$ 是波矢，$\omega$ 是波频率，$\mathbf{v}_g$ 是群速度。几何光学近似适用于_波长远小于系统非均匀性尺度_的情况。ECW 和 LHW 等高频波通常很好地满足这一条件，但对于 ICW 和 AW 等低频波，应谨慎使用该近似。
+
+更明确地写出，将射线位置与其方向及介质性质联系起来的三个一阶微分方程为：
+$$
+\begin{aligned}
+\frac{\mathrm{d}x}{\mathrm{d}t} &= v_g \cos(\theta) \\
+\frac{\mathrm{d}y}{\mathrm{d}t} &= v_g \sin(\theta) \\
+\frac{\mathrm{d}z}{\mathrm{d}t} &= \frac{v_g}{k} \frac{\mathrm{d}k}{\mathrm{d}z}
+\end{aligned}
+$$
+其中 $\theta$ 是射线与 z 轴之间的夹角。[^1]
+
+[^1]: 这些方程由 Chat-GPT 3.5 给出，我并不理解。选择这个坐标系一定有某种假设！
+
+更详尽的介绍请参见 [@tracy2014ray]。

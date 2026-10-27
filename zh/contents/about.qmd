@@ -1,0 +1,11 @@
+# 关于 {#sec-about}
+
+这些笔记汇集了我在多门课程和多本教科书中学习电磁学与等离子体物理的内容，通过 [Quarto](https://quarto.org/) 构建，并得益于 Julia 编程语言 [@bezanson2017julia] 和 [pandoc](https://github.com/jgm/pandoc)。
+
+感谢 F. F. Chen、Y. Y. Lau、Yi Li、Yuming Wang、Richard Fitzpatrick、Paul Bellan 和 Gábor Tóth 教授在我学习等离子体的过程中给予的帮助。这些笔记的主干是 [@chen2016introduction]。我也从 Richard Fitzpatrick 的在线[等离子体物理课程笔记](https://farside.ph.utexas.edu/teaching/plasma/Plasmahtml)中学到了很多。Y. Y. Lau 的研究生课程笔记也多次引用了 [@bellan2008fundamentals]。[@kilpua2017intro] 是一篇相当简短精炼的入门文章，其中包含许多有趣的实用笔记。
+
+我希望能另写一份关于数值模拟的笔记，但目前这部分内容还与这里的物理内容交织在一起。必须认识到，数值模拟本身并不能带来超出我们准备在计算机上求解的方程所包含信息的基础性发现。因此，在第一阶段，应当更加重视控制方程，因为它们是理解等离子体行为的关键。
+
+赵凯华老师近些年写了本《电浆物理学》，里面的推导非常详细，值得参考。
+
+未来属于核聚变：你怎么看？

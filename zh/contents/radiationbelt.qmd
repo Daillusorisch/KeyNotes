@@ -1,0 +1,201 @@
+# 辐射带 {#sec-radiation_belt}
+
+[范艾伦辐射带](https://en.wikipedia.org/wiki/Van_Allen_radiation_belt)是由行星磁层俘获并束缚在行星周围的高能带电粒子区域，其中大多数粒子来自太阳风。地球具有内辐射带和外辐射带。
+
+1. 内辐射带
+  * MeV 质子、100 keV 电子
+  * 0.2 - 2 $R_\text{E}$（L 1 - 3）
+
+2. 外辐射带
+  * 0.1 - 10 MeV 电子
+  * 3 - 10 $R_\text{E}$（外边界为磁层顶）
+
+截至 20 世纪 90 年代，我们对其物理机制的认识如下：
+
+1. 低能电子从太阳风注入磁层。
+2. 电子通过磁重联、亚暴及其伴随的电场向行星输运。
+3. 电子绕行星漂移。
+4. 磁场涨落引起向内或向外的扩散。
+5. 电子因第一绝热不变量守恒而获得能量。
+6. 电子因与大气碰撞、到达磁层顶以及向外径向扩散而损失。
+
+磁暴期间，磁层顶受到压缩，因此更多电子在磁层顶损失。如果镜点深入大气内部，带电粒子将沉降到大气中，并因碰撞而损失。
+由于观测和理论都存在不足，仍有许多未解之谜。例如，经典理论无法解释电子变化（间歇性注入、快速损失）的时间尺度！
+
+1998 年，出现了两种新理论：
+
+1. 增强的径向扩散
+  * 太阳风流经磁层，驱动 K-H 不稳定性，进而激发 ULF 波。
+  * ULF 波激发 FLR（@sec-flr）。
+  * 结果是否是更快的径向扩散过程？
+
+2. 波动加速
+  * 亚暴、对流、等离子体不稳定性。
+  * 波将电子加速至 MeV 能量。
+
+波动加速，更确切地说是波粒相互作用，已得到广泛的理论研究，并与地球、木星和土星的观测数据进行比较。
+
+## 辐射带中的波
+
+::: {.content-visible unless-format="pdf"}
+
+![影响地球辐射带中高能电子的多种波模示意图，从北极上空观察。](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs40623-021-01508-y/MediaObjects/40623_2021_1508_Figa_HTML.png){#fig-radiation-belt-waves}
+
+:::
+
+* 低混杂波：???
+
+* 哨声波（@sec-CPDR）
+
+* 合唱波
+  * 1-5 kHz（$0.1-1.0\,f_{ce}$），清晰的窄带
+  * 高度非线性
+  * 不是由闪电产生，而是由自然等离子体不稳定性产生（嘶声波也是如此）。
+  * 电子各向异性
+  * 损失锥散射
+
+* 嘶声波
+  * 等离子体层中无明显结构的宽带信号，类似于可听见的嘶嘶声
+
+::: {.content-visible unless-format="pdf"}
+
+![ERG（Arase）航天器的原位观测。ERG 航天器在磁层中观测到合唱波和被散射的电子，它们是脉动极光的起源。被散射的电子沉降到大气中，导致极光发光。合唱波及相关电子散射的间歇性出现导致极光脉动。](https://www.eoportal.org/api/cms/documents/163813/3290385/ERG_Auto6.jpeg){#fig-arase-waves}
+
+:::
+
+在 20 世纪 90 年代之前，人们知道辐射带中的波会从带电粒子获取能量，对粒子而言这是一种损失过程。Richard Thorne 及其同事提出，波也可能是高能粒子的来源（[Horne & Thorne], 1998, 2003, 2005a,b）。如果是这样，_波粒相互作用必然破坏绝热不变量_。
+
+波粒相互作用理论从热等离子体动理学理论出发（@sec-HPDR）。当分母趋于 0 时，共振条件得到满足。观测表明波频率低于回旋频率。那么怎么会发生共振呢？答案是需要考虑多普勒频移。
+
+### 波的来源
+
+共振可以产生电流 => 这一电流能产生更高频率的辐射吗？
+
+哨声波可以用线性理论解释。然而，合唱波和嘶声波高度非线性，因此无法用线性理论解释。我们推测它们由自然等离子体不稳定性引起，但对这些不稳定性究竟是什么仍知之甚少。
+
+粗略地说，回旋共振期间的物理图景如下：
+
+1. 波将源电子扩散进入损失锥 => 电子损失和波增长。
+2. 波使俘获电子扩散 => 能量扩散导致电子加速。
+
+## 建模
+
+人们已经建立了三维 Fokker-Planck 扩散模型[^FP_advection]（例如 [@glauert2014three]）来模拟辐射带电子。在地球辐射带中，经过相位平均的相空间密度 $f(p,r,t)$ 的演化可由扩散方程描述（另见 @eq-fokker_planck）：
+$$
+\frac{\partial f}{\partial t} = \sum_{i,j}\frac{\partial}{\partial J_i}\left[ D_{ij}\frac{\partial f}{\partial J_j} \right]
+$$ {#eq-fokker_planck_general}
+
+[^FP_advection]: Fokker-Planck 方程的一般形式还包括平流项；由于漂移与扩散相比可以忽略，这里忽略该项。
+
+这里 $D_{ij}$ 是扩散系数，$J_i$ 是作用积分，$J_1 = 2\pi m_e \mu/|q|$、$J_2 = J$ 和 $J_3 = q|\phi|$，其中 $\mu,J$ 和 $\phi$ 是带电粒子运动的绝热不变量，$m_e$ 是电子质量，$q$ 是电荷。绝热不变量不便于可视化，也不易与数据联系起来，因此许多作者将其变换到其他坐标。一种选择是使用俯仰角、能量和 $L^\ast=2\pi M/(|\phi| R_\text{E})$（@eq-Lstar）作为三个独立变量，其中 $M=8.22\times 10^{22}\, \text{A}\,\text{m}^2$ 是地球偶极场的磁矩，$R_\text{E}$ 是地球半径。
+
+假设磁场为偶极场，将坐标变换为赤道俯仰角 $\alpha$、动能 $E$ 和 $L^\ast$，并忽略某些交叉导数，@eq-fokker_planck 可写为
+$$
+\begin{aligned}
+\frac{\partial f}{\partial t} =& \frac{1}{g(\alpha)}\frac{\partial}{\partial \alpha}\bigg\rvert_{E,L} g(\alpha)\left( D_{\alpha\alpha}\frac{\partial f}{\partial\alpha}\bigg\rvert_{E,L} + D_{\alpha E}\frac{\partial f}{\partial E}\bigg\rvert_{\alpha,L} \right) \\
+&+ \frac{1}{A(E)}\frac{\partial}{\partial E}\bigg\rvert_{\alpha,L} A(E) \left( D_{EE}\frac{\partial f}{\partial E}\bigg\rvert_{\alpha,L} + D_{E\alpha}\frac{\partial f}{\partial \alpha}\bigg\rvert_{E,L} \right) \\
+&+ L^2 \frac{\partial}{\partial L}\bigg\rvert_{\mu,J}\left( \frac{D_{LL}}{L^2}\frac{\partial f}{\partial L}\bigg\rvert_{\mu,J} \right)
+\end{aligned}
+$$ {#eq-fokker_planck_convenient}
+其中
+$$
+\begin{aligned}
+g(\alpha) = T(\alpha)\sin 2\alpha \\
+A(E) = (E+E_0)(E(E+2E_0))^{1/2}
+\end{aligned}
+$$
+而 $E_0$ 是电子静止质量能。$T(\alpha)$ 与弹跳周期有关，在偶极场中可近似为
+$$
+T(\alpha) = \big(1.3802 - 0.3198(\sin\alpha + \sin^{1/2} \alpha) \big)
+$$
+
+$D_{\alpha\alpha},\, D_{\alpha E}=D_{E\alpha},\, D_{EE}$ 和 $D_{LL}$ 分别是经过_漂移平均_和_弹跳平均_的俯仰角扩散系数、俯仰角与能量混合扩散系数、能量扩散系数和径向扩散系数。当需要明确说明它们经过漂移和弹跳平均时，分别写作 $\left< D_{\alpha\alpha} \right>^d, \left< D_{\alpha E} \right>^d, \left< D_{EE} \right>^d$ 和 $\left< D_{LL} \right>^d$。
+
+弹跳平均的俯仰角和能量扩散率定义为
+$$
+\begin{aligned}
+\left< D_{\alpha\alpha} \right> &\equiv \left< \frac{(\Delta\alpha)^2}{2\Delta t} \right> \\
+\left< D_{\alpha E} \right> &\equiv \left< \frac{(\Delta\alpha \Delta E)^2}{2\Delta t} \right> \\
+\left< D_{EE} \right> &\equiv \left< \frac{(\Delta E)^2}{2\Delta t} \right>
+\end{aligned}
+$$
+其单位分别为 $\text{s}^{-1}, \text{J}\text{s}^{-1}$ 和 $\text{J}^2\text{s}^{-1}$。
+
+可以加入形式为 $f/\tau_L$ 的损失项，以表示因碰撞而向大气的损失。这里，损失时间尺度 $\tau_L$ 在损失锥内等于弹跳时间的 1/4，在其他位置为无穷大。作为一级近似，可以忽略交叉项，将 @eq-fokker_planck_convenient 简化为
+$$
+\begin{aligned}
+\frac{\partial f}{\partial t} =& \frac{1}{g(\alpha)}\frac{\partial}{\partial \alpha}\bigg\rvert_{E,L} g(\alpha)\left( D_{\alpha\alpha}\frac{\partial f}{\partial\alpha}\bigg\rvert_{E,L}\right) \\
+&+ \frac{1}{A(E)}\frac{\partial}{\partial E}\bigg\rvert_{\alpha,L} A(E) \left( D_{EE}\frac{\partial f}{\partial E}\bigg\rvert_{\alpha,L}\right) \\
+&+ L^2 \frac{\partial}{\partial L}\bigg\rvert_{\mu,J}\left( \frac{D_{LL}}{L^2}\frac{\partial f}{\partial L}\bigg\rvert_{\mu,J} \right) \\
+&- \frac{f}{\tau_L}
+\end{aligned}
+$$ {#eq-fokker_planck_nocrossterm}
+
+右侧前三项分别表示俯仰角扩散、能量扩散和径向扩散。最后一项描述向大气的损失。俯仰角扩散来自波粒相互作用及与大气的库仑碰撞，后者仅在损失锥内显著。能量扩散由波粒相互作用引起，径向扩散则由与地球磁场和电场大尺度涨落的相互作用引起。扩散系数基于从数据中得到的统计波模型。根据扩散系数的选取，Fokker-Planck 方程可以是线性、准线性或非线性的。
+
+为了进一步简化，我们只考虑径向扩散和损失项。
+准线性假设如下：
+
+* 宽带波谱（相位随机），通常假设为以单个主导模式为中心的高斯分布
+* 低振幅涨落（没有非线性相互作用）
+* “共振极限”（不稳定性的线性增长率趋于 0）
+* ULF 波粒相互作用被合并到扩散系数中
+
+即使准线性理论适用，径向扩散系数仍有多种不确定性的来源：
+
+* 背景磁场模型
+* 弹跳和漂移平均消除了对磁地方时（MLT）的依赖
+* 波的方位向结构（即功率在不同模数上的分布）
+
+鉴于观测数据有限，我们希望估计未知参数 $D_{LL}, \tau_L$。这称为_反问题_。2000 年，Brautigam 和 Albert 提出了径向扩散系数对 $K_p$ 和 L 的依赖关系：
+$$
+D_{LL} \approx 10^{-0.506 K_p(t) - 9.325}L^10
+$$
+
+标准的统计方法是应用贝叶斯参数估计，即寻找参数分布，并根据新的观测修正结果。然而，这种方法在高维情况下难以应用，通常需要采用马尔可夫链蒙特卡洛（MCMC）方法。例如，假设参数可以写成以下形式：
+$$
+\begin{aligned}
+D_{LL}(L, t) &= 10^(a K_p(t) + b)L^c \\
+\tau_L(L, t) &= \left\{
+\begin{array}{lr}
+(a_0 + a_1 L + a_2 L^2) / K_p(t) & \text{当 } L\le L_{pp} \\ a_3 / K_p(t) & \text{当 } L > L_{pp}
+\end{array}
+\right.
+\end{aligned}
+$$
+其中 $L_{pp}$ 是等离子体层顶的位置，可以通过某些近似进行估计。我们引入一组随机变量，这些变量经 MCMC 得到的后验分布给出最佳拟合。
+
+一个新趋势是[利用物理信息机器学习来学习系数](https://youtu.be/5C913ApaxUY)。首先，可能需要约束系数的形式，以避免反问题不适定。假设物理损失项由漂移系数 $C$ 描述：
+$$
+\frac{\partial f}{\partial t} = L^2 \frac{\partial}{\partial L}\bigg\rvert_{\mu,J}\left( \frac{D_{LL}}{L^2}\frac{\partial f}{\partial L}\bigg\rvert_{\mu,J} \right) - \frac{\partial Cf}{\partial L}
+$$
+
+_物理信息神经网络_（PINN）的任务是将方程的预期形式嵌入神经网络的损失项，基于统计推断出最优的 $D_{LL}$ 和 $C$。由于这是统计方法，我们可以构建和检验变量之间任何没有物理解释的关系，这一点受到很多批评。例如，有人可能会问，怎么能让相空间分布 $f$ 只依赖于 $t$ 和 $L$？从物理角度看，信息并不完整；但从数据角度看，它可能确实“有效”，因为神经网络本质上是一种_通用高维函数逼近器_。
+
+### 耦合不同时间尺度的物理过程
+
+如果只考察低频范围，高频波粒相互作用对等离子体表现为扩散过程。因此，耦合的思路是在宏观尺度上用扩散系数模拟辐射带效应，而不是在相同时间尺度上模拟所有过程。
+
+## 损失
+
+对电子加速机制的定量理解仍然不足，主要是由于缺乏对损失机制的理解。
+
+* 弹跳损失锥
+* 漂移损失锥
+
+## 等离子体层
+
+等离子体层是地球磁层内一个包含_高密度、低温_等离子体的区域。它位于磁层最内侧，从地表上方约 1,000 千米延伸到 60,000 千米。等离子体层由地球磁场形成，磁场将带电粒子俘获在该区域，在地球周围形成一个环面状结构。
+
+::: {.content-visible unless-format="pdf"}
+
+![等离子体层和辐射带构成内磁层。](https://www.nasa.gov/sites/default/files/images/470173main_magnetosphere2_full.jpg){#fig-plasmasphere}
+
+:::
+
+等离子体层中的等离子体主要由离子和电子组成，其温度远低于、密度远高于磁层其他区域的等离子体。
+
+* $T \in [10^3, 10^4]\,\mathrm{K}$
+* $N \in [10^1, 10^2]\,\mathrm{cm}^{-3}$
+
+等离子体层在地球磁层的动力学及其与太阳风的相互作用中发挥重要作用。它能够影响无线电波的传播，特别是用于通信和导航的无线电波，也可能有助于北极光和南极光的形成。

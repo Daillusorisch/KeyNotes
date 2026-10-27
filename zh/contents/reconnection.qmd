@@ -1,0 +1,226 @@
+# 磁重联 {#sec-reconnection}
+
+## 二维磁通绳弛豫与合并中的能量释放
+
+磁化等离子体中的磁重联和弛豫常常涉及磁通绳的几何重构。在没有导引场的二维情况下，这些过程由储存在非圆形或多磁通绳拓扑构型中的自由磁能的释放所支配。
+
+我们系统地分析两个相互关联的问题：
+- 孤立磁通绳的几何弛豫：长轴为 $l$、短轴为 $w$ 的拉伸椭圆磁通绳收缩为半径为 $r$ 的轴对称圆环。
+- 磁通绳的层级合并：$N_{\text{ropes}} = 2^N$ 条相同的圆形磁通绳两两合并，最终形成一条圆形磁通绳。
+
+### 基本假设
+
+- 二维几何（$2\text{D}$）：所有磁力线均位于 $(x, y)$ 平面内（$\mathbf{B} = \nabla A_z \times \hat{\mathbf{z}}$），沿 $\hat{\mathbf{z}}$ 方向具有平移对称性，且导引场为零（$B_z = 0$）。
+- 不可压缩性：等离子体整体流动满足 $\nabla \cdot \mathbf{v} = 0$，意味着磁结构所围成的横截面积严格守恒。
+- 磁通守恒：在局域的磁重联耗散区之外，理想磁流体力学（MHD）成立，总磁通 $\Phi$ 得以保持。
+- 细磁通管标度：磁通束的闭合周长为 $P$，横截面积为 $\delta S$，体积为 $V = P \delta S$。
+- 对称合并：参与合并的磁通绳具有相同的初始尺寸、磁通和等离子体质量密度。
+
+#### 假设的检验
+
+- 不可压缩性（$\nabla \cdot \mathbf{v} \approx 0$）：当等离子体整体运动速度和阿尔芬速度均远低于快磁声速度，或者在等离子体表现为不可压缩流体的高 $\beta$ 区域，该假设成立。
+
+- 磁通守恒（$\partial_t \Phi = 0$）：根据阿尔芬定理，在高 Lundquist 数（$S \gg 1$）等离子体中，穿过随流轮廓的磁通守恒。非理想扩散区（$\mathbf{E} + \mathbf{v} \times \mathbf{B} = \eta \mathbf{J}$）在空间上局限于 $X$ 点（$L_{\text{diff}} \ll P$），因此循环环主体中的全局磁通仍是绝热不变量。
+
+- 等周极值：根据欧氏二维空间中的等周不等式：$$P^2 \ge 4\pi A$$等号仅对圆成立。由于在不可压缩和磁通守恒条件下 $W_B \propto P^2$，圆形几何构型代表绝对全局最小能量态。任何形变（例如拉伸成椭圆）都会引入自由磁能。
+
+### 系统推导
+
+#### 单条磁通绳弛豫：从椭圆到圆
+
+考虑一个半长轴为 $a = l/2$、半短轴为 $b = w/2$ 的椭圆磁通环。
+
+1. 几何不变量
+根据面积守恒：
+$$
+A = \pi a b = \frac{\pi l w}{4} = \pi r^2 \implies r = \frac{1}{2}\sqrt{l w}
+$$
+弛豫后的圆环周长为：
+$$
+P_c = 2\pi r = \pi \sqrt{l w}
+$$
+初始椭圆环的周长由第二类完全椭圆积分 $E(e)$ 给出：
+$$
+P_e = 4 a E(e) = 2 l E\left(\sqrt{1 - \frac{w^2}{l^2}}\right), \quad e = \sqrt{1 - \frac{w^2}{l^2}}
+$$
+
+2. 磁通与能量标度
+对于周长为 $P$、磁通管法向横截面积为 $\delta S$ 的闭合磁通绳：
+$$
+\Phi = B \delta S = \text{const}
+$$
+$$
+V = P \delta S = \text{const} \implies \delta S = \frac{V}{P}
+$$
+将 $\delta S$ 代入磁通表达式：
+$$
+B = \frac{\Phi}{\delta S} = \frac{\Phi P}{V} \propto P
+$$
+体积为 $V$ 的磁通管中储存的总磁能为：
+$$
+W_B = \int \frac{B^2}{2\mu_0} dV = \frac{B^2}{2\mu_0} V = \frac{\Phi^2}{2\mu_0 V} P^2
+$$
+
+3. 能量释放与阿尔芬外流
+弛豫过程中释放的磁能为：
+$$
+\Delta W_B = W_{B, e} - W_{B, c} = \frac{\Phi^2}{2\mu_0 V} \left( P_e^2 - P_c^2 \right) = W_{B, e} \left[ 1 - \left( \frac{P_c}{P_e} \right)^2 \right]
+$$
+令释放的磁能等于环内等离子体的整体动能（$E_k = \frac{1}{2} M v^2 = \frac{1}{2} \rho V v^2$）：
+$$
+\frac{1}{2} \rho V v^2 = \frac{B_e^2}{2\mu_0} V \left[ 1 - \left( \frac{P_c}{P_e} \right)^2 \right]
+$$
+求得收缩速度 $v$：
+$$
+v = \frac{B_e}{\sqrt{\mu_0 \rho}} \sqrt{1 - \left( \frac{P_c}{P_e} \right)^2} = v_{A, e} \sqrt{1 - \left( \frac{P_c}{P_e} \right)^2}
+$$
+在强烈拉伸的极限下（$l \gg w$），$P_c / P_e \sim \pi \sqrt{w/l} \to 0$，得到：
+$$
+v \to v_{A, e}
+$$
+收缩速度渐近趋于初始上游阿尔芬速度。
+
+#### $N_{\text{ropes}} = 2^N$ 条磁通绳的合并
+
+考虑 $N_{\text{ropes}} = 2^N$ 条相同的圆形磁通绳通过层级磁重联合并为一条圆形磁通绳。
+
+1. 周长和磁场的标度
+每条初始圆形磁通绳的半径为 $r_0$，周长为 $P_0 = 2\pi r_0$，面积为 $A_0 = \pi r_0^2$，并携带磁通 $\Phi_0$。
+
+- 初始总面积：
+$$
+A_{\text{total}} = 2^N A_0
+$$
+
+- 合并后圆形磁通绳的最终半径：
+$$
+A_f = \pi r_f^2 = 2^N \pi r_0^2 \implies r_f = 2^{N/2} r_0
+$$
+
+- 最终周长：
+$$
+P_f = 2\pi r_f = 2^{N/2} P_0
+$$
+
+磁重联之前，各条磁通绳的总有效周长为：
+$$
+P_i = 2^N P_0
+$$
+
+2. 能量转换率
+在整个合并级联过程中，总重联磁通和体积守恒，因而：
+$$
+W_B \propto P^2
+$$
+
+最终磁能与初始磁能之比为：
+$$
+\frac{W_{B, f}}{W_{B, i}} = \frac{P_f^2}{P_i^2} = \frac{\left(2^{N/2} P_0\right)^2}{\left(2^N P_0\right)^2} = \frac{2^N}{2^{2N}} = 2^{-N}
+$$
+
+能量转换率 $\eta$ 定义为转化为等离子体动能和热能的磁能比例：
+$$
+\eta = \frac{\Delta W_B}{W_{B, i}} = \frac{W_{B, i} - W_{B, f}}{W_{B, i}} = 1 - 2^{-N}
+$$
+
+- 对于一次二元合并（$N = 1$）：$\eta = 1 - 2^{-1} = 50\%$
+- 在无限延伸的合并级联的渐近极限下（$N \to \infty$）：$\eta \to 100\%$
+
+### 重要结论
+
+- 阿尔芬速度的几何起源：磁通管收缩以达到等周最小值时，阿尔芬速度是自由磁能释放过程的特征动力学速度。
+- 二元磁重联中的能量均分：两条磁通绳的一次对称二维合并（$N = 1$）恰好将初始磁能的 $50\%$ 转化为粒子动能和热，与标准 Sweet-Parker 和 Petschek 磁重联不变量一致。
+- 级联中的指数式能量耗减：对于 $2^N$ 条磁通绳的层级合并，剩余磁能按 $2^{-N}$ 标度变化，随着 $N$ 增大，能量转换效率趋近于 1。
+
+注意，这些结论在没有导引场时成立。存在强导引场时，能量转换效率会降低，最终状态也可能不是圆形磁通绳。
+
+## 磁重联期间的粒子加速
+
+在导引中心理论中，动能变化率 $\dot{\mathcal{E}} = q \mathbf{E} \cdot \mathbf{v}_{\text{gc}}$ 可直接分为平行电场（$E_\parallel$）沿磁场方向做功和垂直漂移做功。垂直漂移包括 $\mathbf{E} \times \mathbf{B}$ 漂移（因 $\mathbf{v}_E \perp \mathbf{E}$ 而不直接做功）、曲率漂移（对应磁力线收缩和弯曲导致的 Fermi 型加速）以及 $B$ 梯度漂移（对应局域磁场压缩导致的 Betatron 加速，与第一绝热不变量 $\mu$ 的守恒有关）。
+
+根据近几十年的研究，Fermi 加速被认为是主导机制。在二维和三维多磁岛／磁通绳磁重联中：
+1. 直接的平行电场 $E_\parallel$ 严格局限于 $X$ 线周围微小的电子尺度扩散区，只占全局磁重联体积中可忽略的一部分。
+2. 相比之下，磁岛和收缩的重联磁环占据了绝大部分体积。随着这些磁通绳收缩和合并，被困在其中的粒子在收缩的两端之间反射（曲率漂移与磁重联电场同向），通过 I 型／II 型 Fermi 加速获得平行能量。
+3. Betatron 加速在磁岛内的贡献很小，甚至可能为负（减速），因为核心磁场常常减弱或保持平坦；而曲率漂移在收缩磁环区域内持续产生净能量增益。
+
+### 导引中心能量方程的推导
+
+设粒子的质量为 $m$、电荷为 $q$、位置为 $\mathbf{R}$、磁矩为 $\mu = m v_\perp^2 / (2 B)$、平行速度为 $v_\parallel$。沿磁场方向的单位矢量为 $\mathbf{b} = \mathbf{B}/B$。
+非相对论导引中心速度为：
+$$
+\mathbf{v}_{\text{gc}} = v_\parallel \mathbf{b} + \mathbf{v}_E + \mathbf{v}_c + \mathbf{v}_{\nabla B}
+$$
+其中：
+- $\mathbf{v}_E = \frac{\mathbf{E} \times \mathbf{B}}{B^2}$（$\mathbf{E} \times \mathbf{B}$ 漂移）
+- $\mathbf{v}_c = \frac{m v_\parallel^2}{q B} (\mathbf{b} \times \boldsymbol{\kappa})$（曲率漂移，曲率矢量为 $\boldsymbol{\kappa} = (\mathbf{b} \cdot \nabla)\mathbf{b}$）
+- $\mathbf{v}_{\nabla B} = \frac{\mu}{q B} (\mathbf{b} \times \nabla B)$（$B$ 梯度漂移）
+
+粒子的总动能为：
+$$
+\mathcal{E} = \frac{1}{2} m v_\parallel^2 + \mu B
+$$
+
+沿导引中心轨迹求全时间导数：
+$$
+\frac{d\mathcal{E}}{dt} = m v_\parallel \frac{d v_\parallel}{dt} + \mu \frac{d B}{dt} + B \frac{d\mu}{dt}
+$$
+
+假设第一绝热不变量守恒（$d\mu/dt = 0$），动能变化率等于电场对导引中心所做的功：
+$$
+\frac{d\mathcal{E}}{dt} = q \mathbf{E} \cdot \mathbf{v}_{\text{gc}} = q \mathbf{E} \cdot \left( v_\parallel \mathbf{b} + \mathbf{v}_E + \mathbf{v}_c + \mathbf{v}_{\nabla B} \right)
+$$
+
+由于 $\mathbf{v}_E = (\mathbf{E} \times \mathbf{B})/B^2$，有 $\mathbf{E} \cdot \mathbf{v}_E = 0$。能量变化率分为三个部分：
+$$
+\frac{d\mathcal{E}}{dt} = \underbrace{q v_\parallel E_\parallel}_{\text{平行加速}} + \underbrace{q \mathbf{E} \cdot \mathbf{v}_c}_{\text{Fermi 加速}} + \underbrace{q \mathbf{E} \cdot \mathbf{v}_{\nabla B}}_{\text{Betatron 加速}}
+$$
+
+### 通过漂移运动重新表述
+
+为了将这些漂移项与磁场动力学联系起来，使用理想 MHD 电场 $\mathbf{E} + \mathbf{u}_E \times \mathbf{B} = 0$ 重新表达它们，其中 $\mathbf{u}_E = \mathbf{v}_E = \frac{\mathbf{E} \times \mathbf{B}}{B^2}$，因此 $\mathbf{E}_\perp = -\mathbf{u}_E \times \mathbf{B}$。
+
+#### Fermi 加速（曲率漂移项）
+
+将 $\mathbf{v}_c$ 代入电场做功：
+$$
+\left(\frac{d\mathcal{E}}{dt}\right)_{\text{Fermi}} = q \mathbf{E}_\perp \cdot \mathbf{v}_c = q \mathbf{E}_\perp \cdot \left[ \frac{m v_\parallel^2}{q B} (\mathbf{b} \times \boldsymbol{\kappa}) \right] = \frac{m v_\parallel^2}{B} (\mathbf{E}_\perp \times \mathbf{b}) \cdot \boldsymbol{\kappa}
+$$
+
+由于 $\mathbf{E}_\perp \times \mathbf{b} = (-\mathbf{u}_E \times \mathbf{B}) \times \mathbf{b} = -u_E B \mathbf{b} \times (\mathbf{b} \times \dots) = B \mathbf{u}_E$：
+$$
+\left(\frac{d\mathcal{E}}{dt}\right)_{\text{Fermi}} = m v_\parallel^2 \, (\mathbf{u}_E \cdot \boldsymbol{\kappa})
+$$
+
+- 物理解释：$\boldsymbol{\kappa} = (\mathbf{b} \cdot \nabla)\mathbf{b}$ 指向磁力线的曲率中心。当弯曲的磁通管收缩或伸直时（例如以阿尔芬速度运动的重联弹弓式喷流），对流速度 $\mathbf{u}_E$ 沿 $\boldsymbol{\kappa}$ 方向（$\mathbf{u}_E \cdot \boldsymbol{\kappa} > 0$）。
+- 当粒子在长度为 $L$ 的收缩环两端之间弹跳时，每次反射产生 $\Delta v_\parallel \approx 2 u_{\text{refl}}$。平行能量增益满足：
+$$
+\frac{1}{v_\parallel} \frac{d v_\parallel}{dt} \approx -\frac{1}{L}\frac{dL}{dt}
+$$
+这就是经典的一阶 Fermi 加速机制。
+
+#### Betatron 加速（$B$ 梯度漂移项）
+
+将 $\mathbf{v}_{\nabla B}$ 代入电场做功：
+$$
+\left(\frac{d\mathcal{E}}{dt}\right)_{\text{Beta}} = q \mathbf{E}_\perp \cdot \mathbf{v}_{\nabla B} = q \mathbf{E}_\perp \cdot \left[ \frac{\mu}{q B} (\mathbf{b} \times \nabla B) \right] = \frac{\mu}{B} (\mathbf{E}_\perp \times \mathbf{b}) \cdot \nabla B = \mu (\mathbf{u}_E \cdot \nabla B)
+$$
+
+在冻结条件下使用法拉第定律，上式等价于：
+$$
+\left(\frac{d\mathcal{E}}{dt}\right)_{\text{Beta}} = \mu \frac{\partial B}{\partial t} + \mu (\mathbf{u}_E \cdot \nabla B) = \mu \frac{d B}{dt}
+$$
+
+- 物理解释：Betatron 加速只作用于垂直能量（$\mathcal{E}_\perp = \mu B$）。当粒子漂移进入磁场被压缩的区域时（$\mathbf{u}_E \cdot \nabla B > 0$ 或 $\partial B / \partial t > 0$），粒子获得能量。
+
+#### 与 Drake 关于磁重联的研究结果的联系
+
+Dahlin、Drake 和 Swisdak（2014）在宏观 PIC 模拟体积上对这些导引中心分量积分，以计算净能量增益率：
+$$
+\int d^3x \int d^3v \, f(\mathbf{x}, \mathbf{v}, t) \, \frac{d\mathcal{E}}{dt} = \int d^3x \left[ J_\parallel E_\parallel + (p_\parallel - p_\perp) \mathbf{u}_E \cdot \boldsymbol{\kappa} - p_\perp (\nabla \cdot \mathbf{u}_E) \right]
+$$
+其中 $p_\parallel = \int m v_\parallel^2 f d^3v$，$p_\perp = \int \mu B f d^3v$。
+
+他们的主要结论证实了：
+- $J_\parallel E_\parallel$ 的体积抑制：尽管 $E_\parallel$ 在电子耗散尺度上很强，但相对于整个区域，其空间填充因子可以忽略。它主要作为低能粒子的注入机制，而非维持整体幂律加速。
+- 曲率漂移（Fermi）占主导：收缩的磁岛和合并的磁通绳提供了广阔的磁力线缩短区域（$\mathbf{u}_E \cdot \boldsymbol{\kappa} > 0$）。粒子经历多次 Fermi 反射，形成非热尾部。
+- Betatron 加速受到抑制：在收缩的磁岛内，磁场趋于弛豫而非持续压缩，因此在磁岛合并期间 Betatron 项很弱，甚至为负。

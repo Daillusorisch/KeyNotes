@@ -25,9 +25,13 @@ jobs:
       #    version: ${{ matrix.version }}
       #    arch: ${{ matrix.arch }}
 
-      - name: Render and Publish
+      - name: Build English and Chinese books
+        run: python scripts/build_bilingual.py
+
+      - name: Publish the combined site
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          render: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

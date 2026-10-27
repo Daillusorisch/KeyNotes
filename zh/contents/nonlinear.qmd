@@ -1,0 +1,580 @@
+# 非线性效应 {#sec-nonlinear}
+
+在许多实验中，波被观测到时已经无法用线性理论描述。例如，考虑漂移波。由于漂移波不稳定，按照线性理论，其振幅会指数增长。这个增长阶段通常无法观测到 --- 因为人们通常不知道何时开始观察 --- 实际上只能在波增长到较大且稳定的振幅后才观测到。波不再增长这一事实意味着线性理论已经失效，某种 _非线性_ 效应限制了振幅。对这一基本观测现象作出理论解释被证明是一个出人意料的难题，因为观测到的饱和振幅相当小。
+
+波的振幅变大时可能经历多种变化。它的形状可能改变 --- 例如从正弦波变成不对称三角波形。这等价于说产生了其他频率（或波数）的 Fourier 分量。最终，波可能像海浪在海滩上破碎一样发生“破波”，将波能转换为粒子热能。大振幅波可以在其势阱中俘获粒子，从而改变其传播介质的性质（例如非线性朗道阻尼）。如果等离子体受到强烈激发，以至于出现连续频谱，就处于 _湍流_ 状态。与流体动力学中的情况一样，这种状态必须用统计方法描述。等离子体湍流的一个重要后果是 _反常电阻率_，其中电子通过与随机电场涨落碰撞而非与离子碰撞而减速。这种效应用于将等离子体欧姆加热到普通电阻率不足以达到的高温。
+
+非线性现象可大致分为三类：
+
+1. _本质上不可线性化的问题_。
+  * 例如，完全电离气体中的扩散本质上是非线性问题，因为扩散系数随密度变化。
+  * 磁流体平衡问题是非线性的。
+  * 等离子体鞘层。
+
+2. _波粒相互作用_。
+  * 粒子俘获可以导致非线性阻尼（@sec-landau_damping）。
+  * 一个经典例子是准线性效应，即波改变等离子体的平衡。考虑带有电子束的等离子体（图 8-1）。由于分布函数存在 $df_0/dv$ 为正的区域，系统具有逆朗道阻尼，且 $v_\phi$ 位于正斜率区域的等离子体振荡是不稳定的（@eq-landau）。共振电子最先受到波粒相互作用的影响，其分布函数会被波电场改变。当波将 $f_e(v)$ 展平，如图 8-1 中 @fig-unstable-f 的虚线所示，使新的平衡分布不再有正斜率时，波便稳定下来。
+  * 等离子体波回波（@sec-echo）。
+
+::: {.content-visible unless-format="pdf"}
+
+  ![双峰不稳定电子分布。](../../images/unstable_f.png){#fig-unstable-f}
+
+:::
+
+3. _波波相互作用_。
+  * 即使在忽略单个粒子效应的流体描述中，波也可以相互作用。单个波可以先产生其基频的谐波，从而发生衰变。这些谐波随后可以相互作用，并与初始波相互作用，形成拍频处的其他波。拍频波又可以增长到足够大，以至于相互作用形成更多拍频，直到频谱变成连续谱。讨论湍流频谱中的能量流向很有意思。在流体动力学中，长波长模衰变为短波长模，因为大涡旋含有更多能量，只能通过分裂为能量较小的小涡旋而衰变。最小的涡旋随后通过黏性阻尼将其动能转化为热。在等离子体中通常相反：短波长模倾向于合并成长波长模，后者的能量更低。这是因为电场能量 $E^2/8\pi$ 的量级为 $k^2\phi^2/8\pi$，因此如果 $e\phi$ 固定（通常由 $k_B T_e$ 决定），小 $k$、长 $\lambda$ 模的能量较低。结果，大 $k$ 处的不稳定性会将能量转移到小 $k$，必须找到某种机制来耗散这些能量。大 $k$ 处没有这种问题，因为那里可以发生朗道阻尼。对于沿 $\mathbf{B}_0$ 的运动，非线性“调制”不稳定性可能使小 $k$ 处的能量耦合到离子并加热离子。对于垂直于 $\mathbf{B}_0$ 的运动，最大的涡旋的波长将与等离子体半径同量级，并可能通过对流导致等离子体向壁面损失。
+
+尽管波和不稳定性的线性理论中仍有问题有待解决，等离子体研究的主流已转向理解远不充分的非线性现象领域。以下各节的例子将介绍一些已在理论和实验中研究过的效应。
+
+## 鞘层的必要性 {#sec-sheath}
+
+在所有实际等离子体装置中，等离子体都被限制在有限大小的真空室中。壁面处的等离子体会发生什么？为简单起见，我们只考虑 @fig-sheath 所示的无磁场一维模型。假设等离子体内部没有显著电场，那么可以令那里的电势 $\phi$ 为零。离子和电子撞击壁面时复合并损失。由于电子的热速度远高于离子，电子损失得更快，使等离子体带有净正电荷。因此等离子体相对于壁面的电势必须为正，即壁面电势 $\phi_w$ 为负。这个电势不可能分布在整个等离子体中，因为 Debye 屏蔽会将电势变化限制在厚度约为几个 Debye 长度的一层内。这一层必须存在于所有与等离子体接触的冷壁面上，称为鞘层。鞘层的作用是形成电势屏障，从而通过静电作用约束迁移率较高的组分，通常是电子。屏障高度会自行调整，使有足够能量越过屏障到达壁面的电子通量恰好等于到达壁面的离子通量。
+
+::: {.content-visible unless-format="pdf"}
+
+![等离子体电势 $\phi$ 在壁面附近形成鞘层，使电子被反射。Coulomb 势垒 $e\phi_w$ 自行调整，使每秒到达壁面的离子和电子数量相等。](../../images/sheath.png){#fig-sheath}
+
+:::
+
+### 平面鞘层方程
+
+::: {.content-visible unless-format="pdf"}
+
+![平面鞘层中的电势 $\phi$。假设冷离子以均匀速度 $u_0$ 进入鞘层。](../../images/sheath_potential.png){#fig-sheath-potential}
+
+:::
+
+回顾一下，Debye 长度是通过线性化 Poisson 方程推导的。为了考察鞘层中 $\phi(x)$ 的精确行为，必须处理非线性问题：我们将发现解并非总是存在。@fig-sheath-potential 展示了一个壁面附近的情况。在平面 $x=0$ 处，设想离子以漂移速度 $u_0$ 从主体等离子体进入鞘层区域。需要这种漂移来说明离子从其由电离产生的区域向壁面损失。为简单起见，假设 $T_i=0$，因此所有离子在 $x=0$ 处的速度均为 $u_0$。我们考虑无碰撞鞘层区域中的稳态问题，并假设电势 $\phi$ 随 $x$ 单调下降。实际上，$\phi$ 可能存在空间振荡，此时稳态中会有俘获粒子。这在实践中不会发生，因为耗散过程倾向于破坏这种高度有序的状态。
+
+如果 $u(x)$ 是离子速度，能量守恒要求
+$$
+\begin{aligned}
+\frac{1}{2}mu^2 = \frac{1}{2}mu_0^2 - e\phi(x) \\
+u = \Big( u_0^2 - \frac{2e\phi}{m_i} \Big)^{1/2}
+\end{aligned}
+$$ {#eq-sheath_u}
+
+离子连续性方程于是给出以主体等离子体密度 $n_0$ 表示的离子密度 $n_i$：
+$$
+\begin{aligned}
+n_0 u_0 &= n_i(x) u(x) \\
+n_i(x) &= n_0 \Big( 1 - \frac{2e\phi}{m_i u_0^2} \Big)^{1/2}
+\end{aligned}
+$$ {#eq-sheath_n}
+
+在稳态下，电子近似遵循 Boltzmann 关系，
+$$
+n_e(x) = n_0 \exp(e\phi/k_B T_e)
+$$
+
+于是 Poisson 方程为
+$$
+\epsilon_0\frac{\mathrm{d}^2\phi}{\mathrm{d}x^2} = e(n_e - n_i) = en_0\Big[ \exp\Big( \frac{e\phi}{k_B T_e} \Big) - \Big( 1 - \frac{2e\phi}{m_i u_0^2} \Big)^{1/2} \Big]
+$$ {#eq-sheath1}
+
+通过以下记号变换简化方程，可以更清楚地看出其结构：
+$$
+\chi\equiv -\frac{e\phi}{k_B T_e}\quad \xi\equiv\frac{x}{\lambda_D} = x\Big( \frac{n_0 e^2}{\epsilon_0 k_B T_e} \Big)^{1/2}\quad \mu\equiv\frac{u_0}{(k_B T_e/m_i)^{1/2}}
+$$
+
+于是它可写为
+$$
+\chi^{\prime\prime} = \Big( 1+\frac{2\chi}{\mu^2} \Big)^{-1/2} - e^{-\chi}
+$$ {#eq-sheath2}
+其中撇号表示 $\mathrm{d}/\mathrm{d}\xi$。这是平面鞘层的非线性方程，只有 $\mu$ 足够大时才有可接受的解。使用符号 $\mu$ 的原因将在下一节关于激波的讨论中显现。
+
+### Bohm 鞘层判据
+
+将 @eq-sheath2 两侧乘以 $\chi^\prime$ 后，可以积分一次：
+$$
+\int_0^\xi \chi^\prime \chi^{\prime\prime}\mathrm{d}\xi_1 = \int_0^\xi \Big( 1+\frac{2\chi}{\mu^2} \Big)^{-1/2} \chi^\prime \mathrm{d}\xi_1 - \int_0^\xi e^{-\chi} \chi^\prime \mathrm{d}\xi_1
+$$
+其中 $\xi_1$ 是哑变量。由于 $\xi=0$ 时 $\chi=0$，积分很容易给出
+$$
+\frac{1}{2}({\chi^\prime}^2 - {\chi_0^\prime}^2) = \mu^2 \Big[ \big(1 + \frac{2\chi}{\mu^2} \big)^{1/2} - 1 \Big] + e^{-\chi} -1
+$$ {#eq-sheath_int1}
+
+如果等离子体中 $\mathbf{E}=0$，必须在 $\xi=0$ 处令 $\chi_0^\prime=0$。为了求出 $\chi$，第二次积分必须用数值方法进行；但无论答案是什么，@eq-sheath_int1 的右侧对所有 $\chi$ 都必须为正。特别是对于 $\chi\ll 1$，可以将右侧各项作 Taylor 展开：
+$$
+\begin{aligned}
+\mu^2 \Big[ 1+\frac{\chi}{\mu^2}-\frac{1}{2}\frac{\chi^2}{\mu^4}+ ... -1 \Big] + 1-\chi+\frac{1}{2}\chi^2+...-1 > 0 \\
+\frac{1}{2}\chi^2 \Big( -\frac{1}{\mu^2} + 1\Big) > 0 \\
+\mu^2 > 1 \quad\text{或}\quad u_0>(k_BT_e/m_i)^{1/2}
+\end{aligned}
+$$ {#eq-sheath_bohm}
+
+这个不等式称为 _Bohm 鞘层判据_。它表明离子进入鞘层的速度必须大于声速 $v_s$。为了使离子具有这一有向速度 $u_0$，等离子体中必须存在有限电场。因此，我们关于 $\xi=0$ 处 $\chi^\prime=0$ 的假设只是近似成立，其依据是鞘层区域的尺度通常远小于离子被加速的主体等离子体区域的尺度。$u_0$ 的取值有一定任意性，取决于我们选择将等离子体与鞘层之间的边界 $x=0$ 放在哪里。当然，离子通量 $n_0u_0$ 由离子产生率固定，因此如果 $u_0$ 变化，$x=0$ 处的 $n_0$ 值将与 $u_0$ 成反比变化。如果离子具有有限温度，临界漂移速度 $u_0$ 会略低。
+
+从离子和电子密度随 $\chi$ 变化的图 @fig-sheath-n-variation 中，很容易看出 Bohm 判据的物理原因。根据 Boltzmann 关系，电子密度 $n_e$ 随 $\chi$ 指数下降。离子密度也下降，因为离子受到鞘层电势加速。如果离子的初始能量很大，$n_i(\chi)$ 下降缓慢，因为鞘层电场对离子速度的改变相对较小。如果离子的初始能量很小，$n_i(\chi)$ 下降很快，并可能降到 $n_e$ 曲线以下。此时 $\chi=0$ 附近的 $n_e-n_i$ 为正；@eq-sheath2 告诉我们 $\phi(x)$ 必须向上弯曲，这与鞘层必须排斥电子的要求矛盾。为了避免这种情况，$\chi=0$ 处 $n_i(\chi)$ 的斜率绝对值必须小于 $n_e(\chi)$ 的斜率绝对值；这一条件等价于 $\mu^2>1$。
+
+::: {.content-visible unless-format="pdf"}
+
+![鞘层中离子和电子密度（对数尺度）随归一化电势 $\chi$ 的变化。离子密度绘出了两种情况：$u_0$ 大于临界速度和 $u_0$ 小于临界速度。](../../images/sheath_n_variation.png){#fig-sheath_n_variation}
+
+:::
+
+### Child-Langmuir 定律
+
+由于 $n_e(\chi)$ 随 $\chi$ 指数下降，在壁面（或任何负电极）附近 $\chi$ 较大的区域可以忽略电子密度。此时 Poisson 方程近似为
+$$
+\chi^{\prime\prime} \approx \Big( 1+\frac{2\chi}{\mu^2} \Big)^{-1/2} \approx \frac{\mu}{(2\chi)^{1/2}}
+$$
+
+乘以 $\chi^\prime$ 并从 $\xi_1=\xi_s$ 积分至 $\xi_1=\xi$，得到
+$$
+\frac{1}{2}({\chi^\prime}^2 - {\chi_s^\prime}^2) = \sqrt{2}\mu(\chi^{1/2} - \chi_s^{1/2})
+$$
+其中 $\xi_s$ 是开始忽略 $n_e$ 的位置。可以重新定义 $\chi$ 的零点，使 $\xi=\xi_s$ 处 $\chi_s=1$。我们还将忽略 $\chi_s^\prime$，因为可以预期电势曲线在 $n_e=0$ 区域中的斜率远大于在有限 $n_e$ 区域中的斜率。于是上式变为
+$$
+\begin{aligned}
+{\chi^\prime}^2 &= 2^{3/2}\mu\chi^{1/2} \\
+\chi^\prime &= 2^{3/4}\mu^{1/2}\chi^{1/4} \\
+\mathrm{d}\chi/\chi^{1/4} &= 2^{3/4}\mu^{1/2} \mathrm{d}\xi
+\end{aligned}
+$$
+
+从 $\xi=\xi_s$ 积分至 $\xi=\xi_s+\mathrm{d}/\lambda_D = \xi_{\text{wall}}$，得到
+$$
+\frac{4}{3}\chi_w^{3/4} = 2^{3/4}\mu^{1/2}\mathrm{d}/\lambda_D
+$$
+或
+$$
+\mu = \frac{4\sqrt{2}}{9}\frac{\chi_w^{3/2}}{\mathrm{d}^2}\lambda_D^2
+$$
+
+变换回变量 $u_0$ 和 $\phi$，并注意到流向壁面的离子电流为 $J=en_0u_0$，得到
+$$
+J = \frac{4}{9}\Big( \frac{2e}{m_i} \Big)^{1/2} \frac{\epsilon_0|\phi_w|^{3/2}}{\mathrm{d}^2}
+$$ {#eq-child_langmuir}
+
+这正是著名的平面二极管中空间电荷限制电流的 Child-Langmuir 定律。
+
+等离子体—壁面系统中的电势变化可以分为三部分。最靠近壁面的是无电子区域，其厚度 $\mathrm{d}$ 由 @eq-child_langmuir 给出。这里 $J$ 由离子产生率决定，$\phi_w$ 由电子和离子通量相等这一条件决定。接下来是 $n_e$ 不可忽略的区域，如推导 Debye 长度尺度的线性理论所示。最后是尺度大得多的“预鞘层”区域，其中离子由电势降 $|\phi|\ge \frac{1}{2}k_B T_E/e$ 加速到所需速度 $u_0$。根据实验情况，预鞘层尺度可能由等离子体半径、碰撞平均自由程或电离机制决定。当然，电势分布是平滑变化的；分成三个区域只是为了方便，而且这种划分之所以可行是因为尺度长度相差很大。在气体放电研究的早期，可以把鞘层观测为暗层，因为那里没有电子激发原子发光。后来，人们利用平行于壁面射出的细电子束的静电偏转测量电势变化。
+
+### 静电探针
+
+鞘层判据 @eq-sheath_bohm 可用于估算等离子体中流向负偏压探针的离子通量。如果探针表面积为 $A$，进入鞘层的离子漂移速度为 $u_0\ge (k_B T_e/m_i)^{1/2}$，则收集到的离子电流为
+$$
+I = n_s e A(k_B T_e/m_i)^{1/2}
+$$
+
+如果探针相对于等离子体足够负（几个 $k_B T_e$），以至于能排斥 Maxwell 电子分布尾部之外的所有电子，则可以忽略电子电流。密度 $n_s$ 是鞘层边缘的等离子体密度。定义鞘层边缘为 $u_0$ 恰好等于 $(k_B T_e/m_i)^{1/2}$ 的位置。要将离子加速到这个速度，需要预鞘层电势 $|\phi|\ge\frac{1}{2}k_B T_e/e$，因此鞘层边缘的电势为
+$$
+\phi_s \simeq -\frac{1}{2}k_B T_e/e
+$$
+相对于等离子体主体的电势。如果电子服从 Maxwell 分布，这就确定了 $n_s$：
+$$
+n_s = n_0 e^{e\phi_s/k_BT_e} = n_0 e^{-1/2} \approx 0.61 n_0
+$$
+
+对于我们的目的，用 1/2 这样的整齐数字代替 0.61 已足够准确；因此，流向负探针的“离子饱和电流”近似为
+$$
+I_B \simeq \frac{1}{2}n_0 e A (k_B T_e/m_i)^{1/2}
+$$
+
+一旦温度已知，$I_B$（有时称为“Bohm 电流”）就可以方便地给出等离子体密度。
+
+如果 Debye 长度 $\lambda_D$ 及鞘层厚度相对于探针尺寸非常小，无论探针形状如何，鞘层边缘面积实际上都等于探针表面积 $A$。然而，在低密度下 $\lambda_D$ 可能变大，使一些进入鞘层的离子绕过探针而未击中它。I. Langmuir 和 L. Tonks 最早计算了各种探针形状下的轨道，因此这种测量方法得名“__Langmuir 探针__”。虽然计算繁琐，但由于不必任意定义鞘层边缘，可以准确确定等离子体密度。通过改变探针电压，可以对 Maxwell 电子分布采样，而 Langmuir 探针的电流—电压曲线也可以给出电子温度。静电探针是最早的等离子体诊断工具，如今仍是最简单、局域性最强的测量装置。遗憾的是，物质电极只能插入低密度、低温等离子体中。
+
+关于如何使用 Langmuir 探针测量等离子体密度的更详细解释见[这里](https://youtu.be/u44NH1o6Tp8)。
+
+## 离子声激波
+
+当喷气流以超声速运动时，会产生激波。这本质上是非线性现象，因为不存在波很小并逐渐增长的阶段。喷气流比空气中的波速快，因此在大型激波到达之前，未受扰动的介质无法通过前驱信号得到“警告”。在流体动力学激波中，碰撞占主导。等离子体中即使没有碰撞也存在激波。地球拖带偶极磁场穿行于行星际等离子体时，会产生一种磁激波，即“弓激波”。我们将讨论一个更简单的例子：由大振幅离子波发展而来的一维无碰撞激波。
+
+（一般空间等离子体教材从 R-H 关系开始讨论这一部分。我不喜欢那样。）
+
+### Sagdeev 势
+
+::: {.content-visible unless-format="pdf"}
+
+![离子声激波中的典型电势分布。波向左运动，因此在波参考系中，离子以速度 $u_0$ 从左侧流入波。](../../images/shock_potential.png){#fig-shock-potential}
+
+:::
+
+@fig-shock-potential 展示了离子声激波的理想化电势剖面。稍后将解释这种形状的原因。波以速度 $u_0$ 向左传播。如果转到随波运动的参考系，函数 $\phi(x)$ 将不随时间变化，我们将看到一股等离子体以速度 $u_0$ 从左侧撞向波。为简单起见，令 $T_i$ 为零，使所有离子以相同速度 $u_0$ 入射，并令电子服从 Maxwell 分布。由于激波的运动远慢于电子热速度，可以忽略 Maxwell 分布中心速度的偏移。由能量守恒，激波中的离子速度为
+$$
+u = \Big( u_0^2 - \frac{2e\phi}{m_i} \Big)^{1/2}
+$$
+
+如果 $n_0$ 是未受扰动等离子体的密度，激波中的离子密度为
+$$
+n_i = \frac{n_0 u_0}{u} = n_0 \Big( 1 - \frac{2e\phi}{m_i u_0^2} \Big)^{-1/2}
+$$
+
+电子密度由 Boltzmann 关系给出。于是 Poisson 方程给出
+$$
+\epsilon_0\frac{\mathrm{d}^2\phi}{\mathrm{d}x^2} = e(n_e - n_i) = en_0\Big[ \exp\Big( \frac{e\phi}{k_B T_e} \Big) - \Big( 1 - \frac{2e\phi}{m_i u_0^2} \Big)^{1/2} \Big]
+$$
+
+当然，这与鞘层所满足的 @eq-sheath1 相同。激波不过是一个穿过等离子体运动的鞘层。现在引入无量纲变量
+$$
+\chi\equiv \frac{e\phi}{k_B T_e}\quad \xi\equiv\frac{x}{\lambda_D} = x\Big( \frac{n_0 e^2}{\epsilon_0 k_B T_e} \Big)^{1/2}\quad \mu\equiv\frac{u_0}{(k_B T_e/m_i)^{1/2}}
+$$
+
+注意，我们改变了 $\chi$ 定义中的符号，以使本问题中的 $\chi$ 保持为正。量 $\mu$ 称为激波的 _马赫数_。Poisson 方程现在可以写为
+$$
+\chi^{\prime\prime} = e^{\chi} - \Big( 1 - \frac{2\chi}{\mu^2} \Big)^{-1/2} = -\frac{dV(\chi)}{\mathrm{d}\chi}
+$$ {#eq-sheath3}
+它与鞘层方程 @eq-sheath2 的区别仅在于 $\chi$ 的符号改变。
+
+R. Z. Sagdeev 将问题类比为势阱中的振子，阐明了 @eq-sheath3 解的行为。受到力 $-mdV(x)/\mathrm{d}x$ 的振子，其位移 $x$ 满足
+$$
+\ddot{x} = -dV/\mathrm{d}x
+$$
+
+如果将 @eq-sheath3 的右侧定义为 $-dV/\mathrm{d}x$，该方程就与振子方程相同，其中电势 $\chi$ 扮演 $\chi$ 的角色，$\mathrm{d}/\mathrm{d}\xi$ 取代 $\mathrm{d}/\mathrm{d}t$。赝势 $V(\chi)$ 有时称为 Sagdeev 势。利用 $\chi=0$ 时 $V(\chi)=0$ 的边界条件，对 @eq-sheath3 积分可以求出函数 $V(x)$：
+$$
+V(\chi) = 1-e^\chi + \mu^2 \Big[ 1 - \Big( 1-\frac{2\chi}{\mu^2} \Big)^{1/2} \Big]
+$$ {#eq-sagdeev_potential}
+
+当 $\mu$ 位于某个范围内时，该函数具有 @fig-shock-quasipotential 所示的形状。如果这是真实势阱，从左侧进入的粒子会到达势阱右侧（$x>0$），反射后回到 $x=0$，完成一次往返。类似地，我们类比中的准粒子会向正 $\chi$ 方向运动一次并返回 $\chi =0$，如 @fig-shock-soliton 所示。这样的脉冲称为 _孤子_：它是在 @fig-shock-soliton 中以速度 $u_0$ 向左传播的电势和密度扰动。（我没有完全理解！！！）
+
+::: {.content-visible unless-format="pdf"}
+
+![Sagdeev 势 $V(\chi)$。上方箭头是描述孤子的准粒子轨迹：它在右侧反射并返回。下方箭头显示失去能量并被困在势阱中的准粒子的运动。来回弹跳描述了激波前沿后的振荡。](../../images/shock_quasipotential.png){#fig-shock-quasipotential}
+
+![向左运动的孤子中的电势。](../../images/shock_soliton.png){#fig-shock-soliton}
+
+:::
+
+现在，如果粒子在势阱中损失能量，它将永远不会返回 $x=0$，而会围绕某个正的 $x$ 值（随时间）振荡。类似地，少量耗散会使激波电势围绕某个正的 $\phi$ 值（在空间中）振荡。这正是 @fig-shock-potential 所示的行为。实际上，这并不需要耗散：离子从激波前沿反射也有相同效果。为了理解这一点，设想离子的能量具有很小的热展宽，而波前高度 $e\phi$ 恰好足以将一部分离子反射回左侧，其余离子则越过势垒到达右侧。反射离子使激波前沿左侧上游区域的离子密度增加（@fig-shock-potential）。这意味着量
+$$
+\chi^\prime = \frac{1}{n_0}\int_0^\xi (n_e - n_i)\mathrm{d}\xi_1
+$$
+减小。由于 $\chi^\prime$ 对应于振子问题中的 $\mathrm{d}x/\mathrm{d}t$，我们的虚拟振子速度降低，被困在 @fig-shock-quasipotential 的势阱中。
+
+### 临界马赫数
+
+孤子型或波列型解只在一定的 $\mu$ 范围内存在。$\mu$ 的下限由 $V(\chi)$ 是势阱而非势垒这一条件给出。对 @eq-sagdeev_potential 在 $\chi\ll 1$ 下展开，得到
+$$
+\mu^2 > 1 \quad u_0>(k_BT_e/m_i)^{1/2}
+$$
+
+这在物理和数学上都与鞘层存在的 Bohm 判据（@eq-sheath_bohm）完全相同。
+
+$\mu$ 的上限由以下条件给出：@fig-shock-quasipotential 中的函数 $V(\chi)$ 必须在 $\chi>0$ 时穿过 $\chi$ 轴；否则虚拟粒子不会反射，电势将无限上升。由 @eq-sagdeev_potential，要求
+$$
+e^\chi - 1 < \mu^2 \Big[ 1- \big( 1-\frac{2\chi}{\mu^2} \Big)^{1/2} \Big]
+$$
+对某个 $\chi>0$ 成立。如果超过下临界马赫数（$\mu>1$），代表电子密度从零到 $\chi$ 的积分的左侧最初大于代表离子密度积分的右侧。随着 $\chi$ 增大，如果 $\mu^2$ 不太大，右侧可以赶上左侧。然而，由于平方根的存在，$\chi$ 的最大可能值是 $\mu^2/2$。这是因为 $e\phi$ 不能超过 $\frac{1}{2}m_iu_0^2$；否则离子将被排除在下游区域的等离子体之外。将 $\chi$ 的最大值代入上式，得到
+$$
+\exp(\mu^2/2) - 1 < \mu \quad\text{或}\quad \mu < 1.6
+$$
+
+这就是上临界马赫数。因此冷离子等离子体中的激波只在 $1<\mu<1.6$ 时存在。
+
+与鞘层的情况一样，物理情况最好通过 $n_i$ 和 $n_e$ 随 $\chi$ 变化的图解释（@fig-shock-n）。由于 $\phi$ 的符号改变，该图不同于 @fig-sheath-n-variation。由于现在离子减速而非加速，$n_i$ 在 $\chi=\mu^2/2$ 处趋于无穷大。下临界马赫数确保在小 $\chi$ 时 $n_i$ 曲线位于 $n_e$ 曲线下方，使电势 $\phi(x)$ 一开始具有正确符号的曲率。当曲线 $n_{i1}$ 穿过 $n_e$ 曲线时，孤子（@fig-shock-soliton）有一个拐点。最后，当 $\chi$ 大到使 $n_i$ 和 $n_e$ 曲线下的面积相等时，孤子达到峰值；随着 $\chi$ 回到零，沿 $n_{i1}$ 和 $n_e$ 曲线原路返回。面积相等保证孤子内的净电荷为零，因此外部没有电场。如果 $\mu$ 大于 1.6，则得到曲线 $n_{i2}$，即使 $\chi$ 达到最大值 $\mu^2/2$，曲线下面积仍然太小。
+
+::: {.content-visible unless-format="pdf"}
+
+![孤子中离子和电子密度（对数尺度）随归一化电势 $\chi$ 的变化。离子密度绘出两种情况：马赫数大于和小于 1.6。](../../images/shock_n.png){#fig-shock-n}
+
+:::
+
+### 波陡化
+
+如果在冷离子等离子体中传播离子波，其相速度为
+$$
+v_p = \Big( \frac{k_B T_e + \gamma_i k_B T_i}{m_i} \Big)^{1/2} = \Big( \frac{k_B T_e}{m_i} \Big)^{1/2}
+$$
+对应于 $\mu=1$。那么，如何产生 $\mu>1$ 的激波？必须记住，上述相速度是仅在小振幅下有效的线性结果。随着振幅增大，离子波加速，并从正弦波变成前沿陡峭的锯齿形（@fig-wave-steepening）。原因是波电场加速了离子。在 @fig-wave-steepening 中，电势分布峰值处的离子沿 $v_\phi$ 方向的速度大于波谷处的离子，因为波经过时它们刚经历了一段加速。线性理论考虑了这种速度差异，却没有考虑由此产生的位移。在非线性理论中，很容易看出峰值处的离子向右偏移，波谷处的离子向左偏移，从而使波形陡化。由于密度扰动与电势同相，向右加速的离子多于向左加速的离子，波因而在传播方向产生净质量流。这使波速超过未扰动等离子体中的声速，因此 $\mu$ 大于 1。
+
+::: {.content-visible unless-format="pdf"}
+
+![大振幅离子波发生陡化，使前沿的斜率大于后沿。](../../images/wave_steepening.png){#fig-wave-steepening}
+
+:::
+
+### 双层
+
+与鞘层和离子声激波相关的一种现象是[双层](https://en.wikipedia.org/wiki/Double_layer_(plasma_physics))。它是一个局域电势跃变，既不传播也不附着于边界，据信会在电离层中自然出现。这个名称来自形成 $\phi(x)$ 阶跃所必需的连续净正电荷层和净负电荷层。这样的阶跃只有在以下情况下才能在空间中保持静止：存在等离子体流，使激波前沿经多普勒频移后在实验室参考系中的速度为零；或者间断面两侧透射和反射的电子与离子的分布函数经过特殊调整，使这种情况成为可能。在自然环境中，双层很可能出现在磁场 $\mathbf{B}$ 具有梯度的地方，而不是像实验室模拟中那样出现在 $\mathbf{B}$ 为零或均匀的地方。在这种情况下，$\mu\nabla B$ 力可以在使双层局域于远离所有边界的位置方面发挥重要作用。串列磁镜反应堆中的热势垒就是具有强磁俘获的双层的一个例子。
+
+## 有质动力 {#sec-ponderomotive}
+
+光波施加的辐射压通常非常弱，难以探测。即使是由太阳光压力形成的彗尾这一特殊例子，也受到来自太阳的粒子流的额外影响。然而，当使用高功率微波或激光束加热或约束等离子体时，辐射压可以达到几十万个大气压！作用于等离子体时，这种力以颇为微妙的方式与粒子耦合，称为 _有质动力_。许多非线性现象可以用有质动力作出简单解释。
+
+推导这一非线性力的最简单方法是考虑电子在波的振荡 $\mathbf{E}$ 和 $\mathbf{B}$ 场中的运动。我们忽略直流 $\mathbf{E}_0$ 和 $\mathbf{B}_0$ 场。电子运动方程为
+$$
+m\dot{\mathbf{v}} = -e[\mathbf{E}(\mathbf{r}) + \mathbf{v}\times\mathbf{B}(\mathbf{r})]
+$$
+
+如果在电子的瞬时位置计算 $\mathbf{E}$ 和 $\mathbf{B}$，这个方程是精确的。非线性部分来自 $\mathbf{v}\times\mathbf{B}$：由于 $\mathbf{v}$ 和 $\mathbf{B}$ 在平衡态均为零，该项是二阶的，其量级不超过 $\mathbf{v}_1\times\mathbf{B}_1$，其中 $\mathbf{v}_1$ 和 $\mathbf{B}_1$ 是线性理论中的值。正如我们将看到的，非线性的另一部分来自在粒子的实际位置而非初始位置计算 $\mathbf{E}$。假设波电场具有形式
+$$
+\mathbf{E} = \mathbf{E}_s(\mathbf{r})\cos\omega t
+$$
+其中 $\mathbf{E}_s(\mathbf{r})$ 包含空间依赖性。在一阶近似下，可以忽略运动方程中的 $\mathbf{v}\times\mathbf{B}$ 项，并在初始位置 $\mathbf{r}_0$ 计算 $\mathbf{E}$。得到
+$$
+\begin{aligned}
+m\dot{\mathbf{v}}_1 &=  -e\mathbf{E}(\mathbf{r}_0)\\
+\mathbf{v}_1 &= -(e/m\omega)\mathbf{E}_s\sin\omega t = \dot{\mathbf{r}}_1 \\
+\delta \mathbf{r}_1 &= (e/m\omega^2)\mathbf{E}_s\cos\omega t
+\end{aligned}
+$$
+
+重要的是注意：_在非线性计算中，我们不能先写 $e^{i\omega t}$，以后再取其实部。_ 我们要将实部明确写为 $\cos\omega t$。这是因为非线性理论中出现振荡因子的乘积，而相乘和取实部这两种操作不可交换。
+
+转到二阶，将 $\mathbf{E}(\mathbf{r})$ 在 $\mathbf{r}_0$ 附近展开：
+$$
+\mathbf{E}(\mathbf{r}) = \mathbf{E}(\mathbf{r}_0) + (\delta\mathbf{r}_0\cdot\nabla)\mathbf{E}|_{r=r_0} + ...
+$$
+
+现在必须加上 $\mathbf{v}_1\times\mathbf{B}_1$ 项，其中 $\mathbf{B}_1$ 由 Maxwell 方程给出：
+$$
+\begin{aligned}
+\nabla\times\mathbf{E} &= -\dot{\mathbf{B}} \\
+\mathbf{B}_1 &= -(1/\omega)\nabla\times\mathbf{E}_s|_{r=r_0}\sin\omega t
+\end{aligned}
+$$
+
+于是运动方程的二阶部分为
+$$
+m\dot{\mathbf{v}}_2 = -e[(\delta\mathbf{r}_1\cdot\nabla)\mathbf{E}+\mathbf{v}_1\times\mathbf{B}_1]
+$$
+
+将 $\mathbf{v}_1,\delta\mathbf{r}_1$ 和 $\mathbf{B}_1$ 的表达式代入上式并对时间平均，得到
+$$
+m\left< \frac{\mathrm{d}\mathbf{v}_2}{\mathrm{d}t}\right> = -\frac{e^2}{m\omega^2}\frac{1}{2}[(\mathbf{E}_s\cdot\nabla)\mathbf{E}_s + \mathbf{E}_s\times(\nabla\times\mathbf{E}_s)] = \mathbf{f}_{NL}
+$$ {#eq-motion_e_2nd}
+
+这里使用了 $\left<\sin^2\omega t\right> = \left<\cos^2\omega t\right>=\frac{1}{2}$。双重叉积可以写成两项之和，其中一项与 $(\mathbf{E}_s\cdot\nabla)\mathbf{E}_s$ 项相消。
+
+剩下的是
+$$
+\mathbf{f}_{NL} = -\frac{1}{4}\frac{e^2}{m\omega^2}\nabla E_s^2
+$$
+
+这是作用于单个电子的有效非线性力。每 $m^3$ 的力等于 $\mathbf{f}_{NL}$ 乘以电子密度 $n_0$，后者可以用 $\omega_p^2$ 表示。由于 $E_s^2 = 2\left<E^2\right>$，最终得到有质动力公式
+$$
+\mathbf{F}_{NL} = -\frac{\omega_p^2}{\omega^2}\nabla\frac{\left<\epsilon_0 E^2\right>}{2}
+$$ {#eq-ponderomotive}
+
+如果波是电磁波，@eq-motion_e_2nd 中的第二项占主导，$\mathbf{F}_{NL}$ 的物理机制如下。电子沿 $\mathbf{E}$ 方向振荡，但波的磁场使其轨道发生变形。也就是说，Lorentz 力 $-e\mathbf{v}\times\mathbf{B}$ 将电子推向 $\mathbf{k}$ 方向（因为 $\mathbf{v}$ 沿 $\mathbf{E}$ 方向，而 $\mathbf{E}\times\mathbf{B}$ 沿 $\mathbf{k}$ 方向）。$\mathbf{v}$ 和 $\mathbf{B}$ 的相位使得运动在一个振荡周期内的平均值不为零，而是存在沿 $\mathbf{k}$ 的长期漂移。如果波振幅均匀，维持这一漂移不需要力；但如果波振幅变化，电子会在振幅小的区域聚集，此时需要力来克服空间电荷。这就是为什么有效力 $\mathbf{F}_{NL}$ 正比于 $\left<E^2 \right>$ 的 _梯度_。由于每个电子的漂移相同，$\mathbf{F}_{NL}$ 正比于密度，因此出现因子 $\omega_p^2/\omega^2$。
+
+如果波是静电波，@eq-motion_e_2nd 中的第一项占主导。此时物理机制很简单：沿 $\mathbf{k}\parallel\mathbf{E}$ 振荡的电子，在从强场区移向弱场区的半周期中比反向移动时走得更远，因此产生净漂移。
+
+尽管 $\mathbf{F}_{NL}$ 主要作用于电子，但由于这是低频或直流效应，力最终会传递给离子。当电子被 $\mathbf{F}_{NL}$ 聚集时，会产生电荷分离场 $\mathbf{E}_{cs}$。电子受到的总力为
+$$
+\mathbf{F}_e = -e\mathbf{E}_{cs} + \mathbf{F}_{NL}
+$$
+
+由于作用于离子的有质动力按 $\Omega_p^2/\omega_p^2 = m_e/m_i$ 的比例更小，作用于离子流体的力近似为
+$$
+\mathbf{F}_i = e\mathbf{E}_{cs}
+$$
+
+将最后两个方程相加，发现作用于等离子体的力为 $\mathbf{F}_{NL}$。
+
+$\mathbf{F}_{NL}$ 的一个直接效应是[激光在等离子体中的自聚焦](https://en.wikipedia.org/wiki/Self-focusing#Plasma_self-focusing)。在 @fig-laser-self-focusing 中可以看到，有限直径的激光束在等离子体中产生沿径向的有质动力。这个力将等离子体推出光束，使光束内部的 $\omega_p$ 比外部低、介电常数 $\epsilon$ 比外部高。等离子体于是起凸透镜的作用，将光束聚焦至更小的直径。
+
+::: {.content-visible unless-format="pdf"}
+
+![激光束的自聚焦由有质动力造成。](../../images/laser_focusing.png){#fig-laser-self-focusing}
+
+:::
+
+## 参数不稳定性 {#sec-parametric}
+
+研究得最彻底的非线性波波相互作用是“参数不稳定性”，之所以这样命名，是因为它与电气工程中熟知的参数放大器类似。对这一主题的理解相对深入的一个原因是，其理论基本上是线性理论，但是围绕非振荡平衡态进行线性化。
+
+当压强梯度等非线性因素使波发生耦合时，就会出现参数不稳定性。波必须允许频率和波数匹配，而这些是能量和动量守恒的结果。不过，参数不稳定性不限于波，也会出现在等离子体鞘层等非线性共振中。
+一种非常常见的参数波不稳定性源于 _强电磁波_（“泵浦”）衰变为两个静电波：_电子等离子体波_ 和 _离子声波_。当泵浦激发一个 _较低_ 频率的边带，即电子等离子体波，以及差频模，即离子声波时，这称为“衰变”不稳定性。这三个模是非磁化等离子体中仅有的模。
+
+[这里](https://www.physics.ucla.edu/plasma-exp/research/BasicWaves&Instabilities/ParametricInstab)给出了一个实验室观测例子。下方视频展示了一些从参数激发到参数不稳定性的直观实验。
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dGE_LQXy6c0" title="Parametric Instability" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+### 耦合振子
+
+::: {.content-visible unless-format="pdf"}
+
+![参数不稳定性的力学类比。](../../images/parametric_amplifier.png){#fig-parametric-amplifier}
+
+:::
+
+考虑 @fig-parametric-amplifier 中的力学模型，其中两个振子 M1 和 M2 与一根支在支点上的杆耦合。支点 P 以频率 $\omega_0$ 来回滑动，而两个振子的固有频率分别为 $\omega_1$ 和 $\omega_2$。显然，在没有摩擦时，只要 M1 和 M2 不运动，支点就不会遇到阻力。此外，如果 P 不动而 M2 开始运动，M1 也会运动；但只要 ω2 不是 M1 的固有频率，振幅就会很小。现在假设 P 和 M2 都开始运动。M1 的位移正比于 M2 的位移与力臂长度的乘积，因此随时间变化为
+$$
+\cos\omega_2 t \cos\omega_0 t = \frac{1}{2}\cos[(\omega_2 + \omega_0)t] + \frac{1}{2}\cos[(\omega_2 - \omega_0)t]
+$$
+
+如果 $\omega_1$ 等于 $\omega_2+\omega_0$ 或 $\omega_2-\omega_0$，M1 就会受到共振激发并增长到大振幅。一旦 M1 开始振荡，M2 也会获得能量，因为 $\omega_1$ 与 $\omega_0$ 的一个拍频恰好是 $\omega_2$。因此，一旦任一振子开始运动，两者就会相互激发，系统不稳定。能量当然来自“泵浦”P：一旦杆倾斜，P 就会遇到阻力。如果泵浦足够强，其振荡振幅不受 M1 和 M2 影响；此时可以用线性理论处理不稳定性。在等离子体中，振子 P、M1 和 M2 可以是不同类型的波。
+
+### 频率匹配
+
+简谐振子 $x_1$ 的运动方程为
+$$
+\ddot{x}_1 + \omega_1^2 x_1 = 0
+$$ {#eq-oscillator}
+
+其中 $\omega_1$ 是其共振频率。如果它受到一个随时间变化的力驱动，该力正比于驱动源或泵浦的振幅 $E_0$ 与第二个振子的振幅 $x_2$ 的乘积，则运动方程变为
+$$
+\ddot{x}_1 + \omega_1^2 x_1 = c_1x_2E_0
+$$ {#eq-oscillator_x1}
+其中 $c_1$ 是表示耦合强度的常数。$x_2$ 也满足类似的方程：
+$$
+\ddot{x}_2 + \omega_1^2 x_2 = c_2x_1E_0
+$$ {#eq-oscillator_x2}
+
+令 $x_1=\bar{x}_1 \cos\omega t$、$x_2=\bar{x}_2 \cos\omega^\prime t$ 和 $E_0=\bar{E}_0 \cos\omega_0 t$。@eq-oscillator_x2 变为
+$$
+\begin{aligned}
+(\omega_2^2 - {\omega^\prime}^2)\bar{x}_2\cos\omega^\prime t &= c_2\bar{E}_0\bar{x}_1\cos\omega_0 t\cos\omega t \\
+&= c_2\bar{E}_0\bar{x}_1 \frac{1}{2}\{ \cos[(\omega_0 + \omega)t] + \cos[(\omega_0 - \omega)t]  \}
+\end{aligned}
+$$
+
+右侧的驱动项可以激发频率为下列值的振子 $x_2$：
+$$
+\omega^\prime = \omega_0\pm\omega
+$$ {#eq-oscillator_frequency_matching}
+
+在没有非线性相互作用时，$x_2$ 只能具有频率 $\omega_2$，因此必须有 $ω^\prime = \omega_2$。然而，驱动项可以引起频移，使 $ω^\prime$ 只近似等于 $\omega_2$。此外，由于存在阻尼（为简单起见，迄今已将其忽略），或者可能存在增长（如果有不稳定性），$\omega^\prime$ 可以是复数。无论哪种情况，$x_2$ 都是具有有限 Q 值的振子，可以对 $\omega_2$ 附近一定范围的频率作出响应。如果 $\omega$ 很小，可以看出 $\omega^\prime$ 的两个可能值都可能位于 $x_2$ 的带宽内，因而必须考虑两个振子 $x_2(\omega_0+\omega)$ 和 $x_2(\omega_0 - \omega)$ 的存在。
+
+现在令 $x_1 = \bar{x}_1\cos\omega^{\prime\prime}t$ 和 $x_2 = \bar{x}_2\cos[(\omega_0\pm \omega)t]$，并代入 @eq-oscillator_x1：
+$$
+\begin{aligned}
+&(\omega_1^2 - {\omega^{\prime\prime}}^2)\bar{x}_1\cos\omega^{\prime\prime} t \\
+&= c_1\bar{E}_0\bar{x}_2\frac{1}{2}\big(\cos\{[\omega_0 + (\omega_0\pm\omega)]t\} + \cos\{ [\omega_0 - (\omega_0\pm\omega)]t \}  \big)\\
+&= c_1\bar{E}_0\bar{x}_2\frac{1}{2}\big(\cos[(2\omega_0 \pm\omega) t] + \cos\omega t  \big)
+\end{aligned}
+$$ {#eq-oscillator_momentum}
+
+驱动项不仅可以激发原来的振荡 $x_1(\omega)$，还可以激发新频率 $\omega^{\prime\prime} = 2\omega_0\pm\omega$。我们考虑 $|\omega_0| \gg |\omega_1|$ 的情况，此时 $2\omega_0\pm\omega$ 位于 $x_1$ 能够响应的频率范围之外，$x_1(2\omega_0\pm\omega)$ 可以忽略。因此有三个振子 $x_1(\omega)$、$x_2(\omega_0-\omega)$ 和 $x_2(\omega_0+\omega)$，它们由 @eq-oscillator_x1 和 @eq-oscillator_x2 耦合：
+$$
+\begin{aligned}
+(\omega_1^2 - \omega^2)x_1(\omega) - c_1E_0(\omega_0)[ x_2(\omega_0-\omega) + x_2(\omega_0 + \omega) ] &= 0 \\
+[\omega_2^2 - (\omega_0-\omega)^2]x_2(\omega_0-\omega) - c_2E_0(\omega_0)x_1(\omega) &= 0 \\
+[\omega_2^2 - (\omega_0+\omega)^2]x_2(\omega_0+\omega) - c_2E_0(\omega_0)x_1(\omega) &= 0
+\end{aligned}
+$$ {#eq-oscillator_energy}
+
+令系数行列式等于零，得到色散关系：
+$$
+\begin{vmatrix}
+\omega^2 - \omega_1^2 & c_1E_0 & c_1 E_0 \\
+c_2E_0 & (\omega_0-\omega)^2 - \omega_2^2 & 0 \\
+c_2E_0 & 0 & (\omega_0+\omega)^2 - \omega_2^2
+\end{vmatrix} = 0
+$$ {#eq-oscillator_dispersion}
+
+满足 $\Im(\omega)>0$ 的解表示存在不稳定性。
+
+对于小频移和小阻尼率或增长率，可以令 $\omega$ 和 $\omega^\prime$ 近似等于未扰动频率 $\omega_1$ 和 $\omega_2$。于是 @eq-oscillator_frequency_matching 给出频率匹配条件：
+$$
+\omega_0 \approx \omega_2 \pm \omega_1
+$$ {#eq-oscillator_frequency_matching2}
+
+当振子是等离子体中的波时，必须将 $\omega t$ 替换为 $\omega t - \mathbf{k}\cdot\mathbf{r}$。此时还存在波长匹配条件
+$$
+\mathbf{k}_0 \approx \mathbf{k}_2 \pm \mathbf{k}_1
+$$ {#eq-oscillator_frequency_matching3}
+它描述空间拍，即空间中相长和相消干涉点的周期性。通过与量子力学类比，可以容易地理解 @eq-oscillator_frequency_matching2 和 @eq-oscillator_frequency_matching3 这两个条件。将前者乘以 Planck 常数 $\hbar$，得到
+$$
+\hbar\omega_0 = \hbar\omega_2 \pm \hbar\omega_1
+$$
+
+例如，$E_0$ 和 $x_2$ 可以是电磁波，那么 $\hbar\omega_0$ 和 $\hbar\omega_2$ 是光子能量。振子 $x_1$ 可以是 Langmuir 波，或等离激元，其能量为 $\hbar\omega_1$。@eq-oscillator_energy 只是表述能量守恒。类似地，@eq-oscillator_momentum 表述动量 $\hbar\mathbf{k}$ 守恒。
+
+对于等离子体波，在一维问题中只有某些波的组合能够同时满足 @eq-oscillator_frequency_matching 和 @eq-oscillator_momentum。所需关系最好通过 $\omega-k$ 图 @fig-parallelogram-construction 来观察。(A) 显示电子等离子体波 $\omega_2$（Bohm-Gross 波）和离子声波 $\omega_1$ 的色散曲线。大振幅电子波 $(\omega_0, \mathbf{k}_0)$ 可以衰变为一个向后运动的电子波 $(\omega_2, \mathbf{k}_2)$ 和一个离子波 $(\omega_1, \mathbf{k}_1)$。平行四边形作图保证 $\omega_0 = \omega_1 + \omega_2$ 和 $\mathbf{k}_0 = \mathbf{k}_1 + \mathbf{k}_2$。必须调整 $(\omega_0, \mathbf{k}_0)$ 和 $(\omega_2, \mathbf{k}_2)$ 在电子曲线上的位置，使差矢量位于离子曲线上。注意，电子波不能衰变为另外两个电子波，因为无法让差矢量位于电子曲线上。
+
+B 显示“参数衰变”不稳定性的平行四边形作图。这里 $(\omega_0, \mathbf{k}_0)$ 是具有大相速度 $(\omega_0/k_0\approx c)$ 的入射电磁波。它激发向相反方向运动的电子波和离子波。由于 $|\mathbf{k}_0|$ 很小，对这种不稳定性有 $|\mathbf{k}_1|\approx -|\mathbf{k}_2|$ 和 $\omega_0=\omega_1+\omega_2$。
+
+C 显示“参数背向散射”不稳定性的 $\omega-k$ 图，其中光波激发一个离子波和另一个沿相反方向运动的光波。当离子波被等离子体波取代时也会发生这种过程。与固体物理中的类似现象类比，这些过程分别称为“受激 Brillouin 散射”和“受激 Raman 散射”。
+
+D 表示电磁波的双等离激元衰变不稳定性。注意两个衰变波都是电子等离子体波，因此只有在 $\omega_0\simeq 2\omega_p$ 时才能发生频率匹配。用密度表示时，这个条件等价于 $n\simeq n_c/4$，其中 $n_c$ 是与 $\omega_0$ 相关的临界密度（$n_C = m\epsilon_0 \omega_0^2/e^2$）。因此可以预期这种不稳定性只在非均匀等离子体的“四分之一临界”层附近发生。
+
+::: {.content-visible unless-format="pdf"}
+
+![平行四边形作图显示四种参数不稳定性的 $\omega-$ 和 $k-$ 匹配条件：(A) 电子衰变不稳定性，(B) 参数衰变不稳定性，(C) 受激 Brillouin 背向散射不稳定性，(D) 双等离激元衰变不稳定性。](../../images/parallelogram_construction.png){#fig-parallelogram-construction}
+
+:::
+
+### 不稳定性阈值
+
+如果没有阻尼，参数不稳定性在任何振幅下都会发生；但在实际中，即使少量碰撞阻尼或朗道阻尼也会阻止不稳定性，除非泵浦波相当强。为计算阈值，必须引入振子 $x_1$ 和 $x_2$ 的阻尼率 $\Gamma_1$ 和 $\Gamma_2$。于是 @eq-oscillator 变为
+$$
+\ddot{x_1} + \omega_1^2 x_1 + 2\Gamma_1 \dot{x_1} = 0
+$$
+
+例如，如果 $x_1$ 是受摩擦阻尼的弹簧位移，最后一项表示与速度成正比的力。如果 $x_1$ 是受电子—中性粒子碰撞阻尼的等离子体波中的电子密度，$\Gamma_1$ 为 $v_c/2$（???）。检查 @eq-oscillator_x1、@eq-oscillator_x2 和 @eq-oscillator_dispersion 可知，只要保持 $E_0$ 为实数并允许 $\bar{x}_1$ 和 $\bar{x}_2$ 为复数，就可以使用指数记号，并对 $x_1$ 和 $x_2$ 令 $\mathrm{d}/\mathrm{d}t \rightarrow i\omega$。@eq-oscillator_x1 和 @eq-oscillator_x2 变为
+$$
+\begin{aligned}
+(\omega_1^2 - \omega^2 - 2i\omega\Gamma_1)x_1(\omega) &= c_1 x_2 E_0 \\
+[\omega_2^2 - (\omega-\omega_0)^2 2i(\omega-\omega_0)\Gamma_2]x_2(\omega-\omega_0) &= c_2 x_1 E_0
+\end{aligned}
+$$ {#eq-parametric_damping}
+
+我们进一步限制在两个波的简单情况 --- 即 $\omega\simeq\omega_1$ 和 $\omega_0 - \omega\simeq\omega_2$，但 $\omega_0+\omega$ 离 $\omega_2$ 足够远，因而不共振 --- 此时可以忽略 @eq-oscillator_dispersion 的第三行和第三列。如果现在像 @eq-oscillator_momentum 中那样用峰值表示 $x_1, x_2$ 和 $E_0$，@eq-parametric_damping 的右侧会出现因子 1/2。舍弃非共振项并从 @eq-parametric_damping 中消去 $x_1$ 和 $x_2$，得到
+$$
+(\omega^2 - \omega_1^2 +2i\omega\Gamma_1)[(\omega_0-\omega)^2 - \omega_2^2 - 2i(\omega_0-\omega)\Gamma_2] = \frac{1}{4}c_1c_2\bar{E}_0^2
+$$
+
+在阈值处，可以令 $\Im(\omega)=0$。最低阈值出现在精确频率匹配时，即 $\omega=\omega_1,\omega_0-\omega=\omega_2$。于是上式给出
+$$
+c_1c_2(\bar{E}_0^2)_{\text{threshold}} = 16\omega_1\omega_2\Gamma_1\Gamma_2
+$$
+
+当 _任一_ 波的阻尼趋于零时，阈值也趋于零。
+
+### 物理机制
+
+利用有质动力（@sec-ponderomotive）可以非常简单地理解波的参数激发。例如，考虑电磁波 $(\omega_0, \mathbf{k}_0)$ 驱动电子等离子体波 $(\omega_2, \mathbf{k}_2)$ 和低频离子波 $(\omega_1, \mathbf{k}_1)$ 的情况（fig-parallelogram-construction B）。由于 $\omega_1$ 很小，$\omega_0$ 必须接近 $\omega_p$。然而，$\omega_0<\omega_p$ 与 $\omega_0>\omega_p$ 时的行为很不相同。前者产生“振荡双流”不稳定性（后文将详细处理），后者产生“参数衰变”不稳定性。
+
+::: {.content-visible unless-format="pdf"}
+
+![振荡双流不稳定性的物理机制。](../../images/oscillating_2stream.png){#fig-oscillating-2stream}
+
+:::
+
+假设等离子体中存在形式为 $n_1\cos k_1 x$ 的密度扰动；这种扰动可以作为热噪声的一个分量自发出现。令泵浦波在 $x$ 方向具有电场 $E_0\cos\omega_0 t$，如 @fig-oscillating-2stream 所示。在没有直流场 $\mathbf{B}_0$ 时，泵浦波满足关系 $\omega_0^2 = \omega_p^2 + c^2k_0^2$，因此当 $\omega_0\approx\omega_p$ 时 $k_0\approx 0$。因此可以把 $E_0$ 视为空间均匀的。如果 $\omega_0$ 小于冷电子流体的共振频率 $\omega_p$（这怎么可能???），电子会沿与 $E_0$ 相反的方向运动，而离子在 $\omega_0$ 的时间尺度上不运动。于是密度波纹引起电荷分离，如 @fig-oscillating-2stream 所示。静电荷产生以频率 $\omega_0$ 振荡的场 $E_1$。总场造成的有质动力由 @eq-ponderomotive 给出：
+$$
+\mathbf{F}_{NL} = -\frac{\omega_p^2}{\omega^2}\nabla\frac{\left< (E_0 + E_1)^2\right>}{2}\epsilon_0
+$$
+
+由于 E0 均匀且远大于 $E_1$，只有交叉项重要：
+$$
+\mathbf{F}_{NL} = -\frac{\omega_p^2}{\omega^2}\frac{\partial}{\partial x}\frac{\left<2E_0E_1\right>}{2}\epsilon_0
+$$
+
+这个力的平均值不为零，因为 E1 随 E0 一起变号。如 @fig-oscillating-2stream 所示，$F_{NL}$ 在 $n_1$ 的峰值和谷值处为零，但在 $\nabla n_1$ 较大处也较大。这种空间分布使 $F_{NL}$ 将电子从低密度区域推向高密度区域。由此产生的直流电场也拖动离子，密度扰动随之增长。$F_{NL}$ 的阈值恰好足以克服倾向于平滑密度的压强 $\nabla n_{i1}(k_BT_i + k_BT_e)$。密度波纹不传播，因此 $\Re(\omega_1)=0$。这称为 _振荡双流不稳定性_，因为来回摆动的电子具有双峰的时间平均分布函数，与双流不稳定性中的情况一样（第 ??? 节）。
+
+### 振荡双流不稳定性
+
+到目前为止我还不理解参数不稳定性。太难了。
+
+### 参数衰变不稳定性
+
+
+## 等离子体回波 {#sec-echo}
+
+等离子体回波是由非线性相互作用激发新波的现象。这种激发可以在任意长的时间之后发生，这是理解朗道阻尼的困难的主要来源。由于朗道阻尼 _不涉及碰撞或耗散_，它是一个 _可逆_ 过程。显著的等离子体回波现象生动地证明了这一点。
+
+## 非线性朗道阻尼
+
+当沿空间追踪例如由栅格激发的电子波或离子波的振幅时，经常发现如果振幅较大，其衰减并不像线性理论预测的那样是指数衰减。相反，通常会发现振幅
+先衰减、再次增长，然后振荡，最后稳定在一个稳态值。虽然其他效应也可能在起作用，但这些振幅振荡正是 @sec-landau_damping 中讨论的粒子俘获非线性效应所预期的结果。
+
+## 非线性等离子体物理方程
+
+### Korteweg-de Vries 方程
+
+$$
+\frac{\partial U}{\partial\tau} + U\frac{\partial U}{\partial\xi}+\frac{1}{2}\frac{\partial^2 U}{\partial\xi^3} = 0
+$$
+
+其中 $U$ 是振幅，$\tau$ 和 $\xi$ 分别是类时间和类空间变量。
+
+### 非线性 Schrödinger 方程
+
+$$
+i\frac{\partial\psi}{\partial t} + p\frac{\partial^2\psi}{\partial x^2} + q|\psi|^2\psi = 0
+$$ {#eq-nonlinear_schrödinger}
+
+其中 $\psi$ 是波振幅，$i=\sqrt(-1)$，$p$ 和 $q$ 是系数，其物理意义稍后解释。@eq-nonlinear_schrödinger 与通常的 Schrödinger 方程不同，
+
+$$
+i\hbar\frac{\partial\psi}{\partial t} + \frac{\hbar^2}{2m}\frac{\partial^2\psi}{\partial x^2} - V(x,t)\psi = 0
+$$
+
+区别在于电势 $V(x,t)$ 依赖于 $\psi$ 本身，使最后一项成为非线性项。

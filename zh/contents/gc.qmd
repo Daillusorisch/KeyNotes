@@ -1,0 +1,620 @@
+# 导引中心 {#sec-GC}
+
+导引中心近似（GCA）是一种理论框架：它将快速的回旋运动与粒子导引中心（GC）的较慢漂移分离，从而简化带电粒子在电磁场中的复杂运动。
+
+质量为 $m$、电荷为 $e$ 的带电粒子，其运动所遵循的基本方程为
+$$
+\frac{\mathrm{d}\mathbf{u}}{\mathrm{d}t} = \frac{e}{mc}\left( c\mathbf{E} + \mathbf{v}\times\mathbf{B} \right)
+$$
+其中 $\mathbf{u}=\gamma\mathbf{v}$ 表示粒子的四速度，$\mathbf{v}$ 为粒子速度，$c$ 为光速，$\mathbf{E}$ 和 $\mathbf{B}$ 分别为电场和磁场矢量。
+
+在导引中心近似中，粒子的轨道运动与其瞬时回旋中心分离。这消除了与粒子回旋有关的约束，使系统地采用较大的时间步长成为可能，从而显著节约计算时间。导引中心（GC）方程是在场缓慢变化的极限下得到的。这将其适用范围限制于拉莫尔半径相对于整体电磁场尺度可以忽略、且回旋频率足够大以使绝热不变量成立的情况。因此，GCA 最适用于电子等荷质比较大的粒子。
+
+## 简要版本
+
+### 基本概念和变量
+
+**状态变量**：不求解完整的六维相空间 $(\mathbf{x}, \mathbf{v})$，而是求解简化后的四维导引中心状态：
+
+- $\mathbf{X}$：导引中心的空间位置。
+- $p_{\parallel} = m \gamma v_{\parallel}$：平行于磁场的相对论动量，其中 $\gamma$ 是洛伦兹因子。
+
+粒子的位置 $\mathbf{r}$ 分解为导引中心位置 $\mathbf{R}(t)$ 和回旋矢量 $\boldsymbol{\rho}$：
+$$
+\mathbf{r} = \mathbf{R}(t) + \boldsymbol{\rho}(\mathbf{R}, t, \psi)
+$$
+其中 $\psi$ 为回旋相位。当场变化的特征尺度 $L$ 远大于拉莫尔半径 $\rho$（$L \gg \rho$），且时间变化相对于回旋周期而言足够缓慢时，该近似成立。
+
+**参数（运动常量）**：
+
+- $\mu$：磁矩（绝热不变量）。
+$$
+\mu = \frac{p_{\perp}^2}{2mB}
+$$
+在 GCA 中，$\mu$ 为常量。它由初始条件计算一次，并在模拟过程中作为参数。
+
+### 有效场
+
+现代 GCA 方程可以使用“有效”电磁场 $\mathbf{B}^*$ 和 $\mathbf{E}^*$ 简洁地写出。这些有效场对通常的场进行了修正，从而自然地考虑漂移。
+
+定义：
+
+- $\mathbf{B}(\mathbf{X})$ 和 $\mathbf{E}(\mathbf{X})$：导引中心位置处通常的电磁场。
+- $\mathbf{b} = \mathbf{B}/|\mathbf{B}|$：沿磁力线方向的单位矢量。
+- $q$：粒子电荷。
+
+**计算有效磁场 $\mathbf{B}^*$**
+
+这一项包含驱动曲率漂移的磁力线几何信息（$\mathbf{b}$ 的旋度）。
+$$
+\mathbf{B}^* = \mathbf{B} + \frac{c p_{\parallel}}{q} \nabla \times \mathbf{b}
+$$
+
+**计算有效电场 $\mathbf{E}^*$**
+
+在许多实现中，直接使用哈密顿量的梯度更方便，但形式上有：
+$$
+\mathbf{E}^* = \mathbf{E} - \frac{1}{q} \nabla ( \mu B )
+$$
+
+### 哈密顿量
+
+对于相对论粒子，哈密顿量 $H$ 表示总能量。
+$$
+H(\mathbf{X}, p_{\parallel}, \mu, t) = \sqrt{m^2 c^4 + p_{\parallel}^2 c^2 + 2 m \mu B(\mathbf{X}) c^2} + q \Phi(\mathbf{X})
+$$
+
+- $\Phi$：电标势（若 $\mathbf{E} = -\nabla \Phi$）。
+- 注意：如果只有 $\mathbf{E}$ 而没有 $\Phi$，则在运动方程中直接使用力项 $q E_{\parallel}$。
+
+### 运动方程
+
+以下是需要数值求解的最终表达式，它们描述导引中心位置 $\mathbf{X}$ 和平行动量 $p_{\parallel}$ 随时间的演化。
+
+位置方程（$\dot{\mathbf{X}}$）：
+$$
+\frac{d\mathbf{X}}{dt} = \frac{1}{B^*_{\parallel}} \left[ \frac{p_{\parallel}}{m \gamma} \mathbf{B}^* + c \mathbf{E}^* \times \mathbf{b} \right]
+$$
+
+- 第一项（$\propto \mathbf{B}^\ast$）：表示沿磁力线的运动以及曲率漂移（隐含于 $\mathbf{B}^\ast$ 中）。
+- 第二项（$\propto \mathbf{E}^\ast \times \mathbf{b}$）：表示 $\mathbf{E} \times \mathbf{B}$ 漂移和 $\nabla B$ 漂移（后者通过 $\mu \nabla B$ 项隐含于 $\mathbf{E}^\ast$ 中）。
+- 分母：$B^\ast_{\parallel} = \mathbf{b} \cdot \mathbf{B}^\ast \approx B$。这是一个归一化因子，其值基本等于 $B$，但经过修正以保证相空间体积守恒。
+
+平行动量方程（$\dot{p}_{\parallel}$）：
+$$
+\frac{dp_{\parallel}}{dt} = \frac{q}{B^\ast_{\parallel}} \mathbf{B}^* \cdot \mathbf{E}^\ast
+$$
+
+它可简化为通常的平行力方程：
+$$
+\dot{p}_{\parallel} \approx q E_{\parallel} - \frac{\mu}{\gamma} \nabla_{\parallel} B
+$$
+
+### 数值实现指南
+
+要在代码中实现上述方程，可按照以下循环操作：
+
+- A. 初始化
+  1. 从粒子位置 $\mathbf{x}$ 和速度 $\mathbf{v}$ 开始。
+  2. 计算局部 $\mathbf{B}(\mathbf{x})$ 和 $\mathbf{b}$。
+  3. 分解速度：$\mathbf{v} = v_{\parallel} \mathbf{b} + \mathbf{v}_{\perp}$。
+  4. 计算 $\mu = \frac{m \gamma^2 v_{\perp}^2}{2 B}$（相对论磁矩）。
+  5. 初始化状态矢量 $\mathbf{Y} = [\mathbf{X}, p_{\parallel}]$。
+- B. 时间推进循环：对于每个时间步 $t \to t + \Delta t$：
+  1. 插值场：在当前 $\mathbf{X}$ 处取得 $\mathbf{B}, \mathbf{E}, \nabla \mathbf{B}$。
+  2. 计算梯度：需要 $\nabla \times \mathbf{b}$ 和 $\nabla B$。
+    - 若磁场模型已知，可以通过数值或解析方法计算 $\nabla \times \mathbf{b}$。
+  3. 构造有效场：
+    - $\mathbf{B}^* = \mathbf{B} + \frac{c p_{\parallel}}{q} (\nabla \times \mathbf{b})$
+    - $B^*_{\parallel} = \mathbf{b} \cdot \mathbf{B}^*$
+  4. 计算导数（方程右端）：
+    - $\gamma = \sqrt{1 + \frac{p_{\parallel}^2 + 2m\mu B}{m^2 c^2}}$
+    - $\dot{\mathbf{X}} = \frac{1}{B^*_{\parallel}} \left( \frac{p_{\parallel}}{m \gamma} \mathbf{B}^* + \frac{c}{q} (q\mathbf{E} - \mu \nabla B) \times \mathbf{b} \right)$
+    - $\dot{p}_{\parallel} = \frac{q}{B^*_{\parallel}} \mathbf{B}^* \cdot \left( \mathbf{E} - \frac{\mu}{q} \nabla B \right)$
+  5. 推进：更新 $\mathbf{X}$ 和 $p_{\parallel}$。
+- C. 约束与检查
+  - 时间步长：由于不需要分辨回旋周期，GCA 允许采用比完整轨道代码大得多的时间步长。不过，仍须分辨梯度长度尺度。一个常见约束是确保粒子每步穿过的网格（或特征长度）不超过一个。
+  - 有效性：检查 $E_{\perp} < B$，并确认回旋半径相对于场的梯度尺度较小（$R_L \ll L_B$）。
+
+### 从完整相空间转换到导引中心
+
+从六维粒子状态 $(\mathbf{x}, \mathbf{v})$ 转换到约化的导引中心（GC）状态 $(\mathbf{X}, v_{\parallel}, \mu)$ 是一个满射（多个粒子状态映射到同一个 GC 状态）。
+
+为了使这种转换保持一致——尤其是在可能来回切换的混合代码中——匹配两种描述中的运动常量（如能量）至关重要。下面是逐步转换过程：
+
+1. 计算导引中心位置（$\mathbf{X}$）
+
+导引中心位于粒子回旋的中心。需要在粒子当前位置 $\mathbf{x}$ 计算拉莫尔半径矢量并将其减去。
+
+- 计算局部场：取得 $\mathbf{B}(\mathbf{x})$ 和单位矢量 $\mathbf{b}(\mathbf{x}) = \mathbf{B}(\mathbf{x}) / |\mathbf{B}(\mathbf{x})|$。
+- 计算位移：
+$$
+\mathbf{X} \approx \mathbf{x} + \frac{m}{q B(\mathbf{x})} \mathbf{v} \times \mathbf{b}(\mathbf{x})
+$$
+  - 该方程在拉莫尔半径的一阶精度下有效。
+  - 建议在笛卡尔坐标中计算这一位移，以避免奇点。
+
+2. 在新位置更新场
+
+得到导引中心位置 $\mathbf{X}$ 的估计值后，必须在此新位置计算电磁场 $\mathbf{B}(\mathbf{X})$、$\mathbf{E}(\mathbf{X})$ 和势 $\Phi(\mathbf{X})$。
+
+3. 计算平行速度（$v_{\parallel}$）
+
+平行速度相对于导引中心 $\mathbf{X}$ 处的磁场定义，而不是相对于粒子位置 $\mathbf{x}$ 处的磁场定义。
+
+- 标准投影：
+$$
+v_{\parallel} = \mathbf{v} \cdot \mathbf{b}(\mathbf{X})
+$$
+- 能量／动量匹配（高精度）：为了获得更高精度，特别是确保在切换过程中粒子的环向动量 $P_{\phi}$ 守恒（在轴对称系统中），可根据动量守恒方程计算 $v_{\parallel}$：
+$$
+v_{\parallel} \approx \frac{1}{B(\mathbf{X})} \left( \mathbf{v} \cdot \mathbf{B}(\mathbf{X}) + \dots \text{高阶项} \right)
+$$
+
+对于大多数标准实现，简单投影 $\mathbf{v} \cdot \mathbf{b}(\mathbf{X})$ 已经足够。
+
+4. 计算磁矩（$\mu$）
+
+磁矩是绝热不变量。计算 $\mu$ 时确保粒子总能量 $\mathcal{H}$ 在转换过程中守恒至关重要。
+
+- 能量守恒条件：
+$$
+\mathcal{H}_{\text{particle}} = \mathcal{H}_{\text{GC}}
+$$
+$$
+\frac{1}{2} m v^2 + q \Phi(\mathbf{x}) = \frac{1}{2} m v_{\parallel}^2 + \mu B(\mathbf{X}) + q \Phi(\mathbf{X})
+$$
+- $\mu$ 的公式：整理能量方程可得到切换时对 $\mu$ 最稳健的定义：
+$$\mu = \frac{1}{B(\mathbf{X})} \left[ \frac{1}{2} m v^2 - \frac{1}{2} m v_{\parallel}^2 + q(\Phi(\mathbf{x}) - \Phi(\mathbf{X})) \right]$$
+  - 若电势变化 $q(\Phi(\mathbf{x}) - \Phi(\mathbf{X}))$ 可以忽略（为拉莫尔半径量级），则简化为标准定义：
+$$
+\mu \approx \frac{m v_{\perp}^2}{2 B(\mathbf{X})}
+$$
+其中 $v_{\perp}^2 = v^2 - v_{\parallel}^2$。
+
+算法概要：
+
+1. 输入：粒子 $\mathbf{x}, \mathbf{v}$。
+2. 位移：$\mathbf{X} = \mathbf{x} + \frac{m}{q B(\mathbf{x})} (\mathbf{v} \times \mathbf{b})$。
+3. 投影：$v_{\parallel} = \mathbf{v} \cdot \mathbf{b}(\mathbf{X})$。
+4. 守恒：$\mu = \frac{ \frac{1}{2}m v^2 - \frac{1}{2}m v_{\parallel}^2 }{B(\mathbf{X})}$（忽略电势差）。
+5. 输出：状态 $(\mathbf{X}, v_{\parallel}, \mu)$。
+
+### 从导引中心转换到完整相空间
+
+从约化的导引中心（GC）变量 $(\mathbf{X}, p_{\parallel}, \mu)$ 转换回完整的六维粒子相空间 $(\mathbf{x}, \mathbf{p})$ 是“一对多”映射。由于回旋相位 $\zeta$ 在 GCA 中被平均掉，必须任意选择（或随机指定）一个回旋相位角 $\zeta \in [0, 2\pi)$，才能重建特定的粒子位置和速度。
+
+逐步重建过程如下。
+
+1. 在导引中心处计算局部量
+
+首先，在已知的导引中心位置 $\mathbf{X}$ 处计算电磁场和单位矢量。
+
+- 局部磁场：$\mathbf{B} = \mathbf{B}(\mathbf{X})$
+- 单位矢量：$\mathbf{b} = \mathbf{B} / |\mathbf{B}|$
+- 垂直动量大小：根据磁矩 $\mu$（GCA 中的参数）计算 $p_{\perp}$：
+$$
+p_{\perp} = \sqrt{2 m B(\mathbf{X}) \mu}
+$$
+- 回旋半径大小：
+$$
+\rho = \frac{p_{\perp}}{|q| B(\mathbf{X})}
+$$
+
+2. 定义垂直基
+
+要定义回旋方向，需要一个垂直于磁场的坐标系。构造两个单位矢量 $\mathbf{e}_1$ 和 $\mathbf{e}_2$，使 $(\mathbf{e}_1, \mathbf{e}_2, \mathbf{b})$ 构成右手正交归一基。
+
+求取 $\mathbf{e}_1$ 的一种常见数值方法为：
+$$
+\mathbf{e}_1 = \frac{\mathbf{b} \times \hat{\mathbf{u}}}{|\mathbf{b} \times \hat{\mathbf{u}}|}
+$$
+其中 $\hat{\mathbf{u}}$ 是任意不与 $\mathbf{b}$ 平行的固定单位矢量，例如 $\hat{\mathbf{x}}$。然后：
+$$
+\mathbf{e}_2 = \mathbf{b} \times \mathbf{e}_1
+$$
+
+3. 重建粒子位置（$\mathbf{x}$）
+
+粒子位置等于导引中心位置加上拉莫尔半径矢量 $\boldsymbol{\rho}$。选择一个回旋相位 $\zeta$（例如从均匀分布 $U[0, 2\pi]$ 中抽取）。
+$$
+\mathbf{x} = \mathbf{X} + \boldsymbol{\rho}
+$$
+
+位移矢量 $\boldsymbol{\rho}$ 为：
+$$
+\boldsymbol{\rho} = \rho (\cos\zeta \, \mathbf{e}_1 + \sin\zeta \, \mathbf{e}_2)
+$$
+
+注意：在某些高精度混合方案中，会对 $\zeta$ 进行特定选择（例如使 $\boldsymbol{\rho}$ 垂直于 $\nabla B$），以尽量减小切换模型时的能量差异；但一般重建时通常采用随机相位。
+
+4. 重建粒子动量（$\mathbf{p}$）
+
+总动量是平行动量、垂直回旋动量和（为提高精度可选的）与 $\mathbf{E} \times \mathbf{B}$ 漂移相关的动量之和。
+
+**标准重建（零阶）**：这一重建得到的粒子只做回旋运动和沿磁力线的运动。
+$$
+\mathbf{p} = p_{\parallel} \mathbf{b} + \mathbf{p}_{gyro}
+$$
+其中回旋动量 $\mathbf{p}_{gyro}$ 垂直于 $\boldsymbol{\rho}$（沿圆周切向）：
+$$
+\mathbf{p}_{gyro} = p_{\perp} (-\sin\zeta \, \mathbf{e}_1 + \cos\zeta \, \mathbf{e}_2) \times \text{sign}(q)
+$$
+
+**漂移修正的重建（一阶）**：如果 GCA 模拟包含显著的 $\mathbf{E} \times \mathbf{B}$ 漂移，应在粒子速度中加入这一分量，以确保完整轨道与漂移路径吻合。
+$$
+\mathbf{p} \approx p_{\parallel} \mathbf{b} + \mathbf{p}_{gyro} + m \gamma \mathbf{v}_E
+$$
+其中
+$$
+\mathbf{v}_E = \frac{c \mathbf{E} \times \mathbf{b}}{B}
+$$
+
+## 经典导引中心理论
+
+这里列出经典的*导引中心运动方程（EOM）*推导中的要点。完整讨论参见 @vandervoort1960relativistic。
+
+### 张量形式的洛伦兹方程
+
+为推导导引中心近似（GCA），我们使用相对论中的张量记号。带电粒子在电磁场中的运动方程可写为张量形式：
+$$
+\frac{\mathrm{d}x_\mu}{\mathrm{d}\tau^2} = F_{\mu\nu} \frac{\mathrm{d}x_\nu}{\mathrm{d}\tau}
+$$ {#eq-charged-particle-motion-general}
+其中 $x_\mu$ 是粒子的四维坐标，$F_{\mu\nu}$ 是电磁张量，$\tau$ 是粒子的固有时。
+
+电磁张量为
+$$
+F_{\mu\nu} = \frac{e}{mc}
+\begin{pmatrix}
+0 & B_z & -B_y & E_x \\
+-B_z & 0 & B_x & E_y \\
+B_y & -B_x & 0 & E_z \\
+E_x & E_y & E_z & 0
+\end{pmatrix}
+$$ {#eq-em-tensor}
+
+### 基本假设
+
+导引中心理论在以下两个基本假设下成立：
+
+1. 回旋半径必须远小于电磁场发生显著变化的长度尺度。
+2. 在电磁场发生明显变化之前，粒子经历多次回旋（缓变场近似）。设 $\rho$ 为粒子的回旋半径（相差一个 $\sqrt{2}$ 因子），$x_\mu$ 为粒子位置，$X_\mu$ 为导引中心位置，$\tau$ 为固有时，$F_{\mu\nu}$ 为电磁场张量，则上述两个条件可以用数学形式表示为
+$$
+\rho \left| \frac{\partial F_{\mu\nu}}{\partial x_\alpha} \right| \ll \left| F_{\mu\nu} \right|
+$$ {#eq-gca-condition1}
+以及
+$$
+\frac{1}{\omega} \left| \frac{\partial F_{\mu\nu}}{\partial x_\alpha} \right| \left| \frac{\mathbf{d}X_\beta}{\mathrm{d}\tau} \right| \ll \left| F_{\mu\nu} \right|
+$$ {#eq-gca-condition2}
+其中 $\omega$ 为回旋频率。当上述条件成立时，我们可以将粒子轨迹分解为回旋运动和导引中心运动。
+
+### 导引中心方程的推导
+
+@eq-charged-particle-motion-general 的通解是与电磁张量的四个特征值 $q=\pm i\omega$ 和 $q=\pm\lambda$ 相关的两个基本解的线性组合，其中
+$$
+\begin{aligned}
+\omega &= \frac{e}{mc}\sqrt{\frac{1}{2}(B^2 - E^2) + \frac{1}{2}\sqrt{(B^2 - E^2)^2 + 4(\mathbf{E}\cdot\mathbf{B})^2}} \\
+\lambda &= \frac{e}{mc}\sqrt{-\frac{1}{2}(B^2 - E^2) + \frac{1}{2}\sqrt{(B^2 - E^2)^2 + 4(\mathbf{E}\cdot\mathbf{B})^2}}
+\end{aligned}
+$$ {#eq-EM-eigenvalues}
+
+$\omega$ 是 $E\neq 0$ 时拉莫尔频率 $\omega_\xi = eB/(mc)$ 的广义相对论形式（可以通过求 $E\to 0$ 极限验证）。@eq-charged-particle-motion-general 的通解 $x_\mu$ 为
+$$
+x_\mu = \xi_\mu\rho \cos(\omega\tau) - \eta_\mu \rho \sin(\omega\tau) + \alpha_\mu \nu \cosh(\lambda\tau) + \beta_\mu \nu \sinh(\lambda\tau)
+$$ {#eq-charged-particle-motion-general-sol}
+
+注意，前两项与周期运动有关，即以回旋半径 $\rho$ 绕磁力线回旋。这里 $\rho, \nu$ 是由初始条件确定的常量，$\xi_\mu,\eta_\mu,\alpha_\mu$ 和 $\beta_\mu$ 是按下式归一化的四维单位矢量：
+$$
+\xi_\mu^2 = \eta_\mu^2 = 1,\quad \text{且}\quad \alpha_\mu^2 = -\beta_\mu^2 = 1
+$$ {#eq-charged-particle-motion-general-sol-normalization}
+
+$\rho = 0$ 和 $\nu = 0$ 时的解必须分别成立，因此将这两种特殊情况下的 $x_\mu$ 代入 @eq-charged-particle-motion-general，可以看出 $\xi_\mu,\eta_\mu,\alpha_\mu$ 和 $\beta_\mu$ 构成闵可夫斯基空间的一组正交基。这组四维矢量的正交关系特别表明，$(\xi_mu,\eta_\mu)$ 平面中的周期运动（回旋）与 $(\alpha_\mu, \beta_\mu)$ 平面中的加速运动相垂直；这一关系稍后会用到。此时，速度平方不变量给出另一个有用的关系：
+$$
+\frac{\mathrm{d}x_\mu}{\mathrm{d}\tau}\frac{\mathrm{d}x_\mu}{\mathrm{d}\tau} = -c^2,\quad\text{由此得到}\quad \omega^2\rho^2 - \lambda^2\nu^2 = -c^2
+$$ {#eq-sqr-v-invariance}
+
+由于我们只关注出现回旋的情况，唯一需要考虑的特征值退化情况是 $\lambda=0, \omega\neq 0$，对应 $\mathbf{E}\cdot\mathbf{B}=0$ 和 $|\mathbf{E}|\to 0$。相应的解为
+$$
+x_\mu = \xi_\mu\rho \cos(\omega\tau) - \eta_\mu \rho \sin(\omega\tau) + U_\mu \tau
+$$ {#eq-associated-sol}
+
+这里清楚地显示了拉莫尔频率为 $\omega_\xi = \omega$ 的回旋运动，以及在垂直于 $(\mathbf{E}, \mathbf{B})$ 平面的平面内以速度 $U_\mu = (\gamma c, \mathbf{U})$ 进行的匀速运动（漂移）。[^verification]
+在此特殊情况下，速度平方不变量 @eq-sqr-v-invariance 变为
+$$
+\omega^2\rho^2 + U_\mu^2 = -c^2,\quad\text{或}\quad U_\mu^2 = -c^2 - \omega^2\rho^2 < -c^2
+$$ {#eq-sqr-v-invariance1}
+
+[^verification]: 为验证这一点，只需将 $x_\mu$ 和 $U_\mu$ 分别代入 @eq-charged-particle-motion-general 的左侧和右侧，即可得到 $F_{\mu\nu} U_\nu = 0$，然后将该方程的指标明确写出。
+
+@eq-sqr-v-invariance1 在导引中心近似（GCA）形式体系中至关重要，因为漂移运动 $U_\mu$ 是从回旋运动中分离出来的平均运动，对应导引中心（GC）本身的运动；这意味着我们刚刚得到的是粒子导引中心的能量与动量之间的关系。它与众所周知的四维速度平方公式 ${U_\mu^\prime}^2=-c^2$ 非常相似，唯一的区别是多出一项 $\omega^2\rho^2$。这提示我们可以将导引中心的运动理解为一个位于回旋中心、不做回旋运动且四维速度平方满足 @eq-sqr-v-invariance1 的粒子的运动；这与粒子的一部分动能通过 $\omega^2\rho^2$ 项储存在回旋运动中相一致。将 $U_\mu$ 的空间和时间部分分开，并重新整理 @eq-sqr-v-invariance1 中的某些项，可以得到导引中心洛伦兹因子的关系式
+$$
+\gamma_\text{GC} = \sqrt{1+\frac{|\mathbf{U}|^2}{c^2} + \frac{\omega^2\rho^2}{c^2}} = \sqrt{1+\frac{\gamma^2|\mathbf{v}|^2}{c^2} + \frac{\omega^2\rho^2}{c^2}}
+$$ {#eq-gc-gamma}
+
+虽然我们只考虑了一个极限情况，但可以证明同一方程在 GCA 形式体系中普遍成立。
+
+现在我们希望在一般情况下分离出回旋运动，方法是将运动分解如下：
+$$
+x_\mu = \xi_\mu x + \eta_\mu y + x_\mu^\prime + X_\mu
+$$ {#eq-gc-separation-of-motion}
+其中 $x_\mu$ 是粒子的时空位置，$X_\mu$ 是导引中心的位置。我们用两个变量 $x$ 和 $y$ 描述 $(\xi, \eta)$ 平面内的周期运动，而 $x_\mu^\prime$ 项描述不在同一平面内的周期运动。为更方便地描述回旋运动，我们还选取一对新变量
+$$
+\zeta = \frac{1}{\sqrt{2}}\left( x+ iy \right)\quad\text{且}\quad \zeta^\ast = \frac{1}{\sqrt{2}}\left( x - iy \right)
+$$ {#eq-gc-new-vars}
+使得 $\xi_\mu x + \eta_\mu y = \delta_\mu\zeta + \sigma_\mu\zeta^\ast$。新变量使我们能够以更方便的方式选择 $\zeta_\mu$ 和 $\delta_\mu$，并用某个因子 $e^{i\phi}$ 表示问题的初始条件。利用 @eq-gc-new-vars 重写粒子坐标
+$$
+x_\mu = \delta_\mu\zeta + \sigma_\mu\zeta^\ast + x_\mu^\prime + X_\mu
+$$ {#eq-eq-gc-new-vars2}
+
+下一步是将此表达式代入 @eq-charged-particle-motion-general 并展开二阶导数，得到一个含有八个未知量的长表达式：$\zeta,\zeta^\ast$、$x_\mu$ 的两个分量（与 $(\sigma, \delta)$ 平面有关的条件确定另外两个）以及 $X_\mu$ 的四个分量。
+
+@eq-gca-condition2 中表达的 GCA 条件隐含一个小参数 $\epsilon =|u/\omega L|\ll 1$，其中 u 是典型粒子四维速度，L 是电磁场 $F_{\mu\nu}$ 的变化量与 $F_{\mu\nu}$ 本身相当时的特征长度（缓变场近似）。这使我们能够围绕 $X_\mu$（导引中心坐标）进行泰勒展开，近似表示 $F_{\mu\nu}(x_\mu)$（粒子坐标处的场）
+$$
+\begin{aligned}
+F_{\mu\nu}(x_\mu) =& F_{\mu\nu}(X_\mu) \\
+&+ \frac{\partial F_{\mu\nu}}{\partial x_\xi}(\delta_\xi \zeta + \sigma_\xi \zeta^\ast) \\
+&+ \frac{1}{2} \frac{\partial^2 F_{\mu\nu}}{\partial x_\xi\partial x_\pi}\left[ \delta_\xi\delta_\pi \zeta^2 + \sigma_\xi\sigma_\pi {\zeta^\ast}^2 + (\sigma_\xi \delta_\pi + \sigma_\pi \delta_\xi)|\zeta|^2 \right] \\
+&+ \frac{\partial F_{\mu\nu}}{\partial x_\xi} x_\xi^\prime + ...
+\end{aligned}
+$$
+
+现在应使用新坐标将 $F_{\mu\nu}(x_\mu)$ 代入 @eq-charged-particle-motion-general，得到一个相当长的方程，其中所有量均在导引中心位置 $X_\mu$ 处计算并保留到二阶，然后将所有二阶项归并到右侧，记为 $G_\mu$
+$$
+\begin{aligned}
+&\delta_\mu\frac{\mathrm{d}^2\zeta}{\mathrm{d}\tau^2} + \sigma_\mu\frac{\mathrm{d}^2\zeta^\ast}{\mathrm{d}\tau^2}+\left( i\omega\delta_\mu + 2\frac{\mathrm{d}\zeta}{\mathrm{d}\tau} \right)\frac{\mathrm{d}\zeta}{\mathrm{d}\tau} \\
+&+\left( -i\omega\sigma_\mu + 2\frac{\mathrm{d}\sigma_\mu}{\mathrm{d}\tau} \right) \frac{\mathrm{d}\zeta^\ast}{\mathrm{d}\tau} + \frac{\mathrm{d}^2\delta_\mu}{\mathrm{d}\tau^2}\zeta + \frac{\mathrm{d}^2\sigma_\mu}{\mathrm{d}\tau^2}\zeta^\ast \\
+&- \frac{\partial F_{\mu\nu}}{\partial x_\xi}\left( \delta_\xi \zeta + \sigma_\xi \zeta^\ast \right)\frac{\mathrm{d}X_\nu}{\mathrm{d}\tau} - F_{\mu\nu}\left( \frac{\mathrm{d}\delta_\nu}{\mathrm{d}\tau}\zeta + \frac{\mathrm{d}\sigma_\nu}{\mathrm{d}\tau}\zeta^\ast \right) \\
+&- \frac{\partial F_{\mu\nu}}{\partial x_\xi}\left( \delta_\xi \zeta + \sigma_\xi \zeta^\ast \right) \left( \delta_\nu\frac{\mathrm{d}\zeta}{\mathrm{d}\tau} + \sigma_\nu\frac{\mathrm{d}\zeta^\ast}{\mathrm{d}\tau} \right) \\
+&+ \left( \frac{\mathrm{d}^2 X_\nu}{\mathrm{d}\tau^2} - F_{\mu\nu}\frac{\mathrm{d}X_\mu}{\mathrm{d}\tau} \right) + \left( \frac{d^2 x_\mu^\prime}{\mathrm{d}\tau^2} - F_{\mu\nu}\frac{\mathrm{d}x_\nu^\prime}{\mathrm{d}\tau} \right) = G_\mu
+\end{aligned}
+$$ {#eq-gc-expansion}
+
+为继续推导，需要 $\zeta$ 的表达式，但由于推导相当长，这里不再明确推导。基本思路是使用新四维矢量 $\sigma_\mu$ 和 $\delta_\mu$ 的正交关系，以及张量形式麦克斯韦方程中电磁张量的反对称性，然后假设已经找到 $X_\mu$ 的解。考虑到 $x_\mu$ 在 GCA 中是一阶项，忽略二阶量，并将与 $\zeta$ 无关的项写为数值 $P$，则 @eq-gc-expansion 变为
+$$
+\frac{\mathrm{d}^2\zeta}{\mathrm{d}\tau^2} + i\Omega\frac{\mathrm{d}\zeta}{\mathrm{d}\tau} + \frac{i}{2}\frac{\mathrm{d}\Omega}{\mathrm{d}\tau}\zeta + \Omega a \zeta + P = 0
+$$ {#eq-gc-expansion2}
+其中 $\Omega a \zeta$ 包含所有关于 $\zeta$ 的线性项。因此，类比量子力学中的 _Wentzel–Kramers–Brillouin（WKB）_近似，相应的解 $\zeta$ 为
+$$
+\zeta = \rho_0 \sqrt{\frac{\omega_0}{\Omega}}\exp\left[ -i\left( \Phi + \int_{\tau_0}^\tau \sigma_1 \mathrm{d}\tau \right) \right]
+$$ {#eq-gc-wkb}
+其零阶形式中，
+$$
+\Omega = \omega - 2i\sigma_\mu \frac{\mathrm{d}\delta_\mu}{\mathrm{d}\tau},\quad \Phi = \int_{\tau_0}^{\tau}\Omega\mathrm{d}\tau - \phi,\quad\text{且}\quad \sigma = a - \frac{a^2}{\Omega}
+$$ {#eq-gc-wkb2}
+下标 0、1 表示上面定义的量所对应的近似阶数。
+
+既然现在已知 $\zeta$ 的表达式，就可以写出 $X_\mu$ 的一阶运动方程。为此，我们要求 @eq-gc-expansion 左侧包含 $X_\mu$ 一阶和二阶导数的项与其余非振荡项相平衡，即
+$$
+\frac{\mathrm{d}^2 X_\mu}{\mathrm{d}\tau^2} - F_{\mu\nu}\frac{\mathrm{d}X_\nu}{\mathrm{d}\tau} = \frac{\partial F_{\mu\nu}}{\partial x_\xi}\left( \delta_\xi \sigma_\nu \frac{\mathrm{d}\zeta^\ast}{\mathrm{d}\tau} + \delta_\nu \sigma_\xi \frac{\mathrm{d}\zeta}{\mathrm{d}\tau} \right)
+$$ {#eq-gc-balance}
+
+得到解 @eq-gc-wkb 后，再次利用 $\delta_\mu$ 和 $\sigma_\mu$ 的正交关系以及张量形式的麦克斯韦方程，可以写出导引中心的运动方程
+$$
+\frac{\mathrm{d}^2 X_\mu}{\mathrm{d}\tau^2} - F_{\mu\nu}\frac{\mathrm{d}X_\nu}{\mathrm{d}\tau} + \rho_0^2 \omega_0\frac{\partial\omega}{\partial x_\mu} = 0
+$$ {#eq-gc-eom}
+其中 $\omega$（@eq-EM-eigenvalues）是广义拉莫尔频率，$\rho_0^2 \omega_0 = \mu_0 = mc\gamma^2 v_\perp^2 / 2eB$ 是粒子磁矩 $\mu$ 的零阶近似（相差一个常数因子），而 $\omega_0 = eB/(mc)$ 表示 $E\ll B$ 时拉莫尔频率的最低阶近似。
+
+更准确地说，磁矩仅应在以 $\mathbf{v}_E$ 运动的参考系中视为常数，因为在该特定情况下 $\mathbf{E} = 0$。事实上，形式分析（@northrop1960stability）表明，一般参考系中相应的运动常量实际上是按小参数 $\epsilon=u/(\omega_0 L)$ 展开的渐近级数，其形式为 $\mu = (e/c)\left[ \mu_0 + \epsilon \mu_1 + \epsilon^2 \mu_2 + ... \right]$，因此 $\mu_0$ 不是常数，仍可以按照绝热理论变化。尽管如此，大量数值测试证实，假设 $\mathrm{d}\mu_0 / \mathrm{d}t \approx 0$ 引入的误差至多与导引中心形式体系引入的误差同阶，这是因为缓变场条件阻止了磁矩发生显著变化。因此，可以放心地假设 $\mu \approx (e/c)\mu_0$ 不变。
+
+### GCA 运动方程的一阶解
+
+尽管导引中心运动方程 @eq-gc-eom 看似简单，在近交叉电磁场条件下，将它写成显式包含导引中心速度的形式更为方便：
+$$
+\frac{\mathbf{E}_\parallel \cdot\mathbf{B}}{B^2 - E_\perp^2} \ll 1
+$$ {#eq-nearly-cross-em}
+其中下标 $\parallel$ 和 $\perp$ 表示电场相对于磁场单位矢量 $\hat{b}$ 的平行和垂直分量。可以证明，@eq-nearly-cross-em 允许将电磁张量场 $F_{\mu\nu}$ 分解为仅由 $\mathbf{E}_\perp$ 和 $\mathbf{B}$ 构成的部分 $F_{\mu\ni}^{(0)}$，以及依赖于 $\mathbf{E}_\parallel$ 的修正项 $F_{\mu\nu}^{(1)}$。形式分析得出结论：导引中心四维速度 $U_\mu \equiv \mathrm{d}X_\mu/\mathrm{d}\tau$ 可以分解为零阶贡献 $\mathrm{U}^{(0)}$（包含漂移速度 $\mathbf{v}_E = c\mathbf{E}_\perp \times\mathbf{B}/B^2$ 和平行于磁力线的速度分量 $v_\parallel \hat{b}$）以及一阶修正 $\mathbf{U}^{(1)}$，得到
+$$
+U_\mu = (\gamma c, \mathbf{U}) \simeq (\gamma c, \gamma v_\parallel \hat{b} + \gamma \mathbf{v}_E + \mathbf{U}^{(1)})
+$$ {#eq-four-velocity-decomposition}
+其中 $\gamma$ 是粒子的洛伦兹因子，$\gamma = (1- v^2/c^2)^{-1/2}$。可以如下面所示利用递归方法从 @eq-gc-eom 导出 $\mathbf{U}^{(1)}$ 的方程，同时从空间分量得到导引中心四维速度平行分量 $\gamma v_\parallel$ 的同阶方程。由此得到（一阶）GCA 常微分方程（ODE）组
+$$
+\begin{aligned}
+\frac{\mathrm{d}\mathbf{X}}{\mathrm{d}t} &= \mathbf{v}_E + v_\parallel \hat{b} + \frac{\gamma_E^2}{B}\hat{b}\times\left[ \frac{mc\gamma}{e}\left( v_\parallel\mathcal{L}(\hat{b}) + \mathcal{L}(\mathbf{v}_E) \right) + \mathcal{M}\left( \frac{B}{\gamma_E} \right) + \frac{v_\parallel E_\parallel}{c}\mathbf{v}_E \right] \\
+\frac{\mathrm{d}(\gamma v_\parallel)}{\mathrm{d}t} &= \frac{e}{m}E_\parallel - \gamma\hat{b}\cdot\mathcal{L}(\mathbf{v}_E) - \frac{\mu}{\gamma m}\hat{b}\cdot\nabla\left(\frac{B}{\gamma_E}\right)
+\end{aligned}
+$$ {#eq-gc-eom-1st-sol}
+其中 $\mathrm{d}\mathbf{X}/\mathrm{d}t = \mathbf{U}^{(1)}/\gamma$ 表示导引中心的速度，$e/m$ 是粒子的荷质比，且 $\mu_0 = c\mu/e$。算符 $\mathcal{L}$ 和 $\mathcal{M}$ 定义为
+$$
+\begin{aligned}
+\mathcal{L}(x) &= \frac{\partial\mathbf{x}}{\partial t} + v_\parallel(\hat{b}\cdot\nabla)\mathbf{x} + (\mathbf{v}_E\cdot\nabla)\mathbf{x} \\
+\mathcal{M}(x) &= \frac{\mu}{e\gamma}\left[ \frac{\mathbf{v}_E}{c}\frac{\partial x}{\partial t} + c\nabla x \right]
+\end{aligned}
+$$ {#eq-gc-eom-1st-operator}
+其中 $\gamma_E = (1 - E_\perp^2/B^2)^{-1/2}$ 是与漂移速度 $\mathbf{v}_E$ 相关的洛伦兹因子。
+
+在 GCA @eq-gc-eom-1st-sol 中，垂直于磁场的运动信息丢失，实际随时间演化的粒子速度分量只有 $u_\parallel$，因为磁矩 $\mu_0\approx c\mu/e$ 现在被视为运动常量。@eq-gc-eom-1st-sol 右侧的每一项都对应一种特定的漂移运动。第一项表示 $\mathbf{E}\times\mathbf{B}$ 垂直漂移，第二项描述粒子沿磁场方向的运动。方括号中的前两项 $\mathcal{L}(\hat{b})$ 和 $\mathcal{L}(\mathbf{v}_E)$ 分别描述磁场曲率漂移和极化漂移[^L-lagrangian]。下一项是 $\nabla-B$ 漂移，而最后一项表示沿 $\hat{b}\times\mathbf{v}_E$ 方向的相对论漂移。
+
+[^L-lagrangian]: 注意，$\mathcal{L}()$ 算符是拉格朗日导数 $\mathrm{d}/\mathrm{d}t$。
+
+当 $B\to 0$（磁零点）或 $E_\perp \ge B$ 时，即近交叉电磁场条件 @eq-nearly-cross-em 被违反时，@eq-gc-eom-1st-sol 失效。第一种情况容易在电流片内部出现，而第二种只可能出现在非理想 MHD 区域。违反任一条件都会使 GCA 失效，并可能导致严重的数值误差。
+
+### 递归解
+
+在 @eq-nearly-cross-em 条件下可以找到 @eq-gc-eom 的显式解，这引入了一个新的小参数 $\lambda / \omega \ll 1$。
+
+### 能量守恒
+
+@eq-gc-eom 的时间分量给出粒子能量随时间变化的演化常微分方程，即
+$$
+\frac{\mathrm{d}\gamma c^2}{\mathrm{d}t} = \frac{e}{m}\frac{\mathrm{d}\mathbf{X}}{\mathrm{d}t}\cdot\mathbf{E} + \frac{\mu}{m}\frac{\partial}{\partial t}\left( \frac{B}{\gamma_E} \right)
+$$ {#eq-gc-eom-time}
+
+在与时间无关的情况下，@eq-gc-eom-time 清楚地表明，当导引中心速度垂直于电场时，不会发生加速，粒子能量守恒。然而，在数值计算中并不通过求解 @eq-gc-eom-time 获得洛伦兹因子 $\gamma$，因为除非采用较小时间步长，否则右侧的大数值容易在格式的截断误差水平上违反 $\gamma\ge 1$ 条件。实际中，在一阶近似下，粒子速度可分解为平行分量 $v_\parallel$、漂移分量 $v_E$ 和回旋分量 $v_\perp$，由此得到归一化条件
+$$
+\gamma^2( c^2 - v_\parallel^2 - v_\perp^2 - v_E^2) = c^2 
+$$ {#eq-gc-eom-normalization-1st}
+
+根据磁矩和拉莫尔频率的定义 $\mu_0 = mc\gamma^2 v_\perp^2/(2eB) = \gamma^2 v_\perp^2/(2\omega_0)$，计算粒子洛伦兹因子为
+$$
+\gamma = \sqrt{\frac{c^2 + \gamma^2 v_\parallel^2 + 2\mu_0 \omega_0}{c^2 - v_E^2}}
+$$ {#eq-gc-eom-lorentz}
+
+常用数值求解器以 @eq-gc-eom-lorentz 代替 @eq-gc-eom-time 来获得洛伦兹因子。
+
+## 有效性与高阶修正
+
+标准导引中心近似是对拉莫尔半径 $\rho_L$ 的一阶展开。其有效性取决于磁场在一个回旋半径范围内的变化足够小。严格判据需要分析场导数张量：
+$$
+\frac{\sqrt{\lambda_{max}} \rho_\perp}{B} \ll 1
+$$
+其中 $\lambda_{max}$ 是包含场线梯度、曲率和剪切的张量的最大特征值。
+
+当场变化剧烈时（例如在磁场急剧反转或电流片附近），一阶近似失效。可能需要高阶修正（例如 Baños 漂移），它会增加与磁场平行旋度成正比的项：
+$$
+\langle \dot{z} \rangle - \langle v_\parallel \rangle \approx \frac{\mu B}{m \omega_0} \hat{b} \cdot (\nabla \times \hat{b})
+$$
+这一修正解释了场线剪切导致的粒子平均速度与导引中心速度之间的差异。
+
+### 数值实现
+
+GCA @eq-gc-eom-1st-sol 包含一组四个常微分方程，未知量为 $(\mathbf{X}, u_\parallel)$。需要在网格上计算的项为
+
+* $\mathbf{B}$
+* $c\mathbf{E}$
+* $(\hat{b}\cdot\nabla)\hat{b}$
+* $(\hat{b}\cdot\nabla)\mathbf{v}_E$
+* $(\mathbf{v}_E\cdot\nabla)\mathbf{v}_E$
+* $(\mathbf{v}_E\cdot\nabla)\hat{b}$
+* $\nabla(B/\gamma_E)$
+
+@mignone2023guiding 报道了 GCA 在 PLUTO MHD 模型中的实现。
+
+### 非相对论情况
+
+在非相对论情况下，$\gamma = 1$，因此不需要求解 @eq-gc-eom-lorentz。@eq-gc-eom-1st-sol 可以简化为
+$$
+\begin{aligned}
+\frac{\mathrm{d}\mathbf{X}}{\mathrm{d}t} &=  \\
+\frac{\mathrm{d}(v_\parallel)}{\mathrm{d}t} &= 
+\end{aligned}
+$$ {#eq-gc-eom-1st-sol-nonrelativistic}
+
+## 导引中心运动的哈密顿理论
+
+以下遵循 @cary2009hamiltonian 的综述。
+
+导引中心运动的正则和非正则哈密顿表述相较于非哈密顿表述有所改进：哈密顿表述具有诺特定理（因此不变量由对称性导出），并保持庞加莱不变量（从而防止导引中心动力学模拟中出现虚假吸引子）。对于与时间无关的场，哈密顿导引中心理论保证存在能量守恒定律，而非哈密顿导引中心理论并不一定如此。使用相空间拉格朗日方法有助于这一理论的发展，因为无需预先变换到物理意义较弱的正则坐标，例如磁通坐标。
+
+### 非正则哈密顿导引中心理论
+
+导引中心相空间由以下变量组成
+
+* 导引中心位置 $\mathbf{X}$，本质上是螺旋线的中心；
+* 导引中心平行速度变量 $u\equiv \hat{b}\cdot\dot{\mathbf{X}}$；
+* （最低阶）磁矩，
+$$
+\mu \equiv \frac{m |\mathbf{w}|^2}{2B(\mathbf{X}, t)}
+$$ {#eq-magnetic-moment-lowest-order-gc}
+其中 $\mathbf{w} = \mathbf{v}_\perp - \mathbf{v}_E$ 是在以 $\mathbf{E}\times\mathbf{B}$ 漂移速度 $\mathbf{v}_E\equiv c\mathbf{E}\times\hat{b}/B$ 运动的局部参考系中的垂直速度。
+
+* 以及可忽略的回旋相位 $\zeta$，它给出粒子在绕导引中心的圆周上的位置。
+
+由于描述相空间的参数仍有六个，进行导引中心变换 $(\mathbf{x},\mathbf{v}) \to (\mathbf{X},u,\mu,\zeta)$ 不会丢失信息。为了简化记号，当需要使用与回旋运动有关的作用量—角坐标 $J,\zeta$ 时，我们有时用回旋作用量变量 $J \equiv mc/e\mu$ 代替磁矩 $\mu$。
+
+这些变量的运动方程由导引中心相空间拉格朗日量给出，
+$$
+\mathcal{L}_\text{gc}(\mathbf{X},u,\mu,\zeta;t) = \left[ \frac{e}{c}\mathbf{A}(\mathbf{X},t) + mu\hat{b}(\mathbf{X},t) \right]\cdot\dot{\mathbf{X}} + J\dot{\zeta} - H_\text{gc}
+$$ {#eq-gc-lagrangian}
+其中导引中心哈密顿量为
+$$
+H_\text{gc}(\mathbf{X},u,\mu;t) = \frac{m}{2}u^2 + \mu B(\mathbf{X},t) + e\phi(\mathbf{X},t) - \frac{m}{2}\left| \mathbf{v}_E \right|^2
+$$ {#eq-gc-hamiltonian}
+
+这里写出自变量是为了强调，例如磁场强度 $B(\mathbf{X},t)$ 是在导引中心位置 $\mathbf{X}$ 而非粒子位置 $\mathbf{x}$ 处计算的。在这里及下文中，可通过将引力项 $m\Phi_G$ 加到静电势能 $e\Phi$ 上来得到引力场的影响。此外，从现在起省略「相空间」这一修饰语，因为下文中的导引中心拉格朗日量始终是相空间拉格朗日量。
+
+导引中心拉格朗日量 @eq-gc-lagrangian 不仅来自回旋相位平均，还来自从物理（粒子）变量 $(\mathbf{x},\mathbf{v})$ 到导引中心变量 $(\mathbf{X},u,\mu,\zeta)$ 的变换。
+物理位置 $\mathbf{x}$ 与导引中心位置 $\mathbf{X}$ 的关系为
+$$
+\mathbf{x} \equiv \mathbf{X} + \pmb{\rho}
+$$ {#eq-gc-relation}
+其中 $\pmb{\rho}$ 表示在以 $\mathbf{v}_E$ 漂移的参考系中的回旋半径位移矢量。这里只需指出，位移矢量 $\pmb{\rho}\equiv \tilde{\pmb{\rho}} + \bar{\pmb{\rho}}$ 包含显式依赖回旋相位的一部分（以波浪号表示）和与回旋相位无关的一部分（以上横线表示）。下文将说明，后一部分
+$$
+\bar{\pmb{\rho}} = \frac{\hat{b}}{\Omega}\times\mathbf{v}_E = \frac{c\mathbf{E}_\perp}{\Omega B}
+$$ {#eq-gc-gyroradius-bar}
+表示导引中心极化位移（Kaufman，Phys. Fluids，1986）。……
+
+我们的导引中心拉格朗日量 @eq-gc-lagrangian 采用一种标度排序，其中标势 $\Phi$ 比粒子动能低一阶，这与以前对导引中心运动哈密顿理论的推导不同。在这一排序中，电漂移 $\mathbf{v}_E$ 与垂直速度 $\mathbf{w}$ 同阶，这与某些非哈密顿计算相同（@northrop1963adiabatic）。我们将看到，这种排序使我们能够在与曲率漂移和 $\nabla B$ 漂移相同的阶次得到极化漂移，尽管它在理论中的表现形式不同。不过，为保持一致性，平行电场 $E_\parallel = \mathbf{E}\cdot\hat{b}$ 必须比垂直场 $\mathbf{E}_\perp$ 小一阶（@eq-nearly-cross-em）。
+
+变量 $(J,\zeta)$ 在导引中心拉格朗日量 @eq-gc-lagrangian 的辛部分以正则形式 $J\dot{\zeta}$ 出现，而导引中心哈密顿量 $H_\text{gc}$ 仅依赖于 $J$（或 $\mu$）。$(J,\zeta)$ 的哈密顿方程为
+$$
+\begin{aligned}
+\dot{J} &= -\frac{\partial H_\text{gc}}{\partial \zeta} \equiv 0 \\
+\dot{\zeta} &= \frac{\partial H_\text{gc}}{\partial J} \equiv \Omega
+\end{aligned}
+$$ {#eq-gc-hamilton-J-zeta}
+
+@eq-gc-hamilton-J-zeta 表明，导引中心运动方程守恒回旋作用量（或磁矩）。这也可以由诺特定理得出，因为回旋相位 $\zeta$ 是可忽略坐标，即导引中心拉格朗日量 @eq-gc-lagrangian 中只出现它的时间导数。
+
+如果只关心导引中心的运动而不关心回旋相位的演化，可以从导引中心拉格朗日量中去掉关于 $\dot{\zeta}$ 的线性项，因为它不影响其他变量 $\mathbf{X}$ 和 $u$ 的运动方程。在 $\mathbf{X}$ 和 $u$ 的演化方程中，绝热不变量 $\mu$（或 $J$）确实出现，但仅作为导引中心动力学参数。
+
+对导引中心拉格朗日量 @eq-gc-lagrangian 关于变量 $u$ 变分，得到欧拉—拉格朗日方程
+$$
+0 = \frac{\partial\mathcal{L}}{\partial u} = m\hat{b}\cdot\dot{\mathbf{X}} - \frac{\partial H_\text{gc}}{\partial u}
+$$
+由此得到
+$$
+u \equiv \hat{b}\cdot\dot{\mathbf{X}}
+$$ {#eq-gc-euler-lagrange1}
+
+因此，导引中心拉格朗日量 @eq-gc-lagrangian 表明，$u$ 是导引中心沿该处磁场方向的速度。
+
+最后，对拉格朗日量 @eq-gc-lagrangian 关于导引中心位置 $\mathbf{X}$ 变分，得到欧拉—拉格朗日方程
+$$
+\begin{aligned}
+m\dot{u}\hat{b} =& e\mathbf{E} - \mu\nabla B + \frac{m}{2}\nabla |\mathbf{v}_E|^2 - mu\frac{\partial\hat{b}}{\partial t} \\
+& + \dot{\mathbf{X}}\times\left( \frac{e}{c}\mathbf{B}+mu\nabla\times\hat{b} \right) \\
+\equiv& e\left( \mathbf{E}^\ast + \frac{1}{c}\dot{\mathbf{X}}\times\mathbf{B}^\ast \right)
+\end{aligned}
+$$ {#eq-gc-euler-lagrange2}
+其中_有效_电磁场
+$$
+\mathbf{E}^\ast \equiv -\nabla\Phi^\ast - \frac{1}{c}\frac{\partial\mathbf{A}^\ast}{\partial t}\quad\text{且}\quad \mathbf{B}^\ast \equiv\nabla\times\mathbf{A}^\ast
+$$ {#eq-gc-effective-em}
+由有效电磁势定义
+$$
+\begin{aligned}
+e\Phi^\ast &\equiv e\Phi + \mu B -\frac{m}{2}|\mathbf{v}_E|^2 \\
+\mathbf{A}^\ast &\equiv \mathbf{A} + \frac{mc}{e}u\hat{b}
+\end{aligned}
+$$ {#eq-gc-effective-em-potentials}
+
+导引中心正则动量现在可简单地表示为 $e\mathbf{A}^\ast /c$，导引中心哈密顿量为 $e\Phi^\ast + mu^2/2$。
+
+将 @eq-gc-euler-lagrange2 与有效磁场 $\mathbf{B}^\ast$ 作标量积，得到变量 $u$ 的变化率
+$$
+\dot{u} = -\frac{\mathbf{B}^\ast}{m B_\parallel^\ast}\cdot\left( \nabla H_\text{gc} + \frac{e}{c}\frac{\partial\mathbf{A}^\ast}{\partial t} \right) \equiv \frac{e}{m}\frac{\mathbf{B}^\ast}{B_\parallel^\ast}\cdot\mathbf{E}^\ast
+$$ {#eq-gc-u-time-derivative}
+其中 $B_\parallel^\ast = \hat{b}\cdot\mathbf{B}^\ast$ 是平行方向的有效磁场。
+
+时间导数 @eq-gc-u-time-derivative 中包含相对于主导项而言（在回旋半径上）更高阶的项，通常只保留主导项。然而，能量守恒需要这些高阶项。
+
+导引中心速度 $\dot{\mathbf{X}}$ 来自 @eq-gc-euler-lagrange2 与 $\hat{b}$ 的矢量积，利用 @eq-gc-euler-lagrange1 可得
+$$
+\begin{aligned}
+\dot{\mathbf{X}} &= \frac{\mathbf{B}^\ast}{m B_\parallel^\ast}\frac{\partial H_\text{gc}}{\partial u} + \frac{c\hat{b}}{eB_\parallel^\ast}\times\left( \nabla H_\text{gc} + \frac{e}{c}\frac{\partial\mathbf{A}^\ast}{\partial t} \right) \\
+&= u\frac{\mathbf{B}^\ast}{B_\parallel^\ast} + \mathbf{E}^\ast\times\frac{c\hat{b}}{B_\parallel^\ast}
+\end{aligned}
+$$ {#eq-gc-X-time-derivative}
+
+如果将有效场 @eq-gc-effective-em 替换为标准场 $(\mathbf{E},\mathbf{B})$，那么 @eq-gc-u-time-derivative 和 @eq-gc-X-time-derivative 就是粒子在方向笔直且恒定的电磁场中的运动方程。
+
+利用导引中心运动方程 @eq-gc-u-time-derivative 和 @eq-gc-X-time-derivative，可以导出导引中心能量方程
+$$
+\frac{\mathrm{d}H_\text{gc}}{\mathrm{d}t} = \frac{\partial H_\text{gc}}{\partial t} + \dot{\mathbf{X}}\cdot\nabla H_\text{gc} + \dot{u}\frac{\partial H_\text{gc}}{\partial u} = e\frac{\partial\Phi^\ast}{\partial t} -\frac{e}{c}\frac{\partial\mathbf{A}^\ast}{\partial t}\cdot\dot{\mathbf{X}}
+$$ {#eq-gc-energy-time-derivative}
+这意味着，对于与时间无关的场，导引中心能量 $E_\text{gc}\equiv mu^2/2+e\Phi^\ast$ 是运动常量。
+
+这里必须对极化漂移作一项重要说明：导引中心速度 @eq-gc-X-time-derivative 中没有极化漂移。然而，这种漂移对于得到低频等离子体的介电响应至关重要。它出现在变换 @eq-gc-relation 本身中，即对该关系求导得到
+$$
+\dot{\mathbf{x}} = \dot{\mathbf{X}} + \dot{\tilde{\pmb{\rho}}} + \mathbf{v}_\text{pol}
+$$ {#eq-gc-relation-time-derivative}
+其中
+$$
+\mathbf{v}_\text{pol} \equiv \frac{\mathrm{d}\bar{\pmb{\rho}}}{\mathrm{d}t}
+$$ {#eq-gc-polarization-v}
+表示极化漂移，而 $\dot{\tilde{\pmb{\rho}}}=\dot{\zeta}\partial \tilde{\pmb{\rho}}/\partial \zeta + ...$ 由在回旋周期时间尺度上振荡的项组成。极化漂移是一个纯导数，因此总可以积分。特别地，这意味着_即使在湍流场中，极化漂移也不会导致扩散_。这一点很重要，因为导引中心与平均位置（通过舍去 @eq-gc-relation 中第二个振荡项得到）之间的差是极化，即极化漂移的积分。这个差必须保持很小，否则假设粒子始终靠近 $\mathbf{X}$ 的理论就会失效。
+
+通过选择 $\bar{\pmb{\rho}}\equiv 0$ 而不是 @eq-gc-gyroradius-bar，可以导出另一组导引中心运动方程，其中极化漂移显式出现在导引中心速度 $\dot{\mathbf{X}}$ 中。
+
+
+
