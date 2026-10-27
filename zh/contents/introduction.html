@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; 绪论 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/math.html" rel="next">
+<link href="../contents/about.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/introduction.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#自然界中的等离子体" id="toc-自然界中的等离子体" class="nav-link active" data-scroll-target="#自然界中的等离子体"><span class="header-section-number">2.1</span> 自然界中的等离子体</a></li>
+  <li><a href="#等离子体的定义" id="toc-等离子体的定义" class="nav-link" data-scroll-target="#等离子体的定义"><span class="header-section-number">2.2</span> 等离子体的定义</a></li>
+  <li><a href="#温度的概念" id="toc-温度的概念" class="nav-link" data-scroll-target="#温度的概念"><span class="header-section-number">2.3</span> 温度的概念</a></li>
+  <li><a href="#sec-debye" id="toc-sec-debye" class="nav-link" data-scroll-target="#sec-debye"><span class="header-section-number">2.4</span> 德拜屏蔽</a></li>
+  <li><a href="#等离子体的判据" id="toc-等离子体的判据" class="nav-link" data-scroll-target="#等离子体的判据"><span class="header-section-number">2.5</span> 等离子体的判据</a></li>
+  <li><a href="#等离子体频率" id="toc-等离子体频率" class="nav-link" data-scroll-target="#等离子体频率"><span class="header-section-number">2.6</span> 等离子体频率</a></li>
+  <li><a href="#空间尺度" id="toc-空间尺度" class="nav-link" data-scroll-target="#空间尺度"><span class="header-section-number">2.7</span> 空间尺度</a></li>
+  <li><a href="#如何学习等离子体物理" id="toc-如何学习等离子体物理" class="nav-link" data-scroll-target="#如何学习等离子体物理"><span class="header-section-number">2.8</span> 如何学习等离子体物理</a></li>
+  <li><a href="#常用缩写" id="toc-常用缩写" class="nav-link" data-scroll-target="#常用缩写"><span class="header-section-number">2.9</span> 常用缩写</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-intro" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<ul>
+<li>什么是等离子体？</li>
+</ul>
+<p>准中性的电离气体。物质的第四种状态：固态、液态、气态、<strong>等离子体</strong>。</p>
+<ul>
+<li>等离子体存在于哪里？
+<ul>
+<li>天体物理与地球物理
+<ul>
+<li>发电机效应</li>
+<li>激波</li>
+<li>磁重联</li>
+<li>粒子加速</li>
+</ul></li>
+<li>工程与应用
+<ul>
+<li>受控聚变</li>
+<li>能量转换</li>
+<li>洲际弹道导弹和航天器再入</li>
+<li>等离子体射流作为航天器的新型推进方式</li>
+<li>全球变暖</li>
+</ul></li>
+</ul></li>
+<li>等离子体物理中采用的方法
+<ul>
+<li>动理学理论
+<ul>
+<li>微观视角</li>
+<li>正、负和中性粒子</li>
+<li>电磁力、碰撞</li>
+<li>普通气体与等离子体
+<ul>
+<li>二体碰撞</li>
+<li>碰撞之间自由运动</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;nf(\mathbf{x}+\mathrm{d}\mathbf{x},\mathbf{p}+\mathrm{d}\mathbf{p},t+\mathrm{d}t)\mathrm{d}\mathbf{x}\mathrm{d}\mathbf{p}-nf(\mathbf{x},\mathbf{p},t)\mathrm{d}\mathbf{x}\mathrm{d}\mathbf{p} \\
+=&amp;\frac{\partial (nf(\mathbf{x},\mathbf{p},t))}{\partial t}\Big|_{\text{碰撞}}\mathrm{d}\mathbf{x}\mathrm{d}\mathbf{p}\mathrm{d}t \nonumber \\
+=&amp;\frac{\partial (nf)}{\partial t}+\frac{\partial nf}{\partial \mathbf{x}}\cdot\frac{\mathbf{p}}{m}+\frac{nf}{\partial \mathbf{p}}\cdot\mathbf{F}
+\end{aligned}
+\]</span></p>
+<p>这也称为 <em>Fokker-Planck</em> 项。</p>
+<ul>
+<li>连续介质理论
+<ul>
+<li>宏观视角，整体运动</li>
+<li>由守恒定律得到的基本方程</li>
+<li>电磁流体动力学（EMHD）</li>
+</ul></li>
+</ul>
+<p>定义：等离子体 = <em>电离气体</em></p>
+<p>在等离子体物理中，我们通常使用能量单位“eV”代替温度。电子伏特是一个较小的单位，多用于粒子，因为日常尺度上的 1 焦耳对电子来说太大了。给定玻尔兹曼常数 <span class="math inline">\(k_B=1.38\times10^{-23}J/K\)</span>， <span class="math display">\[
+1\text{eV}=(11600\text{K})\times k_B=1.602\times 10^{-19}\text{J} ([V]=[J]/[C])
+\]</span></p>
+<p>等离子体一般分为两类：</p>
+<ol type="1">
+<li>高温（<span class="math inline">\(&gt;1\text{keV}\)</span>）：聚变等离子体</li>
+<li>低温（<span class="math inline">\(\sim 1\text{eV}-100\text{eV}\)</span>）：等离子体加工、空间推进</li>
+</ol>
+<p>开始时，建立尺度的概念十分重要。先从两个基本长度尺度出发：</p>
+<ul>
+<li><span class="math inline">\(a_0\equiv \text{原子尺度 }\)</span>（<span class="math inline">\(\sim 10^{-10}\text{m}\)</span>）</li>
+<li>n = 数密度（<span class="math inline">\(\sim 1/\text{cm}^3\)</span> 至 <span class="math inline">\(10^{20}/\text{cm}^3\)</span>）</li>
+</ul>
+<p>在物理上，<span class="math inline">\(n\)</span> 表示单位体积内的粒子数，由此可知 <span class="math inline">\(n^{-1/3}\)</span> 的单位是长度。它表示单个粒子的典型长度尺度。 电离态意味着 <span class="math inline">\(k_B T\gg E_i=\)</span> 电离势能 <span class="math inline">\(\sim \frac{e^2}{4\pi\epsilon_0 a_0}\approx 14\textrm{eV}\)</span>。</p>
+<p>气态意味着 <span class="math inline">\(n^{-1/3}\gg a_0\)</span>。 <span class="math display">\[
+\begin{aligned}
+n^{-1/3}\gg a_0\sim\frac{e^2}{4\pi\epsilon_0 E_i}\gg \frac{e^2}{4\pi\epsilon_0(k_B T)} \\
+4\pi n^{-1/3} n \Big( \frac{\epsilon_0 k_B T}{e^2 n} \Big) \gg 1 \nonumber
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(n^{2/3}\)</span> 的单位为 <span class="math inline">\(\text{长度}^{-2}\)</span>，这表明另一项的单位应为 <span class="math inline">\(\text{长度}^{2}\)</span>。利用量纲分析可得 <span class="math display">\[
+\lambda_{D}=\sqrt{\frac{\epsilon_0 k_B T}{e^2 n}}\equiv \textrm{德拜长度}=740(\text{cm})\sqrt{\frac{T(\text{eV})}{n(\text{cm}^{-3})}}
+\]</span></p>
+<p><span class="math display">\[
+\begin{split}
+(4\pi)^{3/2}n{\lambda_{D}}^3 &amp;\gg 1 \\
+n{\lambda_D}^3 &amp;\gg 1 \Rightarrow \text{球体内有大量粒子}
+\end{split}
+\]</span></p>
+<p>根据前面的定义，等离子体必然满足这一条件。</p>
+<p>等离子体定义的含义：</p>
+<ol type="1">
+<li>德拜球中存在大量粒子。</li>
+</ol>
+<p><span class="math inline">\(\underline{\text{例}.1}\)</span> 实验室等离子体 <span class="math inline">\(10^{8}\text{cm}^{-3}\rightarrow 10^{20}\text{cm}^{-3}\)</span>。托卡马克 <span class="math inline">\(n=10^{14}\text{cm}^{-3}\)</span>，<span class="math inline">\(k_B T=10\text{keV}=10^4\text{eV}\)</span>，<span class="math inline">\(n^{-1/3}=2.15\times10^{-5}\text{cm}\)</span>，<span class="math inline">\(\lambda_D=7.4\times10^{-3}\text{cm} \gg n^{-1/3}\)</span>，<span class="math inline">\(n{\lambda_{D}}^3\gg 1\)</span>。</p>
+<p><span class="math inline">\(L\gg\lambda_{D}\gg n^{-1/3}\)</span>，其中 <span class="math inline">\(L\)</span> 是物理系统的尺度（<span class="math inline">\(\sim 1\text{mm}\text{ 至 }10\text{m}\)</span>）。</p>
+<p>换句话说，电离气体成为等离子体的一个判据是它足够稠密，使 <span class="math inline">\(\lambda_D\)</span> 远小于 <span class="math inline">\(L\)</span>。</p>
+<p><span class="math inline">\(\underline{\text{例}.2}\)</span> 星际等离子体 <span class="math inline">\(n=1 \text{cm}^{-3}, T=1eV\)</span>，<span class="math inline">\(\lambda_D=740\text{cm}\sqrt{\frac{1}{1}}=740\text{cm} \gg n^{-1/3}\)</span>，<span class="math inline">\(n{\lambda_D}^3\gg1\)</span>。</p>
+<ol start="2" type="1">
+<li>粒子动能 <span class="math inline">\(\gg\)</span> 平均库仑相互作用能。 <span class="math display">\[
+\begin{split}
+KE&amp;\sim k_B T \\
+PE&amp;\sim \frac{e^2}{4\pi\epsilon_0(n^{-1/3})}
+\end{split}
+\]</span></li>
+</ol>
+<p>根据定义，可以容易地知道 <span class="math display">\[
+k_B T\gg \frac{e^2}{4\pi\epsilon_0 n^{-1/3}}\Rightarrow KE\gg PE
+\]</span></p>
+<p>这意味着粒子不易被相邻粒子偏转。</p>
+<ol start="3" type="1">
+<li><p>粒子主要受到累积的多次小角度碰撞散射，而非大角度碰撞散射。这自然地由上面的能量讨论得出，后面将进一步详细解释。</p></li>
+<li><p>集体相互作用（所有不稳定性的基础）比单个粒子之间的库仑相互作用占主导地位。这与经济有一个类比：个人对整体几乎没有影响，但整体对个人有巨大影响。电磁场在粒子之间起桥梁作用。</p></li>
+</ol>
+<section id="自然界中的等离子体" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="自然界中的等离子体"><span class="header-section-number">2.1</span> 自然界中的等离子体</h2>
+<p>现在人们认为，宇宙由 69% 的暗能量、27% 的暗物质和 1% 的普通物质组成。我们在天空中看到的一切，都是处于等离子体状态并发出辐射的那部分普通物质。物理学中的等离子体（不要与血浆混淆）是一种“电离”气体，其中原子中至少一个电子被剥离，留下带正电的原子核，称为离子。有时等离子体被称为“物质的第四态”。固体受热后变成液体，液体受热后变成气体。进一步加热时，气体电离成等离子体。由于等离子体由带电的离子和电子组成，电场无处不在，粒子不仅在彼此撞击时会“碰撞”，即使相隔一定距离、能够感受到彼此电场时也会发生作用。描述例如水流过管道、帆船比赛中水绕船流动或飞机机翼行为的流体动力学，已经是一门复杂的学科。加入等离子体的电场后，可能的运动范围大大扩展，尤其是在存在磁场时。</p>
+<p>等离子体通常只存在于真空中。否则，空气会冷却等离子体，使离子和电子复合成普通中性原子。在实验室中，我们需要抽出真空室内的空气。然而，在太空真空中，大部分气体处于等离子体状态，我们可以看到它。恒星内部和大气、气态星云以及整个星系之所以可见，是因为它们处于等离子体状态。然而，在地球上，大气使我们接触到的等离子体现象仅限于几个例子：闪电的闪光、北极光柔和的辉光、荧光灯管的光或等离子电视的像素。我们生活在宇宙中一个不会自然出现等离子体的小区域；否则，我们就无法生存。</p>
+<p>其原因可以从萨哈方程看出，该方程给出热平衡气体中预期的电离程度： <span id="eq-saha"><span class="math display">\[
+\frac{n_i}{n_n}\approx 2.4\times 10^{21}\frac{T^{3/2}}{n_i} \exp\left(-\frac{U_i}{k_B T}\right)
+\tag{2.1}\]</span></span></p>
+<p>这里 <span class="math inline">\(n_i\)</span> 和 <span class="math inline">\(n_n\)</span> 分别是电离原子和中性原子的密度（每 <span class="math inline">\(\text{m}^3\)</span> 中的数量），T 是以开尔文为单位的气体温度，<span class="math inline">\(k_B\)</span> 是玻尔兹曼常数，<span class="math inline">\(U_i\)</span> 是气体的电离能，即从原子中移除最外层电子所需的焦耳数。对于室温下的普通空气，可以取 <span class="math inline">\(n_n\approx 3\times 10^{25}\,\text{m}^{-3}\)</span>、<span class="math inline">\(T\approx 300\, \text{K}\)</span> 和 <span class="math inline">\(U_i = 14.5\,\text{eV}\)</span>（氮），其中 <span class="math inline">\(1\,\text{eV} = 1.6\times 10^{19}\,\text{J}\)</span>。电离比例 <span class="math inline">\(n_i/(n_n + n_i) \approx n_i/n_n\)</span> 低得惊人： <span class="math display">\[
+\frac{n_i}{n_n}\approx 10^{-122}
+\]</span></p>
+<p>随着温度升高，电离程度保持很低，直到 <span class="math inline">\(U_i\)</span> 仅为 <span class="math inline">\(k_B T\)</span> 的几倍。随后 <span class="math inline">\(n_i/n_e\)</span> 急剧上升，气体进入等离子体状态。温度进一步升高使 <span class="math inline">\(n_n\)</span> 小于 <span class="math inline">\(n_i\)</span>，等离子体最终变为完全电离。这就是为什么等离子体存在于温度达数百万度的天体中，而不存在于地球上。生命很难与等离子体共存——至少与我们所讨论的这类等离子体共存很难。等离子体在高温下自然出现，是它被称为“物质的第四态”的原因。</p>
+<p>虽然我们无意着重讨论萨哈方程，但应指出它的物理意义。气体中的原子具有分布不一的热能；当某个原子偶然遭遇能量足以击出一个电子的碰撞时，它便发生电离。在冷气体中，这类高能碰撞很少发生，因为原子必须通过一系列“有利的”碰撞被加速至远高于平均能量。<a href="#eq-saha" class="quarto-xref">式&nbsp;<span>2.1</span></a> 中的指数因子体现了高速原子的数量随 <span class="math inline">\(U_i/k_BT\)</span> 指数下降这一事实。原子一旦电离，就会保持带电，直到遇到一个电子；此时它极有可能与电子复合，再次成为中性原子。复合率显然取决于电子密度，我们可以将其视为等于 <span class="math inline">\(n_i\)</span>。因此，平衡时的离子比例应随 <span class="math inline">\(n_i\)</span> 增大而降低；这就是 <a href="#eq-saha" class="quarto-xref">式&nbsp;<span>2.1</span></a> 右侧出现因子 <span class="math inline">\(n_i^{-1}\)</span> 的原因。星际介质中的等离子体得以存在，是因为 <span class="math inline">\(n_i\)</span> 很低（每 <span class="math inline">\(\text{cm}^3\)</span> 约 1 个），因而复合率也很低。</p>
+</section>
+<section id="等离子体的定义" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="等离子体的定义"><span class="header-section-number">2.2</span> 等离子体的定义</h2>
+<p>当然，并非任何电离气体都能称为等离子体；任何气体都总会有一定程度的微弱电离。一个有用的定义如下：</p>
+<p><strong>等离子体是由带电粒子和中性粒子组成、表现出集体行为的准中性气体。</strong></p>
+<p>现在必须定义“<em>准中性</em>”和“<em>集体行为</em>”。准中性的含义将在第 1.4 节中阐明。链接？“集体行为”的含义如下。</p>
+<p>考虑例如普通空气中的一个分子所受的力。由于分子是中性的，它所受的净电磁力为零，而重力可以忽略。分子不受干扰地运动，直到与另一个分子碰撞；这些碰撞控制着粒子的运动。施加于中性气体的宏观力，例如扬声器产生声波时施加的力，通过碰撞传递给各个原子。含有带电粒子的等离子体中，情况完全不同。这些电荷运动时可以形成局部正电荷或负电荷聚集，从而产生电场。电荷运动还产生电流，进而产生磁场。这些场会影响远处其他带电粒子的运动。</p>
+<p>考虑相距 <span class="math inline">\(r\)</span> 的两个略微带电的等离子体区域之间的相互作用。添加插图！A 与 B 之间的库仑力按 <span class="math inline">\(1/r^2\)</span> 衰减。然而，对于给定的立体角（即 <span class="math inline">\(\Delta r/r =\)</span> 常数），B 中能够影响 A 的等离子体体积按 <span class="math inline">\(r^3\)</span> 增长。因此，即使相距很远，等离子体的各部分也会相互施力。正是这种长程库仑力使等离子体具有丰富多样的可能运动，并使被称为等离子体物理的研究领域更加丰富。事实上，最有趣的结果涉及所谓的“无碰撞”等离子体，其中长程电磁力远大于普通局部碰撞产生的力，以至于后者可以完全忽略。“集体行为”指的不仅取决于局部条件，还取决于远处区域等离子体状态的运动。</p>
+<p>“plasma”一词似乎不太贴切。它源自希腊语 πλάσμα, ατoς, τo，意为被塑造或制造出来的东西。由于集体行为，等离子体并不倾向于顺从外部影响；相反，它的行为常常仿佛有自己的意志。</p>
+</section>
+<section id="温度的概念" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="温度的概念"><span class="header-section-number">2.3</span> 温度的概念</h2>
+<p>继续之前，有必要回顾并扩展我们对“温度”的物理概念。热平衡气体中的粒子具有各种速度，这些速度最可能的分布称为麦克斯韦分布。为简单起见，考虑一种粒子只能沿一个维度运动的气体。（这并非完全不切实际；例如，强磁场可以将电子约束为只能沿磁力线运动。）一维麦克斯韦分布为 <span id="eq-maxwellian_1d"><span class="math display">\[
+f(v) = A \exp\left( -\frac{1}{2}mv^2/k_B T \right)
+\tag{2.2}\]</span></span> 其中 <span class="math inline">\(f\mathrm{d}u\)</span> 是每 <span class="math inline">\(\text{m}^3\)</span> 中速度介于 <span class="math inline">\(u\)</span> 和 <span class="math inline">\(u+\mathrm{d}u\)</span> 之间的粒子数，<span class="math inline">\(\frac{1}{2}mu^2\)</span> 是动能，<span class="math inline">\(k_B\)</span> 是玻尔兹曼常数。密度 <span class="math inline">\(n\)</span>，即每 <span class="math inline">\(\text{m}^3\)</span> 中的粒子数，为 <span class="math display">\[
+n = \int_{-\infty}^\infty f(v)\mathrm{d}v
+\]</span></p>
+<p>常数 <span class="math inline">\(A\)</span> 与密度 <span class="math inline">\(n\)</span> 的关系为 <span class="math display">\[
+A = n\left( \frac{m}{2\pi k_B T} \right)^{1/2}
+\]</span></p>
+<p>分布的宽度由常数 <span class="math inline">\(T\)</span> 表征，我们称之为温度。为了了解 <span class="math inline">\(T\)</span> 的确切含义，可以计算这一分布中粒子的平均动能： <span id="eq-average_kinetic_energy"><span class="math display">\[
+E_\text{av} = \frac{\int_{-\infty}^\infty \frac{1}{2}mv^2f(v)\mathrm{d}v}{\int_{-\infty}^\infty f(v)\mathrm{d}v}
+\tag{2.3}\]</span></span></p>
+<p>定义 <span class="math inline">\(y=v/v_\text{t}\)</span> 和 <span id="eq-thermal_speed"><span class="math display">\[
+v_\text{t} = \left( 2k_B T/m \right)^{1/2}
+\tag{2.4}\]</span></span></p>
+<p>则可将 <a href="#eq-maxwellian_1d" class="quarto-xref">式&nbsp;<span>2.2</span></a> 写为 <span class="math display">\[
+f(v) = A \exp(-v^2/v_\text{t}^2)
+\]</span> 并将 <a href="#eq-average_kinetic_energy" class="quarto-xref">式&nbsp;<span>2.3</span></a> 写为 <span class="math display">\[
+E_\text{av} = \frac{\frac{1}{2}mA v_\text{t}^3 \int_{-\infty}^\infty [\exp(-y^2)]y^2\mathrm{d}y}{A v_\text{t}\int_{-\infty}^\infty [\exp(-y^2)]\mathrm{d}y}
+\]</span></p>
+<p>分子中的积分可以分部积分： <span class="math display">\[
+\begin{aligned}
+\int_{-\infty}^\infty y\cdot[\exp(-y^2)]y\mathrm{d}y &amp;= \left[ -\frac{1}{2}[\exp(-y^2)]y \right]_{-\infty}^\infty -\int_{-\infty}^\infty -\frac{1}{2}[\exp(-y^2)]\mathrm{d}y \\
+&amp;= \frac{1}{2}\int_{-\infty}^\infty [\exp(-y^2)]\mathrm{d}y
+\end{aligned}
+\]</span></p>
+<p>约去积分，得到 <span class="math display">\[
+E_\text{av} = \frac{\frac{1}{2}mA v_\text{t}^3\frac{1}{2}}{A v_\text{t}} = \frac{1}{4}m v_\text{t}^2 = \frac{1}{2}k_B T
+\]</span></p>
+<p>因此平均动能为 <span class="math inline">\(\frac{1}{2}k_B T\)</span>。</p>
+<p>这一结果很容易推广到三维。此时麦克斯韦分布为 <span class="math display">\[
+f(v_x, v_y, v_z) = A_3 \exp\left[ -\frac{1}{2}m(v_x^2 + v_y^2 + v_z^2)/k_B T \right]
+\]</span> 其中 <span class="math display">\[
+A_3 = n\left( \frac{m}{2\pi k_B T} \right)^{3/2}
+\]</span></p>
+<p>由于麦克斯韦分布各向同性（即其形式对 <span class="math inline">\(v_x,v_y,\)</span> 和 <span class="math inline">\(v_z\)</span> 对称），我们可以分离各个维度。平均动能于是为单个维度结果的 3 倍： <span class="math display">\[
+E_\text{av} = \frac{3}{2}k_B T
+\]</span></p>
+<p>一般结果是，每个自由度对应的 <span class="math inline">\(E_\text{av}\)</span> 等于 <span class="math inline">\(\frac{1}{2}k_B T\)</span>。</p>
+<p>由于 <span class="math inline">\(T\)</span> 和 <span class="math inline">\(E_\text{av}\)</span> 的关系如此密切，等离子体物理中习惯用能量单位表示温度。为避免涉及的维数引起混淆，表示温度时使用的是与 <span class="math inline">\(k_B T\)</span> 对应的能量，而不是 <span class="math inline">\(E_\text{av}\)</span>。对于 <span class="math inline">\(k_B T = 1\,\text{eV}=1.6\times 10^{-19}\,\text{J}\)</span>，有 <span class="math display">\[
+T = \frac{q}{k_B} = 11600
+\]</span></p>
+<p>因此换算关系为 <span class="math display">\[
+1\,\text{eV} = 11600\,\text{K}
+\]</span></p>
+<p>2 eV 的等离子体是指 <span class="math inline">\(k_B T=2\,\text{eV}\)</span>，或在三维情况下 <span class="math inline">\(E_\text{av}=3\,\text{eV}\)</span>。</p>
+<p>有趣的是，等离子体可以同时具有多个温度。离子和电子常常分别具有不同温度 <span class="math inline">\(T_i\)</span> 和 <span class="math inline">\(T_e\)</span> 的麦克斯韦分布。这可能是因为离子之间或电子之间的碰撞率高于离子与电子之间的碰撞率。于是每种粒子都可以处于各自的热平衡，但等离子体的存在时间可能不足以让两种温度达到相等。当存在磁场 <span class="math inline">\(\mathbf{B}\)</span> 时，即使是单一粒子种类，例如离子，也可以有两个温度。这是因为沿 <span class="math inline">\(\mathbf{B}\)</span> 作用于离子的力与垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的力不同（由于洛伦兹力）。垂直和平行于 <span class="math inline">\(\mathbf{B}\)</span> 的速度分量于是可以属于温度分别为 <span class="math inline">\(T_\perp\)</span> 和 <span class="math inline">\(T_\parallel\)</span> 的不同麦克斯韦分布。</p>
+<p>在结束对温度概念的回顾之前，我们应当消除一个普遍误解：高温必然意味着大量热。人们得知荧光灯管内的电子温度约为 <span class="math inline">\(20000\, \text{K}\)</span> 时通常会很惊讶：“天哪，摸起来没那么烫！”当然，还必须考虑热容量。荧光灯管内的电子密度远小于大气压下气体的密度，以热速度撞击管壁的电子传递给管壁的总热量并不大。例如，烟灰的温度足以造成烫伤，但所涉及的总热量不足以造成烫伤。许多实验室等离子体的温度约为 <span class="math inline">\(1,000,000\,\text{K}\)</span>（<span class="math inline">\(100\,\text{eV}\)</span>），但由于密度仅为每 <span class="math inline">\(\text{m}^3\)</span> 中 <span class="math inline">\(10^{18}-10^{19}\)</span> 个粒子，管壁受热并不是严重问题。</p>
+</section>
+<section id="sec-debye" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sec-debye"><span class="header-section-number">2.4</span> 德拜屏蔽</h2>
+<p>（第 27 页第 4 题 <span class="citation" data-cites="bellan2008fundamentals">(<a href="#ref-bellan2008fundamentals" role="doc-biblioref">Bellan 2008年</a>)</span>）</p>
+<p>等离子体行为的一个基本特征是它能够屏蔽施加于其上的电势。假设我们试图通过插入两个与电池相连的带电球，在等离子体内部建立电场（图 1.3，添加插图！）。小球会吸引带相反电荷的粒子，几乎立刻，一个离子云会围绕负电球，一个电子云会围绕正电球。（我们假定一层电介质阻止等离子体在表面实际复合，或者电池足够大，能够尽管存在复合仍维持电势。）如果等离子体是冷的且没有热运动，云中的电荷量就会与小球中的电荷量相等，屏蔽将是完全的，云外的等离子体主体中不会存在电场。另一方面，如果温度有限，位于云边缘、电场较弱处的粒子有足够的热能逃离静电势阱。于是云的“边缘”位于势能约等于粒子热能 <span class="math inline">\(k_BT\)</span> 的半径处，屏蔽并不完全。量级为 <span class="math inline">\(k_BT/e\)</span> 的电势可以渗入等离子体，使其中存在有限电场。</p>
+<p>下面计算这种电荷云的大致厚度。将点电荷 <span class="math inline">\(q_T\)</span> 放入由带电粒子组成的准中性气体中。气体处于_局部热力学平衡_（LTE），离子和电子温度为 <span class="math inline">\(T_e\)</span> 和 <span class="math inline">\(T_i\)</span>（它们不一定相同，实际上性质相当不同）。（添加插图！）我们希望计算 <span class="math inline">\(\phi(x)\)</span>。为简单起见，假设离子与电子的质量比 <span class="math inline">\(M/m\)</span> 为无穷大，使离子不运动，而是形成均匀的正电荷背景。更准确地说，可以认为 <span class="math inline">\(M/m\)</span> 足够大，使离子的惯性阻止它们在实验时间尺度上发生显著运动。</p>
+<p>麦克斯韦分布： <span class="math display">\[
+f(\mathbf{v})=n_0\Big( \frac{m}{2\pi kT}\Big)^{3/2}\exp\Big( -\frac{mv^2}{2kT}\Big)
+\]</span></p>
+<p>存在势能 <span class="math inline">\(q\phi\)</span> 时，分布函数遵循玻尔兹曼分布： <span class="math display">\[
+f(\mathbf{x},\mathbf{v})=n_0\Big( \frac{m}{2\pi kT}\Big)^{3/2}\exp\Big( -\frac{\frac{1}{2}mv^2+q\phi(\mathbf{x})}{kT}\Big)
+\]</span></p>
+<p>这里不必证明这一点。方程所表达的内容在直觉上显而易见：势能大的地方粒子较少，因为并非所有粒子都有足够能量到达那里。</p>
+<p>注意，温度的概念在局部热力学平衡中有效。由玻尔兹曼方程， <span class="math display">\[
+\begin{aligned}
+\frac{\mathrm{d}f}{\mathrm{d}t}=\frac{\partial f}{\partial t}+\nabla_x\cdot(f\mathbf{v})+\nabla_v\cdot(f\mathbf{a})=0 \\
+\Rightarrow \frac{\partial f}{\partial t}+\mathbf{v}\cdot\nabla_x f+\frac{\mathbf{F}}{m}\cdot\nabla_v f=0
+\end{aligned}
+\]</span></p>
+<p>如果忽略时间导数，得到 <span id="eq-LTE_Vlasov"><span class="math display">\[
+(\mathbf{v}_j\cdot\nabla)f(\mathbf{r},\mathbf{v}_j)+\big[-\frac{1}{m_j}\nabla(q_j\phi)\cdot\nabla_v\big]f(\mathbf{r},\mathbf{v}_j)=0
+\tag{2.5}\]</span></span></p>
+<p>LTE 分布具有麦克斯韦形式： <span class="math display">\[
+f(\mathbf{r},\mathbf{v}_j)=n_j(\mathbf{r})\Big( \frac{m}{2\pi k_BT}\Big)^{3/2}\exp\Big( -\frac{mv^2}{2k_BT}\Big)
+\]</span></p>
+<p>代入 <a href="#eq-LTE_Vlasov" class="quarto-xref">式&nbsp;<span>2.5</span></a>，得到 <span class="math display">\[
+\begin{aligned}
+(\mathbf{v}_j\cdot\nabla)n_j +\frac{\mathbf{v}_j\cdot\nabla(q\phi)}{k_BT_j}n_j=0 \\
+\Rightarrow n_j(\mathbf{r}) = n_{j0} \exp\Big[ -\frac{q_j\phi_j(\mathbf{r})}{k_BT_j} \Big]
+\end{aligned}
+\]</span></p>
+<p>于是得到各粒子种类的玻尔兹曼分布，每种粒子各有其温度。</p>
+<p>考虑均匀等离子体，满足 <span class="math inline">\(n_i=n_{i0}e^{-e\phi/k_B T_i}\)</span>、<span class="math inline">\(n_e=n_{e0}e^{e\phi/k_BT_e}\)</span>，根据准中性假设，<span class="math inline">\(n_{e0}=n_{i0}=n_0\)</span>。在初始电中性的等离子体中引入点电荷 <span class="math inline">\(q_T\)</span>。泊松方程给出 <span class="math display">\[
+\nabla^2 \phi=-\frac{\rho}{\epsilon_0}=-\frac{1}{\epsilon_0}\Big[ e(n_e-n_i) +q_T \delta(\mathbf{r})\Big]
+\]</span></p>
+<p>由对称性，<span class="math inline">\(\phi=\phi(r)\)</span>。温度高时，<span class="math inline">\(q\phi(r)\ll kT\)</span>，指数很小，可以进行泰勒展开并只保留一阶项。在球坐标中， <span class="math display">\[
+\begin{aligned}
+\nabla^2\phi=\frac{1}{r^2}\frac{\partial}{\partial r}\Big( r^2\frac{\partial \phi}{\partial r} \Big)&amp; \nonumber \\
+\frac{1}{r^2}\frac{\partial}{\partial r}\Big( r^2\frac{\partial \phi}{\partial r} \Big)+\frac{e}{\epsilon_0}\Big( \underbrace{ n_{e0}e^{e\phi/k_BT_e} - n_{i0}e^{-e\phi/k_B T_i} }_{\approx n_0\big[ e\phi/k_BT_e +e\phi/k_BT_i  \big]}\Big)&amp;= -\frac{q_T}{\epsilon_0}\delta(\mathbf{r}) \\
+\frac{1}{r^2}\frac{\partial}{\partial r}\Big( r^2\frac{\partial \phi}{\partial r} \Big) -\underbrace{\frac{e^2n_0}{\epsilon_0}\Big( \frac{1}{k_B T_e}+\frac{1}{k_BT_i}\Big) }_{ \frac{1}{{\lambda_D}^2}\equiv \frac{1}{{\lambda_{Di}}^2}+\frac{1}{{\lambda_{De}}^2}}\phi&amp;=-\frac{q_T}{\epsilon_0}\delta(\mathbf{r}) \\
+\frac{1}{r^2}\frac{\partial}{\partial r}\Big( r^2\frac{\partial \phi}{\partial r} \Big) -\frac{1}{{\lambda_D}^2}\phi&amp;=-\frac{q_T}{\epsilon_0}\delta(\mathbf{r})
+\end{aligned}
+\]</span> 其中 <span id="eq-debye_length"><span class="math display">\[
+\lambda_D=\sqrt{\frac{\epsilon_0 k_BT^\ast}{n_0e^2}}
+\tag{2.6}\]</span></span></p>
+<p>是德拜长度，<span class="math inline">\(T^\ast=\Big( \frac{1}{T_e}+\frac{1}{T_i} \Big)^{-1}\)</span>。德拜长度衡量屏蔽距离或鞘层厚度。注意，密度越大，屏蔽效果越好，这是符合预期的，因为每一层等离子体都含有更多电子。此外，<span class="math inline">\(\lambda_D\)</span> 随 <span class="math inline">\(k_B T^\ast\)</span> 增大而增大。如果没有热扰动，电荷云会塌缩为无限薄的一层。最后，定义 <span class="math inline">\(\lambda_D\)</span> 时最常用的是_电子_温度（<span class="math inline">\(T^\ast\approx T_e\)</span>），因为电子比离子更易运动，通常通过运动造成负电荷的过剩或不足来实现屏蔽。只有在特殊情况下才并非如此。</p>
+<p>对于 <span class="math inline">\(r&gt;0\)</span>（远离电荷）， <span class="math display">\[
+\frac{1}{r^2}\frac{\partial}{\partial r}\Big( r^2\frac{\partial \phi}{\partial r} \Big) -\frac{1}{{\lambda_D}^2}\phi=0
+\]</span></p>
+<p>令 <span class="math inline">\(\phi(r)=\frac{F(r)}{r}\)</span>，得到 <span class="math display">\[
+\begin{aligned}
+\frac{\mathrm{d}^2F}{\mathrm{d}r^2}-\frac{F}{{\lambda_D}^2}&amp;=0 \\
+\Rightarrow F&amp;=Ae^{-r/\lambda_D}+\cancel{Be^{r/\lambda_D}} (r&gt;0) \nonumber \\
+&amp;=Ae^{-r/\lambda_D}
+\end{aligned}
+\]</span></p>
+<p>预期当 <span class="math inline">\(r\rightarrow 0\)</span> 时，<span class="math inline">\(\phi(r)\rightarrow \frac{q_T}{4\pi\epsilon_0 r}\approx \frac{A}{r}\)</span>。因此 <span class="math display">\[
+\phi(r)=\frac{q_t}{4\pi\epsilon_0r}e^{-r/\lambda_D}
+\]</span></p>
+<div id="fig-electric-potential" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-electric-potential-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/ElectricPotential.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-electric-potential-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;2.1: 电势。
+</figcaption>
+</figure>
+</div>
+<p>电势下降得非常快（<a href="#fig-electric-potential" class="quarto-xref">图&nbsp;<span>2.1</span></a>）。换言之，如果将一个电荷放入中性等离子体，它的电势只在很小的范围内起作用。回顾高斯定律： <span class="math display">\[
+\oint\mathbf{E}\cdot \mathrm{d}\mathbf{A}=\frac{Q_T}{\epsilon_0}\rightarrow\textrm{ 当 }R\rightarrow \infty, \textrm{ E 趋于零。}
+\]</span></p>
+<p><a href="#eq-debye_length" class="quarto-xref">式&nbsp;<span>2.6</span></a> 的以下形式很有用： <span class="math display">\[
+\begin{aligned}
+\lambda_D &amp;= 69 (T_e/n)^{1/2}\,\text{m},\quad T_e\,\text{以 K 为单位} \\
+\lambda_D &amp;= 7430 (k_B T_e/n)^{1/2}\,\text{m},\quad k_BT_e\,\text{以 eV 为单位}
+\end{aligned}
+\]</span></p>
+<p>现在可以定义“准中性”。如果系统的尺寸 <span class="math inline">\(L\)</span> 远大于 <span class="math inline">\(\lambda_D\)</span>，那么每当出现局部电荷聚集或将外部电势引入系统时，它们都会在与 <span class="math inline">\(L\)</span> 相比很短的距离内被屏蔽，使等离子体主体中不存在大的电势或电场。在壁面或障碍物上的鞘层之外，<span class="math inline">\(\nabla^2\phi\)</span> 很小，且 <span class="math inline">\(n_i\)</span> 等于 <span class="math inline">\(n_e\)</span>。只需很小的电荷不平衡就能产生量级为 <span class="math inline">\(k_BT/e\)</span> 的电势。等离子体是“准中性”的；也就是说，它足够中性，可以取 <span class="math inline">\(n_i\simeq n_e\simeq n\)</span>，其中 <span class="math inline">\(n\)</span> 是称为_等离子体密度_的共同密度，但又没有中性到使所有有趣的电磁力都消失。在大于德拜长度的长度尺度上，可以认为等离子体是中性的。</p>
+<p>补充说明：</p>
+<ol type="1">
+<li>等离子体的行为类似电介质。</li>
+<li>材料接触处附近存在等离子体鞘层，其中电荷中性被破坏。这将在 <a href="nonlinear.html#sec-sheath" class="quarto-xref"><span>小节 18.1</span></a> 中讨论。</li>
+</ol>
+</section>
+<section id="等离子体的判据" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="等离子体的判据"><span class="header-section-number">2.5</span> 等离子体的判据</h2>
+<p>我们已经给出了电离气体要称为等离子体必须满足的两个条件。第三个条件与碰撞有关。例如，飞机喷气尾流中的弱电离气体不符合等离子体的条件，因为带电粒子与中性原子碰撞过于频繁，其运动受普通流体动力学力而非电磁力控制。如果 <span class="math inline">\(\omega\)</span> 是典型等离子体振荡的频率，<span class="math inline">\(\tau\)</span> 是与中性原子碰撞之间的平均时间，则要求 <span class="math inline">\(\omega \tau &gt; 1\)</span>，气体才表现得像等离子体而不是中性气体。</p>
+<ol type="1">
+<li><span class="math inline">\(\lambda_D \ll L\)</span></li>
+<li><span class="math inline">\(N_D \gg 1\)</span></li>
+<li><span class="math inline">\(\omega\tau &gt; 1\)</span></li>
+</ol>
+<p>在课堂上，人们常认为条件 1 和条件 2 等价；它们并不完全等价。其理由是：条件 1 在分布为麦克斯韦分布时成立，而麦克斯韦分布恰好是大量粒子的平衡分布；条件 2 是这一分布成立的统计先决条件。</p>
+</section>
+<section id="等离子体频率" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="等离子体频率"><span class="header-section-number">2.6</span> 等离子体频率</h2>
+<p>除了长度尺度，我们也关心时间尺度。等离子体频率 <span id="eq-plasma_frequency"><span class="math display">\[
+\omega_p = \sqrt{\frac{n\,e^2}{\epsilon_0\,m}}
+\tag{2.7}\]</span></span> 是等离子体物理中最基本的时间尺度。显然，每种粒子都有不同的等离子体频率。然而，频率相对较高的电子频率最为重要，大多数教科书中提到“等离子体频率”时，一般都指电子等离子体频率。</p>
+<p><span class="math inline">\(\omega_p\)</span> 对应于给定粒子种类响应微小电荷分离时的典型静电振荡频率。例如，考虑一维情况下，一块完全由某一种带电粒子组成的薄板从其准中性位置偏移无穷小距离 <span class="math inline">\(\delta x\)</span>。由此在薄板前表面产生的电荷密度为 <span class="math inline">\(\sigma=e\,n\,\delta x\)</span>，在相对表面产生大小相等、符号相反的电荷密度。薄板内部产生的沿 <span class="math inline">\(x\)</span> 方向电场为 <span class="math inline">\(E_x= -\sigma/\epsilon_0 =- e\,n\,\delta x/\epsilon_0\)</span>。因此，对薄板内部的单个粒子应用牛顿定律得到 <span class="math display">\[
+m\,\frac{\mathrm{d}^2 \delta x}{\mathrm{d}t^2} = e\,E_x = -m\,\omega_p^{~2}\,\delta x
+\]</span> 从而得到 <span class="math inline">\(\delta x = \delta x_0\,\cos\omega_p t\)</span>。</p>
+<p>等离子体频率与等离子体振荡和波密切相关。<a href="wave.html#sec-oscillations" class="quarto-xref"><span>小节 10.3</span></a> 给出了更完整的推导。注意，只有在研究等离子体系统的时间 <span class="math inline">\(\tau\)</span> 长于等离子体周期 <span class="math inline">\(\tau_p\equiv 1/\omega_p\)</span>，且外部作用改变系统的速率不快于 <span class="math inline">\(\omega_p\)</span> 时，才能观察到等离子体振荡。反之，所研究的显然不是等离子体物理（例如核反应），将系统视为等离子体也就没有实际意义。同样，如果观测的长度尺度 <span class="math inline">\(L\)</span> 小于典型等离子体粒子在一个等离子体周期内走过的距离 <span class="math inline">\(v_t\,\tau_p\)</span>，也检测不到等离子体行为。在这种情况下，粒子在完成一次等离子体振荡之前就会离开系统。这个距离是 <span class="math inline">\(\tau_p\)</span> 在空间上的对应量，称为_德拜长度_，其形式为 <span class="math display">\[
+\lambda_D \equiv \sqrt{T/m}\,\,\omega_p^{-1}.
+\]</span></p>
+<p>注意 <span class="math display">\[
+\lambda_D = \sqrt{\frac{\epsilon_0\,T}{n\,e^2}}
+\]</span> 与质量无关，因此不同粒子种类的德拜长度通常可以相互比较。显然，只有满足下列条件时，才能有效地将我们的理想化系统视为等离子体： <span id="eq-length_limit"><span class="math display">\[
+\frac{\lambda_D}{L} \ll 1
+\tag{2.8}\]</span></span> 以及 <span class="math display">\[
+\frac{\tau_p}{\tau}\ll 1
+\]</span></p>
+<p>这里，<span class="math inline">\(\tau\)</span> 和 <span class="math inline">\(L\)</span> 分别表示所研究过程的典型时间尺度和长度尺度。 应当指出，尽管通常要求满足 <a href="#eq-length_limit" class="quarto-xref">式&nbsp;<span>2.8</span></a>，等离子体物理仍能够研究德拜尺度上的结构。最重要的例子是德拜鞘层，即包围由材料表面约束的等离子体的边界层。</p>
+<p>令 <span class="math inline">\(V_A=B/\sqrt{\mu_0 \rho}\)</span> 为阿尔芬速度，<span class="math inline">\(\omega_{c}=q\, B/m\)</span> 为离子回旋频率。有以下方便的关系： <span id="eq-frequency-ratio"><span class="math display">\[
+\frac{\omega_p}{\omega_{c}} = \frac{c}{V_A}
+\tag{2.9}\]</span></span></p>
+</section>
+<section id="空间尺度" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="空间尺度"><span class="header-section-number">2.7</span> 空间尺度</h2>
+<ul>
+<li><p><em>离子惯性长度</em>：离子与电子解耦、磁场冻结于电子流体而非整体等离子体中的尺度。 <span id="eq-i-inertial-length"><span class="math display">\[
+d_i = \frac{c}{\omega_{pi}} = \frac{V_{Ai}}{\omega_{ci}}
+\tag{2.10}\]</span></span> 其中 <span class="math inline">\(V_{Ai}\)</span> 是离子阿尔芬速度。</p></li>
+<li><p><em>电子惯性长度（等离子体趋肤深度）</em>：电子分布函数能够发生显著变化的尺度，或电磁辐射能够穿透等离子体的深度。 <span id="eq-e-inertial-length"><span class="math display">\[
+d_e = \frac{c}{\omega_{pe}} = \frac{V_{Ae}}{\omega_{ce}}
+\tag{2.11}\]</span></span> 其中 <span class="math inline">\(V_{Ae}\)</span> 是电子阿尔芬速度。</p></li>
+<li><p><em>离子回旋半径</em>：也称拉莫尔半径，是离子绕磁场回旋的尺度。 <span id="eq-gyroradius-i"><span class="math display">\[
+r_L = \frac{v_{\perp, ti}}{\omega_{c}} = \frac{mv_{\perp, ti}}{qB}
+\tag{2.12}\]</span></span> 其中 <span class="math inline">\(v_{\perp, ti} = \sqrt{p_{\perp i}/\rho}\)</span> 是垂直方向的离子热速度。</p></li>
+<li><p><em>电子回旋半径</em>：电子绕磁场回旋的尺度。 <span id="eq-gyroradius-e"><span class="math display">\[
+r_L = \frac{v_{\perp, te}}{\omega_{c}} = \frac{mv_{\perp, te}}{qB}
+\tag{2.13}\]</span></span> 其中 <span class="math inline">\(v_{\perp, te} = \sqrt{p_{\perp e}/\rho}\)</span> 是垂直方向的离子热速度。</p></li>
+</ul>
+<p>惯性长度与回旋半径之间一个方便的关系是 <span id="eq-length-ratio"><span class="math display">\[
+\frac{r_L}{d_i} = \frac{v_{ti}}{v_A} = \sqrt{\beta/2}
+\tag{2.14}\]</span></span></p>
+<p>在相对论情况下，回旋半径为 <span id="eq-gyroradius-relativistic"><span class="math display">\[
+r_L = \frac{p}{qB} = \frac{\gamma m v_\perp}{qB}
+\tag{2.15}\]</span></span> 其中 <span class="math inline">\(\gamma\)</span> 是洛伦兹因子。在天体粒子研究中，人们喜欢用 [GeV] 表示粒子能量，并分别用 c 和 e 归一化速度和电荷。因此， <span id="eq-gyroradius-astro"><span class="math display">\[
+\begin{aligned}
+\frac{r_L}{[\mathrm{m}]} &amp;= \frac{\gamma m c^2/ [\mathrm{J}] \cdot v_\perp / c}{q/e \cdot B/[\mathrm{T}]}\cdot\frac{1}{ce} \\
+&amp;= \frac{\gamma m c^2 / [\mathrm{GeV}]\cdot v_\perp/c}{q/e \cdot B/[\mathrm{T}]}\cdot \frac{10^9}{c} \\
+&amp;= 3.3 \frac{\gamma m c^2 / [\mathrm{GeV}]\cdot v_\perp/c}{q/e \cdot B/[\mathrm{T}]}
+\end{aligned}
+\tag{2.16}\]</span></span></p>
+<ul>
+<li><em>德拜长度</em>：电子重新分布将电场屏蔽掉的尺度： <span id="eq-debye-length"><span class="math display">\[
+\lambda_{D}=\sqrt{\frac{\epsilon_0 k_B T^\ast}{e^2 n_e}} = \frac{v_\text{th}^\ast}{\omega_{pe}}
+\tag{2.17}\]</span></span> 其中 <span class="math inline">\(T^\ast=\Big( \frac{1}{T_e}+\frac{1}{T_i} \Big)^{-1}\)</span>，<span class="math inline">\(v_\text{th}^\ast\)</span> 是相应的热速度。即使在准中性冷等离子体中，离子贡献实际上似乎因离子温度较低而更大，离子项实际上仍常被忽略，得到 <span id="eq-debye-length2"><span class="math display">\[
+\lambda_{D}=\sqrt{\frac{\epsilon_0 k_B T_e}{e^2 n}}= \frac{m_e}{q_e}\frac{\sqrt{\epsilon_0 P_e}}{\rho_e} = \sqrt{\frac{\epsilon_0 v_{te}}{e^2 n_e}} = \frac{v_{te}}{\omega_{pe}}
+\tag{2.18}\]</span></span> 其中 <span class="math inline">\(v_{te} = \sqrt{P_e/\rho_e} = \sqrt{k_B T_e/m_e}\)</span>；这仅在与过程时间尺度相比，离子的运动可以忽略时有效。</li>
+</ul>
+<p>比较 <a href="#eq-e-inertial-length" class="quarto-xref">式&nbsp;<span>2.11</span></a> 和 <a href="#eq-debye-length2" class="quarto-xref">式&nbsp;<span>2.18</span></a>，得到电子惯性长度与德拜长度之间的一个有用关系： <span id="eq-de-lambdaD"><span class="math display">\[
+\frac{\lambda_D}{d_e} = \frac{v_{te}}{c}
+\tag{2.19}\]</span></span></p>
+</section>
+<section id="如何学习等离子体物理" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="如何学习等离子体物理"><span class="header-section-number">2.8</span> 如何学习等离子体物理</h2>
+<p>由于涉及多尺度问题，等离子体物理不存在普适理论。所有有用的方程都是在一定的尺度近似下推导出来的。关键是理解对于给定问题，何时适合应用某种理论。</p>
+</section>
+<section id="常用缩写" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="常用缩写"><span class="header-section-number">2.9</span> 常用缩写</h2>
+<ul>
+<li><strong>HD</strong>：流体动力学、流体动力学的</li>
+<li><strong>MHD</strong>：磁流体动力学、磁流体动力学的</li>
+<li><strong>EM</strong>：电磁的、电磁学</li>
+<li><strong>PIC</strong>：粒子网格法</li>
+<li><strong>CR</strong>：宇宙射线</li>
+<li><strong>GC</strong>：导引中心</li>
+<li><strong>GK</strong>：回旋动理学、回旋动理学的</li>
+<li><strong>FLR</strong>：有限拉莫尔半径、磁力线共振</li>
+<li><strong>RD</strong>：旋转间断</li>
+<li><strong>TD</strong>：切向间断</li>
+<li><strong>CD</strong>：接触间断</li>
+<li><strong>RH</strong>：兰金－雨果尼奥</li>
+<li><strong>dHT</strong>：德霍夫曼－特勒</li>
+</ul>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bellan2008fundamentals" class="csl-entry" role="listitem">
+Bellan, Paul M. 2008年. <em>Fundamentals of plasma physics</em>. Cambridge University Press.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/about.html" class="pagination-link" aria-label="关于">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/math.html" class="pagination-link" aria-label="数学">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

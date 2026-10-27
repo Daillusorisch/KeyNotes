@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>34&nbsp; 测试 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/inductance.html" rel="next">
+<link href="../contents/raytracing.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/test.html"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#误差" id="toc-误差" class="nav-link active" data-scroll-target="#误差"><span class="header-section-number">34.1</span> 误差</a></li>
+  <li><a href="#波测试" id="toc-波测试" class="nav-link" data-scroll-target="#波测试"><span class="header-section-number">34.2</span> 波测试</a>
+  <ul class="collapse">
+  <li><a href="#线性波" id="toc-线性波" class="nav-link" data-scroll-target="#线性波"><span class="header-section-number">34.2.1</span> 线性波</a></li>
+  <li><a href="#三维绝热-mhd" id="toc-三维绝热-mhd" class="nav-link" data-scroll-target="#三维绝热-mhd"><span class="header-section-number">34.2.2</span> 三维绝热 MHD</a></li>
+  <li><a href="#各向异性-mhd" id="toc-各向异性-mhd" class="nav-link" data-scroll-target="#各向异性-mhd"><span class="header-section-number">34.2.3</span> 各向异性 MHD</a></li>
+  <li><a href="#圆偏振阿尔芬波" id="toc-圆偏振阿尔芬波" class="nav-link" data-scroll-target="#圆偏振阿尔芬波"><span class="header-section-number">34.2.4</span> 圆偏振阿尔芬波</a></li>
+  <li><a href="#哨声波" id="toc-哨声波" class="nav-link" data-scroll-target="#哨声波"><span class="header-section-number">34.2.5</span> 哨声波</a></li>
+  <li><a href="#光波" id="toc-光波" class="nav-link" data-scroll-target="#光波"><span class="header-section-number">34.2.6</span> 光波</a></li>
+  <li><a href="#消防水管不稳定性" id="toc-消防水管不稳定性" class="nav-link" data-scroll-target="#消防水管不稳定性"><span class="header-section-number">34.2.7</span> 消防水管不稳定性</a></li>
+  <li><a href="#镜模不稳定性" id="toc-镜模不稳定性" class="nav-link" data-scroll-target="#镜模不稳定性"><span class="header-section-number">34.2.8</span> 镜模不稳定性</a></li>
+  <li><a href="#朗缪尔波" id="toc-朗缪尔波" class="nav-link" data-scroll-target="#朗缪尔波"><span class="header-section-number">34.2.9</span> 朗缪尔波</a></li>
+  </ul></li>
+  <li><a href="#激波测试" id="toc-激波测试" class="nav-link" data-scroll-target="#激波测试"><span class="header-section-number">34.3</span> 激波测试</a>
+  <ul class="collapse">
+  <li><a href="#brio-wu-激波管" id="toc-brio-wu-激波管" class="nav-link" data-scroll-target="#brio-wu-激波管"><span class="header-section-number">34.3.1</span> Brio-Wu 激波管</a></li>
+  <li><a href="#ryu-和-jones-的-2a-测试" id="toc-ryu-和-jones-的-2a-测试" class="nav-link" data-scroll-target="#ryu-和-jones-的-2a-测试"><span class="header-section-number">34.3.2</span> Ryu 和 Jones 的 2A 测试</a></li>
+  <li><a href="#球形爆炸波" id="toc-球形爆炸波" class="nav-link" data-scroll-target="#球形爆炸波"><span class="header-section-number">34.3.3</span> 球形爆炸波</a></li>
+  </ul></li>
+  <li><a href="#不稳定性测试" id="toc-不稳定性测试" class="nav-link" data-scroll-target="#不稳定性测试"><span class="header-section-number">34.4</span> 不稳定性测试</a>
+  <ul class="collapse">
+  <li><a href="#kelvin-helmholtz-不稳定性" id="toc-kelvin-helmholtz-不稳定性" class="nav-link" data-scroll-target="#kelvin-helmholtz-不稳定性"><span class="header-section-number">34.4.1</span> Kelvin-Helmholtz 不稳定性</a></li>
+  <li><a href="#rayleigh-taylor-不稳定性" id="toc-rayleigh-taylor-不稳定性" class="nav-link" data-scroll-target="#rayleigh-taylor-不稳定性"><span class="header-section-number">34.4.2</span> Rayleigh-Taylor 不稳定性</a></li>
+  </ul></li>
+  <li><a href="#湍流测试" id="toc-湍流测试" class="nav-link" data-scroll-target="#湍流测试"><span class="header-section-number">34.5</span> 湍流测试</a>
+  <ul class="collapse">
+  <li><a href="#orszag-tang-涡旋" id="toc-orszag-tang-涡旋" class="nav-link" data-scroll-target="#orszag-tang-涡旋"><span class="header-section-number">34.5.1</span> Orszag-Tang 涡旋</a></li>
+  </ul></li>
+  <li><a href="#磁重联测试" id="toc-磁重联测试" class="nav-link" data-scroll-target="#磁重联测试"><span class="header-section-number">34.6</span> 磁重联测试</a>
+  <ul class="collapse">
+  <li><a href="#gem-挑战问题" id="toc-gem-挑战问题" class="nav-link" data-scroll-target="#gem-挑战问题"><span class="header-section-number">34.6.1</span> GEM 挑战问题</a></li>
+  <li><a href="#电流片" id="toc-电流片" class="nav-link" data-scroll-target="#电流片"><span class="header-section-number">34.6.2</span> 电流片</a></li>
+  </ul></li>
+  <li><a href="#无散场测试" id="toc-无散场测试" class="nav-link" data-scroll-target="#无散场测试"><span class="header-section-number">34.7</span> 无散场测试</a>
+  <ul class="collapse">
+  <li><a href="#磁场环" id="toc-磁场环" class="nav-link" data-scroll-target="#磁场环"><span class="header-section-number">34.7.1</span> 磁场环</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/test.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-test" class="quarto-section-identifier"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>验证模型的有效性对于开展严谨一致的研究至关重要。本章介绍在等离子体物理中可以进行的数值测试，内容深受 <a href="https://www.astro.princeton.edu/~jstone/Athena/tests/">Athena MHD 代码中的测试</a>影响。详情见 <span class="citation" data-cites="stone2008athena">(<a href="#ref-stone2008athena" role="doc-biblioref">Stone 等 2008年</a>)</span>。</p>
+<p>大多数测试参数以无量纲单位给出。如果需要使用国际单位制，就需要进行单位换算。详情见 <a href="unit.html#sec-unit-value" class="quarto-xref"><span>小节 6.2</span></a>。</p>
+<section id="误差" class="level2" data-number="34.1">
+<h2 data-number="34.1" class="anchored" data-anchor-id="误差"><span class="header-section-number">34.1</span> 误差</h2>
+<ol type="1">
+<li>扩散误差：波的振幅下降的速率。</li>
+<li>色散误差：波在数值解中与在解析解中传播速度的差异。</li>
+</ol>
+<p>误差范数通常同时包含这两种误差的贡献。不过，也可以将误差绘制为位置或相位的函数，分别追踪它们。</p>
+</section>
+<section id="波测试" class="level2" data-number="34.2">
+<h2 data-number="34.2" class="anchored" data-anchor-id="波测试"><span class="header-section-number">34.2</span> 波测试</h2>
+<section id="线性波" class="level3" data-number="34.2.1">
+<h3 data-number="34.2.1" class="anchored" data-anchor-id="线性波"><span class="header-section-number">34.2.1</span> 线性波</h3>
+<p>将 <a href="fluid.html#eq-ideal-mhd" class="quarto-xref">式&nbsp;<span>8.49</span></a> 线性化得到方程组 <span class="math inline">\(\mathbf{W}_t = \mathbf{A}(\mathbf{W})\mathbf{W}_x\)</span>，其中 <span class="math inline">\(\mathbf{W}\)</span> 由一维情况下的原始变量或守恒变量组成，下标 <span class="math inline">\(t\)</span> 和 <span class="math inline">\(x\)</span> 表示相应的偏导数。理想 MHD 的特征值和特征向量可用于设置特征波扰动。详情见 <span class="citation" data-cites="stone2008athena">(<a href="#ref-stone2008athena" role="doc-biblioref">Stone 等 2008年</a>)</span> 的附录 A 和 B。</p>
+<p>初始时密度、速度、磁场和总能量均设为常数。这些值可以选取得使各波速充分分离，并使（在 MHD 中）波矢与 <span class="math inline">\(\mathbf{B}\)</span> 成任意角度。此处所述测试选用的具体数值在下方相应的结果部分给出。</p>
+<p>波以 <span class="math inline">\(\delta \mathbf{U} = A \mathbf{R} \sin(2\pi x)\)</span> 的形式作为扰动叠加到这些常数值上。这里 <span class="math inline">\(\mathbf{U}\)</span> 是守恒变量向量，<span class="math inline">\(A\)</span> 是振幅，<span class="math inline">\(\mathbf{R}\)</span> 是与所需波族对应的右特征向量。每项测试的 <span class="math inline">\(\mathbf{R}\)</span> 分量列于下方相应的结果部分。对于这里展示的所有测试，<span class="math inline">\(A = 10^{-6}\)</span>。</p>
+<p>计算区域的长度设为一个波长，使用周期性边界条件。波传播一个波长后，我们将每个变量在所有网格点上的绝对误差求和，再计算所得向量的范数，以此衡量数值解的误差：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\epsilon &amp;= || \Delta U || = \sqrt{\sum_k (\Delta U_k)^2} \\
+&amp;= \sqrt{\sum_k (\sum_{i=1}^{N_x} |U_{k,i}^n - U_{k,i}^0| / N_x)^2}
+\end{aligned}
+\]</span></p>
+<p>这里，<span class="math inline">\(U_{k,i}\)</span> 是时间层 <span class="math inline">\(n\)</span> 上网格点 <span class="math inline">\(i\)</span> 处守恒量向量第 k 个分量的数值解，<span class="math inline">\(U_{k,i}^0\)</span> 是初始数值解，<span class="math inline">\(N_x\)</span> 是网格点数。注意，初始解 <span class="math inline">\(U_{k,i}^0\)</span> 就是离散到网格上的解析解。由于初始条件的离散化也会引入误差，为衡量积分算法的误差，重要的是相对于初始条件 <span class="math inline">\(U_{k,i}^0\)</span> 而非解析解计算误差。在二维（三维）情况下，还需要对 <span class="math inline">\(j(k)\)</span> 求和。</p>
+<p>要与这里给出的结果进行比较，重要的是：</p>
+<ol type="1">
+<li>对波使用相同的振幅</li>
+<li>以完全相同的方式计算误差</li>
+<li>在完全相同的时刻计算误差</li>
+</ol>
+<p>这是定量检验数值算法精度和收敛阶的极佳测试。唯一的缺点是它只涉及线性振幅振荡。因此，这项测试并不能代表代码最初编写出来所要解决的那类问题（毕竟线性波的动力学可以解析处理）。在这项测试中表现良好的代码，捕捉激波的能力仍可能很差。不过，知道算法在线性区域能收敛到正确答案仍然有益。此外，由于几乎所有格式在激波等间断处都只有一阶精度，像这样光滑的问题是测量高阶格式实际收敛阶的唯一方法。</p>
+<p>事实证明，这项测试在发现编码错误方面非常有用：</p>
+<ul>
+<li>同一波族向左和向右传播的波，其误差应当相同。</li>
+<li>如果误差不收敛，说明某处出了问题。</li>
+<li>必须使用双精度和非常小的波振幅，以消除舍入误差和非线性效应。</li>
+</ul>
+<section id="一维绝热流体动力学" class="level4" data-number="34.2.1.1">
+<h4 data-number="34.2.1.1" class="anchored" data-anchor-id="一维绝热流体动力学"><span class="header-section-number">34.2.1.1</span> 一维绝热流体动力学</h4>
+<p>给定 <a href="fluid.html#eq-ideal-mhd" class="quarto-xref">式&nbsp;<span>8.49</span></a>（其中 <span class="math inline">\(\mathbf{B}=0\)</span>）， <span class="math display">\[
+\begin{aligned}
+\rho &amp;= 1 \\
+\mathbf{u} &amp;= \mathbf{0} \\
+p &amp;= 1/\gamma
+\end{aligned}
+\]</span></p>
+<p>其中 <span class="math inline">\(\gamma = 5/3\)</span>。守恒变量为 <span class="math display">\[
+\mathbf{U}=[\rho, \rho u_x, \rho u_y, \rho u_z, E]
+\]</span></p>
+<p>向左传播的波的右特征向量为 <span class="math display">\[
+\mathbf{R}=[1.0, -1.0, 0.0, 0.0, 1.5]
+\]</span></p>
+<p>从 <span class="math inline">\(\mathcal{E}\)</span> 转换到 <span class="math inline">\(p\)</span> 时，由背景值和 <span class="math inline">\(\mathbf{R}\)</span> 可知</p>
+<p><span class="math display">\[
+\delta p = (\gamma-1)\left( \delta\mathcal{E} + \rho\, u\delta u + \frac{1}{2}u^2\delta\rho \right) = 1.0
+\]</span></p>
+<p>参数汇总于 <a href="#tbl-linear-wave-1d-hd" class="quarto-xref">表&nbsp;<span>34.1</span></a>。</p>
+<div id="tbl-linear-wave-1d-hd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-linear-wave-1d-hd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+表&nbsp;34.1: 一维绝热流体动力学线性波参数
+</figcaption>
+<div aria-describedby="tbl-linear-wave-1d-hd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>变量</th>
+<th>背景值</th>
+<th>扰动 <span class="math inline">\(\mathbf{R}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\rho\)</span></td>
+<td>1</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\rho u_x\)</span></td>
+<td>0</td>
+<td>-1.0</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\rho u_y\)</span></td>
+<td>0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\rho u_z\)</span></td>
+<td>0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(p\)</span></td>
+<td><span class="math inline">\(\frac{1}{\gamma}\)</span></td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathcal{E}\)</span></td>
+<td><span class="math inline">\(\frac{1}{\gamma(\gamma-1)}\)</span></td>
+<td>1.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>声波向左传播一个波长的绝对误差与网格点数 <span class="math inline">\(N_x\)</span> 的关系</p>
+</section>
+<section id="一维绝热-mhd" class="level4" data-number="34.2.1.2">
+<h4 data-number="34.2.1.2" class="anchored" data-anchor-id="一维绝热-mhd"><span class="header-section-number">34.2.1.2</span> 一维绝热 MHD</h4>
+<p>给定 <a href="fluid.html#eq-ideal-mhd" class="quarto-xref">式&nbsp;<span>8.49</span></a>，</p>
+<p><span class="math display">\[
+\begin{aligned}
+\rho &amp;= 1 \\
+\mathbf{u} &amp;= \mathbf{0} \\
+p &amp;= 1/\gamma \\
+\mathbf{B} &amp;= [1, \sqrt{2}, 0.5]
+\end{aligned}
+\]</span></p>
+<p>其中 <span class="math inline">\(\gamma = 5/3\)</span>。因此，沿 x 方向的特征速度为</p>
+<p><span class="math display">\[
+\begin{aligned}
+v_s &amp;= \sqrt{\frac{\gamma p}{\rho}} = 1.0 \\
+v_A &amp;= \sqrt{\frac{b_x^2+b_y^2+b_z^2}{\rho}} = \frac{\sqrt{13}}{2} \approx 1.8 \\
+v_{xA} &amp;= \sqrt{\frac{b_x^2}{\rho}} = 1.0 \\
+v_{x,\mathrm{fast}} &amp;= \sqrt{\frac{1}{2}\left[v_s^2 + v_A^2 + \sqrt{(v_s^2 + v_A^2)^2 - 4v_s^2 v_{xA}^2}\right]} = 2.0 \\
+v_{x,\mathrm{slow}} &amp;= \sqrt{\frac{1}{2}\left[v_s^2 + v_A^2 - \sqrt{(v_s^2 + v_A^2)^2 - 4v_s^2 v_{xA}^2}\right]} = 0.5
+\end{aligned}
+\]</span> 若守恒变量按以下顺序排列 <span class="math display">\[
+\mathbf{U} = [\rho, \rho u_x, \rho u_y, \rho u_z, E, B_y, B_z]
+\]</span> 则向左传播的波的右特征向量如下：</p>
+<ul>
+<li>对于快磁声波：</li>
+</ul>
+<div id="2" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> [</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fl">4.472135954999580e-01</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">8.944271909999160e-01</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fl">4.216370213557840e-01</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fl">1.490711984999860e-01</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fl">2.012457825664615e+00</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fl">8.432740427115680e-01</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fl">2.981423969999720e-01</span> ]</span></code></pre></div><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>7-element Vector{Float64}:
+  0.447213595499958
+ -0.894427190999916
+  0.421637021355784
+  0.149071198499986
+  2.012457825664615
+  0.843274042711568
+  0.298142396999972</code></pre>
+</div>
+</div>
+<ul>
+<li>对于阿尔芬波：</li>
+</ul>
+<div id="4" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> [</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fl">0.0</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fl">0.0</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">3.333333333333333e-01</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fl">9.428090415820634e-01</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fl">0.0</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">3.333333333333333e-01</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fl">9.428090415820634e-01</span> ]</span></code></pre></div><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>7-element Vector{Float64}:
+  0.0
+  0.0
+ -0.3333333333333333
+  0.9428090415820634
+  0.0
+ -0.3333333333333333
+  0.9428090415820634</code></pre>
+</div>
+</div>
+<ul>
+<li>对于慢磁声波：</li>
+</ul>
+<div id="6" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>代码</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> [</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fl">8.944271909999159e-01</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">4.472135954999579e-01</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">8.432740427115680e-01</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">2.981423969999720e-01</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fl">6.708136850795449e-01</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">4.216370213557841e-01</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">1.490711984999860e-01</span> ]</span></code></pre></div><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>7-element Vector{Float64}:
+  0.8944271909999159
+ -0.4472135954999579
+ -0.843274042711568
+ -0.298142396999972
+  0.6708136850795449
+ -0.4216370213557841
+ -0.149071198499986</code></pre>
+</div>
+</div>
+<p>参数汇总于 <a href="#tbl-linear-wave-1d-mhd" class="quarto-xref">表&nbsp;<span>34.2</span></a>。</p>
+<div id="tbl-linear-wave-1d-mhd" class="quarto-layout-panel anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-linear-wave-1d-mhd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+表&nbsp;34.2: 一维绝热 MHD 线性波参数
+</figcaption>
+<div aria-describedby="tbl-linear-wave-1d-mhd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<table class="caption-top table">
+<caption>快磁声波</caption>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 35%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">变量</th>
+<th style="text-align: left;">背景值</th>
+<th style="text-align: left;">扰动 <span class="math inline">\(\mathbf{R}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\rho\)</span></td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">4.472135954999580e-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\rho u_x\)</span></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">-8.944271909999160e-1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\rho u_y\)</span></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">4.216370213557840e-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\rho u_z\)</span></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1.490711984999860e-1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\mathcal{E}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\frac{1}{\gamma(\gamma-1)}+\frac{13}{8}\)</span></td>
+<td style="text-align: left;">2.012457825664615</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(B_x\)</span></td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(B_y\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\sqrt{2}\)</span></td>
+<td style="text-align: left;">8.432740427115680e-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(B_z\)</span></td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">2.981423969999720e-1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<table class="caption-top table">
+<caption>阿尔芬波</caption>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 35%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">变量</th>
+<th style="text-align: left;">背景值</th>
+<th style="text-align: left;">扰动 <span class="math inline">\(\mathbf{R}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\rho\)</span></td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\rho u_x\)</span></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\rho u_y\)</span></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">-3.333333333333333e-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\rho u_z\)</span></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">9.428090415820634e-1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\mathcal{E}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\frac{1}{\gamma(\gamma-1)}\)</span></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(B_x\)</span></td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(B_y\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\sqrt{2}\)</span></td>
+<td style="text-align: left;">-3.333333333333333e-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(B_z\)</span></td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">9.428090415820634e-1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<table class="caption-top table">
+<caption>慢磁声波</caption>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 35%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">变量</th>
+<th style="text-align: left;">背景值</th>
+<th style="text-align: left;">扰动 <span class="math inline">\(\mathbf{R}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\rho\)</span></td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">8.944271909999159e-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\rho u_x\)</span></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">-4.472135954999579e-1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\rho u_y\)</span></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">-8.432740427115680e-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\rho u_z\)</span></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">-2.981423969999720e-1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\mathcal{E}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\frac{1}{\gamma(\gamma-1)}\)</span></td>
+<td style="text-align: left;">6.708136850795449e-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(B_x\)</span></td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(B_y\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\sqrt{2}\)</span></td>
+<td style="text-align: left;">-4.216370213557841e-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(B_z\)</span></td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">-1.490711984999860e-1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</figure>
+</div>
+<p>在某些情况下，需要将守恒变量转换为另一组变量，例如 <span class="math inline">\((n,\mathbf{u},p,\mathbf{B})\)</span>。数密度扰动为 <span id="eq-number-mass-density-conversion"><span class="math display">\[
+\delta n = \frac{\delta \rho}{m} = \frac{\rho_0}{m}A\sin 2\pi x
+\tag{34.1}\]</span></span> 假设背景值 <span class="math inline">\(u_0=0\)</span>， <span id="eq-velocity-momentumflux-conversion"><span class="math display">\[
+\delta u = \frac{1}{\rho}\left[ \delta(\rho u) - (\delta \rho) u \right] = \frac{1}{\rho_0+\delta\rho}\delta(\rho u)
+\tag{34.2}\]</span></span></p>
+<p>给定能量密度扰动 <span class="math display">\[
+\begin{aligned}
+\mathcal{E} &amp;= \frac{p}{\gamma-1} + \frac{\rho u^2}{2} + \frac{B^2}{2\mu_0} \\
+p &amp;= (\gamma-1)\left[ \mathcal{E} - \frac{\rho u^2}{2} - \frac{B^2}{2\mu_0} \right]
+\end{aligned}
+\]</span></p>
+<p>则压力扰动为 <span id="eq-pressure-energyflux-conversion"><span class="math display">\[
+\delta p = (\gamma-1)\left[ \delta\mathcal{E} - \frac{1}{2}(\rho_0 + \delta\rho)\delta u^2 - \frac{1}{2}\left( 2B_0\delta B + \delta B^2 \right) \right]
+\tag{34.3}\]</span></span></p>
+<p>如果输入的是 <span class="math inline">\(T\)</span> 而不是 <span class="math inline">\(p\)</span>，则有 <span id="eq-temperature-pressure-conversion"><span class="math display">\[
+\delta T = \frac{p_0 + \delta p}{\rho_0+\delta \rho} - \frac{p_0}{\rho_0}
+\tag{34.4}\]</span></span></p>
+<p>注意，虽然在线性扰动理论中可以忽略高阶（&gt;2）项，但在这里进行数值计算时不必如此。</p>
+</section>
+<section id="二维绝热-mhd" class="level4" data-number="34.2.1.3">
+<h4 data-number="34.2.1.3" class="anchored" data-anchor-id="二维绝热-mhd"><span class="header-section-number">34.2.1.3</span> 二维绝热 MHD</h4>
+<p>这里采用与一维绝热 MHD 测试相同的数值，但使用范围为 <span class="math inline">\(0 \le x \le 2\)</span>、<span class="math inline">\(0 \le y \le 1\)</span> 的二维网格。在每种分辨率下，x 方向的网格点数都是 y 方向的两倍（例如最高分辨率为 <span class="math inline">\(512 \times 256\)</span>），因此整个网格为矩形，但每个网格单元为正方形。波沿整个网格的对角线传播，与 x 轴成 <span class="math inline">\(\theta = \tan^{-1}(0.5) \approx 26.6\)</span> 度角。由于波并不沿网格单元的对角线传播，我们保证了 x 和 y 方向的通量不同；也就是说，这是一个真正的多维问题。</p>
+</section>
+</section>
+<section id="三维绝热-mhd" class="level3" data-number="34.2.2">
+<h3 data-number="34.2.2" class="anchored" data-anchor-id="三维绝热-mhd"><span class="header-section-number">34.2.2</span> 三维绝热 MHD</h3>
+<p>现在使用范围为 <span class="math inline">\(0 \le x \le 3\)</span>、<span class="math inline">\(0 \le y \le 1.5\)</span>、<span class="math inline">\(0 \le z \le 1.5\)</span> 的三维网格。网格大小为 <span class="math inline">\(2N\times N \times N\)</span>。波沿整个网格的对角线传播，同样保证这是一个真正的多维测试。背景状态与一维测试的值相同。</p>
+</section>
+<section id="各向异性-mhd" class="level3" data-number="34.2.3">
+<h3 data-number="34.2.3" class="anchored" data-anchor-id="各向异性-mhd"><span class="header-section-number">34.2.3</span> 各向异性 MHD</h3>
+<p>此测试取自 <span class="citation" data-cites="daldorff2014two">(<a href="#ref-daldorff2014two" role="doc-biblioref">Daldorff 等 2014年</a>)</span>。即使未受扰动的等离子体压力各向同性，在无碰撞等离子体中，平行和垂直压力的变化也不相同。各向同性 MHD 解不适用于各向异性 MHD、混合模型或 PIC 等模型。</p>
+<p>以下方程是各向异性 MHD 方程的精确解（即 <a href="fluid.html#eq-ideal-mhd" class="quarto-xref">式&nbsp;<span>8.49</span></a>，但将能量方程替换为 <a href="fluid.html#eq-6-moment-fluids" class="quarto-xref">式&nbsp;<span>8.14</span></a> 中的两个压力方程） <span class="math display">\[
+\begin{aligned}
+\rho &amp;= \rho_0\left[ 1 + \delta\sin(kx-\omega t) \right] \\
+u_x &amp;= V_f \delta\sin(kx-\omega t) \\
+u_y &amp;= 0 \\
+u_z &amp;= 0 \\
+p &amp;= p_0\left[ 1 + \gamma\delta\sin(kx-\omega t) \right] \\
+p_\parallel &amp;= p_0\left[ 1 + \delta\sin(kx-\omega t) \right] \\
+B_x &amp;= 0 \\
+B_y &amp;= B_0 \left(1+\delta\sin(kx-\omega t)\right) \\
+B_z &amp;= 0
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(p = \frac{p_\parallel + 2p_\perp}{3}\)</span>，而 <span class="math display">\[
+V_f = \frac{\omega}{k} = \sqrt{\frac{B_0^2 + 2 p_0}{\rho_0}}
+\]</span> 是沿垂直于磁场方向传播的快波的传播速度。这对应于 <a href="wave.html#sec-fast_slow" class="quarto-xref"><span>小节 10.7.4</span></a> 中 <span class="math inline">\(\theta = 90^\circ\)</span> 的情况。注意 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(p_\parallel\)</span> 的波振幅不同，即此解不同于各向同性（有碰撞）快波。还要注意相速度中的 <span class="math inline">\(2p_0\)</span>（实际上是 <span class="math inline">\(2p_\perp\)</span>）项取代了通常的 <span class="math inline">\(\gamma p\)</span> 项。</p>
+<p>初始时设 <span class="math inline">\(\rho_0 = 1, p_0 = 4.5\times 10^{-4}\)</span> 和 <span class="math inline">\(B_0 = 0.04\)</span>，得到 <span class="math inline">\(V_f=0.05\)</span>。波长设为 <span class="math inline">\(\lambda=32\)</span>，因此 <span class="math inline">\(k=2\pi/\lambda\)</span>。如果离子和电子的回旋半径相对于波长 <span class="math inline">\(\lambda\)</span> 很小，且传播速度 <span class="math inline">\(V_\mathrm{ph}\)</span> 远小于光速 <span class="math inline">\(c\)</span>，上述解也满足动理学求解器所求解的 Vlasov-Maxwell 方程。</p>
+</section>
+<section id="圆偏振阿尔芬波" class="level3" data-number="34.2.4">
+<h3 data-number="34.2.4" class="anchored" data-anchor-id="圆偏振阿尔芬波"><span class="header-section-number">34.2.4</span> 圆偏振阿尔芬波</h3>
+<p>以下关系描述了右旋偏振阿尔芬波 <span class="math display">\[
+\begin{aligned}
+\rho &amp;= 1.0 \\
+p &amp;= 0.1 \\
+v_\parallel &amp;= 0.0 \\
+v_\perp &amp;= 0.1\sin(2\pi x_\parallel) \\
+v_z &amp;= 0.1\cos(2\pi x_\parallel) \\
+B_\parallel &amp;= 1.0 \\
+B_\perp &amp;= 0.1\sin(2\pi x_\parallel) \\
+B_z &amp;= 0.1\cos(2\pi x_\parallel)
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(\gamma = 5/3\)</span>，<span class="math inline">\(x_\parallel = (x \cos\alpha + y\sin\alpha)\)</span>，<span class="math inline">\(\alpha\)</span> 是波传播方向相对于网格的夹角。这里 <span class="math inline">\(v_\perp\)</span> 和 <span class="math inline">\(B_\perp\)</span> 是速度和磁场在 x-y 平面内垂直于波矢的分量。它们与存储在网格上的分量 <span class="math inline">\(B_x\)</span> 和 <span class="math inline">\(B_y\)</span> 的关系为 <span class="math display">\[
+\begin{aligned}
+B_\perp &amp;= - B_x\sin\alpha + B_y\cos\alpha \\
+B_\parallel &amp;= B_x\cos\alpha + B_y\sin\alpha
+\end{aligned}
+\]</span></p>
+<p>将方程组反解可得 <span class="math display">\[
+\begin{aligned}
+B_x &amp;= B_\parallel\cos\alpha - B_\perp\sin\alpha \\
+B_y &amp;= B_\parallel\sin\alpha + B_\perp\cos\alpha
+\end{aligned}
+\]</span></p>
+<p>一般来说，速度和磁场扰动的振幅满足 <span class="math display">\[
+\frac{v_1}{B_1} = \frac{V_A}{B_0}
+\]</span></p>
+<p>二维计算区域的大小满足 <span class="math inline">\(L_x = 2L_y\)</span>，且 <span class="math inline">\(N_x = 2N_y\)</span>。因此网格为矩形，但每个单元为正方形。波沿整个网格的对角线传播，与 x 轴成 <span class="math inline">\(\alpha = \tan^{-1}(0.5) \approx 26.6\)</span> 度角。由于波不沿网格单元的对角线传播，x 和 y 方向的通量必然不同；因此这是一个真正的多维问题。</p>
+<p>该波是 MHD 方程的一个精确非线性解，可以用于测试算法在非线性区域的表现。<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 虽然非线性振幅的阿尔芬波会受到参量不稳定性（<a href="nonlinear.html#sec-parametric" class="quarto-xref"><span>小节 18.4</span></a>）的影响而衰变为磁声波，但圆偏振阿尔芬波不应出现这种不稳定性。由于问题是光滑的，它可用于收敛性测试。使用较小压力（较高 β）和／或较大振幅进行测试，是检验算法稳健性的好方法。</p>
+<p>更多内容见<a href="https://www.astro.princeton.edu/~jstone/Athena/tests/cp-alfven-wave/cp-alfven.html">参考资料</a>和 <span class="citation" data-cites="toth2000b">(<a href="#ref-toth2000b" role="doc-biblioref">Tóth 2000年</a>)</span>。</p>
+</section>
+<section id="哨声波" class="level3" data-number="34.2.5">
+<h3 data-number="34.2.5" class="anchored" data-anchor-id="哨声波"><span class="header-section-number">34.2.5</span> 哨声波</h3>
+<p>此测试涉及哨声波的传播，取自 <span class="citation" data-cites="daldorff2014two">(<a href="#ref-daldorff2014two" role="doc-biblioref">Daldorff 等 2014年</a>)</span>。它是加入霍尔项后对圆偏振阿尔芬波的扩展。哨声波的磁场和速度横向分量会发生变化，而纵向分量、密度和压力不受扰动。以下霍尔 MHD 方程的解描述了沿 <span class="math inline">\(+x\)</span> 方向传播的右旋偏振哨声波： <span id="eq-R-whistler-x"><span class="math display">\[
+\begin{aligned}
+u_y &amp;= -\delta u\cos(kx-\omega t) \\
+u_z &amp;= +\delta u\sin(kx-\omega t) \\
+B_y &amp;= +\delta B\cos(kx-\omega t) \\
+B_z &amp;= -\delta B\sin(kx-\omega t)
+\end{aligned}
+\tag{34.5}\]</span></span> 其中波速为（<a href="wave.html#eq-R-wave-phase-speed" class="quarto-xref">式&nbsp;<span>10.25</span></a>） <span class="math display">\[
+v_\mathrm{ph} = \frac{\omega}{k} = \frac{W}{2} + \sqrt{\frac{B_x^2}{\rho} + \frac{W^2}{4}},\quad W=\frac{m}{e}\frac{kB_x}{\rho}
+\]</span></p>
+<p>注意波速取决于波数 <span class="math inline">\(k\)</span>。磁场和速度扰动满足以下关系（这与通常的阿尔芬性 <a href="turbulence.html#eq-Alfvenity" class="quarto-xref">式&nbsp;<span>19.4</span></a> 不同吗？？？但当 <span class="math inline">\(v_\mathrm{ph}=v_A=B_x/\sqrt{\rho}\)</span> 时，它退化为阿尔芬性条件。） <span id="eq-R-whistler-B-v"><span class="math display">\[
+\frac{\delta u}{\delta B} = \frac{B_x}{v_\mathrm{ph}\rho}
+\tag{34.6}\]</span></span></p>
+<p>设 <span class="math inline">\(\rho=1, u_x=0, B_x = 0.2\)</span> 和 <span class="math inline">\(p=5.12\times 10^{-4}\)</span>，波长为 <span class="math inline">\(\lambda = 32\)</span>。由此得到 <span class="math inline">\(v_\mathrm{ph}=0.22059\)</span>，比阿尔芬速度 <span class="math inline">\(V_A=0.2\)</span> 快约 10%，因此在这个波长下霍尔项虽小但不可忽略。横向磁场扰动振幅设为 <span class="math inline">\(\delta B = 0.01\)</span>，即背景场的 5%。</p>
+<p>选择这些参数以满足</p>
+<ul>
+<li><span class="math inline">\(c \gg v_\mathrm{ph}\)</span></li>
+<li><span class="math inline">\(m_e\ll m_i\)</span></li>
+<li><span class="math inline">\(\beta\ll 1\)</span></li>
+<li><span class="math inline">\(\omega\ll \Omega_e\)</span></li>
+</ul>
+<p>从而使动理学色散关系退化为右旋偏振哨声波的霍尔 MHD 色散关系。</p>
+<p><span class="citation" data-cites="tenerani2023dispersive">(<a href="#ref-tenerani2023dispersive" role="doc-biblioref">Tenerani 等 2023年</a>)</span> 展示了阿尔芬型波的色散和阻尼与 <span class="math inline">\(\lambda/d_i\)</span> 的关系。当尺度接近离子惯性长度，但不一定小于它时（对于 <span class="math inline">\(\beta\sim 1\)</span>，<span class="math inline">\(d_i\)</span> 和 <span class="math inline">\(r_{iL}\)</span> 的量级相同），霍尔 MHD 和混合模拟均显示这些效应已经发生。</p>
+<p>使用混合 Vlasov 代码 Vlasiator 进行这个低 <span class="math inline">\(\beta\)</span> 测试时，我观察到：没有霍尔项时，波形会从所有量的波峰和波谷后缘开始迅速畸变；有霍尔项时，波形可以维持更长时间，而且相速度当然是 <span class="math inline">\(v_W\)</span>，比理想 MHD 情况下的 <span class="math inline">\(v_A\)</span> 更快。在 <a href="fluid.html#sec-mhd-ohm" class="quarto-xref"><span>小节 8.6.1</span></a> 中，我们了解到欧姆定律中的霍尔项在两种情况下可以忽略；如上面对 <span class="math inline">\(V_A\)</span> 和 <span class="math inline">\(v_W\)</span> 的比较所示，这两种情况在此测试中都不适用。这意味着一个重要事实：在某些参数空间内，经典阿尔芬波根本不存在；我们可能观察到阿尔芬型涨落（即 <span class="math inline">\(\delta\mathbf{u}\)</span> 和 <span class="math inline">\(\delta\mathbf{B}\)</span> 之间的相关性），但它们可能属于哨声波（R 波）、EMIC 波（L 波）或 KAW。</p>
+</section>
+<section id="光波" class="level3" data-number="34.2.6">
+<h3 data-number="34.2.6" class="anchored" data-anchor-id="光波"><span class="header-section-number">34.2.6</span> 光波</h3>
+</section>
+<section id="消防水管不稳定性" class="level3" data-number="34.2.7">
+<h3 data-number="34.2.7" class="anchored" data-anchor-id="消防水管不稳定性"><span class="header-section-number">34.2.7</span> 消防水管不稳定性</h3>
+</section>
+<section id="镜模不稳定性" class="level3" data-number="34.2.8">
+<h3 data-number="34.2.8" class="anchored" data-anchor-id="镜模不稳定性"><span class="header-section-number">34.2.8</span> 镜模不稳定性</h3>
+</section>
+<section id="朗缪尔波" class="level3" data-number="34.2.9">
+<h3 data-number="34.2.9" class="anchored" data-anchor-id="朗缪尔波"><span class="header-section-number">34.2.9</span> 朗缪尔波</h3>
+<p>朗缪尔波是等离子体中由库仑力驱动的快速静电振荡。这里假设等离子体为冷等离子体，离子不动。从流体角度看，控制方程见 <a href="wave.html#eq-langmuir-linear" class="quarto-xref">式&nbsp;<span>10.2</span></a>： <span class="math display">\[
+\begin{aligned}
+\frac{\partial n_1}{\partial t} &amp;= -n_0\frac{\partial u_1}{\partial x} \\
+\frac{\partial u_1}{\partial t} &amp;= -\frac{e}{m}E_1 \\
+\frac{\partial E_1}{\partial x} &amp;= -\frac{e}{\epsilon_0}n_1
+\end{aligned}
+\]</span></p>
+<p>第三个方程也可以用电势 <span class="math inline">\(\phi\)</span> 写出，电势定义为 <span class="math inline">\(\mathbf{E} = -\nabla \phi = -\partial \phi/\partial x\)</span>， <span class="math display">\[
+\frac{\partial^2 \phi}{\partial x^2} = \frac{e}{\epsilon_0}n_1
+\]</span></p>
+<p>于是完整方程为 <span class="math display">\[
+\begin{aligned}
+\frac{\partial n_1}{\partial t} &amp;= -n_0\frac{\partial u_1}{\partial x} \\
+\frac{\partial u_1}{\partial t} &amp;= -\frac{e}{m}\frac{\partial \phi}{\partial x} \\
+\frac{\partial^2 \phi}{\partial x^2} &amp;= \frac{e}{\epsilon_0}n_1
+\end{aligned}
+\]</span></p>
+<p>如果电子存在密度扰动，即局部电荷不平衡，就可以自洽地驱动朗缪尔振荡。一个经典测试是将一维周期空间区域设为 <span class="math inline">\([0,2\pi]\)</span>，使用 512 个点，时间步长为 <span class="math inline">\(\Delta t = 0.01\)</span>。初始密度扰动为 <span class="math inline">\(n_1 = 0.02n_0\cos(x)\)</span>，其中 <span class="math inline">\(n_0\)</span> 是均匀的背景电子密度。温度设为 0，总模拟时间为 100。<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>电子的运动方程为 <span class="math display">\[
+\begin{aligned}
+m\frac{\mathrm{d}v}{\mathrm{d}t} &amp;= -e E \\
+\frac{\mathrm{d}x}{\mathrm{d}t} &amp;= v
+\end{aligned}
+\]</span></p>
+</section>
+</section>
+<section id="激波测试" class="level2" data-number="34.3">
+<h2 data-number="34.3" class="anchored" data-anchor-id="激波测试"><span class="header-section-number">34.3</span> 激波测试</h2>
+<section id="brio-wu-激波管" class="level3" data-number="34.3.1">
+<h3 data-number="34.3.1" class="anchored" data-anchor-id="brio-wu-激波管"><span class="header-section-number">34.3.1</span> Brio-Wu 激波管</h3>
+<p>此测试是一个 MHD 激波管，左右状态初始化为不同的值。左右初始值分别为 <span class="math display">\[
+\begin{aligned}
+\rho &amp;= 1.0,\, 0.125 \\
+u_x &amp;= 0.0,\, 0.0 \\
+u_y &amp;= 0.0,\, 0.0 \\
+u_z &amp;= 1.0,\, -1.0 \\
+B_x &amp;= 0.75,\, 0.75 \\
+B_y &amp;= 0.0,\, 0.0 \\
+B_z &amp;= 0.0,\, 0.0 \\
+p &amp;= 1.0,\, 0.1
+\end{aligned}
+\]</span> 且 <span class="math inline">\(\gamma = 2\)</span>。初始条件中的流体动力学部分与 Sod 激波管问题相同。</p>
+<p>这是 MHD 代码的标准测试，用于检查代码能否准确表示 MHD 激波、稀疏波、接触间断和复合结构。</p>
+</section>
+<section id="ryu-和-jones-的-2a-测试" class="level3" data-number="34.3.2">
+<h3 data-number="34.3.2" class="anchored" data-anchor-id="ryu-和-jones-的-2a-测试"><span class="header-section-number">34.3.2</span> Ryu 和 Jones 的 2A 测试</h3>
+<p>此测试是一个 MHD 激波管，左右状态初始化为不同的值。它涉及三维场和速度结构，以及磁场所在平面的旋转。左右初始值分别为 <span class="math display">\[
+\begin{aligned}
+\rho &amp;= 1.08,\, 1.0 \\
+u_x &amp;= 1.2,\, 0.0 \\
+u_y &amp;= 0.01,\, 0.0 \\
+u_z &amp;= 0.5,\, 0.0 \\
+B_x &amp;= 3.6,\, 2.0 \\
+B_y &amp;= 2.0,\, 4.0 \\
+B_z &amp;= 2.0,\, 2.0 \\
+p &amp;= 0.95,\, 1.0
+\end{aligned}
+\]</span></p>
+<p>此测试包含向接触间断两侧传播的快激波、慢激波和旋转间断。仅凭这一测试就可以检查数值格式捕捉 MHD 中全部 7 种波的能力。</p>
+</section>
+<section id="球形爆炸波" class="level3" data-number="34.3.3">
+<h3 data-number="34.3.3" class="anchored" data-anchor-id="球形爆炸波"><span class="header-section-number">34.3.3</span> 球形爆炸波</h3>
+<p>我们使用矩形区域 <span class="math inline">\(-0.5 \le x \le 0.5; -0.75 \le y \le 0.75\)</span>。所有边界均采用周期性边界条件。这个非正方形区域和周期性边界条件在后期会产生复杂的激波与激波、激波与接触间断（CD）之间的相互作用。</p>
+<p>初始条件为 <span class="math display">\[
+\begin{aligned}
+\rho &amp;= 1.0 \\
+\mathbf{u} &amp;= [0.0, 0.0, 0.0] \\
+p &amp;= 0.1
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(\gamma = 5/3\)</span>。初始速度处处为零。在 <span class="math inline">\(r &lt; 0.1\)</span> 区域内，<span class="math inline">\(p = 10.0\)</span>（即环境压力的 100 倍）。对于 MHD 问题，初始磁场处处均匀，<span class="math inline">\(B_x = B_y = 1/\sqrt{2}\)</span>。</p>
+<p>虽然这个测试不太具有定量性，但可以制作很精彩的动画！</p>
+<p>在早期，向外传播的爆炸波应当是球形的，并且不表现出与网格方向对齐的效应，这一点很重要。 在后期，爆炸波与中心低密度气泡边缘的接触间断相互作用，通过 Richtmyer-Meshkov 不稳定性产生高密度气体的丝状结构。这些指状结构应当清晰而不被扩散抹去，这一点很重要。此外，对于流体动力学问题，指状结构的图案应严格上下对称、左右对称。对于 MHD 问题，Richtmyer-Meshkov 不稳定性受到抑制，不会明显出现指状结构。</p>
+</section>
+</section>
+<section id="不稳定性测试" class="level2" data-number="34.4">
+<h2 data-number="34.4" class="anchored" data-anchor-id="不稳定性测试"><span class="header-section-number">34.4</span> 不稳定性测试</h2>
+<section id="kelvin-helmholtz-不稳定性" class="level3" data-number="34.4.1">
+<h3 data-number="34.4.1" class="anchored" data-anchor-id="kelvin-helmholtz-不稳定性"><span class="header-section-number">34.4.1</span> Kelvin-Helmholtz 不稳定性</h3>
+<p>使用正方形区域 <span class="math inline">\(-0.5 \le x \le 0.5; -0.5 \le y \le 0.5\)</span>，所有边界均为周期性边界条件。当 <span class="math inline">\(|y| &gt; 0.25\)</span> 时，设 <span class="math inline">\(\rho = 1\)</span>、<span class="math inline">\(u_x = -0.5\)</span>；当 <span class="math inline">\(|y| \le 0.25\)</span> 时，设 <span class="math inline">\(\rho = 2\)</span>、<span class="math inline">\(u_x = 0.5\)</span>。压力处处为 2.5，且 <span class="math inline">\(\gamma = 1\)</span>.4，因此 <span class="math inline">\(\rho=2\)</span> 的气体中马赫数约为 0.377，<span class="math inline">\(\rho = 1\)</span> 的气体中约为 0.267。两股反向流之间的界面是一个间断，即「滑移面」。两种流体使用不同密度，以便观察界面。</p>
+<p>对于 MHD 问题，初始磁场处处均匀，<span class="math inline">\(B_x = 0.5\)</span>。</p>
+<p>为触发不稳定性，我们在速度的 x 和 y 分量中都加入峰峰振幅为 0.01 的随机数。</p>
+<p>在早期，可以检查速度横向分量的增长率是否与线性理论的预测一致。这需要初始化单模扰动，而不是像这里一样使用一系列扰动。</p>
+<p>在后期，一旦不稳定性进入完全非线性阶段，就难以进行定量比较。不过，两股流之间边界的清晰程度可以反映格式的数值扩散。例如，如果使用 HLLE 黎曼求解器，界面处的扩散会大到足以抑制不稳定性。</p>
+</section>
+<section id="rayleigh-taylor-不稳定性" class="level3" data-number="34.4.2">
+<h3 data-number="34.4.2" class="anchored" data-anchor-id="rayleigh-taylor-不稳定性"><span class="header-section-number">34.4.2</span> Rayleigh-Taylor 不稳定性</h3>
+<p>单模测试使用矩形区域 <span class="math inline">\(-0.25 \le x \le 0.25; -0.75 \le y \le 0.75\)</span>。在 <span class="math inline">\(|x| = 0.25\)</span> 处采用周期性边界条件，在 <span class="math inline">\(|y| = 0.75\)</span> 处采用反射壁。当 <span class="math inline">\(y&gt;0\)</span> 时密度为 2.0，当 <span class="math inline">\(y \le 0\)</span> 时密度为 1.0。必须在运动方程中加入恒定重力加速度 <span class="math inline">\(g = 0.1\)</span>。压力由静水平衡条件给出，即 <span class="math inline">\(p = p_0 - 0.1\rho y\)</span>，其中 <span class="math inline">\(p_0=2.5\)</span>，<span class="math inline">\(\gamma=1.4\)</span>。由此得到界面处低密度介质中的声速为 3.5。</p>
+<p>非线性阶段出现的结构对用于触发不稳定性的扰动性质非常敏感。为避免扰动界面时产生的网格误差，我们改为扰动速度。对于单模扰动，设 <span class="math inline">\(u_y = 0.01[1 + \cos(4\pi x)][1 + \cos(3\pi y)]/4\)</span>。</p>
+<p>对于多模扰动，使用范围为 <span class="math inline">\(-0.25 \le x \le 0.25; -0.375 \le y \le 0.375\)</span> 的区域，并设 <span class="math inline">\(u_y = A[1 + \cos(8\pi y/3)]/2\)</span>，其中 <span class="math inline">\(A\)</span> 是每个网格单元中的随机数，峰峰振幅为 0.01。</p>
+<p>算法中加入源项的方式可能对测试结果产生很大影响。例如，对于 Godunov 格式，如果使用算子分裂加入源项，由于缺少精确的数值平衡而产生的网格噪声可能扰动界面并触发结构。若将源项直接纳入重构和积分步骤，则可以自动保持静水平衡。</p>
+<p>在早期，可以检查速度垂直分量的增长率是否与线性理论的预测一致。</p>
+<p>在后期，一旦不稳定性进入完全非线性阶段，就难以进行定量比较。不过，两种流体之间边界的清晰程度可以反映格式的数值扩散。此外，由次级 KH 不稳定性产生的精细结构的多少，对界面受扰动的方式以及算法保持接触间断清晰的程度都很敏感。然而，更清晰并不一定更好。例如，PPM 算法中的「接触间断陡化器」可能在多维接触间断中引入「阶梯」结构，进而使网格噪声触发 KH 涡卷。</p>
+</section>
+</section>
+<section id="湍流测试" class="level2" data-number="34.5">
+<h2 data-number="34.5" class="anchored" data-anchor-id="湍流测试"><span class="header-section-number">34.5</span> 湍流测试</h2>
+<section id="orszag-tang-涡旋" class="level3" data-number="34.5.1">
+<h3 data-number="34.5.1" class="anchored" data-anchor-id="orszag-tang-涡旋"><span class="header-section-number">34.5.1</span> Orszag-Tang 涡旋</h3>
+<p>使用正方形区域 <span class="math inline">\(0 \le x \le 1; 0 \le y \le 1\)</span>，所有边界均为周期性边界条件。密度 <span class="math inline">\(\rho\)</span> 处处为 <span class="math inline">\(25/(36\pi)\)</span>，压力处处为 <span class="math inline">\(5/(12\pi)\)</span>，且 <span class="math inline">\(\gamma = 5/3\)</span>。注意这样的选择使 <span class="math inline">\(u_s^2 = \gamma p/\rho = 1\)</span>。初始速度是周期性的，<span class="math inline">\(u_x = -\sin(2\pi y)\)</span>、<span class="math inline">\(u_y = \sin(2\pi x)\)</span>。磁场通过定义在网格单元角点上的周期性矢势初始化：<span class="math inline">\(A_z = B_0 (\cos(4\pi x)/(4\pi) + \cos(2\pi y)/(2\pi))\)</span>，其中 <span class="math inline">\(B_0 = 1.0\)</span>。使用 <span class="math inline">\(\mathbf{B} = \nabla\times \mathbf{A}\)</span> 计算面中心磁场，以保证初始时 <span class="math inline">\(\nabla\cdot\mathbf{B}=0\)</span>。由此得到 <span class="math inline">\(B_x = -B_0 \sin(2\pi y)\)</span> 和 <span class="math inline">\(B_y = B_0 \sin(4\pi x)\)</span>。</p>
+<p>Orszag-Tang 涡旋是用于测试向超声速二维 MHD 湍流过渡的著名模型问题。因此，该问题可以检验代码处理 MHD 激波形成和激波之间相互作用的稳健性。该问题还可以定量估计磁单极子对数值解的影响程度，检验 <span class="math inline">\(\nabla\cdot\mathbf{B}=0\)</span> 条件。最后，这一问题是二维数值 MHD 代码的常见测试，已用于许多以往研究，因此为一致地比较不同代码提供了基础。</p>
+</section>
+</section>
+<section id="磁重联测试" class="level2" data-number="34.6">
+<h2 data-number="34.6" class="anchored" data-anchor-id="磁重联测试"><span class="header-section-number">34.6</span> 磁重联测试</h2>
+<section id="gem-挑战问题" class="level3" data-number="34.6.1">
+<h3 data-number="34.6.1" class="anchored" data-anchor-id="gem-挑战问题"><span class="header-section-number">34.6.1</span> GEM 挑战问题</h3>
+<p>这个二维设置基于 <span class="citation" data-cites="birn2001gem">(<a href="#ref-birn2001gem" role="doc-biblioref"><span class="nocase">Birn 等</span> 2001年</a>)</span>。计算在矩形区域 <span class="math inline">\(-L_x/2 \le x\le L_x/2\)</span>、<span class="math inline">\(-L_z/2\le z \le L_z/2\)</span> 中进行。系统在 x 方向为周期性的，在 <span class="math inline">\(z=\pm L_z/2\)</span> 处采用理想导体边界。因此，z 边界上磁场的边界条件为 <span class="math inline">\(B_z=\partial B_x/\partial z = \partial B_y/\partial z = 0\)</span>，电场以及粒子或流体量具有相应的条件。所有量都使用开放边界条件。</p>
+<p>重联挑战问题选用的平衡态是 Harris 平衡态，电流层外的密度具有一个下限。磁场为 <span class="math display">\[
+B_x(z) = B_0 \tanh(z/\lambda)
+\]</span> 其中 <span class="math inline">\(\lambda\)</span> 是电流片的特征尺度，密度为 <span class="math display">\[
+n(z) = n_0 \text{sech}^2(z/\lambda) + n_\infty
+\]</span></p>
+<p>初始状态下电子温度 <span class="math inline">\(T_e\)</span> 和离子温度 <span class="math inline">\(T_i\)</span> 均取为均匀值。假设初始等离子体 <span class="math inline">\(\beta = (p_i+p_e)/p_B=1\)</span>。</p>
+<p>系统空间和时间尺度的归一化量分别选为离子惯性长度 <span class="math inline">\(d_i=c/\omega_{pi}\)</span> 和离子回旋频率 <span class="math inline">\(\Omega_i^{-1}\)</span>。其中 <span class="math inline">\(\omega_{pi}^2 = n_0e^2/\epsilon_0 m_i\)</span> 使用密度 <span class="math inline">\(n_0\)</span> 计算，离子回旋频率 <span class="math inline">\(\Omega_i = eB_0/m_i\)</span> 使用峰值磁场计算。速度则以阿尔芬速度 <span class="math inline">\(v_A\)</span> 归一化。在归一化单位中，<span class="math inline">\(B_0 = 1\)</span>、<span class="math inline">\(n_0 = 1\)</span>。模拟的具体参数为 <span class="math inline">\(L_x = 25.6, L_z = 12.8, \lambda=0.5, n_\infty/n_0 = 0.2\)</span> 和 <span class="math inline">\(T_e/T_i = 0.2\)</span>。必要时假设 <span class="math inline">\(m_i/m_e = 25\)</span>。</p>
+<p>初始磁岛通过磁通扰动指定： <span class="math display">\[
+\psi(x,z) = \psi_0 \cos(2\pi x/L_x)\cos(\pi z/L_z)
+\]</span> 其中磁场扰动由 <span class="math inline">\(\mathbf{B} = \hat{y}\times\nabla\psi\)</span> 给出，更具体地说， <span class="math display">\[
+\begin{aligned}
+B_{1x} &amp;= -\psi_0\Big(\frac{\pi}{L_z}\Big)\cos(2\pi x/L_x)\sin(\pi z/L_z) \\
+B_{1z} &amp;= \psi_0\Big(\frac{2\pi}{L_x}\Big)\sin(2\pi x/L_x)\cos(\pi z/L_z)
+\end{aligned}
+\]</span></p>
+<p>在归一化单位中，<span class="math inline">\(\psi_0 = 0.1\)</span>，由此产生的初始磁岛宽度与电流层的初始宽度相当。采用如此大的初始扰动，是为了使系统从模拟开始就处于磁重联的非线性阶段。</p>
+<p>初始设置见 <a href="#fig-GEM-currentsheet" class="quarto-xref">图&nbsp;<span>34.1</span></a>。</p>
+<div id="fig-GEM-currentsheet" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-GEM-currentsheet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/current_sheet_initial.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-GEM-currentsheet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;34.1: GEM 电流片设置中的初始密度和磁场。
+</figcaption>
+</figure>
+</div>
+<section id="为什么需要分辨离子惯性长度" class="level4" data-number="34.6.1.1">
+<h4 data-number="34.6.1.1" class="anchored" data-anchor-id="为什么需要分辨离子惯性长度"><span class="header-section-number">34.6.1.1</span> 为什么需要分辨离子惯性长度</h4>
+<p>在物理上，电子和离子在离子惯性长度尺度上分离。在数值计算中，只有网格单元足够小、能够分辨离子惯性长度时，霍尔项才重要。原因如下。欧姆定律为</p>
+<p><span class="math display">\[
+\mathbf{E} = -(\mathbf{U}+\mathbf{U}_H)\times\mathbf{H}
+\]</span></p>
+<p>假设典型流速为阿尔芬速度：<span class="math inline">\(\mathbf{U} = \mathbf{V}_A\)</span>。霍尔速度估计为：</p>
+<p><span class="math display">\[
+\mathbf{U}_H = -\frac{\mathbf{J}}{ne} = -\frac{\nabla\times\mathbf{B}}{\mu_0ne} \sim -\frac{|dB|}{\mu_0ne\Delta x} \sim -\frac{|B|}{\mu_0ne\Delta x}
+\]</span></p>
+<p>近似 <span class="math inline">\(dB\approx B\)</span> 对较粗的网格有效；对于较细的离散网格单元，这一近似不成立，因此磁场不能在下面的估算中约去。现在假设可以作出这一近似，则霍尔速度与阿尔芬速度之比为：</p>
+<p><span class="math display">\[
+\frac{|\mathbf{U}_H|}{|\mathbf{V}_A|} = \frac{c/\omega_{pi}}{\mu_0 \Delta x}
+\]</span></p>
+<p>离子惯性长度对 PIC 也很重要：如果假设粒子速度为阿尔芬速度，那么离子惯性长度与离子回旋半径相同。</p>
+</section>
+</section>
+<section id="电流片" class="level3" data-number="34.6.2">
+<h3 data-number="34.6.2" class="anchored" data-anchor-id="电流片"><span class="header-section-number">34.6.2</span> 电流片</h3>
+<p>网格是正方形，范围为 <span class="math inline">\(-0.5 \le x \le 0.5\)</span>、<span class="math inline">\(-0.5 \le y \le 0.5\)</span>。密度和压力处处均匀，<span class="math inline">\(\rho = 1\)</span>、<span class="math inline">\(p = \beta/2\)</span>，其中 <span class="math inline">\(\beta\)</span> 是输入参数。当 <span class="math inline">\(|x| &gt; 0.25\)</span> 时设 <span class="math inline">\(B_y / \sqrt{4π} = 1\)</span>，否则设 <span class="math inline">\(B_y / \sqrt{4π} = -1\)</span>。速度为 <span class="math inline">\(u_x = A \sin(2\pi y)\)</span>（其中 <span class="math inline">\(A\)</span> 是振幅）和 <span class="math inline">\(u_y = 0\)</span>。「标准」测试使用 <span class="math inline">\(\beta = 0.1\)</span> 和 <span class="math inline">\(A = 0.1\)</span>，但此测试的目的之一是观察 <span class="math inline">\(\beta (A)\)</span> 需要小（大）到何种程度才会使代码崩溃。</p>
+<p>虽然我们不知道这个问题的解析解，它仍可能是检验算法稳健性的极佳测试。对于理想 MHD，初始解应当是沿 y 方向的磁场传播的非线性（？？？）偏振阿尔芬波（由于磁压不是恒定的，这些波会迅速产生磁声波）。然而，由于问题中存在两个电流片（位于 <span class="math inline">\(x = \pm0.25\)</span>），重联不可避免。由于 <span class="math inline">\(\beta &lt; 1\)</span>，重联会驱动强烈的过压区域，从而发射横穿磁场的磁声波。此外，随着重联改变磁力线的拓扑，磁岛会形成、增长并合并。测试的目的是确保算法能够尽可能长时间地跟踪这一演化而不崩溃。在磁场拓扑发生复杂变化时保持 <span class="math inline">\(\nabla\cdot\mathbf{B}=0\)</span> 可能很重要。</p>
+</section>
+</section>
+<section id="无散场测试" class="level2" data-number="34.7">
+<h2 data-number="34.7" class="anchored" data-anchor-id="无散场测试"><span class="header-section-number">34.7</span> 无散场测试</h2>
+<section id="磁场环" class="level3" data-number="34.7.1">
+<h3 data-number="34.7.1" class="anchored" data-anchor-id="磁场环"><span class="header-section-number">34.7.1</span> 磁场环</h3>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-birn2001gem" class="csl-entry" role="listitem">
+<span class="nocase">Birn, J, JF Drake, MA Shay, 等</span>. 2001年. <span>《Geospace Environmental Modeling (GEM) magnetic reconnection challenge》</span>. <em>Journal of Geophysical Research: Space Physics</em> 106 (A3): 3715～19. <a href="https://doi.org/10.1029/1999JA900449">https://doi.org/10.1029/1999JA900449</a>.
+</div>
+<div id="ref-daldorff2014two" class="csl-entry" role="listitem">
+Daldorff, Lars KS, Gábor Tóth, Tamas I Gombosi, 等. 2014年. <span>《Two-way coupling of a global Hall magnetohydrodynamics model with a local implicit particle-in-cell model》</span>. <em>Journal of Computational Physics</em> 268: 236～54. <a href="https://doi.org/10.1016/j.jcp.2014.03.009">https://doi.org/10.1016/j.jcp.2014.03.009</a>.
+</div>
+<div id="ref-stone2008athena" class="csl-entry" role="listitem">
+Stone, James M, Thomas A Gardiner, Peter Teuben, John F Hawley, 和 Jacob B Simon. 2008年. <span>《Athena: a new code for astrophysical MHD》</span>. <em>The Astrophysical Journal Supplement Series</em> 178 (1): 137. <a href="https://doi.org/10.1086/588755">https://doi.org/10.1086/588755</a>.
+</div>
+<div id="ref-tenerani2023dispersive" class="csl-entry" role="listitem">
+Tenerani, Anna, Carlos González, Nikos Sioulas, Chen Shi, 和 Marco Velli. 2023年. <span>《Dispersive and kinetic effects on kinked Alfv<span>é</span>n wave packets: A comparative study with fluid and hybrid models》</span>. <em>Physics of Plasmas</em> 30 (3): 032101. <a href="https://doi.org/10.1063/5.0134726">https://doi.org/10.1063/5.0134726</a>.
+</div>
+<div id="ref-toth2000b" class="csl-entry" role="listitem">
+Tóth, Gábor. 2000年. <span>《The ∇<span></span> B= 0 constraint in shock-capturing magnetohydrodynamics codes》</span>. <em>Journal of Computational Physics</em> 161 (2): 605～52. https://doi.org/<a href="https://doi.org/10.1006/jcph.2000.6519">https://doi.org/10.1006/jcph.2000.6519</a>.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>与之相反，线偏振阿尔芬波不是非线性 MHD 方程的精确解！偏振会影响衰变。关于这一点可向 Chaitanya 了解更多。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>使用简单的有限差分求解器时，我发现求解 E 不稳定，因为泊松方程左侧的有限差分矩阵是奇异的。用拉普拉斯方程求解电势则没有问题。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/raytracing.html" class="pagination-link" aria-label="射线追踪">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/inductance.html" class="pagination-link" aria-label="电感">
+        <span class="nav-page-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/test.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

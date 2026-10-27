@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>18&nbsp; 非线性效应 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/turbulence.html" rel="next">
+<link href="../contents/flr.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/nonlinear.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#sec-sheath" id="toc-sec-sheath" class="nav-link active" data-scroll-target="#sec-sheath"><span class="header-section-number">18.1</span> 鞘层的必要性</a>
+  <ul class="collapse">
+  <li><a href="#平面鞘层方程" id="toc-平面鞘层方程" class="nav-link" data-scroll-target="#平面鞘层方程"><span class="header-section-number">18.1.1</span> 平面鞘层方程</a></li>
+  <li><a href="#bohm-鞘层判据" id="toc-bohm-鞘层判据" class="nav-link" data-scroll-target="#bohm-鞘层判据"><span class="header-section-number">18.1.2</span> Bohm 鞘层判据</a></li>
+  <li><a href="#child-langmuir-定律" id="toc-child-langmuir-定律" class="nav-link" data-scroll-target="#child-langmuir-定律"><span class="header-section-number">18.1.3</span> Child-Langmuir 定律</a></li>
+  <li><a href="#静电探针" id="toc-静电探针" class="nav-link" data-scroll-target="#静电探针"><span class="header-section-number">18.1.4</span> 静电探针</a></li>
+  </ul></li>
+  <li><a href="#离子声激波" id="toc-离子声激波" class="nav-link" data-scroll-target="#离子声激波"><span class="header-section-number">18.2</span> 离子声激波</a>
+  <ul class="collapse">
+  <li><a href="#sagdeev-势" id="toc-sagdeev-势" class="nav-link" data-scroll-target="#sagdeev-势"><span class="header-section-number">18.2.1</span> Sagdeev 势</a></li>
+  <li><a href="#临界马赫数" id="toc-临界马赫数" class="nav-link" data-scroll-target="#临界马赫数"><span class="header-section-number">18.2.2</span> 临界马赫数</a></li>
+  <li><a href="#波陡化" id="toc-波陡化" class="nav-link" data-scroll-target="#波陡化"><span class="header-section-number">18.2.3</span> 波陡化</a></li>
+  <li><a href="#双层" id="toc-双层" class="nav-link" data-scroll-target="#双层"><span class="header-section-number">18.2.4</span> 双层</a></li>
+  </ul></li>
+  <li><a href="#sec-ponderomotive" id="toc-sec-ponderomotive" class="nav-link" data-scroll-target="#sec-ponderomotive"><span class="header-section-number">18.3</span> 有质动力</a></li>
+  <li><a href="#sec-parametric" id="toc-sec-parametric" class="nav-link" data-scroll-target="#sec-parametric"><span class="header-section-number">18.4</span> 参数不稳定性</a>
+  <ul class="collapse">
+  <li><a href="#耦合振子" id="toc-耦合振子" class="nav-link" data-scroll-target="#耦合振子"><span class="header-section-number">18.4.1</span> 耦合振子</a></li>
+  <li><a href="#频率匹配" id="toc-频率匹配" class="nav-link" data-scroll-target="#频率匹配"><span class="header-section-number">18.4.2</span> 频率匹配</a></li>
+  <li><a href="#不稳定性阈值" id="toc-不稳定性阈值" class="nav-link" data-scroll-target="#不稳定性阈值"><span class="header-section-number">18.4.3</span> 不稳定性阈值</a></li>
+  <li><a href="#物理机制" id="toc-物理机制" class="nav-link" data-scroll-target="#物理机制"><span class="header-section-number">18.4.4</span> 物理机制</a></li>
+  <li><a href="#振荡双流不稳定性" id="toc-振荡双流不稳定性" class="nav-link" data-scroll-target="#振荡双流不稳定性"><span class="header-section-number">18.4.5</span> 振荡双流不稳定性</a></li>
+  <li><a href="#参数衰变不稳定性" id="toc-参数衰变不稳定性" class="nav-link" data-scroll-target="#参数衰变不稳定性"><span class="header-section-number">18.4.6</span> 参数衰变不稳定性</a></li>
+  </ul></li>
+  <li><a href="#sec-echo" id="toc-sec-echo" class="nav-link" data-scroll-target="#sec-echo"><span class="header-section-number">18.5</span> 等离子体回波</a></li>
+  <li><a href="#非线性朗道阻尼" id="toc-非线性朗道阻尼" class="nav-link" data-scroll-target="#非线性朗道阻尼"><span class="header-section-number">18.6</span> 非线性朗道阻尼</a></li>
+  <li><a href="#非线性等离子体物理方程" id="toc-非线性等离子体物理方程" class="nav-link" data-scroll-target="#非线性等离子体物理方程"><span class="header-section-number">18.7</span> 非线性等离子体物理方程</a>
+  <ul class="collapse">
+  <li><a href="#korteweg-de-vries-方程" id="toc-korteweg-de-vries-方程" class="nav-link" data-scroll-target="#korteweg-de-vries-方程"><span class="header-section-number">18.7.1</span> Korteweg-de Vries 方程</a></li>
+  <li><a href="#非线性-schrödinger-方程" id="toc-非线性-schrödinger-方程" class="nav-link" data-scroll-target="#非线性-schrödinger-方程"><span class="header-section-number">18.7.2</span> 非线性 Schrödinger 方程</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/nonlinear.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-nonlinear" class="quarto-section-identifier"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>在许多实验中，波被观测到时已经无法用线性理论描述。例如，考虑漂移波。由于漂移波不稳定，按照线性理论，其振幅会指数增长。这个增长阶段通常无法观测到 — 因为人们通常不知道何时开始观察 — 实际上只能在波增长到较大且稳定的振幅后才观测到。波不再增长这一事实意味着线性理论已经失效，某种 <em>非线性</em> 效应限制了振幅。对这一基本观测现象作出理论解释被证明是一个出人意料的难题，因为观测到的饱和振幅相当小。</p>
+<p>波的振幅变大时可能经历多种变化。它的形状可能改变 — 例如从正弦波变成不对称三角波形。这等价于说产生了其他频率（或波数）的 Fourier 分量。最终，波可能像海浪在海滩上破碎一样发生“破波”，将波能转换为粒子热能。大振幅波可以在其势阱中俘获粒子，从而改变其传播介质的性质（例如非线性朗道阻尼）。如果等离子体受到强烈激发，以至于出现连续频谱，就处于 <em>湍流</em> 状态。与流体动力学中的情况一样，这种状态必须用统计方法描述。等离子体湍流的一个重要后果是 <em>反常电阻率</em>，其中电子通过与随机电场涨落碰撞而非与离子碰撞而减速。这种效应用于将等离子体欧姆加热到普通电阻率不足以达到的高温。</p>
+<p>非线性现象可大致分为三类：</p>
+<ol type="1">
+<li><em>本质上不可线性化的问题</em>。</li>
+</ol>
+<ul>
+<li>例如，完全电离气体中的扩散本质上是非线性问题，因为扩散系数随密度变化。</li>
+<li>磁流体平衡问题是非线性的。</li>
+<li>等离子体鞘层。</li>
+</ul>
+<ol start="2" type="1">
+<li><em>波粒相互作用</em>。</li>
+</ol>
+<ul>
+<li>粒子俘获可以导致非线性阻尼（<a href="kinetic.html#sec-landau_damping" class="quarto-xref"><span>小节 12.6</span></a>）。</li>
+<li>一个经典例子是准线性效应，即波改变等离子体的平衡。考虑带有电子束的等离子体（图 8-1）。由于分布函数存在 <span class="math inline">\(df_0/dv\)</span> 为正的区域，系统具有逆朗道阻尼，且 <span class="math inline">\(v_\phi\)</span> 位于正斜率区域的等离子体振荡是不稳定的（<a href="kinetic.html#eq-landau" class="quarto-xref">式&nbsp;<span>12.32</span></a>）。共振电子最先受到波粒相互作用的影响，其分布函数会被波电场改变。当波将 <span class="math inline">\(f_e(v)\)</span> 展平，如图 8-1 中 <a href="#fig-unstable-f" class="quarto-xref">图&nbsp;<span>18.1</span></a> 的虚线所示，使新的平衡分布不再有正斜率时，波便稳定下来。</li>
+<li>等离子体波回波（<a href="#sec-echo" class="quarto-xref"><span>小节 18.5</span></a>）。</li>
+</ul>
+<div id="fig-unstable-f" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-unstable-f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/unstable_f.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-unstable-f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.1: 双峰不稳定电子分布。
+</figcaption>
+</figure>
+</div>
+<ol start="3" type="1">
+<li><em>波波相互作用</em>。</li>
+</ol>
+<ul>
+<li>即使在忽略单个粒子效应的流体描述中，波也可以相互作用。单个波可以先产生其基频的谐波，从而发生衰变。这些谐波随后可以相互作用，并与初始波相互作用，形成拍频处的其他波。拍频波又可以增长到足够大，以至于相互作用形成更多拍频，直到频谱变成连续谱。讨论湍流频谱中的能量流向很有意思。在流体动力学中，长波长模衰变为短波长模，因为大涡旋含有更多能量，只能通过分裂为能量较小的小涡旋而衰变。最小的涡旋随后通过黏性阻尼将其动能转化为热。在等离子体中通常相反：短波长模倾向于合并成长波长模，后者的能量更低。这是因为电场能量 <span class="math inline">\(E^2/8\pi\)</span> 的量级为 <span class="math inline">\(k^2\phi^2/8\pi\)</span>，因此如果 <span class="math inline">\(e\phi\)</span> 固定（通常由 <span class="math inline">\(k_B T_e\)</span> 决定），小 <span class="math inline">\(k\)</span>、长 <span class="math inline">\(\lambda\)</span> 模的能量较低。结果，大 <span class="math inline">\(k\)</span> 处的不稳定性会将能量转移到小 <span class="math inline">\(k\)</span>，必须找到某种机制来耗散这些能量。大 <span class="math inline">\(k\)</span> 处没有这种问题，因为那里可以发生朗道阻尼。对于沿 <span class="math inline">\(\mathbf{B}_0\)</span> 的运动，非线性“调制”不稳定性可能使小 <span class="math inline">\(k\)</span> 处的能量耦合到离子并加热离子。对于垂直于 <span class="math inline">\(\mathbf{B}_0\)</span> 的运动，最大的涡旋的波长将与等离子体半径同量级，并可能通过对流导致等离子体向壁面损失。</li>
+</ul>
+<p>尽管波和不稳定性的线性理论中仍有问题有待解决，等离子体研究的主流已转向理解远不充分的非线性现象领域。以下各节的例子将介绍一些已在理论和实验中研究过的效应。</p>
+<section id="sec-sheath" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="sec-sheath"><span class="header-section-number">18.1</span> 鞘层的必要性</h2>
+<p>在所有实际等离子体装置中，等离子体都被限制在有限大小的真空室中。壁面处的等离子体会发生什么？为简单起见，我们只考虑 <a href="#fig-sheath" class="quarto-xref">图&nbsp;<span>18.2</span></a> 所示的无磁场一维模型。假设等离子体内部没有显著电场，那么可以令那里的电势 <span class="math inline">\(\phi\)</span> 为零。离子和电子撞击壁面时复合并损失。由于电子的热速度远高于离子，电子损失得更快，使等离子体带有净正电荷。因此等离子体相对于壁面的电势必须为正，即壁面电势 <span class="math inline">\(\phi_w\)</span> 为负。这个电势不可能分布在整个等离子体中，因为 Debye 屏蔽会将电势变化限制在厚度约为几个 Debye 长度的一层内。这一层必须存在于所有与等离子体接触的冷壁面上，称为鞘层。鞘层的作用是形成电势屏障，从而通过静电作用约束迁移率较高的组分，通常是电子。屏障高度会自行调整，使有足够能量越过屏障到达壁面的电子通量恰好等于到达壁面的离子通量。</p>
+<div id="fig-sheath" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sheath-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/sheath.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sheath-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.2: 等离子体电势 <span class="math inline">\(\phi\)</span> 在壁面附近形成鞘层，使电子被反射。Coulomb 势垒 <span class="math inline">\(e\phi_w\)</span> 自行调整，使每秒到达壁面的离子和电子数量相等。
+</figcaption>
+</figure>
+</div>
+<section id="平面鞘层方程" class="level3" data-number="18.1.1">
+<h3 data-number="18.1.1" class="anchored" data-anchor-id="平面鞘层方程"><span class="header-section-number">18.1.1</span> 平面鞘层方程</h3>
+<div id="fig-sheath-potential" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sheath-potential-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/sheath_potential.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sheath-potential-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.3: 平面鞘层中的电势 <span class="math inline">\(\phi\)</span>。假设冷离子以均匀速度 <span class="math inline">\(u_0\)</span> 进入鞘层。
+</figcaption>
+</figure>
+</div>
+<p>回顾一下，Debye 长度是通过线性化 Poisson 方程推导的。为了考察鞘层中 <span class="math inline">\(\phi(x)\)</span> 的精确行为，必须处理非线性问题：我们将发现解并非总是存在。<a href="#fig-sheath-potential" class="quarto-xref">图&nbsp;<span>18.3</span></a> 展示了一个壁面附近的情况。在平面 <span class="math inline">\(x=0\)</span> 处，设想离子以漂移速度 <span class="math inline">\(u_0\)</span> 从主体等离子体进入鞘层区域。需要这种漂移来说明离子从其由电离产生的区域向壁面损失。为简单起见，假设 <span class="math inline">\(T_i=0\)</span>，因此所有离子在 <span class="math inline">\(x=0\)</span> 处的速度均为 <span class="math inline">\(u_0\)</span>。我们考虑无碰撞鞘层区域中的稳态问题，并假设电势 <span class="math inline">\(\phi\)</span> 随 <span class="math inline">\(x\)</span> 单调下降。实际上，<span class="math inline">\(\phi\)</span> 可能存在空间振荡，此时稳态中会有俘获粒子。这在实践中不会发生，因为耗散过程倾向于破坏这种高度有序的状态。</p>
+<p>如果 <span class="math inline">\(u(x)\)</span> 是离子速度，能量守恒要求 <span id="eq-sheath_u"><span class="math display">\[
+\begin{aligned}
+\frac{1}{2}mu^2 = \frac{1}{2}mu_0^2 - e\phi(x) \\
+u = \Big( u_0^2 - \frac{2e\phi}{m_i} \Big)^{1/2}
+\end{aligned}
+\tag{18.1}\]</span></span></p>
+<p>离子连续性方程于是给出以主体等离子体密度 <span class="math inline">\(n_0\)</span> 表示的离子密度 <span class="math inline">\(n_i\)</span>： <span id="eq-sheath_n"><span class="math display">\[
+\begin{aligned}
+n_0 u_0 &amp;= n_i(x) u(x) \\
+n_i(x) &amp;= n_0 \Big( 1 - \frac{2e\phi}{m_i u_0^2} \Big)^{1/2}
+\end{aligned}
+\tag{18.2}\]</span></span></p>
+<p>在稳态下，电子近似遵循 Boltzmann 关系， <span class="math display">\[
+n_e(x) = n_0 \exp(e\phi/k_B T_e)
+\]</span></p>
+<p>于是 Poisson 方程为 <span id="eq-sheath1"><span class="math display">\[
+\epsilon_0\frac{\mathrm{d}^2\phi}{\mathrm{d}x^2} = e(n_e - n_i) = en_0\Big[ \exp\Big( \frac{e\phi}{k_B T_e} \Big) - \Big( 1 - \frac{2e\phi}{m_i u_0^2} \Big)^{1/2} \Big]
+\tag{18.3}\]</span></span></p>
+<p>通过以下记号变换简化方程，可以更清楚地看出其结构： <span class="math display">\[
+\chi\equiv -\frac{e\phi}{k_B T_e}\quad \xi\equiv\frac{x}{\lambda_D} = x\Big( \frac{n_0 e^2}{\epsilon_0 k_B T_e} \Big)^{1/2}\quad \mu\equiv\frac{u_0}{(k_B T_e/m_i)^{1/2}}
+\]</span></p>
+<p>于是它可写为 <span id="eq-sheath2"><span class="math display">\[
+\chi^{\prime\prime} = \Big( 1+\frac{2\chi}{\mu^2} \Big)^{-1/2} - e^{-\chi}
+\tag{18.4}\]</span></span> 其中撇号表示 <span class="math inline">\(\mathrm{d}/\mathrm{d}\xi\)</span>。这是平面鞘层的非线性方程，只有 <span class="math inline">\(\mu\)</span> 足够大时才有可接受的解。使用符号 <span class="math inline">\(\mu\)</span> 的原因将在下一节关于激波的讨论中显现。</p>
+</section>
+<section id="bohm-鞘层判据" class="level3" data-number="18.1.2">
+<h3 data-number="18.1.2" class="anchored" data-anchor-id="bohm-鞘层判据"><span class="header-section-number">18.1.2</span> Bohm 鞘层判据</h3>
+<p>将 <a href="#eq-sheath2" class="quarto-xref">式&nbsp;<span>18.4</span></a> 两侧乘以 <span class="math inline">\(\chi^\prime\)</span> 后，可以积分一次： <span class="math display">\[
+\int_0^\xi \chi^\prime \chi^{\prime\prime}\mathrm{d}\xi_1 = \int_0^\xi \Big( 1+\frac{2\chi}{\mu^2} \Big)^{-1/2} \chi^\prime \mathrm{d}\xi_1 - \int_0^\xi e^{-\chi} \chi^\prime \mathrm{d}\xi_1
+\]</span> 其中 <span class="math inline">\(\xi_1\)</span> 是哑变量。由于 <span class="math inline">\(\xi=0\)</span> 时 <span class="math inline">\(\chi=0\)</span>，积分很容易给出 <span id="eq-sheath_int1"><span class="math display">\[
+\frac{1}{2}({\chi^\prime}^2 - {\chi_0^\prime}^2) = \mu^2 \Big[ \big(1 + \frac{2\chi}{\mu^2} \big)^{1/2} - 1 \Big] + e^{-\chi} -1
+\tag{18.5}\]</span></span></p>
+<p>如果等离子体中 <span class="math inline">\(\mathbf{E}=0\)</span>，必须在 <span class="math inline">\(\xi=0\)</span> 处令 <span class="math inline">\(\chi_0^\prime=0\)</span>。为了求出 <span class="math inline">\(\chi\)</span>，第二次积分必须用数值方法进行；但无论答案是什么，<a href="#eq-sheath_int1" class="quarto-xref">式&nbsp;<span>18.5</span></a> 的右侧对所有 <span class="math inline">\(\chi\)</span> 都必须为正。特别是对于 <span class="math inline">\(\chi\ll 1\)</span>，可以将右侧各项作 Taylor 展开： <span id="eq-sheath_bohm"><span class="math display">\[
+\begin{aligned}
+\mu^2 \Big[ 1+\frac{\chi}{\mu^2}-\frac{1}{2}\frac{\chi^2}{\mu^4}+ ... -1 \Big] + 1-\chi+\frac{1}{2}\chi^2+...-1 &gt; 0 \\
+\frac{1}{2}\chi^2 \Big( -\frac{1}{\mu^2} + 1\Big) &gt; 0 \\
+\mu^2 &gt; 1 \quad\text{或}\quad u_0&gt;(k_BT_e/m_i)^{1/2}
+\end{aligned}
+\tag{18.6}\]</span></span></p>
+<p>这个不等式称为 <em>Bohm 鞘层判据</em>。它表明离子进入鞘层的速度必须大于声速 <span class="math inline">\(v_s\)</span>。为了使离子具有这一有向速度 <span class="math inline">\(u_0\)</span>，等离子体中必须存在有限电场。因此，我们关于 <span class="math inline">\(\xi=0\)</span> 处 <span class="math inline">\(\chi^\prime=0\)</span> 的假设只是近似成立，其依据是鞘层区域的尺度通常远小于离子被加速的主体等离子体区域的尺度。<span class="math inline">\(u_0\)</span> 的取值有一定任意性，取决于我们选择将等离子体与鞘层之间的边界 <span class="math inline">\(x=0\)</span> 放在哪里。当然，离子通量 <span class="math inline">\(n_0u_0\)</span> 由离子产生率固定，因此如果 <span class="math inline">\(u_0\)</span> 变化，<span class="math inline">\(x=0\)</span> 处的 <span class="math inline">\(n_0\)</span> 值将与 <span class="math inline">\(u_0\)</span> 成反比变化。如果离子具有有限温度，临界漂移速度 <span class="math inline">\(u_0\)</span> 会略低。</p>
+<p>从离子和电子密度随 <span class="math inline">\(\chi\)</span> 变化的图 <span class="quarto-unresolved-ref">?fig-sheath-n-variation</span> 中，很容易看出 Bohm 判据的物理原因。根据 Boltzmann 关系，电子密度 <span class="math inline">\(n_e\)</span> 随 <span class="math inline">\(\chi\)</span> 指数下降。离子密度也下降，因为离子受到鞘层电势加速。如果离子的初始能量很大，<span class="math inline">\(n_i(\chi)\)</span> 下降缓慢，因为鞘层电场对离子速度的改变相对较小。如果离子的初始能量很小，<span class="math inline">\(n_i(\chi)\)</span> 下降很快，并可能降到 <span class="math inline">\(n_e\)</span> 曲线以下。此时 <span class="math inline">\(\chi=0\)</span> 附近的 <span class="math inline">\(n_e-n_i\)</span> 为正；<a href="#eq-sheath2" class="quarto-xref">式&nbsp;<span>18.4</span></a> 告诉我们 <span class="math inline">\(\phi(x)\)</span> 必须向上弯曲，这与鞘层必须排斥电子的要求矛盾。为了避免这种情况，<span class="math inline">\(\chi=0\)</span> 处 <span class="math inline">\(n_i(\chi)\)</span> 的斜率绝对值必须小于 <span class="math inline">\(n_e(\chi)\)</span> 的斜率绝对值；这一条件等价于 <span class="math inline">\(\mu^2&gt;1\)</span>。</p>
+<div id="fig-sheath_n_variation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sheath_n_variation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/sheath_n_variation.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sheath_n_variation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.4: 鞘层中离子和电子密度（对数尺度）随归一化电势 <span class="math inline">\(\chi\)</span> 的变化。离子密度绘出了两种情况：<span class="math inline">\(u_0\)</span> 大于临界速度和 <span class="math inline">\(u_0\)</span> 小于临界速度。
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="child-langmuir-定律" class="level3" data-number="18.1.3">
+<h3 data-number="18.1.3" class="anchored" data-anchor-id="child-langmuir-定律"><span class="header-section-number">18.1.3</span> Child-Langmuir 定律</h3>
+<p>由于 <span class="math inline">\(n_e(\chi)\)</span> 随 <span class="math inline">\(\chi\)</span> 指数下降，在壁面（或任何负电极）附近 <span class="math inline">\(\chi\)</span> 较大的区域可以忽略电子密度。此时 Poisson 方程近似为 <span class="math display">\[
+\chi^{\prime\prime} \approx \Big( 1+\frac{2\chi}{\mu^2} \Big)^{-1/2} \approx \frac{\mu}{(2\chi)^{1/2}}
+\]</span></p>
+<p>乘以 <span class="math inline">\(\chi^\prime\)</span> 并从 <span class="math inline">\(\xi_1=\xi_s\)</span> 积分至 <span class="math inline">\(\xi_1=\xi\)</span>，得到 <span class="math display">\[
+\frac{1}{2}({\chi^\prime}^2 - {\chi_s^\prime}^2) = \sqrt{2}\mu(\chi^{1/2} - \chi_s^{1/2})
+\]</span> 其中 <span class="math inline">\(\xi_s\)</span> 是开始忽略 <span class="math inline">\(n_e\)</span> 的位置。可以重新定义 <span class="math inline">\(\chi\)</span> 的零点，使 <span class="math inline">\(\xi=\xi_s\)</span> 处 <span class="math inline">\(\chi_s=1\)</span>。我们还将忽略 <span class="math inline">\(\chi_s^\prime\)</span>，因为可以预期电势曲线在 <span class="math inline">\(n_e=0\)</span> 区域中的斜率远大于在有限 <span class="math inline">\(n_e\)</span> 区域中的斜率。于是上式变为 <span class="math display">\[
+\begin{aligned}
+{\chi^\prime}^2 &amp;= 2^{3/2}\mu\chi^{1/2} \\
+\chi^\prime &amp;= 2^{3/4}\mu^{1/2}\chi^{1/4} \\
+\mathrm{d}\chi/\chi^{1/4} &amp;= 2^{3/4}\mu^{1/2} \mathrm{d}\xi
+\end{aligned}
+\]</span></p>
+<p>从 <span class="math inline">\(\xi=\xi_s\)</span> 积分至 <span class="math inline">\(\xi=\xi_s+\mathrm{d}/\lambda_D = \xi_{\text{wall}}\)</span>，得到 <span class="math display">\[
+\frac{4}{3}\chi_w^{3/4} = 2^{3/4}\mu^{1/2}\mathrm{d}/\lambda_D
+\]</span> 或 <span class="math display">\[
+\mu = \frac{4\sqrt{2}}{9}\frac{\chi_w^{3/2}}{\mathrm{d}^2}\lambda_D^2
+\]</span></p>
+<p>变换回变量 <span class="math inline">\(u_0\)</span> 和 <span class="math inline">\(\phi\)</span>，并注意到流向壁面的离子电流为 <span class="math inline">\(J=en_0u_0\)</span>，得到 <span id="eq-child_langmuir"><span class="math display">\[
+J = \frac{4}{9}\Big( \frac{2e}{m_i} \Big)^{1/2} \frac{\epsilon_0|\phi_w|^{3/2}}{\mathrm{d}^2}
+\tag{18.7}\]</span></span></p>
+<p>这正是著名的平面二极管中空间电荷限制电流的 Child-Langmuir 定律。</p>
+<p>等离子体—壁面系统中的电势变化可以分为三部分。最靠近壁面的是无电子区域，其厚度 <span class="math inline">\(\mathrm{d}\)</span> 由 <a href="#eq-child_langmuir" class="quarto-xref">式&nbsp;<span>18.7</span></a> 给出。这里 <span class="math inline">\(J\)</span> 由离子产生率决定，<span class="math inline">\(\phi_w\)</span> 由电子和离子通量相等这一条件决定。接下来是 <span class="math inline">\(n_e\)</span> 不可忽略的区域，如推导 Debye 长度尺度的线性理论所示。最后是尺度大得多的“预鞘层”区域，其中离子由电势降 <span class="math inline">\(|\phi|\ge \frac{1}{2}k_B T_E/e\)</span> 加速到所需速度 <span class="math inline">\(u_0\)</span>。根据实验情况，预鞘层尺度可能由等离子体半径、碰撞平均自由程或电离机制决定。当然，电势分布是平滑变化的；分成三个区域只是为了方便，而且这种划分之所以可行是因为尺度长度相差很大。在气体放电研究的早期，可以把鞘层观测为暗层，因为那里没有电子激发原子发光。后来，人们利用平行于壁面射出的细电子束的静电偏转测量电势变化。</p>
+</section>
+<section id="静电探针" class="level3" data-number="18.1.4">
+<h3 data-number="18.1.4" class="anchored" data-anchor-id="静电探针"><span class="header-section-number">18.1.4</span> 静电探针</h3>
+<p>鞘层判据 <a href="#eq-sheath_bohm" class="quarto-xref">式&nbsp;<span>18.6</span></a> 可用于估算等离子体中流向负偏压探针的离子通量。如果探针表面积为 <span class="math inline">\(A\)</span>，进入鞘层的离子漂移速度为 <span class="math inline">\(u_0\ge (k_B T_e/m_i)^{1/2}\)</span>，则收集到的离子电流为 <span class="math display">\[
+I = n_s e A(k_B T_e/m_i)^{1/2}
+\]</span></p>
+<p>如果探针相对于等离子体足够负（几个 <span class="math inline">\(k_B T_e\)</span>），以至于能排斥 Maxwell 电子分布尾部之外的所有电子，则可以忽略电子电流。密度 <span class="math inline">\(n_s\)</span> 是鞘层边缘的等离子体密度。定义鞘层边缘为 <span class="math inline">\(u_0\)</span> 恰好等于 <span class="math inline">\((k_B T_e/m_i)^{1/2}\)</span> 的位置。要将离子加速到这个速度，需要预鞘层电势 <span class="math inline">\(|\phi|\ge\frac{1}{2}k_B T_e/e\)</span>，因此鞘层边缘的电势为 <span class="math display">\[
+\phi_s \simeq -\frac{1}{2}k_B T_e/e
+\]</span> 相对于等离子体主体的电势。如果电子服从 Maxwell 分布，这就确定了 <span class="math inline">\(n_s\)</span>： <span class="math display">\[
+n_s = n_0 e^{e\phi_s/k_BT_e} = n_0 e^{-1/2} \approx 0.61 n_0
+\]</span></p>
+<p>对于我们的目的，用 1/2 这样的整齐数字代替 0.61 已足够准确；因此，流向负探针的“离子饱和电流”近似为 <span class="math display">\[
+I_B \simeq \frac{1}{2}n_0 e A (k_B T_e/m_i)^{1/2}
+\]</span></p>
+<p>一旦温度已知，<span class="math inline">\(I_B\)</span>（有时称为“Bohm 电流”）就可以方便地给出等离子体密度。</p>
+<p>如果 Debye 长度 <span class="math inline">\(\lambda_D\)</span> 及鞘层厚度相对于探针尺寸非常小，无论探针形状如何，鞘层边缘面积实际上都等于探针表面积 <span class="math inline">\(A\)</span>。然而，在低密度下 <span class="math inline">\(\lambda_D\)</span> 可能变大，使一些进入鞘层的离子绕过探针而未击中它。I. Langmuir 和 L. Tonks 最早计算了各种探针形状下的轨道，因此这种测量方法得名“<strong>Langmuir 探针</strong>”。虽然计算繁琐，但由于不必任意定义鞘层边缘，可以准确确定等离子体密度。通过改变探针电压，可以对 Maxwell 电子分布采样，而 Langmuir 探针的电流—电压曲线也可以给出电子温度。静电探针是最早的等离子体诊断工具，如今仍是最简单、局域性最强的测量装置。遗憾的是，物质电极只能插入低密度、低温等离子体中。</p>
+<p>关于如何使用 Langmuir 探针测量等离子体密度的更详细解释见<a href="https://youtu.be/u44NH1o6Tp8">这里</a>。</p>
+</section>
+</section>
+<section id="离子声激波" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="离子声激波"><span class="header-section-number">18.2</span> 离子声激波</h2>
+<p>当喷气流以超声速运动时，会产生激波。这本质上是非线性现象，因为不存在波很小并逐渐增长的阶段。喷气流比空气中的波速快，因此在大型激波到达之前，未受扰动的介质无法通过前驱信号得到“警告”。在流体动力学激波中，碰撞占主导。等离子体中即使没有碰撞也存在激波。地球拖带偶极磁场穿行于行星际等离子体时，会产生一种磁激波，即“弓激波”。我们将讨论一个更简单的例子：由大振幅离子波发展而来的一维无碰撞激波。</p>
+<p>（一般空间等离子体教材从 R-H 关系开始讨论这一部分。我不喜欢那样。）</p>
+<section id="sagdeev-势" class="level3" data-number="18.2.1">
+<h3 data-number="18.2.1" class="anchored" data-anchor-id="sagdeev-势"><span class="header-section-number">18.2.1</span> Sagdeev 势</h3>
+<div id="fig-shock-potential" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shock-potential-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/shock_potential.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shock-potential-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.5: 离子声激波中的典型电势分布。波向左运动，因此在波参考系中，离子以速度 <span class="math inline">\(u_0\)</span> 从左侧流入波。
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-shock-potential" class="quarto-xref">图&nbsp;<span>18.5</span></a> 展示了离子声激波的理想化电势剖面。稍后将解释这种形状的原因。波以速度 <span class="math inline">\(u_0\)</span> 向左传播。如果转到随波运动的参考系，函数 <span class="math inline">\(\phi(x)\)</span> 将不随时间变化，我们将看到一股等离子体以速度 <span class="math inline">\(u_0\)</span> 从左侧撞向波。为简单起见，令 <span class="math inline">\(T_i\)</span> 为零，使所有离子以相同速度 <span class="math inline">\(u_0\)</span> 入射，并令电子服从 Maxwell 分布。由于激波的运动远慢于电子热速度，可以忽略 Maxwell 分布中心速度的偏移。由能量守恒，激波中的离子速度为 <span class="math display">\[
+u = \Big( u_0^2 - \frac{2e\phi}{m_i} \Big)^{1/2}
+\]</span></p>
+<p>如果 <span class="math inline">\(n_0\)</span> 是未受扰动等离子体的密度，激波中的离子密度为 <span class="math display">\[
+n_i = \frac{n_0 u_0}{u} = n_0 \Big( 1 - \frac{2e\phi}{m_i u_0^2} \Big)^{-1/2}
+\]</span></p>
+<p>电子密度由 Boltzmann 关系给出。于是 Poisson 方程给出 <span class="math display">\[
+\epsilon_0\frac{\mathrm{d}^2\phi}{\mathrm{d}x^2} = e(n_e - n_i) = en_0\Big[ \exp\Big( \frac{e\phi}{k_B T_e} \Big) - \Big( 1 - \frac{2e\phi}{m_i u_0^2} \Big)^{1/2} \Big]
+\]</span></p>
+<p>当然，这与鞘层所满足的 <a href="#eq-sheath1" class="quarto-xref">式&nbsp;<span>18.3</span></a> 相同。激波不过是一个穿过等离子体运动的鞘层。现在引入无量纲变量 <span class="math display">\[
+\chi\equiv \frac{e\phi}{k_B T_e}\quad \xi\equiv\frac{x}{\lambda_D} = x\Big( \frac{n_0 e^2}{\epsilon_0 k_B T_e} \Big)^{1/2}\quad \mu\equiv\frac{u_0}{(k_B T_e/m_i)^{1/2}}
+\]</span></p>
+<p>注意，我们改变了 <span class="math inline">\(\chi\)</span> 定义中的符号，以使本问题中的 <span class="math inline">\(\chi\)</span> 保持为正。量 <span class="math inline">\(\mu\)</span> 称为激波的 <em>马赫数</em>。Poisson 方程现在可以写为 <span id="eq-sheath3"><span class="math display">\[
+\chi^{\prime\prime} = e^{\chi} - \Big( 1 - \frac{2\chi}{\mu^2} \Big)^{-1/2} = -\frac{dV(\chi)}{\mathrm{d}\chi}
+\tag{18.8}\]</span></span> 它与鞘层方程 <a href="#eq-sheath2" class="quarto-xref">式&nbsp;<span>18.4</span></a> 的区别仅在于 <span class="math inline">\(\chi\)</span> 的符号改变。</p>
+<p>R. Z. Sagdeev 将问题类比为势阱中的振子，阐明了 <a href="#eq-sheath3" class="quarto-xref">式&nbsp;<span>18.8</span></a> 解的行为。受到力 <span class="math inline">\(-mdV(x)/\mathrm{d}x\)</span> 的振子，其位移 <span class="math inline">\(x\)</span> 满足 <span class="math display">\[
+\ddot{x} = -dV/\mathrm{d}x
+\]</span></p>
+<p>如果将 <a href="#eq-sheath3" class="quarto-xref">式&nbsp;<span>18.8</span></a> 的右侧定义为 <span class="math inline">\(-dV/\mathrm{d}x\)</span>，该方程就与振子方程相同，其中电势 <span class="math inline">\(\chi\)</span> 扮演 <span class="math inline">\(\chi\)</span> 的角色，<span class="math inline">\(\mathrm{d}/\mathrm{d}\xi\)</span> 取代 <span class="math inline">\(\mathrm{d}/\mathrm{d}t\)</span>。赝势 <span class="math inline">\(V(\chi)\)</span> 有时称为 Sagdeev 势。利用 <span class="math inline">\(\chi=0\)</span> 时 <span class="math inline">\(V(\chi)=0\)</span> 的边界条件，对 <a href="#eq-sheath3" class="quarto-xref">式&nbsp;<span>18.8</span></a> 积分可以求出函数 <span class="math inline">\(V(x)\)</span>： <span id="eq-sagdeev_potential"><span class="math display">\[
+V(\chi) = 1-e^\chi + \mu^2 \Big[ 1 - \Big( 1-\frac{2\chi}{\mu^2} \Big)^{1/2} \Big]
+\tag{18.9}\]</span></span></p>
+<p>当 <span class="math inline">\(\mu\)</span> 位于某个范围内时，该函数具有 <a href="#fig-shock-quasipotential" class="quarto-xref">图&nbsp;<span>18.6</span></a> 所示的形状。如果这是真实势阱，从左侧进入的粒子会到达势阱右侧（<span class="math inline">\(x&gt;0\)</span>），反射后回到 <span class="math inline">\(x=0\)</span>，完成一次往返。类似地，我们类比中的准粒子会向正 <span class="math inline">\(\chi\)</span> 方向运动一次并返回 <span class="math inline">\(\chi =0\)</span>，如 <a href="#fig-shock-soliton" class="quarto-xref">图&nbsp;<span>18.7</span></a> 所示。这样的脉冲称为 <em>孤子</em>：它是在 <a href="#fig-shock-soliton" class="quarto-xref">图&nbsp;<span>18.7</span></a> 中以速度 <span class="math inline">\(u_0\)</span> 向左传播的电势和密度扰动。（我没有完全理解！！！）</p>
+<div id="fig-shock-quasipotential" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shock-quasipotential-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/shock_quasipotential.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shock-quasipotential-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.6: Sagdeev 势 <span class="math inline">\(V(\chi)\)</span>。上方箭头是描述孤子的准粒子轨迹：它在右侧反射并返回。下方箭头显示失去能量并被困在势阱中的准粒子的运动。来回弹跳描述了激波前沿后的振荡。
+</figcaption>
+</figure>
+</div>
+<div id="fig-shock-soliton" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shock-soliton-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/shock_soliton.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shock-soliton-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.7: 向左运动的孤子中的电势。
+</figcaption>
+</figure>
+</div>
+<p>现在，如果粒子在势阱中损失能量，它将永远不会返回 <span class="math inline">\(x=0\)</span>，而会围绕某个正的 <span class="math inline">\(x\)</span> 值（随时间）振荡。类似地，少量耗散会使激波电势围绕某个正的 <span class="math inline">\(\phi\)</span> 值（在空间中）振荡。这正是 <a href="#fig-shock-potential" class="quarto-xref">图&nbsp;<span>18.5</span></a> 所示的行为。实际上，这并不需要耗散：离子从激波前沿反射也有相同效果。为了理解这一点，设想离子的能量具有很小的热展宽，而波前高度 <span class="math inline">\(e\phi\)</span> 恰好足以将一部分离子反射回左侧，其余离子则越过势垒到达右侧。反射离子使激波前沿左侧上游区域的离子密度增加（<a href="#fig-shock-potential" class="quarto-xref">图&nbsp;<span>18.5</span></a>）。这意味着量 <span class="math display">\[
+\chi^\prime = \frac{1}{n_0}\int_0^\xi (n_e - n_i)\mathrm{d}\xi_1
+\]</span> 减小。由于 <span class="math inline">\(\chi^\prime\)</span> 对应于振子问题中的 <span class="math inline">\(\mathrm{d}x/\mathrm{d}t\)</span>，我们的虚拟振子速度降低，被困在 <a href="#fig-shock-quasipotential" class="quarto-xref">图&nbsp;<span>18.6</span></a> 的势阱中。</p>
+</section>
+<section id="临界马赫数" class="level3" data-number="18.2.2">
+<h3 data-number="18.2.2" class="anchored" data-anchor-id="临界马赫数"><span class="header-section-number">18.2.2</span> 临界马赫数</h3>
+<p>孤子型或波列型解只在一定的 <span class="math inline">\(\mu\)</span> 范围内存在。<span class="math inline">\(\mu\)</span> 的下限由 <span class="math inline">\(V(\chi)\)</span> 是势阱而非势垒这一条件给出。对 <a href="#eq-sagdeev_potential" class="quarto-xref">式&nbsp;<span>18.9</span></a> 在 <span class="math inline">\(\chi\ll 1\)</span> 下展开，得到 <span class="math display">\[
+\mu^2 &gt; 1 \quad u_0&gt;(k_BT_e/m_i)^{1/2}
+\]</span></p>
+<p>这在物理和数学上都与鞘层存在的 Bohm 判据（<a href="#eq-sheath_bohm" class="quarto-xref">式&nbsp;<span>18.6</span></a>）完全相同。</p>
+<p><span class="math inline">\(\mu\)</span> 的上限由以下条件给出：<a href="#fig-shock-quasipotential" class="quarto-xref">图&nbsp;<span>18.6</span></a> 中的函数 <span class="math inline">\(V(\chi)\)</span> 必须在 <span class="math inline">\(\chi&gt;0\)</span> 时穿过 <span class="math inline">\(\chi\)</span> 轴；否则虚拟粒子不会反射，电势将无限上升。由 <a href="#eq-sagdeev_potential" class="quarto-xref">式&nbsp;<span>18.9</span></a>，要求 <span class="math display">\[
+e^\chi - 1 &lt; \mu^2 \Big[ 1- \big( 1-\frac{2\chi}{\mu^2} \Big)^{1/2} \Big]
+\]</span> 对某个 <span class="math inline">\(\chi&gt;0\)</span> 成立。如果超过下临界马赫数（<span class="math inline">\(\mu&gt;1\)</span>），代表电子密度从零到 <span class="math inline">\(\chi\)</span> 的积分的左侧最初大于代表离子密度积分的右侧。随着 <span class="math inline">\(\chi\)</span> 增大，如果 <span class="math inline">\(\mu^2\)</span> 不太大，右侧可以赶上左侧。然而，由于平方根的存在，<span class="math inline">\(\chi\)</span> 的最大可能值是 <span class="math inline">\(\mu^2/2\)</span>。这是因为 <span class="math inline">\(e\phi\)</span> 不能超过 <span class="math inline">\(\frac{1}{2}m_iu_0^2\)</span>；否则离子将被排除在下游区域的等离子体之外。将 <span class="math inline">\(\chi\)</span> 的最大值代入上式，得到 <span class="math display">\[
+\exp(\mu^2/2) - 1 &lt; \mu \quad\text{或}\quad \mu &lt; 1.6
+\]</span></p>
+<p>这就是上临界马赫数。因此冷离子等离子体中的激波只在 <span class="math inline">\(1&lt;\mu&lt;1.6\)</span> 时存在。</p>
+<p>与鞘层的情况一样，物理情况最好通过 <span class="math inline">\(n_i\)</span> 和 <span class="math inline">\(n_e\)</span> 随 <span class="math inline">\(\chi\)</span> 变化的图解释（<a href="#fig-shock-n" class="quarto-xref">图&nbsp;<span>18.8</span></a>）。由于 <span class="math inline">\(\phi\)</span> 的符号改变，该图不同于 <span class="quarto-unresolved-ref">?fig-sheath-n-variation</span>。由于现在离子减速而非加速，<span class="math inline">\(n_i\)</span> 在 <span class="math inline">\(\chi=\mu^2/2\)</span> 处趋于无穷大。下临界马赫数确保在小 <span class="math inline">\(\chi\)</span> 时 <span class="math inline">\(n_i\)</span> 曲线位于 <span class="math inline">\(n_e\)</span> 曲线下方，使电势 <span class="math inline">\(\phi(x)\)</span> 一开始具有正确符号的曲率。当曲线 <span class="math inline">\(n_{i1}\)</span> 穿过 <span class="math inline">\(n_e\)</span> 曲线时，孤子（<a href="#fig-shock-soliton" class="quarto-xref">图&nbsp;<span>18.7</span></a>）有一个拐点。最后，当 <span class="math inline">\(\chi\)</span> 大到使 <span class="math inline">\(n_i\)</span> 和 <span class="math inline">\(n_e\)</span> 曲线下的面积相等时，孤子达到峰值；随着 <span class="math inline">\(\chi\)</span> 回到零，沿 <span class="math inline">\(n_{i1}\)</span> 和 <span class="math inline">\(n_e\)</span> 曲线原路返回。面积相等保证孤子内的净电荷为零，因此外部没有电场。如果 <span class="math inline">\(\mu\)</span> 大于 1.6，则得到曲线 <span class="math inline">\(n_{i2}\)</span>，即使 <span class="math inline">\(\chi\)</span> 达到最大值 <span class="math inline">\(\mu^2/2\)</span>，曲线下面积仍然太小。</p>
+<div id="fig-shock-n" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shock-n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/shock_n.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shock-n-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.8: 孤子中离子和电子密度（对数尺度）随归一化电势 <span class="math inline">\(\chi\)</span> 的变化。离子密度绘出两种情况：马赫数大于和小于 1.6。
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="波陡化" class="level3" data-number="18.2.3">
+<h3 data-number="18.2.3" class="anchored" data-anchor-id="波陡化"><span class="header-section-number">18.2.3</span> 波陡化</h3>
+<p>如果在冷离子等离子体中传播离子波，其相速度为 <span class="math display">\[
+v_p = \Big( \frac{k_B T_e + \gamma_i k_B T_i}{m_i} \Big)^{1/2} = \Big( \frac{k_B T_e}{m_i} \Big)^{1/2}
+\]</span> 对应于 <span class="math inline">\(\mu=1\)</span>。那么，如何产生 <span class="math inline">\(\mu&gt;1\)</span> 的激波？必须记住，上述相速度是仅在小振幅下有效的线性结果。随着振幅增大，离子波加速，并从正弦波变成前沿陡峭的锯齿形（<a href="#fig-wave-steepening" class="quarto-xref">图&nbsp;<span>18.9</span></a>）。原因是波电场加速了离子。在 <a href="#fig-wave-steepening" class="quarto-xref">图&nbsp;<span>18.9</span></a> 中，电势分布峰值处的离子沿 <span class="math inline">\(v_\phi\)</span> 方向的速度大于波谷处的离子，因为波经过时它们刚经历了一段加速。线性理论考虑了这种速度差异，却没有考虑由此产生的位移。在非线性理论中，很容易看出峰值处的离子向右偏移，波谷处的离子向左偏移，从而使波形陡化。由于密度扰动与电势同相，向右加速的离子多于向左加速的离子，波因而在传播方向产生净质量流。这使波速超过未扰动等离子体中的声速，因此 <span class="math inline">\(\mu\)</span> 大于 1。</p>
+<div id="fig-wave-steepening" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wave-steepening-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/wave_steepening.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wave-steepening-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.9: 大振幅离子波发生陡化，使前沿的斜率大于后沿。
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="双层" class="level3" data-number="18.2.4">
+<h3 data-number="18.2.4" class="anchored" data-anchor-id="双层"><span class="header-section-number">18.2.4</span> 双层</h3>
+<p>与鞘层和离子声激波相关的一种现象是<a href="https://en.wikipedia.org/wiki/Double_layer_(plasma_physics)">双层</a>。它是一个局域电势跃变，既不传播也不附着于边界，据信会在电离层中自然出现。这个名称来自形成 <span class="math inline">\(\phi(x)\)</span> 阶跃所必需的连续净正电荷层和净负电荷层。这样的阶跃只有在以下情况下才能在空间中保持静止：存在等离子体流，使激波前沿经多普勒频移后在实验室参考系中的速度为零；或者间断面两侧透射和反射的电子与离子的分布函数经过特殊调整，使这种情况成为可能。在自然环境中，双层很可能出现在磁场 <span class="math inline">\(\mathbf{B}\)</span> 具有梯度的地方，而不是像实验室模拟中那样出现在 <span class="math inline">\(\mathbf{B}\)</span> 为零或均匀的地方。在这种情况下，<span class="math inline">\(\mu\nabla B\)</span> 力可以在使双层局域于远离所有边界的位置方面发挥重要作用。串列磁镜反应堆中的热势垒就是具有强磁俘获的双层的一个例子。</p>
+</section>
+</section>
+<section id="sec-ponderomotive" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="sec-ponderomotive"><span class="header-section-number">18.3</span> 有质动力</h2>
+<p>光波施加的辐射压通常非常弱，难以探测。即使是由太阳光压力形成的彗尾这一特殊例子，也受到来自太阳的粒子流的额外影响。然而，当使用高功率微波或激光束加热或约束等离子体时，辐射压可以达到几十万个大气压！作用于等离子体时，这种力以颇为微妙的方式与粒子耦合，称为 <em>有质动力</em>。许多非线性现象可以用有质动力作出简单解释。</p>
+<p>推导这一非线性力的最简单方法是考虑电子在波的振荡 <span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 场中的运动。我们忽略直流 <span class="math inline">\(\mathbf{E}_0\)</span> 和 <span class="math inline">\(\mathbf{B}_0\)</span> 场。电子运动方程为 <span class="math display">\[
+m\dot{\mathbf{v}} = -e[\mathbf{E}(\mathbf{r}) + \mathbf{v}\times\mathbf{B}(\mathbf{r})]
+\]</span></p>
+<p>如果在电子的瞬时位置计算 <span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span>，这个方程是精确的。非线性部分来自 <span class="math inline">\(\mathbf{v}\times\mathbf{B}\)</span>：由于 <span class="math inline">\(\mathbf{v}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 在平衡态均为零，该项是二阶的，其量级不超过 <span class="math inline">\(\mathbf{v}_1\times\mathbf{B}_1\)</span>，其中 <span class="math inline">\(\mathbf{v}_1\)</span> 和 <span class="math inline">\(\mathbf{B}_1\)</span> 是线性理论中的值。正如我们将看到的，非线性的另一部分来自在粒子的实际位置而非初始位置计算 <span class="math inline">\(\mathbf{E}\)</span>。假设波电场具有形式 <span class="math display">\[
+\mathbf{E} = \mathbf{E}_s(\mathbf{r})\cos\omega t
+\]</span> 其中 <span class="math inline">\(\mathbf{E}_s(\mathbf{r})\)</span> 包含空间依赖性。在一阶近似下，可以忽略运动方程中的 <span class="math inline">\(\mathbf{v}\times\mathbf{B}\)</span> 项，并在初始位置 <span class="math inline">\(\mathbf{r}_0\)</span> 计算 <span class="math inline">\(\mathbf{E}\)</span>。得到 <span class="math display">\[
+\begin{aligned}
+m\dot{\mathbf{v}}_1 &amp;=  -e\mathbf{E}(\mathbf{r}_0)\\
+\mathbf{v}_1 &amp;= -(e/m\omega)\mathbf{E}_s\sin\omega t = \dot{\mathbf{r}}_1 \\
+\delta \mathbf{r}_1 &amp;= (e/m\omega^2)\mathbf{E}_s\cos\omega t
+\end{aligned}
+\]</span></p>
+<p>重要的是注意：<em>在非线性计算中，我们不能先写 <span class="math inline">\(e^{i\omega t}\)</span>，以后再取其实部。</em> 我们要将实部明确写为 <span class="math inline">\(\cos\omega t\)</span>。这是因为非线性理论中出现振荡因子的乘积，而相乘和取实部这两种操作不可交换。</p>
+<p>转到二阶，将 <span class="math inline">\(\mathbf{E}(\mathbf{r})\)</span> 在 <span class="math inline">\(\mathbf{r}_0\)</span> 附近展开： <span class="math display">\[
+\mathbf{E}(\mathbf{r}) = \mathbf{E}(\mathbf{r}_0) + (\delta\mathbf{r}_0\cdot\nabla)\mathbf{E}|_{r=r_0} + ...
+\]</span></p>
+<p>现在必须加上 <span class="math inline">\(\mathbf{v}_1\times\mathbf{B}_1\)</span> 项，其中 <span class="math inline">\(\mathbf{B}_1\)</span> 由 Maxwell 方程给出： <span class="math display">\[
+\begin{aligned}
+\nabla\times\mathbf{E} &amp;= -\dot{\mathbf{B}} \\
+\mathbf{B}_1 &amp;= -(1/\omega)\nabla\times\mathbf{E}_s|_{r=r_0}\sin\omega t
+\end{aligned}
+\]</span></p>
+<p>于是运动方程的二阶部分为 <span class="math display">\[
+m\dot{\mathbf{v}}_2 = -e[(\delta\mathbf{r}_1\cdot\nabla)\mathbf{E}+\mathbf{v}_1\times\mathbf{B}_1]
+\]</span></p>
+<p>将 <span class="math inline">\(\mathbf{v}_1,\delta\mathbf{r}_1\)</span> 和 <span class="math inline">\(\mathbf{B}_1\)</span> 的表达式代入上式并对时间平均，得到 <span id="eq-motion_e_2nd"><span class="math display">\[
+m\left&lt; \frac{\mathrm{d}\mathbf{v}_2}{\mathrm{d}t}\right&gt; = -\frac{e^2}{m\omega^2}\frac{1}{2}[(\mathbf{E}_s\cdot\nabla)\mathbf{E}_s + \mathbf{E}_s\times(\nabla\times\mathbf{E}_s)] = \mathbf{f}_{NL}
+\tag{18.10}\]</span></span></p>
+<p>这里使用了 <span class="math inline">\(\left&lt;\sin^2\omega t\right&gt; = \left&lt;\cos^2\omega t\right&gt;=\frac{1}{2}\)</span>。双重叉积可以写成两项之和，其中一项与 <span class="math inline">\((\mathbf{E}_s\cdot\nabla)\mathbf{E}_s\)</span> 项相消。</p>
+<p>剩下的是 <span class="math display">\[
+\mathbf{f}_{NL} = -\frac{1}{4}\frac{e^2}{m\omega^2}\nabla E_s^2
+\]</span></p>
+<p>这是作用于单个电子的有效非线性力。每 <span class="math inline">\(m^3\)</span> 的力等于 <span class="math inline">\(\mathbf{f}_{NL}\)</span> 乘以电子密度 <span class="math inline">\(n_0\)</span>，后者可以用 <span class="math inline">\(\omega_p^2\)</span> 表示。由于 <span class="math inline">\(E_s^2 = 2\left&lt;E^2\right&gt;\)</span>，最终得到有质动力公式 <span id="eq-ponderomotive"><span class="math display">\[
+\mathbf{F}_{NL} = -\frac{\omega_p^2}{\omega^2}\nabla\frac{\left&lt;\epsilon_0 E^2\right&gt;}{2}
+\tag{18.11}\]</span></span></p>
+<p>如果波是电磁波，<a href="#eq-motion_e_2nd" class="quarto-xref">式&nbsp;<span>18.10</span></a> 中的第二项占主导，<span class="math inline">\(\mathbf{F}_{NL}\)</span> 的物理机制如下。电子沿 <span class="math inline">\(\mathbf{E}\)</span> 方向振荡，但波的磁场使其轨道发生变形。也就是说，Lorentz 力 <span class="math inline">\(-e\mathbf{v}\times\mathbf{B}\)</span> 将电子推向 <span class="math inline">\(\mathbf{k}\)</span> 方向（因为 <span class="math inline">\(\mathbf{v}\)</span> 沿 <span class="math inline">\(\mathbf{E}\)</span> 方向，而 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 沿 <span class="math inline">\(\mathbf{k}\)</span> 方向）。<span class="math inline">\(\mathbf{v}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 的相位使得运动在一个振荡周期内的平均值不为零，而是存在沿 <span class="math inline">\(\mathbf{k}\)</span> 的长期漂移。如果波振幅均匀，维持这一漂移不需要力；但如果波振幅变化，电子会在振幅小的区域聚集，此时需要力来克服空间电荷。这就是为什么有效力 <span class="math inline">\(\mathbf{F}_{NL}\)</span> 正比于 <span class="math inline">\(\left&lt;E^2 \right&gt;\)</span> 的 <em>梯度</em>。由于每个电子的漂移相同，<span class="math inline">\(\mathbf{F}_{NL}\)</span> 正比于密度，因此出现因子 <span class="math inline">\(\omega_p^2/\omega^2\)</span>。</p>
+<p>如果波是静电波，<a href="#eq-motion_e_2nd" class="quarto-xref">式&nbsp;<span>18.10</span></a> 中的第一项占主导。此时物理机制很简单：沿 <span class="math inline">\(\mathbf{k}\parallel\mathbf{E}\)</span> 振荡的电子，在从强场区移向弱场区的半周期中比反向移动时走得更远，因此产生净漂移。</p>
+<p>尽管 <span class="math inline">\(\mathbf{F}_{NL}\)</span> 主要作用于电子，但由于这是低频或直流效应，力最终会传递给离子。当电子被 <span class="math inline">\(\mathbf{F}_{NL}\)</span> 聚集时，会产生电荷分离场 <span class="math inline">\(\mathbf{E}_{cs}\)</span>。电子受到的总力为 <span class="math display">\[
+\mathbf{F}_e = -e\mathbf{E}_{cs} + \mathbf{F}_{NL}
+\]</span></p>
+<p>由于作用于离子的有质动力按 <span class="math inline">\(\Omega_p^2/\omega_p^2 = m_e/m_i\)</span> 的比例更小，作用于离子流体的力近似为 <span class="math display">\[
+\mathbf{F}_i = e\mathbf{E}_{cs}
+\]</span></p>
+<p>将最后两个方程相加，发现作用于等离子体的力为 <span class="math inline">\(\mathbf{F}_{NL}\)</span>。</p>
+<p><span class="math inline">\(\mathbf{F}_{NL}\)</span> 的一个直接效应是<a href="https://en.wikipedia.org/wiki/Self-focusing#Plasma_self-focusing">激光在等离子体中的自聚焦</a>。在 <a href="#fig-laser-self-focusing" class="quarto-xref">图&nbsp;<span>18.10</span></a> 中可以看到，有限直径的激光束在等离子体中产生沿径向的有质动力。这个力将等离子体推出光束，使光束内部的 <span class="math inline">\(\omega_p\)</span> 比外部低、介电常数 <span class="math inline">\(\epsilon\)</span> 比外部高。等离子体于是起凸透镜的作用，将光束聚焦至更小的直径。</p>
+<div id="fig-laser-self-focusing" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-laser-self-focusing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/laser_focusing.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-laser-self-focusing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.10: 激光束的自聚焦由有质动力造成。
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-parametric" class="level2" data-number="18.4">
+<h2 data-number="18.4" class="anchored" data-anchor-id="sec-parametric"><span class="header-section-number">18.4</span> 参数不稳定性</h2>
+<p>研究得最彻底的非线性波波相互作用是“参数不稳定性”，之所以这样命名，是因为它与电气工程中熟知的参数放大器类似。对这一主题的理解相对深入的一个原因是，其理论基本上是线性理论，但是围绕非振荡平衡态进行线性化。</p>
+<p>当压强梯度等非线性因素使波发生耦合时，就会出现参数不稳定性。波必须允许频率和波数匹配，而这些是能量和动量守恒的结果。不过，参数不稳定性不限于波，也会出现在等离子体鞘层等非线性共振中。 一种非常常见的参数波不稳定性源于 <em>强电磁波</em>（“泵浦”）衰变为两个静电波：<em>电子等离子体波</em> 和 <em>离子声波</em>。当泵浦激发一个 <em>较低</em> 频率的边带，即电子等离子体波，以及差频模，即离子声波时，这称为“衰变”不稳定性。这三个模是非磁化等离子体中仅有的模。</p>
+<p><a href="https://www.physics.ucla.edu/plasma-exp/research/BasicWaves&amp;Instabilities/ParametricInstab">这里</a>给出了一个实验室观测例子。下方视频展示了一些从参数激发到参数不稳定性的直观实验。</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dGE_LQXy6c0" title="Parametric Instability" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
+</iframe>
+<section id="耦合振子" class="level3" data-number="18.4.1">
+<h3 data-number="18.4.1" class="anchored" data-anchor-id="耦合振子"><span class="header-section-number">18.4.1</span> 耦合振子</h3>
+<div id="fig-parametric-amplifier" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-parametric-amplifier-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/parametric_amplifier.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-parametric-amplifier-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.11: 参数不稳定性的力学类比。
+</figcaption>
+</figure>
+</div>
+<p>考虑 <a href="#fig-parametric-amplifier" class="quarto-xref">图&nbsp;<span>18.11</span></a> 中的力学模型，其中两个振子 M1 和 M2 与一根支在支点上的杆耦合。支点 P 以频率 <span class="math inline">\(\omega_0\)</span> 来回滑动，而两个振子的固有频率分别为 <span class="math inline">\(\omega_1\)</span> 和 <span class="math inline">\(\omega_2\)</span>。显然，在没有摩擦时，只要 M1 和 M2 不运动，支点就不会遇到阻力。此外，如果 P 不动而 M2 开始运动，M1 也会运动；但只要 ω2 不是 M1 的固有频率，振幅就会很小。现在假设 P 和 M2 都开始运动。M1 的位移正比于 M2 的位移与力臂长度的乘积，因此随时间变化为 <span class="math display">\[
+\cos\omega_2 t \cos\omega_0 t = \frac{1}{2}\cos[(\omega_2 + \omega_0)t] + \frac{1}{2}\cos[(\omega_2 - \omega_0)t]
+\]</span></p>
+<p>如果 <span class="math inline">\(\omega_1\)</span> 等于 <span class="math inline">\(\omega_2+\omega_0\)</span> 或 <span class="math inline">\(\omega_2-\omega_0\)</span>，M1 就会受到共振激发并增长到大振幅。一旦 M1 开始振荡，M2 也会获得能量，因为 <span class="math inline">\(\omega_1\)</span> 与 <span class="math inline">\(\omega_0\)</span> 的一个拍频恰好是 <span class="math inline">\(\omega_2\)</span>。因此，一旦任一振子开始运动，两者就会相互激发，系统不稳定。能量当然来自“泵浦”P：一旦杆倾斜，P 就会遇到阻力。如果泵浦足够强，其振荡振幅不受 M1 和 M2 影响；此时可以用线性理论处理不稳定性。在等离子体中，振子 P、M1 和 M2 可以是不同类型的波。</p>
+</section>
+<section id="频率匹配" class="level3" data-number="18.4.2">
+<h3 data-number="18.4.2" class="anchored" data-anchor-id="频率匹配"><span class="header-section-number">18.4.2</span> 频率匹配</h3>
+<p>简谐振子 <span class="math inline">\(x_1\)</span> 的运动方程为 <span id="eq-oscillator"><span class="math display">\[
+\ddot{x}_1 + \omega_1^2 x_1 = 0
+\tag{18.12}\]</span></span></p>
+<p>其中 <span class="math inline">\(\omega_1\)</span> 是其共振频率。如果它受到一个随时间变化的力驱动，该力正比于驱动源或泵浦的振幅 <span class="math inline">\(E_0\)</span> 与第二个振子的振幅 <span class="math inline">\(x_2\)</span> 的乘积，则运动方程变为 <span id="eq-oscillator_x1"><span class="math display">\[
+\ddot{x}_1 + \omega_1^2 x_1 = c_1x_2E_0
+\tag{18.13}\]</span></span> 其中 <span class="math inline">\(c_1\)</span> 是表示耦合强度的常数。<span class="math inline">\(x_2\)</span> 也满足类似的方程： <span id="eq-oscillator_x2"><span class="math display">\[
+\ddot{x}_2 + \omega_1^2 x_2 = c_2x_1E_0
+\tag{18.14}\]</span></span></p>
+<p>令 <span class="math inline">\(x_1=\bar{x}_1 \cos\omega t\)</span>、<span class="math inline">\(x_2=\bar{x}_2 \cos\omega^\prime t\)</span> 和 <span class="math inline">\(E_0=\bar{E}_0 \cos\omega_0 t\)</span>。<a href="#eq-oscillator_x2" class="quarto-xref">式&nbsp;<span>18.14</span></a> 变为 <span class="math display">\[
+\begin{aligned}
+(\omega_2^2 - {\omega^\prime}^2)\bar{x}_2\cos\omega^\prime t &amp;= c_2\bar{E}_0\bar{x}_1\cos\omega_0 t\cos\omega t \\
+&amp;= c_2\bar{E}_0\bar{x}_1 \frac{1}{2}\{ \cos[(\omega_0 + \omega)t] + \cos[(\omega_0 - \omega)t]  \}
+\end{aligned}
+\]</span></p>
+<p>右侧的驱动项可以激发频率为下列值的振子 <span class="math inline">\(x_2\)</span>： <span id="eq-oscillator_frequency_matching"><span class="math display">\[
+\omega^\prime = \omega_0\pm\omega
+\tag{18.15}\]</span></span></p>
+<p>在没有非线性相互作用时，<span class="math inline">\(x_2\)</span> 只能具有频率 <span class="math inline">\(\omega_2\)</span>，因此必须有 <span class="math inline">\(ω^\prime = \omega_2\)</span>。然而，驱动项可以引起频移，使 <span class="math inline">\(ω^\prime\)</span> 只近似等于 <span class="math inline">\(\omega_2\)</span>。此外，由于存在阻尼（为简单起见，迄今已将其忽略），或者可能存在增长（如果有不稳定性），<span class="math inline">\(\omega^\prime\)</span> 可以是复数。无论哪种情况，<span class="math inline">\(x_2\)</span> 都是具有有限 Q 值的振子，可以对 <span class="math inline">\(\omega_2\)</span> 附近一定范围的频率作出响应。如果 <span class="math inline">\(\omega\)</span> 很小，可以看出 <span class="math inline">\(\omega^\prime\)</span> 的两个可能值都可能位于 <span class="math inline">\(x_2\)</span> 的带宽内，因而必须考虑两个振子 <span class="math inline">\(x_2(\omega_0+\omega)\)</span> 和 <span class="math inline">\(x_2(\omega_0 - \omega)\)</span> 的存在。</p>
+<p>现在令 <span class="math inline">\(x_1 = \bar{x}_1\cos\omega^{\prime\prime}t\)</span> 和 <span class="math inline">\(x_2 = \bar{x}_2\cos[(\omega_0\pm \omega)t]\)</span>，并代入 <a href="#eq-oscillator_x1" class="quarto-xref">式&nbsp;<span>18.13</span></a>： <span id="eq-oscillator_momentum"><span class="math display">\[
+\begin{aligned}
+&amp;(\omega_1^2 - {\omega^{\prime\prime}}^2)\bar{x}_1\cos\omega^{\prime\prime} t \\
+&amp;= c_1\bar{E}_0\bar{x}_2\frac{1}{2}\big(\cos\{[\omega_0 + (\omega_0\pm\omega)]t\} + \cos\{ [\omega_0 - (\omega_0\pm\omega)]t \}  \big)\\
+&amp;= c_1\bar{E}_0\bar{x}_2\frac{1}{2}\big(\cos[(2\omega_0 \pm\omega) t] + \cos\omega t  \big)
+\end{aligned}
+\tag{18.16}\]</span></span></p>
+<p>驱动项不仅可以激发原来的振荡 <span class="math inline">\(x_1(\omega)\)</span>，还可以激发新频率 <span class="math inline">\(\omega^{\prime\prime} = 2\omega_0\pm\omega\)</span>。我们考虑 <span class="math inline">\(|\omega_0| \gg |\omega_1|\)</span> 的情况，此时 <span class="math inline">\(2\omega_0\pm\omega\)</span> 位于 <span class="math inline">\(x_1\)</span> 能够响应的频率范围之外，<span class="math inline">\(x_1(2\omega_0\pm\omega)\)</span> 可以忽略。因此有三个振子 <span class="math inline">\(x_1(\omega)\)</span>、<span class="math inline">\(x_2(\omega_0-\omega)\)</span> 和 <span class="math inline">\(x_2(\omega_0+\omega)\)</span>，它们由 <a href="#eq-oscillator_x1" class="quarto-xref">式&nbsp;<span>18.13</span></a> 和 <a href="#eq-oscillator_x2" class="quarto-xref">式&nbsp;<span>18.14</span></a> 耦合： <span id="eq-oscillator_energy"><span class="math display">\[
+\begin{aligned}
+(\omega_1^2 - \omega^2)x_1(\omega) - c_1E_0(\omega_0)[ x_2(\omega_0-\omega) + x_2(\omega_0 + \omega) ] &amp;= 0 \\
+[\omega_2^2 - (\omega_0-\omega)^2]x_2(\omega_0-\omega) - c_2E_0(\omega_0)x_1(\omega) &amp;= 0 \\
+[\omega_2^2 - (\omega_0+\omega)^2]x_2(\omega_0+\omega) - c_2E_0(\omega_0)x_1(\omega) &amp;= 0
+\end{aligned}
+\tag{18.17}\]</span></span></p>
+<p>令系数行列式等于零，得到色散关系： <span id="eq-oscillator_dispersion"><span class="math display">\[
+\begin{vmatrix}
+\omega^2 - \omega_1^2 &amp; c_1E_0 &amp; c_1 E_0 \\
+c_2E_0 &amp; (\omega_0-\omega)^2 - \omega_2^2 &amp; 0 \\
+c_2E_0 &amp; 0 &amp; (\omega_0+\omega)^2 - \omega_2^2
+\end{vmatrix} = 0
+\tag{18.18}\]</span></span></p>
+<p>满足 <span class="math inline">\(\Im(\omega)&gt;0\)</span> 的解表示存在不稳定性。</p>
+<p>对于小频移和小阻尼率或增长率，可以令 <span class="math inline">\(\omega\)</span> 和 <span class="math inline">\(\omega^\prime\)</span> 近似等于未扰动频率 <span class="math inline">\(\omega_1\)</span> 和 <span class="math inline">\(\omega_2\)</span>。于是 <a href="#eq-oscillator_frequency_matching" class="quarto-xref">式&nbsp;<span>18.15</span></a> 给出频率匹配条件： <span id="eq-oscillator_frequency_matching2"><span class="math display">\[
+\omega_0 \approx \omega_2 \pm \omega_1
+\tag{18.19}\]</span></span></p>
+<p>当振子是等离子体中的波时，必须将 <span class="math inline">\(\omega t\)</span> 替换为 <span class="math inline">\(\omega t - \mathbf{k}\cdot\mathbf{r}\)</span>。此时还存在波长匹配条件 <span id="eq-oscillator_frequency_matching3"><span class="math display">\[
+\mathbf{k}_0 \approx \mathbf{k}_2 \pm \mathbf{k}_1
+\tag{18.20}\]</span></span> 它描述空间拍，即空间中相长和相消干涉点的周期性。通过与量子力学类比，可以容易地理解 <a href="#eq-oscillator_frequency_matching2" class="quarto-xref">式&nbsp;<span>18.19</span></a> 和 <a href="#eq-oscillator_frequency_matching3" class="quarto-xref">式&nbsp;<span>18.20</span></a> 这两个条件。将前者乘以 Planck 常数 <span class="math inline">\(\hbar\)</span>，得到 <span class="math display">\[
+\hbar\omega_0 = \hbar\omega_2 \pm \hbar\omega_1
+\]</span></p>
+<p>例如，<span class="math inline">\(E_0\)</span> 和 <span class="math inline">\(x_2\)</span> 可以是电磁波，那么 <span class="math inline">\(\hbar\omega_0\)</span> 和 <span class="math inline">\(\hbar\omega_2\)</span> 是光子能量。振子 <span class="math inline">\(x_1\)</span> 可以是 Langmuir 波，或等离激元，其能量为 <span class="math inline">\(\hbar\omega_1\)</span>。<a href="#eq-oscillator_energy" class="quarto-xref">式&nbsp;<span>18.17</span></a> 只是表述能量守恒。类似地，<a href="#eq-oscillator_momentum" class="quarto-xref">式&nbsp;<span>18.16</span></a> 表述动量 <span class="math inline">\(\hbar\mathbf{k}\)</span> 守恒。</p>
+<p>对于等离子体波，在一维问题中只有某些波的组合能够同时满足 <a href="#eq-oscillator_frequency_matching" class="quarto-xref">式&nbsp;<span>18.15</span></a> 和 <a href="#eq-oscillator_momentum" class="quarto-xref">式&nbsp;<span>18.16</span></a>。所需关系最好通过 <span class="math inline">\(\omega-k\)</span> 图 <a href="#fig-parallelogram-construction" class="quarto-xref">图&nbsp;<span>18.12</span></a> 来观察。(A) 显示电子等离子体波 <span class="math inline">\(\omega_2\)</span>（Bohm-Gross 波）和离子声波 <span class="math inline">\(\omega_1\)</span> 的色散曲线。大振幅电子波 <span class="math inline">\((\omega_0, \mathbf{k}_0)\)</span> 可以衰变为一个向后运动的电子波 <span class="math inline">\((\omega_2, \mathbf{k}_2)\)</span> 和一个离子波 <span class="math inline">\((\omega_1, \mathbf{k}_1)\)</span>。平行四边形作图保证 <span class="math inline">\(\omega_0 = \omega_1 + \omega_2\)</span> 和 <span class="math inline">\(\mathbf{k}_0 = \mathbf{k}_1 + \mathbf{k}_2\)</span>。必须调整 <span class="math inline">\((\omega_0, \mathbf{k}_0)\)</span> 和 <span class="math inline">\((\omega_2, \mathbf{k}_2)\)</span> 在电子曲线上的位置，使差矢量位于离子曲线上。注意，电子波不能衰变为另外两个电子波，因为无法让差矢量位于电子曲线上。</p>
+<p>B 显示“参数衰变”不稳定性的平行四边形作图。这里 <span class="math inline">\((\omega_0, \mathbf{k}_0)\)</span> 是具有大相速度 <span class="math inline">\((\omega_0/k_0\approx c)\)</span> 的入射电磁波。它激发向相反方向运动的电子波和离子波。由于 <span class="math inline">\(|\mathbf{k}_0|\)</span> 很小，对这种不稳定性有 <span class="math inline">\(|\mathbf{k}_1|\approx -|\mathbf{k}_2|\)</span> 和 <span class="math inline">\(\omega_0=\omega_1+\omega_2\)</span>。</p>
+<p>C 显示“参数背向散射”不稳定性的 <span class="math inline">\(\omega-k\)</span> 图，其中光波激发一个离子波和另一个沿相反方向运动的光波。当离子波被等离子体波取代时也会发生这种过程。与固体物理中的类似现象类比，这些过程分别称为“受激 Brillouin 散射”和“受激 Raman 散射”。</p>
+<p>D 表示电磁波的双等离激元衰变不稳定性。注意两个衰变波都是电子等离子体波，因此只有在 <span class="math inline">\(\omega_0\simeq 2\omega_p\)</span> 时才能发生频率匹配。用密度表示时，这个条件等价于 <span class="math inline">\(n\simeq n_c/4\)</span>，其中 <span class="math inline">\(n_c\)</span> 是与 <span class="math inline">\(\omega_0\)</span> 相关的临界密度（<span class="math inline">\(n_C = m\epsilon_0 \omega_0^2/e^2\)</span>）。因此可以预期这种不稳定性只在非均匀等离子体的“四分之一临界”层附近发生。</p>
+<div id="fig-parallelogram-construction" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-parallelogram-construction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/parallelogram_construction.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-parallelogram-construction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.12: 平行四边形作图显示四种参数不稳定性的 <span class="math inline">\(\omega-\)</span> 和 <span class="math inline">\(k-\)</span> 匹配条件：(A) 电子衰变不稳定性，(B) 参数衰变不稳定性，(C) 受激 Brillouin 背向散射不稳定性，(D) 双等离激元衰变不稳定性。
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="不稳定性阈值" class="level3" data-number="18.4.3">
+<h3 data-number="18.4.3" class="anchored" data-anchor-id="不稳定性阈值"><span class="header-section-number">18.4.3</span> 不稳定性阈值</h3>
+<p>如果没有阻尼，参数不稳定性在任何振幅下都会发生；但在实际中，即使少量碰撞阻尼或朗道阻尼也会阻止不稳定性，除非泵浦波相当强。为计算阈值，必须引入振子 <span class="math inline">\(x_1\)</span> 和 <span class="math inline">\(x_2\)</span> 的阻尼率 <span class="math inline">\(\Gamma_1\)</span> 和 <span class="math inline">\(\Gamma_2\)</span>。于是 <a href="#eq-oscillator" class="quarto-xref">式&nbsp;<span>18.12</span></a> 变为 <span class="math display">\[
+\ddot{x_1} + \omega_1^2 x_1 + 2\Gamma_1 \dot{x_1} = 0
+\]</span></p>
+<p>例如，如果 <span class="math inline">\(x_1\)</span> 是受摩擦阻尼的弹簧位移，最后一项表示与速度成正比的力。如果 <span class="math inline">\(x_1\)</span> 是受电子—中性粒子碰撞阻尼的等离子体波中的电子密度，<span class="math inline">\(\Gamma_1\)</span> 为 <span class="math inline">\(v_c/2\)</span>（???）。检查 <a href="#eq-oscillator_x1" class="quarto-xref">式&nbsp;<span>18.13</span></a>、<a href="#eq-oscillator_x2" class="quarto-xref">式&nbsp;<span>18.14</span></a> 和 <a href="#eq-oscillator_dispersion" class="quarto-xref">式&nbsp;<span>18.18</span></a> 可知，只要保持 <span class="math inline">\(E_0\)</span> 为实数并允许 <span class="math inline">\(\bar{x}_1\)</span> 和 <span class="math inline">\(\bar{x}_2\)</span> 为复数，就可以使用指数记号，并对 <span class="math inline">\(x_1\)</span> 和 <span class="math inline">\(x_2\)</span> 令 <span class="math inline">\(\mathrm{d}/\mathrm{d}t \rightarrow i\omega\)</span>。<a href="#eq-oscillator_x1" class="quarto-xref">式&nbsp;<span>18.13</span></a> 和 <a href="#eq-oscillator_x2" class="quarto-xref">式&nbsp;<span>18.14</span></a> 变为 <span id="eq-parametric_damping"><span class="math display">\[
+\begin{aligned}
+(\omega_1^2 - \omega^2 - 2i\omega\Gamma_1)x_1(\omega) &amp;= c_1 x_2 E_0 \\
+[\omega_2^2 - (\omega-\omega_0)^2 2i(\omega-\omega_0)\Gamma_2]x_2(\omega-\omega_0) &amp;= c_2 x_1 E_0
+\end{aligned}
+\tag{18.21}\]</span></span></p>
+<p>我们进一步限制在两个波的简单情况 — 即 <span class="math inline">\(\omega\simeq\omega_1\)</span> 和 <span class="math inline">\(\omega_0 - \omega\simeq\omega_2\)</span>，但 <span class="math inline">\(\omega_0+\omega\)</span> 离 <span class="math inline">\(\omega_2\)</span> 足够远，因而不共振 — 此时可以忽略 <a href="#eq-oscillator_dispersion" class="quarto-xref">式&nbsp;<span>18.18</span></a> 的第三行和第三列。如果现在像 <a href="#eq-oscillator_momentum" class="quarto-xref">式&nbsp;<span>18.16</span></a> 中那样用峰值表示 <span class="math inline">\(x_1, x_2\)</span> 和 <span class="math inline">\(E_0\)</span>，<a href="#eq-parametric_damping" class="quarto-xref">式&nbsp;<span>18.21</span></a> 的右侧会出现因子 1/2。舍弃非共振项并从 <a href="#eq-parametric_damping" class="quarto-xref">式&nbsp;<span>18.21</span></a> 中消去 <span class="math inline">\(x_1\)</span> 和 <span class="math inline">\(x_2\)</span>，得到 <span class="math display">\[
+(\omega^2 - \omega_1^2 +2i\omega\Gamma_1)[(\omega_0-\omega)^2 - \omega_2^2 - 2i(\omega_0-\omega)\Gamma_2] = \frac{1}{4}c_1c_2\bar{E}_0^2
+\]</span></p>
+<p>在阈值处，可以令 <span class="math inline">\(\Im(\omega)=0\)</span>。最低阈值出现在精确频率匹配时，即 <span class="math inline">\(\omega=\omega_1,\omega_0-\omega=\omega_2\)</span>。于是上式给出 <span class="math display">\[
+c_1c_2(\bar{E}_0^2)_{\text{threshold}} = 16\omega_1\omega_2\Gamma_1\Gamma_2
+\]</span></p>
+<p>当 <em>任一</em> 波的阻尼趋于零时，阈值也趋于零。</p>
+</section>
+<section id="物理机制" class="level3" data-number="18.4.4">
+<h3 data-number="18.4.4" class="anchored" data-anchor-id="物理机制"><span class="header-section-number">18.4.4</span> 物理机制</h3>
+<p>利用有质动力（<a href="#sec-ponderomotive" class="quarto-xref"><span>小节 18.3</span></a>）可以非常简单地理解波的参数激发。例如，考虑电磁波 <span class="math inline">\((\omega_0, \mathbf{k}_0)\)</span> 驱动电子等离子体波 <span class="math inline">\((\omega_2, \mathbf{k}_2)\)</span> 和低频离子波 <span class="math inline">\((\omega_1, \mathbf{k}_1)\)</span> 的情况（fig-parallelogram-construction B）。由于 <span class="math inline">\(\omega_1\)</span> 很小，<span class="math inline">\(\omega_0\)</span> 必须接近 <span class="math inline">\(\omega_p\)</span>。然而，<span class="math inline">\(\omega_0&lt;\omega_p\)</span> 与 <span class="math inline">\(\omega_0&gt;\omega_p\)</span> 时的行为很不相同。前者产生“振荡双流”不稳定性（后文将详细处理），后者产生“参数衰变”不稳定性。</p>
+<div id="fig-oscillating-2stream" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-oscillating-2stream-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/oscillating_2stream.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-oscillating-2stream-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;18.13: 振荡双流不稳定性的物理机制。
+</figcaption>
+</figure>
+</div>
+<p>假设等离子体中存在形式为 <span class="math inline">\(n_1\cos k_1 x\)</span> 的密度扰动；这种扰动可以作为热噪声的一个分量自发出现。令泵浦波在 <span class="math inline">\(x\)</span> 方向具有电场 <span class="math inline">\(E_0\cos\omega_0 t\)</span>，如 <a href="#fig-oscillating-2stream" class="quarto-xref">图&nbsp;<span>18.13</span></a> 所示。在没有直流场 <span class="math inline">\(\mathbf{B}_0\)</span> 时，泵浦波满足关系 <span class="math inline">\(\omega_0^2 = \omega_p^2 + c^2k_0^2\)</span>，因此当 <span class="math inline">\(\omega_0\approx\omega_p\)</span> 时 <span class="math inline">\(k_0\approx 0\)</span>。因此可以把 <span class="math inline">\(E_0\)</span> 视为空间均匀的。如果 <span class="math inline">\(\omega_0\)</span> 小于冷电子流体的共振频率 <span class="math inline">\(\omega_p\)</span>（这怎么可能???），电子会沿与 <span class="math inline">\(E_0\)</span> 相反的方向运动，而离子在 <span class="math inline">\(\omega_0\)</span> 的时间尺度上不运动。于是密度波纹引起电荷分离，如 <a href="#fig-oscillating-2stream" class="quarto-xref">图&nbsp;<span>18.13</span></a> 所示。静电荷产生以频率 <span class="math inline">\(\omega_0\)</span> 振荡的场 <span class="math inline">\(E_1\)</span>。总场造成的有质动力由 <a href="#eq-ponderomotive" class="quarto-xref">式&nbsp;<span>18.11</span></a> 给出： <span class="math display">\[
+\mathbf{F}_{NL} = -\frac{\omega_p^2}{\omega^2}\nabla\frac{\left&lt; (E_0 + E_1)^2\right&gt;}{2}\epsilon_0
+\]</span></p>
+<p>由于 E0 均匀且远大于 <span class="math inline">\(E_1\)</span>，只有交叉项重要： <span class="math display">\[
+\mathbf{F}_{NL} = -\frac{\omega_p^2}{\omega^2}\frac{\partial}{\partial x}\frac{\left&lt;2E_0E_1\right&gt;}{2}\epsilon_0
+\]</span></p>
+<p>这个力的平均值不为零，因为 E1 随 E0 一起变号。如 <a href="#fig-oscillating-2stream" class="quarto-xref">图&nbsp;<span>18.13</span></a> 所示，<span class="math inline">\(F_{NL}\)</span> 在 <span class="math inline">\(n_1\)</span> 的峰值和谷值处为零，但在 <span class="math inline">\(\nabla n_1\)</span> 较大处也较大。这种空间分布使 <span class="math inline">\(F_{NL}\)</span> 将电子从低密度区域推向高密度区域。由此产生的直流电场也拖动离子，密度扰动随之增长。<span class="math inline">\(F_{NL}\)</span> 的阈值恰好足以克服倾向于平滑密度的压强 <span class="math inline">\(\nabla n_{i1}(k_BT_i + k_BT_e)\)</span>。密度波纹不传播，因此 <span class="math inline">\(\Re(\omega_1)=0\)</span>。这称为 <em>振荡双流不稳定性</em>，因为来回摆动的电子具有双峰的时间平均分布函数，与双流不稳定性中的情况一样（第 ??? 节）。</p>
+</section>
+<section id="振荡双流不稳定性" class="level3" data-number="18.4.5">
+<h3 data-number="18.4.5" class="anchored" data-anchor-id="振荡双流不稳定性"><span class="header-section-number">18.4.5</span> 振荡双流不稳定性</h3>
+<p>到目前为止我还不理解参数不稳定性。太难了。</p>
+</section>
+<section id="参数衰变不稳定性" class="level3" data-number="18.4.6">
+<h3 data-number="18.4.6" class="anchored" data-anchor-id="参数衰变不稳定性"><span class="header-section-number">18.4.6</span> 参数衰变不稳定性</h3>
+</section>
+</section>
+<section id="sec-echo" class="level2" data-number="18.5">
+<h2 data-number="18.5" class="anchored" data-anchor-id="sec-echo"><span class="header-section-number">18.5</span> 等离子体回波</h2>
+<p>等离子体回波是由非线性相互作用激发新波的现象。这种激发可以在任意长的时间之后发生，这是理解朗道阻尼的困难的主要来源。由于朗道阻尼 <em>不涉及碰撞或耗散</em>，它是一个 <em>可逆</em> 过程。显著的等离子体回波现象生动地证明了这一点。</p>
+</section>
+<section id="非线性朗道阻尼" class="level2" data-number="18.6">
+<h2 data-number="18.6" class="anchored" data-anchor-id="非线性朗道阻尼"><span class="header-section-number">18.6</span> 非线性朗道阻尼</h2>
+<p>当沿空间追踪例如由栅格激发的电子波或离子波的振幅时，经常发现如果振幅较大，其衰减并不像线性理论预测的那样是指数衰减。相反，通常会发现振幅 先衰减、再次增长，然后振荡，最后稳定在一个稳态值。虽然其他效应也可能在起作用，但这些振幅振荡正是 <a href="kinetic.html#sec-landau_damping" class="quarto-xref"><span>小节 12.6</span></a> 中讨论的粒子俘获非线性效应所预期的结果。</p>
+</section>
+<section id="非线性等离子体物理方程" class="level2" data-number="18.7">
+<h2 data-number="18.7" class="anchored" data-anchor-id="非线性等离子体物理方程"><span class="header-section-number">18.7</span> 非线性等离子体物理方程</h2>
+<section id="korteweg-de-vries-方程" class="level3" data-number="18.7.1">
+<h3 data-number="18.7.1" class="anchored" data-anchor-id="korteweg-de-vries-方程"><span class="header-section-number">18.7.1</span> Korteweg-de Vries 方程</h3>
+<p><span class="math display">\[
+\frac{\partial U}{\partial\tau} + U\frac{\partial U}{\partial\xi}+\frac{1}{2}\frac{\partial^2 U}{\partial\xi^3} = 0
+\]</span></p>
+<p>其中 <span class="math inline">\(U\)</span> 是振幅，<span class="math inline">\(\tau\)</span> 和 <span class="math inline">\(\xi\)</span> 分别是类时间和类空间变量。</p>
+</section>
+<section id="非线性-schrödinger-方程" class="level3" data-number="18.7.2">
+<h3 data-number="18.7.2" class="anchored" data-anchor-id="非线性-schrödinger-方程"><span class="header-section-number">18.7.2</span> 非线性 Schrödinger 方程</h3>
+<p><span id="eq-nonlinear_schrödinger"><span class="math display">\[
+i\frac{\partial\psi}{\partial t} + p\frac{\partial^2\psi}{\partial x^2} + q|\psi|^2\psi = 0
+\tag{18.22}\]</span></span></p>
+<p>其中 <span class="math inline">\(\psi\)</span> 是波振幅，<span class="math inline">\(i=\sqrt(-1)\)</span>，<span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 是系数，其物理意义稍后解释。<a href="#eq-nonlinear_schrödinger" class="quarto-xref">式&nbsp;<span>18.22</span></a> 与通常的 Schrödinger 方程不同，</p>
+<p><span class="math display">\[
+i\hbar\frac{\partial\psi}{\partial t} + \frac{\hbar^2}{2m}\frac{\partial^2\psi}{\partial x^2} - V(x,t)\psi = 0
+\]</span></p>
+<p>区别在于电势 <span class="math inline">\(V(x,t)\)</span> 依赖于 <span class="math inline">\(\psi\)</span> 本身，使最后一项成为非线性项。</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/flr.html" class="pagination-link" aria-label="磁力线共振">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/turbulence.html" class="pagination-link" aria-label="湍流">
+        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/nonlinear.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

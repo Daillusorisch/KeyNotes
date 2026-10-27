@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>28&nbsp; 宇宙射线 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/boundary.html" rel="next">
+<link href="../contents/gc.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/cr.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#基本定义" id="toc-基本定义" class="nav-link active" data-scroll-target="#基本定义"><span class="header-section-number">28.1</span> 基本定义</a></li>
+  <li><a href="#宇宙射线连续性方程" id="toc-宇宙射线连续性方程" class="nav-link" data-scroll-target="#宇宙射线连续性方程"><span class="header-section-number">28.2</span> 宇宙射线连续性方程</a></li>
+  <li><a href="#parker-输运方程" id="toc-parker-输运方程" class="nav-link" data-scroll-target="#parker-输运方程"><span class="header-section-number">28.3</span> Parker 输运方程</a>
+  <ul class="collapse">
+  <li><a href="#sec-parker-derivation" id="toc-sec-parker-derivation" class="nav-link" data-scroll-target="#sec-parker-derivation"><span class="header-section-number">28.3.1</span> Parker 输运方程的推导</a></li>
+  </ul></li>
+  <li><a href="#随机微分方程方法" id="toc-随机微分方程方法" class="nav-link" data-scroll-target="#随机微分方程方法"><span class="header-section-number">28.4</span> 随机微分方程方法</a>
+  <ul class="collapse">
+  <li><a href="#从输运方程到-fokker-planck-方程" id="toc-从输运方程到-fokker-planck-方程" class="nav-link" data-scroll-target="#从输运方程到-fokker-planck-方程"><span class="header-section-number">28.4.1</span> 从输运方程到 Fokker-Planck 方程</a></li>
+  <li><a href="#伪粒子的运动方程" id="toc-伪粒子的运动方程" class="nav-link" data-scroll-target="#伪粒子的运动方程"><span class="header-section-number">28.4.2</span> 伪粒子的运动方程</a></li>
+  <li><a href="#伪粒子与相空间图像" id="toc-伪粒子与相空间图像" class="nav-link" data-scroll-target="#伪粒子与相空间图像"><span class="header-section-number">28.4.3</span> 伪粒子与相空间图像</a></li>
+  <li><a href="#前向与后向-sde" id="toc-前向与后向-sde" class="nav-link" data-scroll-target="#前向与后向-sde"><span class="header-section-number">28.4.4</span> 前向与后向 SDE</a></li>
+  <li><a href="#相对于网格求解器的实际优势" id="toc-相对于网格求解器的实际优势" class="nav-link" data-scroll-target="#相对于网格求解器的实际优势"><span class="header-section-number">28.4.5</span> 相对于网格求解器的实际优势</a></li>
+  </ul></li>
+  <li><a href="#准线性理论" id="toc-准线性理论" class="nav-link" data-scroll-target="#准线性理论"><span class="header-section-number">28.5</span> 准线性理论</a>
+  <ul class="collapse">
+  <li><a href="#sec-fokker-planck" id="toc-sec-fokker-planck" class="nav-link" data-scroll-target="#sec-fokker-planck"><span class="header-section-number">28.5.1</span> Fokker-Planck 方程的推导</a></li>
+  <li><a href="#扩散近似" id="toc-扩散近似" class="nav-link" data-scroll-target="#扩散近似"><span class="header-section-number">28.5.2</span> 扩散近似</a></li>
+  <li><a href="#输运系数的计算" id="toc-输运系数的计算" class="nav-link" data-scroll-target="#输运系数的计算"><span class="header-section-number">28.5.3</span> 输运系数的计算</a></li>
+  <li><a href="#湍流几何形态与频谱" id="toc-湍流几何形态与频谱" class="nav-link" data-scroll-target="#湍流几何形态与频谱"><span class="header-section-number">28.5.4</span> 湍流几何形态与频谱</a></li>
+  <li><a href="#磁力线随机游走" id="toc-磁力线随机游走" class="nav-link" data-scroll-target="#磁力线随机游走"><span class="header-section-number">28.5.5</span> 磁力线随机游走</a></li>
+  <li><a href="#qlt-的不足" id="toc-qlt-的不足" class="nav-link" data-scroll-target="#qlt-的不足"><span class="header-section-number">28.5.6</span> QLT 的不足</a></li>
+  </ul></li>
+  <li><a href="#sec-test-particle" id="toc-sec-test-particle" class="nav-link" data-scroll-target="#sec-test-particle"><span class="header-section-number">28.6</span> 测试粒子模拟</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/cr.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-cosmic-ray" class="quarto-section-identifier"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>宇宙射线（CR）是具有非热谱的相对论性带电粒子群，在宇宙中无处不在。它们遍布各种尺度的系统，从恒星系统到整个星系，从星系团到星系团间介质。宇宙射线输运的建模和宇宙射线数据的解释，最终都依赖于对带电粒子与湍流磁场相互作用的充分理解。</p>
+<p><span class="citation" data-cites="mertsch2020test">Mertsch (<a href="#ref-mertsch2020test" role="doc-biblioref">2020年</a>)</span> 提供了开展宇宙射线试验粒子模拟的详尽指南。</p>
+<section id="基本定义" class="level2" data-number="28.1">
+<h2 data-number="28.1" class="anchored" data-anchor-id="基本定义"><span class="header-section-number">28.1</span> 基本定义</h2>
+<p>本部分取自 Riaan Steenkamp 2018 年的 CERN 讲义。</p>
+<p>宇宙射线各向同性地到达地球，来自外层空间的各个方向，能量范围极广，从约 <span class="math inline">\(10^9\)</span> eV 一直延伸到超过 <span class="math inline">\(10^{20}\)</span> eV。其源包括太阳、超新星遗迹、活动星系核及其他高能天体物理现象。 在 <span class="math inline">\(\mathbf{r}\)</span> 附近体积元 <span class="math inline">\(\mathrm{d}^3\,r\)</span> 中、动量位于 <span class="math inline">\(\mathbf{p}\)</span> 附近区间 <span class="math inline">\(\mathrm{d}^3 p\)</span> 内的粒子数为 <span class="math display">\[
+\mathrm{d}n = F(\mathbf{r}, \mathbf{p}, t)\mathrm{d}^3 r\mathrm{d}^3 p
+\]</span> 其中 <span class="math inline">\(F\)</span> 是分布函数。在 <span class="math inline">\(\mathbf{p}\)</span> 方向附近立体角 <span class="math inline">\(\mathrm{d}\Omega\)</span> 内，粒子数为 <span class="math display">\[
+\mathrm{d}n = F(\mathbf{r}, \mathbf{p}, t)\mathrm{d}^3 r\, p^2 \mathrm{d} p\,\mathrm{d}\Omega
+\]</span></p>
+<p>通常我们不能直接测量 <span class="math inline">\(F\)</span>，只能测量它在动量空间中的平均值。对 <span class="math inline">\(F\)</span> 沿所有方向取平均得到 <span class="math display">\[
+f(\mathbf{r}, p, t) = \frac{1}{4\pi}\int_\Omega F(\mathbf{r}, \mathbf{p}, t)\mathrm{d}\Omega
+\]</span> 其中 <span class="math inline">\(\int_\Omega \mathrm{d}\Omega = 4\pi\)</span>。</p>
+<p><span class="math inline">\(\mathrm{d}^3 r\)</span> 内动量位于 <span class="math inline">\((p, p+\mathrm{d}p)\)</span> 区间的粒子数 <span class="math inline">\(\mathrm{d}N\)</span>（不依赖于 <span class="math inline">\(\mathbf{p}\)</span> 的方向）为 <span class="math display">\[
+\mathrm{d}N = 4\pi p^2 f(\mathbf{r}, p, t)\mathrm{d}^3 r\mathrm{d}p = n_p(\mathbf{r}, p, t)\mathrm{d}^3 r\mathrm{d}p
+\]</span> 其中微分数密度 <span class="math inline">\(n_p\)</span> 定义为 <span class="math inline">\(\mathbf{r}\)</span> 附近 <span class="math inline">\(\mathrm{d}^3 r\)</span> 内、动量位于 <span class="math inline">\((p, p+\mathrm{d}p)\)</span> 区间的粒子数： <span class="math display">\[
+n_p(\mathbf{r}, p, t) = 4\pi p^2 f(\mathbf{r}, p, t)
+\]</span> 其单位为［每单位体积、每单位动量的粒子数］。注意，有些作者（例如 Riaan Steenkamp 的 CERN 讲义）将这一量记为 <span class="math inline">\(U_p\)</span>。</p>
+<p>探测器测量的不是 <span class="math inline">\(n_p\)</span>，而是微分强度。若粒子速度大小为 <span class="math inline">\(v\)</span>，则微分强度为 <span class="math display">\[
+j_p = v\, n_p
+\]</span> 其单位为［粒子数 / 单位动量 / 单位面积 / 单位时间］，表示从所有方向穿过探测器的粒子。 通常将它归一化到单位立体角： <span class="math display">\[
+j_p = \frac{v\, n_p}{4\pi}
+\]</span> 单位为［粒子数 / 单位动量 / 单位面积 / 单位时间 / 单位弧度］。实际测量通常按动能区间 <span class="math inline">\(\mathrm{d}T\)</span> 而不是动量区间 <span class="math inline">\(\mathrm{d}p\)</span> 进行。</p>
+<p>由能量与动量的关系 <span class="math display">\[
+E^2 = p^2 c^2 + E_0^2 = (p\,c)^2 + (m_0\,c^2)^2
+\]</span> 及能量守恒 <span class="math display">\[
+E = E_0 + T
+\]</span> 和 <span class="math inline">\(p=\gamma m_0 v\)</span>，可得 <span class="math display">\[
+\frac{\mathrm{d}E}{\mathrm{d}p} = \frac{E}{pc^2}, \quad \mathrm{d}T = \mathrm{d}E
+\]</span> <span class="math display">\[
+\frac{\mathrm{d}E}{\mathrm{d}p} = \frac{\mathrm{d}T}{\mathrm{d}p} = \frac{1}{v}
+\]</span></p>
+<p>由于这两种方式描述的是同一批粒子，因此 <span class="math inline">\(j_T\mathrm{d}T = j_p\mathrm{d}p\)</span>，并且 <span class="math display">\[
+j_T = j_p \frac{\mathrm{d}p}{\mathrm{d}T} = \frac{1}{v}j_p
+\]</span></p>
+<p>现在可以总结以下重要关系： <span class="math display">\[
+j_T = \frac{n_p}{4\pi} = p^2 f(\mathbf{r}, p, t)
+\]</span> 即实验测得的微分强度与理论研究中使用的 <span class="math inline">\(n_p\)</span> 和 <span class="math inline">\(f\)</span> 之间存在简单关系。</p>
+</section>
+<section id="宇宙射线连续性方程" class="level2" data-number="28.2">
+<h2 data-number="28.2" class="anchored" data-anchor-id="宇宙射线连续性方程"><span class="header-section-number">28.2</span> 宇宙射线连续性方程</h2>
+<p>考虑分布函数 <span class="math inline">\(F(\mathbf{r}, \mathbf{p}, t)\)</span> 的全时间导数： <span class="math display">\[
+\frac{\mathrm{d}F}{\mathrm{d}t} = \frac{\partial F}{\partial t} + \mathbf{v}\cdot\nabla F + \dot{\mathbf{p}}\cdot\nabla_p F
+\]</span> 其中 <span class="math inline">\(\nabla_p\)</span> 是动量空间中的梯度算符。对动量空间的所有方向积分得 <span class="math display">\[
+\int_\Omega \frac{\mathrm{d}F}{\mathrm{d}t} \mathrm{d}\Omega = \int_\Omega \left(\frac{\partial F}{\partial t} + \mathbf{v}\cdot\nabla F + \dot{\mathbf{p}}\cdot\nabla_p F \right)\mathrm{d}\Omega
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\int_\Omega \frac{\mathrm{d}F}{\mathrm{d}t} \mathrm{d}\Omega = \frac{\mathrm{d}}{\mathrm{d}t}\int F \mathrm{d}\Omega = 4\pi \frac{\mathrm{d}f}{\mathrm{d}t} \\
+\int_\Omega \frac{\partial F}{\partial t} \mathrm{d}\Omega = \frac{\mathrm{d}}{\mathrm{d}t}\int F \mathrm{d}\Omega = 4\pi \frac{\partial f}{\partial t}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+4\pi \frac{\mathrm{d}f}{\mathrm{d}t} = 4\pi \frac{\partial f}{\partial t} + \int_\Omega \mathbf{v}\cdot\nabla F \mathrm{d}\Omega + \int_\Omega \dot{\mathbf{p}}\cdot\nabla_p F \mathrm{d}\Omega
+\]</span></p>
+<p>接下来需要计算右侧的第二项和第三项。先看 <span class="math inline">\(x\)</span> 分量： <span class="math display">\[
+\begin{aligned}
+\int_\Omega v_x\frac{\partial F}{\partial x}\mathrm{d}\Omega &amp;= \int_\Omega \left[ \frac{\partial}{\partial x}\left( v_x F \right) - \cancel{\frac{\partial v_x}{\partial x}}F \right] \\
+&amp;= \frac{\partial}{\partial x} \int_\Omega v_x F\mathrm{d}\Omega
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\left&lt; v_x \right&gt; = \frac{\int_\Omega v_x F\mathrm{d}\Omega}{\int_\Omega F\mathrm{d}\Omega} = \frac{1}{4\pi f}\int_\Omega v_x F\mathrm{d}\Omega \\
+4\pi f \left&lt; v_x \right&gt; = \int_\Omega v_x F\mathrm{d}\Omega
+\end{aligned}
+\]</span> 因此 <span class="math display">\[
+\int_\Omega v_x\frac{\partial F}{\partial x}\mathrm{d}\Omega = 4\pi \frac{\partial}{\partial x}\left( \left&lt; v_x \right&gt; f \right)
+\]</span></p>
+<p>推广到完整的三维矢量算符，得到第二项的表达式： <span class="math display">\[
+\int_\Omega \mathbf{v}\cdot\nabla F \mathrm{d}\Omega = 4\pi \nabla\cdot \left( \left&lt; \mathbf{v} \right&gt; f \right)
+\]</span></p>
+<p>第三项更复杂： <span class="math display">\[
+\begin{aligned}
+\int_\Omega \dot{\mathbf{p}}\cdot\nabla_p F\mathrm{d}\Omega &amp;= \int_\Omega \left[ \nabla_p\cdot\left( \dot{\mathbf{p}}F - F\nabla_p \cdot\dot{\mathbf{p}} \right) \right] \mathrm{d}\Omega  \\
+&amp;= \int_\Omega \nabla_p\cdot\left( \dot{\mathbf{p}}F\right) \mathrm{d}\Omega
+\end{aligned}
+\]</span> 因为电磁力包含叉积 <span class="math inline">\(\dot{\mathbf{p}} = q\left( \mathbf{E} + \mathbf{p}\times\mathbf{B}/m \right)\)</span>，所以 <span class="math inline">\(\nabla_p \cdot\dot{\mathbf{p}} = 0\)</span>。</p>
+<p>利用高斯定理： <span class="math display">\[
+\int \nabla_p\cdot\left( \dot{\mathbf{p}F}\right) \mathrm{d}^3 p = \int_\Omega \left( \dot{\mathbf{p}}F\right)\cdot\hat{e}_p p^2\mathrm{d}\Omega = \int_\Omega p^2\dot{p}F \mathrm{d}\Omega
+\]</span></p>
+<p>如果将上式从 <span class="math inline">\(p\)</span> 积分到 <span class="math inline">\(p+\mathrm{d}p\)</span>，则 <span class="math display">\[
+\begin{aligned}
+\int_{p}^{p+\mathrm{d}p} \nabla_p\cdot\left( \dot{\mathbf{p}F}\right) \mathrm{d}^3 p &amp;= \int_{\Omega, p+\mathrm{d}p} p^2\dot{p}F \mathrm{d}\Omega - \int_{\Omega,p} p^2\dot{p}F \mathrm{d}\Omega \\
+&amp;= 4\pi \left[ \left( p^2\dot{p} f \right)_{p+\mathrm{d}p} - \left( p^2\dot{p} f \right)_{p} \right] \\
+&amp;= 4\pi \frac{\partial}{\partial p}\left( p^2\dot{p} f \right)\mathrm{d}p
+\end{aligned}
+\]</span></p>
+<p>因此 <span class="math display">\[
+\begin{aligned}
+\int_\Omega \dot{\mathbf{p}}\cdot\nabla_p F\mathrm{d}\Omega &amp;= \int_\Omega \nabla_p \cdot \left( \dot{\mathbf{p} F}\right) \mathrm{d}\Omega \\
+&amp;= \frac{1}{p^2\mathrm{d}p}\int \nabla_p\cdot\left( \dot{\mathbf{p}F}\right) \mathrm{d}^3 p = \frac{4\pi}{p^2}\frac{\partial}{\partial p}\left( p^2\left&lt;\dot{p}\right&gt; f \right)
+\end{aligned}
+\]</span> 最终得到 <span class="math display">\[
+4\pi \frac{\mathrm{d}f}{\mathrm{d}t} = 4\pi \frac{\partial f}{\partial t} + 4\pi \nabla\cdot \left( \left&lt; \mathbf{v} \right&gt; f \right) + \frac{4\pi}{p^2}\frac{\partial}{\partial p}\left( p^2\left&lt;\dot{p}\right&gt; f \right)
+\]</span> 或者利用 <span class="math inline">\(n_p=4\pi p^2 f\)</span> 得到 <span class="math display">\[
+\frac{\mathrm{d}n_p}{\mathrm{d}t} = \frac{\partial n_p}{\partial t} + \nabla\cdot\mathbf{S}_p + \frac{\partial}{\partial p}\left( \left&lt; \dot{p} \right&gt; n_p \right)
+\]</span> 其中 <span class="math inline">\(\mathbf{S}_p = \left&lt; \mathbf{v} \right&gt; n_p\)</span> 是微分通量。通常 <span class="math inline">\(\frac{\mathrm{d}n_p}{\mathrm{d}t} = 0\)</span>，上式就是连续性方程。若存在源或汇 <span class="math inline">\(Q_p\)</span>，则可写为 <span id="eq-cr-transport"><span class="math display">\[
+\frac{\partial n_p}{\partial t} + \nabla\cdot\mathbf{S}_p + \frac{\partial}{\partial p}\left( \left&lt; \dot{p} \right&gt; n_p \right) = Q_p
+\tag{28.1}\]</span></span> 上述宇宙射线连续性方程通常称为<strong>输运方程</strong>。</p>
+</section>
+<section id="parker-输运方程" class="level2" data-number="28.3">
+<h2 data-number="28.3" class="anchored" data-anchor-id="parker-输运方程"><span class="header-section-number">28.3</span> Parker 输运方程</h2>
+<p>Parker 输运方程的假设：</p>
+<ul>
+<li>导引中心近似：宇宙射线绕磁力线快速回旋。我们关注的是其导引中心的运动。</li>
+<li>扩散近似：散射足够频繁，使分布函数 <span class="math inline">\(f\)</span> 在局部等离子体静止系中近似各向同性。</li>
+<li>太阳风参考系：我们通常在以太阳风（或背景等离子体）速度 <span class="math inline">\(\mathbf{U}_\text{sw}\)</span> 运动的参考系中研究。</li>
+<li>太阳风参考系中可忽略的大尺度电场：在与理想导电太阳风共同运动的参考系中，通常假设大尺度电场为零，即 <span class="math inline">\(\mathbf{E}^\prime = \mathbf{E} + \mathbf{U}_\text{sw} \times \mathbf{B} \approx 0\)</span>。这意味着 <span class="math inline">\(\mathbf{E}\approx -\mathbf{U}_\text{sw} \times \mathbf{B}\)</span>。</li>
+<li>全向分布函数：我们通常关心全向分布函数 <span class="math inline">\(f_0(\mathbf{x},p,t)\)</span>，即在等离子体参考系中对 <span class="math inline">\(f\)</span> 的所有动量方向取平均。或者，更常用的是微分数密度 <span class="math inline">\(n_p(\mathbf{x},p,t)=4\pi p^2\,f_0(\mathbf{x},p,t)\)</span>（单位体积、单位动量大小内的粒子数），或 <span class="math inline">\(N(\mathbf{x},T,t)\)</span>（相对于动能 <span class="math inline">\(T\)</span> 的微分强度）。</li>
+</ul>
+<p>在实验室参考系中，由于流动和扩散，分布函数 <span class="math inline">\(f\)</span> 并非完全各向同性。可以将其展开为： <span class="math display">\[
+f(\mathbf{x}, \mathbf{p}, t) = f_0(\mathbf{x}, p, t) + f_1(\mathbf{x}, \mathbf{p}, t) + ...
+\]</span> 其中 <span class="math inline">\(f_0\)</span> 是各向同性部分，<span class="math inline">\(f_1\)</span> 是一阶各向异性， <span id="eq-cr-anisotropy"><span class="math display">\[
+f_1 = -\frac{\mathbf{p}}{p}\cdot \pmb{\xi}(\mathbf{x}, p, t)
+\tag{28.2}\]</span></span> 其中 <span class="math inline">\(\pmb{\xi}\)</span> 是各向异性矢量。粒子通量（或流）<span class="math inline">\(\mathbf{S}_\text{cr}\)</span> 与这一各向异性有关；见 <a href="#sec-parker-derivation" class="quarto-xref"><span>小节 28.3.1</span></a>。</p>
+<p>碰撞项描述宇宙射线受到磁场不规则结构的散射。在扩散近似下，这种散射倾向于使等离子体静止系中的分布各向同性化。这一过程导致空间扩散。等离子体参考系中的扩散通量 <span class="math inline">\(\mathbf{S}_\text{diff}\)</span> 由菲克定律给出： <span class="math display">\[
+\mathbf{S}_\text{diff} = - \pmb{\kappa}\cdot\nabla f_0
+\]</span> 其中 <span class="math inline">\(\pmb{\kappa}\)</span> 是扩散张量。用微分数密度 <span class="math inline">\(n_p = 4\pi p^2 f_0\)</span> 表示时，同一关系写为 <span class="math inline">\(\mathbf{S}_p = -\pmb{\kappa}\cdot\nabla n_p\)</span>。扩散张量通常具有各向异性： <span class="math display">\[
+\kappa_{ij} = \kappa_\parallel b_i b_j + \kappa_\perp(\delta_{ij} - b_i b_j) + \kappa_A \epsilon_{ijk} b_k
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\kappa_\parallel\)</span> 是平行于平均磁场方向 <span class="math inline">\(\mathbf{b}\)</span> 的扩散系数。</li>
+<li><span class="math inline">\(\kappa_\perp\)</span> 是垂直于 <span class="math inline">\(\mathbf{b}\)</span> 的扩散系数。</li>
+<li><span class="math inline">\(\kappa_A\)</span> 是扩散张量的反对称部分，描述梯度和曲率漂移。</li>
+</ul>
+<p>从动理学方程出发，对俯仰角取平均（假设等离子体参考系中近似各向同性），可以导出 <span class="math inline">\(f_0\)</span> 的方程。这是一个漫长的过程（例如参见 Schlickeiser 2002，《Cosmic Ray Astrophysics》，或 Parker 1965）。关键步骤是</p>
+<ul>
+<li>将动理学方程变换到等离子体参考系；</li>
+<li>在等离子体参考系的动量空间中展开 <span class="math inline">\(f\)</span>（<span class="math inline">\(f = f_0 + f_1 + ...\)</span>）；</li>
+<li>对动理学方程取零阶矩（对动量空间中的立体角积分），得到输运方程；</li>
+<li>取一阶矩，得到各向异性部分 <span class="math inline">\(f_1\)</span>（流）的关系式。</li>
+</ul>
+<p>这些步骤在 <a href="#sec-parker-derivation" class="quarto-xref"><span>小节 28.3.1</span></a> 中详细展开。</p>
+<section id="sec-parker-derivation" class="level3" data-number="28.3.1">
+<h3 data-number="28.3.1" class="anchored" data-anchor-id="sec-parker-derivation"><span class="header-section-number">28.3.1</span> Parker 输运方程的推导</h3>
+<p>Parker 输运方程描述高能带电粒子（如宇宙射线）在以整体速度 <span class="math inline">\(\mathbf{U}(\mathbf{x}, t)\)</span> 运动的背景等离子体中受到磁涨落散射时的相空间演化。标准推导过程是：以混合坐标写出动理学方程，采用准各向同性俯仰角展开，然后取角度矩。</p>
+<p><strong>1. 混合坐标下的动理学方程</strong></p>
+<p>设 <span class="math inline">\(\mathbf{x}\)</span> 和 <span class="math inline">\(t\)</span> 表示固定观测者（惯性）参考系中的位置和时间，<span class="math inline">\(\mathbf{p} = \gamma m\mathbf{v}\)</span> 表示在局部等离子体静止系中计算的相对论粒子动量，其中 <span class="math inline">\(m\)</span> 是粒子静质量，<span class="math inline">\(\mathbf{v}\)</span> 是流体参考系中的粒子速度，<span class="math inline">\(\gamma = (1 - v^2/c^2)^{-1/2}\)</span> 是相应的洛伦兹因子。选择流体参考系是因为磁湍流导致的共振俯仰角散射主要使高能粒子相对于运动的等离子体各向同性化。</p>
+<p>假设背景流是非相对论性的（<span class="math inline">\(U \ll c\)</span>），且粒子速度远大于流速（<span class="math inline">\(U \ll v\)</span>），则观测者参考系动量 <span class="math inline">\(\mathbf{p}_\text{obs}\)</span> 与流体参考系动量 <span class="math inline">\(\mathbf{p}\)</span> 之间的洛伦兹变换在 <span class="math inline">\(U/v\)</span> 一阶近似下化为 <span class="math display">\[
+\mathbf{p}_\text{obs} \approx \mathbf{p} + \frac{E}{c^2}\mathbf{U} = \mathbf{p} + \gamma m\mathbf{U}
+\]</span> 其中 <span class="math inline">\(E = \gamma mc^2\)</span> 是粒子在流体参考系中的能量。沿粒子轨道对该关系求导，得到流体参考系中动量的变化率， <span id="eq-cr-pdot-mixed"><span class="math display">\[
+\dot{\mathbf{p}} = \frac{\mathrm{d}\mathbf{p}_\text{obs}}{\mathrm{d}t} - \gamma m\frac{\mathrm{d}\mathbf{U}}{\mathrm{d}t}
+\tag{28.3}\]</span></span> 在惯性系中，粒子运动遵循精确的洛伦兹力方程， <span class="math display">\[
+\frac{\mathrm{d}\mathbf{p}_\text{obs}}{\mathrm{d}t} = q\left( \mathbf{E}_\text{obs} + \mathbf{v}_\text{obs}\times\mathbf{B} \right)
+\]</span> 在理想 MHD 近似下，局部等离子体静止系中的电场为零（<span class="math inline">\(\mathbf{E}^\prime = 0\)</span>），因此观测者参考系中的电场纯粹由感应产生，<span class="math inline">\(\mathbf{E}_\text{obs} = -\mathbf{U}\times\mathbf{B}\)</span>。将 <span class="math inline">\(\mathbf{v}_\text{obs} \approx \mathbf{v} + \mathbf{U}\)</span> 代入洛伦兹力得到 <span class="math display">\[
+\frac{\mathrm{d}\mathbf{p}_\text{obs}}{\mathrm{d}t} = q\left( -\mathbf{U}\times\mathbf{B} + \left( \mathbf{v} + \mathbf{U} \right)\times\mathbf{B} \right) = q\left( \mathbf{v}\times\mathbf{B} \right)
+\]</span> 因此宏观运动电场完全抵消。由于 <span class="math inline">\(q(\mathbf{v}\times\mathbf{B})\)</span> 严格垂直于流体参考系中的速度 <span class="math inline">\(\mathbf{v}\)</span>，它在流体参考系中不对粒子做功，也不能改变动量大小 <span class="math inline">\(p = \vert\mathbf{p}\vert\)</span>。</p>
+<p>将磁场分解为大尺度引导场和湍流涨落，<span class="math inline">\(\mathbf{B} = \mathbf{B}_0 + \delta\mathbf{B}\)</span>，两种磁场贡献采用不同处理方式。大尺度部分 <span class="math inline">\(q(\mathbf{v}\times\mathbf{B}_0)\)</span> 仅产生绕平均场的回旋：它在固定 <span class="math inline">\(p\)</span> 下旋转 <span class="math inline">\(\hat{\mathbf{p}}\)</span>，在导引中心层次，其净效应归入漂移和垂直扩散系数。由 <span class="math inline">\(\delta\mathbf{B}\)</span> 产生的快速随机偏转则从平滑的相空间平流中分离出来，吸收到右侧的有效碰撞算符中， <span class="math display">\[
+-q\left( \mathbf{v}\times\delta\mathbf{B} \right)\cdot\frac{\partial f}{\partial \mathbf{p}} \longrightarrow \left( \frac{\delta f}{\delta t} \right)_\text{coll}
+\]</span> 因此，<a href="#eq-cr-pdot-mixed" class="quarto-xref">式&nbsp;<span>28.3</span></a> 中剩余的长期动量变化完全由背景流空间变化所产生的惯性力驱动， <span class="math display">\[
+\dot{\mathbf{p}}_\text{inertial} = -\gamma m\frac{\mathrm{d}\mathbf{U}}{\mathrm{d}t} = -\gamma m\left[ \frac{\partial \mathbf{U}}{\partial t} + \left( \mathbf{v}_\text{obs}\cdot\nabla \right)\mathbf{U} \right]
+\]</span> 对于 <span class="math inline">\(v \gg U\)</span> 的高能粒子，粒子穿过流体梯度的速率超过局部流体加速率，因此 <span class="math inline">\(\mathrm{d}\mathbf{U}/\mathrm{d}t \approx (\mathbf{v}\cdot\nabla)\mathbf{U}\)</span>；利用 <span class="math inline">\(\mathbf{p} = \gamma m\mathbf{v}\)</span>，惯性变化率简化为 <span id="eq-cr-pdot-inertial"><span class="math display">\[
+\dot{\mathbf{p}} = -(\mathbf{p}\cdot\nabla)\mathbf{U}
+\tag{28.4}\]</span></span> 汇总沿 <span class="math inline">\(\mathbf{v}_\text{obs} = \mathbf{U} + \mathbf{v}\)</span> 的空间输运、动量空间中的惯性力及湍流散射算符，混合坐标下的动理学方程为 <span id="eq-cr-kinetic-mixed"><span class="math display">\[
+\frac{\partial f}{\partial t} + (\mathbf{U} + \mathbf{v})\cdot\nabla f + \dot{\mathbf{p}}\cdot\nabla_{\mathbf{p}} f = \left( \frac{\delta f}{\delta t} \right)_\text{coll}
+\tag{28.5}\]</span></span> 将 <a href="#eq-cr-pdot-inertial" class="quarto-xref">式&nbsp;<span>28.4</span></a> 中的 <span class="math inline">\(\dot{\mathbf{p}}\)</span> 代入，得到 <span id="eq-cr-kinetic-mixed-force"><span class="math display">\[
+\frac{\partial f}{\partial t} + (\mathbf{U} + \mathbf{v})\cdot\nabla f - \left[ (\mathbf{p}\cdot\nabla)\mathbf{U} \right]\cdot\frac{\partial f}{\partial \mathbf{p}} = \left( \frac{\delta f}{\delta t} \right)_\text{coll}
+\tag{28.6}\]</span></span></p>
+<p><strong>2. 俯仰角展开</strong></p>
+<p>在频繁的俯仰角散射下，分布函数在流体参考系中保持近似各向同性。将 <span class="math inline">\(f(\mathbf{x}, \mathbf{p}, t)\)</span> 按球谐函数展开至一阶各向异性（偶极矩），得到 <span class="math display">\[
+f(\mathbf{x}, \mathbf{p}, t) \approx f_0(\mathbf{x}, p, t) + \hat{\mathbf{p}}\cdot\mathbf{f}_1(\mathbf{x}, p, t)
+\]</span> 其中 <span class="math inline">\(\hat{\mathbf{p}} = \mathbf{p}/p\)</span>，<span class="math inline">\(f_0 = \left&lt; f \right&gt; = \frac{1}{4\pi}\int f\,\mathrm{d}\Omega\)</span> 是各向同性部分，且 <span class="math inline">\(\vert\mathbf{f}_1\vert \ll f_0\)</span>。与 <a href="#eq-cr-anisotropy" class="quarto-xref">式&nbsp;<span>28.2</span></a> 的展开式比较，那里引入的各向异性矢量为 <span class="math inline">\(\pmb{\xi} = -\mathbf{f}_1\)</span>。</p>
+<p>用俯仰角扩散算符对散射项建模，或者采用弛豫时间近似， <span class="math display">\[
+\left( \frac{\delta f}{\delta t} \right)_\text{coll} \approx -\nu\,\hat{\mathbf{p}}\cdot\mathbf{f}_1
+\]</span> 其中 <span class="math inline">\(\nu(p)\)</span> 是散射的有效碰撞频率。弛豫时间形式已经给出正确的结构；求解完整的俯仰角扩散算符只会改变 <span class="math inline">\(\nu\)</span> 与空间扩散系数之间的数值关系。</p>
+<p><strong>3. 零阶矩与一阶矩</strong></p>
+<p>利用以下恒等式，计算对动量方向 <span class="math inline">\(\hat{\mathbf{p}}\)</span> 的角平均 <span class="math inline">\(\left&lt; \dots \right&gt; \equiv \frac{1}{4\pi}\int \dots \,\mathrm{d}\Omega\)</span> <span class="math display">\[
+\left&lt; \hat{p}_i \right&gt; = 0, \quad \left&lt; \hat{p}_i \hat{p}_j \right&gt; = \frac{1}{3}\delta_{ij}, \quad \left&lt; \hat{p}_i \hat{p}_j \hat{p}_k \right&gt; = 0
+\]</span></p>
+<p><strong>平均规则：哪些量被平均，哪些不被平均。</strong> 这一步最容易造成混淆，因此在使用之前明确列出规则：</p>
+<ul>
+<li>只对动量<em>方向</em> <span class="math inline">\(\hat{\mathbf{p}}\)</span> 取平均。所有不依赖 <span class="math inline">\(\hat{\mathbf{p}}\)</span> 的量在平均中保持不变：位置 <span class="math inline">\(\mathbf{x}\)</span>、时间 <span class="math inline">\(t\)</span>、动量大小 <span class="math inline">\(p\)</span>、各向同性部分 <span class="math inline">\(f_0\)</span>、整体速度 <span class="math inline">\(\mathbf{U}\)</span> 及其空间导数，以及偶极矢量 <span class="math inline">\(\mathbf{f}_1\)</span>（它依赖于 <span class="math inline">\(\mathbf{x}\)</span>、<span class="math inline">\(p\)</span>、<span class="math inline">\(t\)</span>，但不依赖 <span class="math inline">\(\hat{\mathbf{p}}\)</span>）。对于任何这样的量 <span class="math inline">\(A\)</span> 和任何方向函数 <span class="math inline">\(g(\hat{\mathbf{p}})\)</span>，有 <span class="math inline">\(\left&lt; A\,g(\hat{\mathbf{p}}) \right&gt; = A\left&lt; g(\hat{\mathbf{p}}) \right&gt;\)</span>。</li>
+<li>角度依赖恰好出现在三个地方：展开式中显式的 <span class="math inline">\(\hat{\mathbf{p}}\)</span> 因子、粒子速度 <span class="math inline">\(\mathbf{v} = v\hat{\mathbf{p}}\)</span>，以及对 <span class="math inline">\(\mathbf{p}\)</span> 的导数。</li>
+<li>空间梯度作用于 <span class="math inline">\(\mathbf{x}\)</span> 依赖，而不作用于 <span class="math inline">\(\hat{\mathbf{p}}\)</span>；<span class="math inline">\(\hat{\mathbf{p}}\)</span> 因子不受影响，可直接从平均中提出，例如 <span class="math inline">\(\nabla_i\left( f_0 + \hat{p}_j f_{1,j} \right) = \nabla_i f_0 + \hat{p}_j\nabla_i f_{1,j}\)</span>。</li>
+<li>动量空间梯度的行为不同。由于 <span class="math inline">\(f_0\)</span> 仅通过动量大小 <span class="math inline">\(p = \vert\mathbf{p}\vert\)</span> 依赖于 <span class="math inline">\(\mathbf{p}\)</span>，链式法则会产生一个 <span class="math inline">\(\hat{\mathbf{p}}\)</span> 因子， <span class="math display">\[
+\frac{\partial f_0}{\partial p_k} = \frac{\partial p}{\partial p_k}\frac{\partial f_0}{\partial p} = \hat{p}_k\frac{\partial f_0}{\partial p}
+\]</span> 换句话说，<span class="math inline">\(\partial/\partial\mathbf{p}\)</span> 作用于各向同性函数时仍会产生偶极（依赖于 <span class="math inline">\(\hat{\mathbf{p}}\)</span>）结果，而 <span class="math inline">\(\nabla\)</span> 作用于同一函数时则不会。遗漏这一因子是推导中最常见的错误。</li>
+<li>只有 <span class="math inline">\(\hat{\mathbf{p}}\)</span> 的偶数次幂保留下来；所有奇数阶矩均为零。因此，任何含有单个未缩并 <span class="math inline">\(\hat{\mathbf{p}}\)</span> 的项都会从零阶矩中消失，而含三个 <span class="math inline">\(\hat{\mathbf{p}}\)</span> 因子的项会从一阶矩中消失。这就是方程层级恰好在各向异性一阶闭合的原因：二阶（四极）项不会进入 <span class="math inline">\(f_0\)</span> 和 <span class="math inline">\(\mathbf{f}_1\)</span> 的方程。</li>
+</ul>
+<p><strong>零阶矩（各向同性部分）。</strong> 对 <a href="#eq-cr-kinetic-mixed-force" class="quarto-xref">式&nbsp;<span>28.6</span></a> 在所有立体角上取平均，得到 <span class="math display">\[
+\left&lt; \frac{\partial f}{\partial t} \right&gt; + \mathbf{U}\cdot\nabla\left&lt; f \right&gt; + \left&lt; \mathbf{v}\cdot\nabla f \right&gt; - \left&lt; \left[ (\mathbf{p}\cdot\nabla)\mathbf{U} \right]\cdot\frac{\partial f}{\partial \mathbf{p}} \right&gt; = 0
+\]</span> 平均基本不改变对流项：由于 <span class="math inline">\(\mathbf{U}\)</span> 和 <span class="math inline">\(\nabla\)</span> 不依赖于 <span class="math inline">\(\hat{\mathbf{p}}\)</span>，直接有 <span class="math inline">\(\left&lt; \mathbf{U}\cdot\nabla f \right&gt; = \mathbf{U}\cdot\nabla\left&lt; f \right&gt; = \mathbf{U}\cdot\nabla f_0\)</span>，因为 <span class="math inline">\(\left&lt; \hat{\mathbf{p}} \right&gt; = 0\)</span> 消去了偶极部分。其余两项计算如下：</p>
+<ul>
+<li><span class="math inline">\(\left&lt; \mathbf{v}\cdot\nabla f \right&gt; = \left&lt; v\hat{p}_i \nabla_i \left( f_0 + \hat{p}_j f_{1,j} \right) \right&gt; = v\left&lt; \hat{p}_i \right&gt;\nabla_i f_0 + v\left&lt; \hat{p}_i\hat{p}_j \right&gt;\nabla_i f_{1,j} = \frac{v}{3}\nabla\cdot\mathbf{f}_1\)</span>，即只有偶极部分的流保留下来；</li>
+<li>对于动量导数，写出 <span class="math inline">\(\left[ (\mathbf{p}\cdot\nabla)\mathbf{U} \right]_k = p\hat{p}_i\,\partial U_k/\partial x_i\)</span>，其中 <span class="math inline">\(\partial U_k/\partial x_i\)</span> 不依赖于 <span class="math inline">\(\hat{\mathbf{p}}\)</span>，并对各向同性部分使用 <span class="math inline">\(\partial f_0/\partial p_k = \hat{p}_k\,\partial f_0/\partial p\)</span>， <span class="math display">\[
+\left&lt; p\,\hat{p}_i \frac{\partial U_k}{\partial x_i} \frac{\partial f}{\partial p_k} \right&gt; \approx \frac{\partial U_k}{\partial x_i} \left&lt; \hat{p}_i \hat{p}_k \right&gt; p\frac{\partial f_0}{\partial p} = \frac{1}{3}(\nabla\cdot\mathbf{U})\,p\frac{\partial f_0}{\partial p}
+\]</span> 其中舍去了 <span class="math inline">\(\partial(\hat{\mathbf{p}}\cdot\mathbf{f}_1)/\partial p_k\)</span> 的贡献，因为它小了 <span class="math inline">\(\mathcal{O}(f_1/f_0)\)</span>。</li>
+</ul>
+<p>因此零阶矩方程化为 <span id="eq-cr-zeroth-moment"><span class="math display">\[
+\frac{\partial f_0}{\partial t} + \mathbf{U}\cdot\nabla f_0 + \frac{v}{3}\nabla\cdot\mathbf{f}_1 - \frac{1}{3}(\nabla\cdot\mathbf{U})\,p\frac{\partial f_0}{\partial p} = 0
+\tag{28.7}\]</span></span> 它已经具有输运方程的结构，只是通量 <span class="math inline">\(\frac{v}{3}\mathbf{f}_1\)</span> 仍然未知。</p>
+<p><strong>一阶矩（偶极各向异性）。</strong> 将 <a href="#eq-cr-kinetic-mixed-force" class="quarto-xref">式&nbsp;<span>28.6</span></a> 乘以 <span class="math inline">\(\hat{\mathbf{p}}\)</span> 并对立体角取平均，使各向同性部分的流与散射项平衡。所有其他贡献均被舍去，值得列出原因：</p>
+<ul>
+<li>舍去 <span class="math inline">\(\left&lt; \hat{\mathbf{p}}\,\partial f/\partial t \right&gt; = \frac{1}{3}\partial\mathbf{f}_1/\partial t\)</span>：各向异性在散射时间 <span class="math inline">\(1/\nu\)</span> 内弛豫，远短于 <span class="math inline">\(f_0\)</span> 演化的输运时间尺度，因此 <span class="math inline">\(\mathbf{f}_1\)</span> 是准稳态的；</li>
+<li><span class="math inline">\(\left&lt; \hat{\mathbf{p}}\left( \mathbf{U}\cdot\nabla f \right) \right&gt; = \frac{1}{3}\left( \mathbf{U}\cdot\nabla \right)\mathbf{f}_1\)</span> 的量级为 <span class="math inline">\(\mathcal{O}(U/v\cdot f_1)\)</span>，因此舍去；</li>
+<li><span class="math inline">\(\left&lt; \hat{\mathbf{p}}\left( \mathbf{v}\cdot\nabla \right)\left( \hat{\mathbf{p}}\cdot\mathbf{f}_1 \right) \right&gt; \propto \left&lt; \hat{p}_i\hat{p}_j\hat{p}_k \right&gt; = 0\)</span> 恒为零，因此不产生四极项；</li>
+<li>惯性项 <span class="math inline">\(\left&lt; \hat{\mathbf{p}}\left[ (\mathbf{p}\cdot\nabla)\mathbf{U} \right]\cdot\partial f/\partial\mathbf{p} \right&gt;\)</span> 要么作为奇数阶矩而消失（对于 <span class="math inline">\(f_0\)</span> 部分），要么小了 <span class="math inline">\(\mathcal{O}(U/v)\)</span>，同样被舍去。</li>
+</ul>
+<p>剩下的是各向同性部分的流与碰撞相平衡， <span class="math display">\[
+\left&lt; \hat{\mathbf{p}}\left( \mathbf{v}\cdot\nabla f_0 \right) \right&gt; = \frac{v}{3}\nabla f_0 = -\nu\left&lt; \hat{\mathbf{p}}\left( \hat{\mathbf{p}}\cdot\mathbf{f}_1 \right) \right&gt; = -\frac{\nu}{3}\mathbf{f}_1
+\]</span> 求解 <span class="math inline">\(\mathbf{f}_1\)</span>， <span class="math display">\[
+\mathbf{f}_1 = -\frac{v}{\nu}\nabla f_0
+\]</span> 空间扩散系数定义为 <span class="math inline">\(\kappa = \frac{v^2}{3\nu}\)</span>。在具有各向异性散射和磁漂移的磁化等离子体中，它推广为扩散张量 <span class="math inline">\(\pmb{\kappa}\)</span>，因此 <span class="math display">\[
+\frac{v}{3}\mathbf{f}_1 = -\pmb{\kappa}\cdot\nabla f_0
+\]</span> 乘以 <span class="math inline">\(4\pi p^2\)</span> 得到粒子通量 <span class="math inline">\(\mathbf{S}_p = 4\pi p^2\frac{v}{3}\mathbf{f}_1 = -\pmb{\kappa}\cdot\nabla n_p\)</span>，这恰好是上面的菲克定律，其中 <span class="math inline">\(\pmb{\xi} = -\mathbf{f}_1 = \frac{3}{v}\pmb{\kappa}\cdot\nabla f_0\)</span>。</p>
+<p><strong>4. Parker 输运方程</strong></p>
+<p>将 <span class="math inline">\(\frac{v}{3}\mathbf{f}_1 = -\pmb{\kappa}\cdot\nabla f_0\)</span> 代入零阶矩方程，得到 <span class="math display">\[
+\frac{\partial f_0}{\partial t} + \mathbf{U}\cdot\nabla f_0 = \nabla\cdot\left( \pmb{\kappa}\cdot\nabla f_0 \right) + \frac{1}{3}(\nabla\cdot\mathbf{U})\,p\frac{\partial f_0}{\partial p}
+\]</span> 或者写成守恒通量形式， <span class="math display">\[
+\frac{\partial f_0}{\partial t} = \nabla\cdot\left( \pmb{\kappa}\cdot\nabla f_0 - \mathbf{U}f_0 \right) + \frac{1}{3}(\nabla\cdot\mathbf{U})\frac{1}{p^2}\frac{\partial}{\partial p}\left( p^3 f_0 \right) + Q
+\]</span> 其中 <span class="math inline">\(Q(\mathbf{x}, p, t)\)</span> 是局部源（或注入）项。</p>
+<p><strong>各项的物理解释</strong></p>
+<ul>
+<li><span class="math inline">\(\nabla\cdot\left( \pmb{\kappa}\cdot\nabla f_0 \right)\)</span>：由磁场不规则结构引起的共振俯仰角散射造成的空间扩散（以及漂移和垂直输运）。</li>
+<li><span class="math inline">\(\mathbf{U}\cdot\nabla f_0\)</span>：粒子随流体整体流动的对流。</li>
+<li><span class="math inline">\(\frac{1}{3}(\nabla\cdot\mathbf{U})\,p\frac{\partial f_0}{\partial p}\)</span>：绝热能量变化。对于太阳风等膨胀流（<span class="math inline">\(\nabla\cdot\mathbf{U} &gt; 0\)</span>），它表示绝热减速；在 <span class="math inline">\(\nabla\cdot\mathbf{U} &lt; 0\)</span> 的激波处，它提供扩散激波加速。</li>
+</ul>
+<p>全向分布函数 <span class="math inline">\(f_0(\mathbf{x}, p, t)\)</span> 的 Parker 输运方程的一种常见形式为 <span id="eq-parker-transport"><span class="math display">\[
+\begin{aligned}
+\frac{\partial f_0}{\partial t} + (\mathbf{U} + \mathbf{V}_d)\cdot\nabla f_0 - \frac{1}{3}\nabla\cdot\mathbf{U}\frac{\partial f_0}{\partial \ln{p}} = \nabla\cdot \left( \pmb{\kappa} \cdot\nabla f_0 \right) + Q
+\end{aligned}
+\tag{28.8}\]</span></span> 其中 <span class="math inline">\(f_0(\mathbf{x}, p, t)\)</span> 是粒子位置 <span class="math inline">\(\mathbf{x}\)</span>、动量大小 <span class="math inline">\(p\)</span>（假设动量各向同性）及时间 <span class="math inline">\(t\)</span> 的全向分布函数；<span class="math inline">\(\pmb{\kappa}\)</span> 是空间扩散系数张量，<span class="math inline">\(\mathbf{U}\)</span> 是等离子体整体速度，<span class="math inline">\(\mathbf{V}_d = \frac{pv}{3q}\nabla\times\left( \mathbf{B}/B^2 \right)\)</span> 是粒子漂移速度，其中 <span class="math inline">\(p=\gamma m v\)</span> 是粒子动量，<span class="math inline">\(q\)</span> 是其电荷。<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 因子 <span class="math inline">\(1/3\)</span> 来自对各向同性俯仰角分布取平均。注意，这个漂移项有时被纳入扩散张量 <span class="math inline">\(\pmb{\kappa}\)</span> 的反对称部分（<span class="math inline">\(\kappa_A\)</span>）。如果这样做，扩散项变为 <span class="math inline">\(\nabla\cdot\left( \pmb{\kappa}_s\cdot\nabla f_0 - \left&lt; \mathbf{v}_D \right&gt; f_0 \right)\)</span>，其中 <span class="math inline">\(\pmb{\kappa}_s\)</span> 是对称部分。</p>
+<ul>
+<li><span class="math inline">\(\frac{1}{3}\nabla\cdot\mathbf{U}\frac{\partial f_0}{\partial \ln{p}}\)</span> 是绝热能量变化。<span class="math inline">\(\nabla\cdot\mathbf{U}\)</span> 的符号反映宇宙射线在太阳风等离子体压缩过程中是失去还是获得能量。</li>
+</ul>
+</section>
+</section>
+<section id="随机微分方程方法" class="level2" data-number="28.4">
+<h2 data-number="28.4" class="anchored" data-anchor-id="随机微分方程方法"><span class="header-section-number">28.4</span> 随机微分方程方法</h2>
+<p>除了在 <span class="math inline">\((\mathbf{x}, p)\)</span> 网格上离散化 <a href="#eq-parker-transport" class="quarto-xref">式&nbsp;<span>28.8</span></a>，还可以利用 Fokker-Planck 型偏微分方程与随机朗之万方程系综之间的数学等价性来求解。此时，分布由大量离散样本构成的统计系综表示，这些样本称为_伪粒子_（或随机示踪粒子），它们的随机游走再现输运方程的解。这种方法很有吸引力：在三维空间加一维动量中，基于网格的求解器扩展性差，在强梯度（如激波）处存在数值扩散，并需要对大型矩阵求逆，而随机微分方程（SDE）方法避免了这三个问题。</p>
+<section id="从输运方程到-fokker-planck-方程" class="level3" data-number="28.4.1">
+<h3 data-number="28.4.1" class="anchored" data-anchor-id="从输运方程到-fokker-planck-方程"><span class="header-section-number">28.4.1</span> 从输运方程到 Fokker-Planck 方程</h3>
+<p>首先用微分数密度 <span class="math inline">\(n_p(\mathbf{x}, p, t) = 4\pi p^2 f_0(\mathbf{x}, p, t)\)</span> 重写方程，使 <span class="math inline">\(\int n_p\,\mathrm{d}^3 x\,\mathrm{d}p\)</span> 为物理粒子的总数，<span class="math inline">\(n_p\)</span> 恰好是伪粒子采样的量。将 <a href="#eq-parker-transport" class="quarto-xref">式&nbsp;<span>28.8</span></a> 乘以 <span class="math inline">\(4\pi p^2\)</span>，并利用 <span class="math inline">\(4\pi\partial_p(p^3 f_0) = \partial_p(p\,n_p)\)</span>，守恒形式为 <span id="eq-parker-conservative-np"><span class="math display">\[
+\frac{\partial n_p}{\partial t} = -\nabla\cdot\left[ (\mathbf{U} + \mathbf{V}_d)n_p - \pmb{\kappa}_S\cdot\nabla n_p \right] - \frac{\partial}{\partial p}\left[ \dot{p}_\text{ad}\,n_p \right] + Q_p
+\tag{28.9}\]</span></span> 其中 <span class="math inline">\(\pmb{\kappa}_S\)</span> 是空间扩散张量的对称部分，<span class="math inline">\(\mathbf{V}_d = \nabla\cdot\pmb{\kappa}_A\)</span> 是由其反对称部分产生的漂移速度（等价于导引中心漂移 <span class="math inline">\(\mathbf{V}_d = \frac{pv}{3q}\nabla\times\left( \mathbf{B}/B^2 \right)\)</span>），而 <span id="eq-pdot-ad"><span class="math display">\[
+\dot{p}_\text{ad} = -\frac{1}{3}(\nabla\cdot\mathbf{U})\,p
+\tag{28.10}\]</span></span> 是绝热动量变化率。</p>
+<p>为将空间部分写成 Fokker-Planck 形式，使用适用于空间变化张量的恒等式， <span class="math display">\[
+\nabla\cdot\left( \pmb{\kappa}_S\cdot\nabla n_p \right) = \sum_{i,j}\frac{\partial^2}{\partial x_i\partial x_j}\left( \kappa_{S,ij}\,n_p \right) - \nabla\cdot\left[ \left( \nabla\cdot\pmb{\kappa}_S \right) n_p \right]
+\]</span> 其中 <span class="math inline">\(\left( \nabla\cdot\pmb{\kappa}_S \right)_i = \partial\kappa_{S,ij}/\partial x_j\)</span>。注意负号：正是由于它，扩散张量的梯度在下面的运动方程中表现为额外的_确定性_漂移，有时称为虚假漂移。代入 <a href="#eq-parker-conservative-np" class="quarto-xref">式&nbsp;<span>28.9</span></a>，得到状态矢量 <span class="math inline">\(\mathbf{Y} = (\mathbf{x}, p)^T\)</span> 的标准前向 Kolmogorov（Fokker-Planck）方程， <span id="eq-parker-fp"><span class="math display">\[
+\frac{\partial n_p}{\partial t} = -\sum_i\frac{\partial}{\partial Y_i}\left[ a_i(\mathbf{Y}, t)\,n_p \right] + \frac{1}{2}\sum_{i,j}\frac{\partial^2}{\partial Y_i\partial Y_j}\left[ D_{ij}(\mathbf{Y}, t)\,n_p \right] + Q_p
+\tag{28.11}\]</span></span> 其中漂移矢量和扩散矩阵为 <span id="eq-sde-coefficients"><span class="math display">\[
+\mathbf{a} = \left( \mathbf{U} + \mathbf{V}_d + \nabla\cdot\pmb{\kappa}_S,\ \dot{p}_\text{ad} \right)^T, \quad \mathbf{D} = \begin{pmatrix} 2\pmb{\kappa}_S &amp; 0 \\ 0 &amp; 0 \end{pmatrix}
+\tag{28.12}\]</span></span> <span class="math inline">\(\mathbf{D}\)</span> 的动量块为零，反映标准 Parker 输运方程（PTE）不包含动量扩散（忽略二阶费米加速），因此沿轨迹的动量变化完全是确定性的。（SDE 文献中通常将 <span class="math inline">\(\mathbf{a}\)</span> 和 <span class="math inline">\(\mathbf{D}\)</span> 记为 <span class="math inline">\(\mathbf{A}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span>；这里不用这些符号，因为它们已用于矢势和磁场。）</p>
+<p>根据伊藤引理，<a href="#eq-parker-fp" class="quarto-xref">式&nbsp;<span>28.11</span></a> 等价于伊藤随机微分方程 <span id="eq-sde-ito"><span class="math display">\[
+\mathrm{d}\mathbf{Y}(t) = \mathbf{a}(\mathbf{Y}, t)\,\mathrm{d}t + \pmb{\sigma}(\mathbf{Y}, t)\cdot\mathrm{d}\mathbf{W}(t)
+\tag{28.13}\]</span></span> 其中 <span class="math inline">\(\pmb{\sigma}\)</span> 是满足 <span class="math inline">\(\mathbf{D} = \pmb{\sigma}\pmb{\sigma}^T = 2\pmb{\kappa}_S\)</span> 的任意矩阵（例如 <span class="math inline">\(2\pmb{\kappa}_S\)</span> 的 Cholesky 因子，或在局部沿场参考系中取 <span class="math inline">\(\mathrm{diag}\left( \sqrt{2\kappa_\parallel}, \sqrt{2\kappa_\perp}, \sqrt{2\kappa_\perp} \right)\)</span>），<span class="math inline">\(\mathrm{d}\mathbf{W}\)</span> 是多维维纳过程，满足 <span class="math inline">\(\left&lt; \mathrm{d}\mathbf{W} \right&gt; = 0\)</span> 和 <span class="math inline">\(\left&lt; \mathrm{d}W_i\,\mathrm{d}W_j \right&gt; = \delta_{ij}\mathrm{d}t\)</span>，即大小为 <span class="math inline">\(\mathrm{d}\mathbf{W} \sim \sqrt{\mathrm{d}t}\)</span> 的高斯增量。</p>
+</section>
+<section id="伪粒子的运动方程" class="level3" data-number="28.4.2">
+<h3 data-number="28.4.2" class="anchored" data-anchor-id="伪粒子的运动方程"><span class="header-section-number">28.4.2</span> 伪粒子的运动方程</h3>
+<p>将状态矢量重新分为 <span class="math inline">\(\mathbf{x}\)</span> 和 <span class="math inline">\(p\)</span>，每个伪粒子按以下方程推进 <span id="eq-sde-x"><span class="math display">\[
+\mathrm{d}\mathbf{x} = \left[ \mathbf{U} + \nabla\cdot\pmb{\kappa} \right]\mathrm{d}t + \pmb{\sigma}\cdot\mathrm{d}\mathbf{W}_\mathbf{x}
+\tag{28.14}\]</span></span> 而对于动量， <span id="eq-sde-p"><span class="math display">\[
+\mathrm{d}p = -\frac{1}{3}(\nabla\cdot\mathbf{U})\,p\,\mathrm{d}t
+\tag{28.15}\]</span></span></p>
+<ul>
+<li><span class="math inline">\(\mathbf{U}\)</span> 是流体整体平流。</li>
+<li><span class="math inline">\(\nabla\cdot\pmb{\kappa} = \mathbf{V}_d + \nabla\cdot\pmb{\kappa}_S\)</span> 是有效确定性漂移，将磁场梯度／曲率漂移（<span class="math inline">\(\nabla\cdot\pmb{\kappa}_A\)</span>）与扩散系数自身的梯度（<span class="math inline">\(\nabla\cdot\pmb{\kappa}_S\)</span>，即虚假漂移）结合起来。</li>
+<li><span class="math inline">\(\pmb{\sigma}\cdot\mathrm{d}\mathbf{W}_\mathbf{x}\)</span> 是随机扰动，表示粒子受湍流磁涨落作用而发生的微观俯仰角散射。</li>
+<li><a href="#eq-sde-p" class="quarto-xref">式&nbsp;<span>28.15</span></a> 中没有维纳项，因为标准 PTE 中的空间扩散不涉及动量扩散。</li>
+</ul>
+</section>
+<section id="伪粒子与相空间图像" class="level3" data-number="28.4.3">
+<h3 data-number="28.4.3" class="anchored" data-anchor-id="伪粒子与相空间图像"><span class="header-section-number">28.4.3</span> 伪粒子与相空间图像</h3>
+<p>伪粒子既不是沿回旋轨道运动的物理宇宙射线粒子，也不是单个带电离子：</p>
+<ul>
+<li><strong>统计代表</strong>：它是带有统计权重 <span class="math inline">\(w_k\)</span> 的数值示踪粒子，即概率密度 <span class="math inline">\(n_p(\mathbf{x}, p, t)\)</span> 的一个样本，而不是一团物质。</li>
+<li><strong>粗粒化轨迹</strong>：物理粒子沿由洛伦兹力控制的螺旋轨道运动，并有小幅散射偏离；伪粒子完全跳过回旋轨道和俯仰角尺度，通过维纳增量 <span class="math inline">\(\mathrm{d}\mathbf{W}\sim\sqrt{\mathrm{d}t}\)</span> 在宏观扩散尺度上跳跃。轨迹连续但处处不可微。另请注意，<a href="#eq-sde-x" class="quarto-xref">式&nbsp;<span>28.14</span></a> 按伊藤约定写出：若改用 Stratonovich 形式，一部分虚假漂移 <span class="math inline">\(\nabla\cdot\pmb{\kappa}_S\)</span> 会移入噪声项，因此约定必须与时间积分格式一致。</li>
+<li><strong>重建</strong>：当伪粒子穿过边界、与源相互作用或到达探测器时，其权重 <span class="math inline">\(w_k\)</span> 被计入相空间直方图；除以 <span class="math inline">\(4\pi p^2\)</span> 即恢复 <span class="math inline">\(f_0(\mathbf{x}, p, t)\)</span>。</li>
+</ul>
+<p><strong>与刘维尔定理和测试粒子模拟的联系。</strong> 对比本笔记使用的两种「粒子」图像很有启发性。在测试粒子模拟（见 <a href="#sec-test-particle" class="quarto-xref"><span>小节 28.6</span></a>）中，对某个湍流场实现中的标记粒子积分运动方程 <a href="#eq-charge-particle-motion" class="quarto-xref">式&nbsp;<span>28.18</span></a>。由于底层系统是哈密顿系统，刘维尔定理保证相空间体积守恒，因而相空间密度 <span class="math inline">\(F(\mathbf{r}, \mathbf{p}, t)\)</span> 沿流守恒（<a href="#eq-liouville" class="quarto-xref">式&nbsp;<span>28.17</span></a>）。因此数值标记粒子只是追踪确定性、不可压缩的正则（辛）映射 <span class="math inline">\((\mathbf{r}_0, \mathbf{p}_0)\mapsto(\mathbf{r}, \mathbf{p})\)</span>；随后对湍流实现的系综取平均，得到 Fokker-Planck 系数（<a href="#sec-fokker-planck" class="quarto-xref"><span>小节 28.5.1</span></a>），包括上面使用的扩散张量 <span class="math inline">\(\pmb{\kappa}\)</span>。</p>
+<p>SDE 方法以相反的顺序进行粗粒化：_首先_对回旋相位和俯仰角取平均，得到 <span class="math inline">\(\pmb{\kappa}\)</span> 和 <span class="math inline">\(\mathbf{V}_d\)</span>，然后才推进伪粒子。得到的随机映射是马尔可夫过程，而非正则变换：由于输运现在是扩散性的，相空间体积不再守恒，每一步都跨过回旋和散射尺度。两种方法共同之处在于，都将粒子解释为相空间密度的样本：一方面是沿刘维尔特征线追踪 <span class="math inline">\(F(\mathbf{r}, \mathbf{p}, t)\)</span> 的标记粒子，另一方面是沿伊藤轨迹采样 <span class="math inline">\(n_p(\mathbf{x}, p, t)\)</span> 的粒子，因此可以使用相同的分箱方法重建分布函数。</p>
+</section>
+<section id="前向与后向-sde" class="level3" data-number="28.4.4">
+<h3 data-number="28.4.4" class="anchored" data-anchor-id="前向与后向-sde"><span class="header-section-number">28.4.4</span> 前向与后向 SDE</h3>
+<p>SDE 表述有两个计算方向：</p>
+<ul>
+<li><strong>前向 SDE（从源到观测者）</strong>：在 <span class="math inline">\(t = 0\)</span> 时从源（超新星遗迹、太阳耀斑激波等）注入伪粒子，沿时间向前传播，直至它们离开系统或到达探测器。这种方式自然给出事件演化的随时间变化的空间分布。</li>
+<li><strong>后向 SDE（从观测者到源）</strong>：如果只关心特定位置的能谱，例如位于 <span class="math inline">\(1\,\text{AU}\)</span> 的航天器处，前向计算会浪费算力，因为大多数伪粒子不会到达探测器。利用伴随（后向 Kolmogorov）方程，在观测时刻从探测器出发，沿时间向后积分伪粒子（<span class="math inline">\(\tau = -t\)</span>）；对其路径终点处遇到的源项和边界条件加权，得到 <span class="math inline">\(f_0(\mathbf{x}_\text{obs}, p, t)\)</span>，而不浪费轨迹。</li>
+</ul>
+</section>
+<section id="相对于网格求解器的实际优势" class="level3" data-number="28.4.5">
+<h3 data-number="28.4.5" class="anchored" data-anchor-id="相对于网格求解器的实际优势"><span class="header-section-number">28.4.5</span> 相对于网格求解器的实际优势</h3>
+<ul>
+<li><strong>无网格、无 CFL 限制</strong>：无需对空间网格进行求逆或分辨，也没有数值扩散抹平强梯度或激波界面。</li>
+<li><strong>点值计算效率</strong>：后向 SDE 只需 <span class="math inline">\(\mathcal{O}(N)\)</span> 次运算即可计算单个局部位置的能谱，无需求解整个全局体积。</li>
+<li><strong>易于并行</strong>：每条伪粒子轨迹在统计上都与其他轨迹独立，因此该方法在 CPU 线程和 GPU 上具有近乎理想的扩展效率。</li>
+</ul>
+</section>
+</section>
+<section id="准线性理论" class="level2" data-number="28.5">
+<h2 data-number="28.5" class="anchored" data-anchor-id="准线性理论"><span class="header-section-number">28.5</span> 准线性理论</h2>
+<p>自提出以来超过 50 年，<em>准线性理论（QLT）</em> [<span class="citation" data-cites="jokipii1966cosmic">Jokipii (<a href="#ref-jokipii1966cosmic" role="doc-biblioref">1966年</a>)</span>; Kennel and Engelmann 1966; Hall and Sturrock 1967; Hasselmann and Wibberenz 1970] 仍是银河宇宙射线唯象应用的重要范式。在 QLT 中，描述宇宙射线相空间密度时间演化的 Fokker-Planck 方程通过微扰方法导出：沿规则背景场中的未扰动轨道计算湍流磁场对粒子的力。对于由湍流磁场的两点函数参数化的给定湍流模型，可以计算 Fokker-Planck 系数，其中最重要的是空间扩散张量的各分量。众所周知，QLT 发现等离子体波与粒子之间的相互作用具有共振性，这意味着具有特定回旋半径 <span class="math inline">\(r_L = v/\Omega\)</span>（<span class="math inline">\(\Omega\)</span> 表示回旋频率）的粒子只受波数 k 满足 <span class="math inline">\(k r_L \mu \approx 1\)</span> 的波影响（对于阿尔芬波等低频波）；其中 <span class="math inline">\(\mu\)</span> 是俯仰角的余弦，俯仰角即粒子动量 <span class="math inline">\(\mathbf{p}\)</span> 与规则磁场 <span class="math inline">\(\left&lt;\mathbf{B}\right&gt;\)</span> 之间的夹角，<span class="math inline">\(\mu \equiv \mathbf{p}\cdot\left&lt; \mathbf{B} \right&gt; / (|\mathbf{p}||\left&lt; \mathbf{B} \right&gt;|)\)</span>。</p>
+<p>尽管 QLT 的一些预测在定性上得到数据证实，例如扩散系数对刚度的依赖，但仍有若干问题。最著名的是 <span class="math inline">\(90^\circ\)</span> 问题：由于共振条件，俯仰角接近 <span class="math inline">\(90^\circ\)</span>（<span class="math inline">\(\mu\approx 0\)</span>）的粒子只能与非常大的波数 k 共振，而在通常的湍流谱中，这些波数所含能量很少。在 <span class="math inline">\(\mu\rightarrow 0\)</span> 的极限下，散射率消失，粒子无法沿背景场改变方向，导致_弹道_输运。这显然与观测推断出的扩散输运不符。</p>
+<p><span class="math inline">\(90^\circ\)</span> 问题的根源是 QLT 中未扰动轨道的假设。非线性理论对此进行了修正：关联的衰减使共振条件展宽，从而允许足够有效地散射穿过 <span class="math inline">\(90^\circ\)</span>。不过，任何此类 QLT 扩展都需要额外假设，例如关于粒子轨道时间去相关的形式。</p>
+<p>QLT 的成功和普及可以归因于它概念简单，并在太阳风、星际介质和星系团等若干重要环境中有效。此外，QLT 在原则上简单，因此可以直接计算输运参数，尽管实际计算可能变得极其复杂。最后，这些结果可以与观测推断相符，例如银河扩散系数的归一化和幂律形状。</p>
+<section id="sec-fokker-planck" class="level3" data-number="28.5.1">
+<h3 data-number="28.5.1" class="anchored" data-anchor-id="sec-fokker-planck"><span class="header-section-number">28.5.1</span> Fokker-Planck 方程的推导</h3>
+<p>为保持内容自洽，这里重复列出所有方程，而不链接到笔记的其他部分。Philipp Mertsch 在下列方程中使用 CGS 单位制。</p>
+<p>电场 <span class="math inline">\(\mathbf{E}\)</span> 和磁场 <span class="math inline">\(\mathbf{B}\)</span> 中的带电粒子受到洛伦兹力， <span id="eq-lorentz-force-cgs"><span class="math display">\[
+\mathbf{F}_L = e\left( \mathbf{E} + \mathbf{v}\times\mathbf{B}/c \right)
+\tag{28.16}\]</span></span></p>
+<p>通常将磁场分解为大尺度、均匀的规则背景场 <span class="math inline">\(\langle \mathbf{B} \rangle\)</span> 和小尺度湍流随机场 <span class="math inline">\(\delta\mathbf{B}\)</span>，即 <span class="math inline">\(\mathbf{B} = \langle\mathbf{B}\rangle\)</span>，且 <span class="math inline">\(\langle\delta\mathbf{B}\rangle = 0\)</span>。尖括号表示对湍流磁场系综取平均。</p>
+<p>不失一般性，除非另有说明，下文假设规则场沿 z 方向，<span class="math inline">\(\langle\mathbf{B}\rangle = B_z\hat{z}\)</span>。通常忽略大尺度电场，<span class="math inline">\(\langle\mathbf{E}\rangle = 0\)</span>，因为天体物理等离子体中的电荷具有很高的迁移率，可以有效屏蔽规则电场（即远大于德拜长度的尺度上的电场）。小尺度电场 <span class="math inline">\(\delta\mathbf{E}\)</span> 必然存在，但根据法拉第感应定律，可以估计其大小为 <span class="math inline">\(|\delta\mathbf{E}| \sim ( v_{\text{A}} / c) |\delta\mathbf{B}|\)</span>，其中 <span class="math inline">\(v_\text{A}\)</span> 是阿尔芬速度，在大多数天体物理环境中 <span class="math inline">\(v_A/c \ll 1\)</span>。<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> 因此，在 <span class="math inline">\((v_\text{A}/c)\)</span> 的最低阶近似下没有电场，而磁力不对粒子做功，所以粒子能量守恒。注意，在 <span class="math inline">\((v_\text{A}/c)\)</span> 的更高阶近似中，粒子能量可以通过二阶费米型过程变化。为简单起见，这里只考虑产生俯仰角散射的最低阶情况。</p>
+<p>只要可以忽略耗散过程（或任何形式的能量损失），磁场中的带电粒子就构成哈密顿系统。其一个结果是_刘维尔定理_，即相空间体积在正则变换下守恒。由于时间演化是一种正则变换，相空间体积随时间守恒。结合粒子数守恒，这意味着相空间密度 <span class="math inline">\(f = f(\mathbf{r},\mathbf{p},t)\)</span> 守恒。这可以方便地用我们称为_刘维尔方程_的式子表示， <span id="eq-liouville"><span class="math display">\[
+\frac{\mathrm{d}f}{\mathrm{d}t} = \frac{\partial f}{\partial t} + \frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} \cdot \mathbf{\nabla}_{\mathbf{r}} f + \frac{\mathrm{d}\mathbf{p}}{\mathrm{d}t} \cdot \mathbf{\nabla}_{\mathbf{p}} f = 0
+\tag{28.17}\]</span></span> 它描述了相空间流的不可压缩性。这里， <span id="eq-charge-particle-motion"><span class="math display">\[
+\frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} = \mathbf{v},\quad \frac{\mathrm{d}\mathbf{p}}{\mathrm{d}t} = e\left( \mathbf{E} + \frac{\mathbf{v}\times\mathbf{B}}{c} \right)
+\tag{28.18}\]</span></span> 是运动方程。注意，哈密顿系统的一个必要条件是力具有守恒性且可微（「p 散度为零」，详情见 <span class="citation" data-cites="bellan2008fundamentals">(<a href="#ref-bellan2008fundamentals" role="doc-biblioref">Bellan 2008年</a>)</span>）。</p>
+<p>处于外部 <span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 场作用下的无碰撞等离子体是哈密顿系统的一个例子。其哈密顿量为（Jackson 1998） <span id="eq-charge-particle-hamiltonian"><span class="math display">\[
+H = \sqrt{(c\mathbf{P} - e\mathbf{A})^2 + m^2c^4} + e\phi
+\tag{28.19}\]</span></span> 其中 <span class="math inline">\(\mathbf{P} = \mathbf{p} + (e/c)\mathbf{A}\)</span> 是正则动量，<span class="math inline">\(\mathbf{A}\)</span> 是矢势，m 是粒子质量，e 是其电荷，<span class="math inline">\(\phi\)</span> 是电势。因此，这种无碰撞等离子体的相空间密度满足 <a href="#eq-liouville" class="quarto-xref">式&nbsp;<span>28.17</span></a>，将洛伦兹力 <a href="#eq-lorentz-force-cgs" class="quarto-xref">式&nbsp;<span>28.16</span></a> 代入 <a href="#eq-liouville" class="quarto-xref">式&nbsp;<span>28.17</span></a> 得到 Vlasov 方程， <span id="eq-vlasov-cgs"><span class="math display">\[
+\frac{\partial f}{\partial t} + \frac{\mathrm{d} \mathbf{r}}{\mathrm{d} t} \cdot \mathbf{\nabla}_{\mathbf{r}} f + e \left ( \mathbf{E} + \frac{\mathbf{v} \times \mathbf{B}}{c} \right ) \cdot \mathbf{\nabla}_{\mathbf{p}} f = 0
+\tag{28.20}\]</span></span> 它与麦克斯韦方程共同构成等离子体动理学理论的基础。对于有碰撞等离子体，需要在右侧加入一项，即著名的碰撞算符。对于无碰撞等离子体（适用于宇宙射线），右侧保持为零。</p>
+<p>考虑湍流场时，相空间密度也成为随机场，<span class="math inline">\(f = \langle f\rangle + \delta f\)</span>，其中期望值为 <span class="math inline">\(\langle f \rangle\)</span>，围绕期望值的涨落 <span class="math inline">\(\delta f\)</span> 满足 <span class="math inline">\(\langle \delta f \rangle=0\)</span>。</p>
+<p>在任何真实的天体物理情况下，当然不可能知道所有位置的小尺度湍流场，从而精确求解 <a href="#eq-vlasov-cgs" class="quarto-xref">式&nbsp;<span>28.20</span></a>。我们只能期望预测湍流磁场统计系综的相空间密度统计矩。传统上人们主要关心一阶矩，即系综平均，但也可以求得更高阶的矩。</p>
+<p>由于上面解释的原因，下文忽略 <span class="math inline">\(\mathbf{E}\)</span>。对 <a href="#eq-vlasov-cgs" class="quarto-xref">式&nbsp;<span>28.20</span></a> 取平均得到（Jokipii 1972） <span id="eq-vlasov-averaged-cgs"><span class="math display">\[
+\begin{aligned}
+\frac{\mathrm{d} \langle f \rangle}{\mathrm{d} t} &amp;= \frac{\partial \langle f \rangle }{\partial t} + \frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} \cdot \mathbf{\nabla}_{\mathbf{r}} \langle f \rangle + e \frac{\mathbf{v} \times \langle \mathbf {B} \rangle}{c} \cdot \mathbf{\nabla}_{\mathbf{p}} \langle f \rangle \\
+&amp;= - \left \langle e \frac{\mathbf{v} \times \mathbf{\delta B}}{c} \cdot \nabla _{\mathbf{p}} \delta f \right \rangle \neq 0
+\end{aligned}
+\tag{28.21}\]</span></span></p>
+<p>注意，与相空间密度 <span class="math inline">\(f\)</span> 不同，系综平均的相空间密度 <span class="math inline">\(\langle f \rangle\)</span> 不守恒，<span class="math inline">\(\mathrm{d}\langle f\rangle /\mathrm{d}t \neq 0\)</span>。（后面还会讨论！）</p>
+<p>从 <a href="#eq-vlasov-averaged-cgs" class="quarto-xref">式&nbsp;<span>28.21</span></a> 获得物理认识的一种方法是将其右侧视为阻尼项（Earl 等 1988；Webb 1989）， <span class="math display">\[
+\left \langle e \frac{\mathbf{v} \times \mathbf{\delta B}}{c} \cdot \nabla_{\mathbf{p}} \delta f \right \rangle \to \nu \left( \langle f \rangle - \frac{1}{4\pi}\int\mathrm{d}\hat{\mathbf{p}} \, \langle f \rangle \right)
+\]</span> （其中 <span class="math inline">\(\hat{\mathbf{p}}=\mathbf{p}/|\mathbf{p}|\)</span>），即以速率 <span class="math inline">\(\nu\)</span> 驱动相空间密度趋于各向同性；这一方法也可由气体动理学理论得到启发（Bhatnagar 等 1954）。这样可以求解 <a href="#eq-vlasov-averaged-cgs" class="quarto-xref">式&nbsp;<span>28.21</span></a>，并证明它导出空间扩散方程。平行扩散系数可确定为 <span class="math inline">\(\kappa_\parallel = v^2 / (3\nu)\)</span>，而垂直扩散系数满足 <span class="math inline">\(\kappa_\perp / \kappa_\parallel = (1 + \Omega^2 / \nu^2)^{-1}\)</span>；这一结果称为_经典散射极限_（Gleeson 1969）。这里 <span class="math inline">\(\Omega\)</span> 是粒子的回旋频率。</p>
+<p>然而，QLT 通过描述涨落 <span class="math inline">\(\delta f\)</span> 时间演化的方程，寻求更系统的 <span class="math inline">\(f\)</span> 解。将原始 Vlasov 方程 <a href="#eq-vlasov-cgs" class="quarto-xref">式&nbsp;<span>28.20</span></a> 减去系综平均的 Vlasov 方程 <a href="#eq-vlasov-averaged-cgs" class="quarto-xref">式&nbsp;<span>28.21</span></a>，即可得到这样的方程， <span id="eq-vlasov-fluctuation-cgs"><span class="math display">\[
+\begin{aligned}
+&amp; \frac{\partial \delta f}{\partial t} + \frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} \cdot \mathbf{\nabla}_{\mathbf{r}} \delta f + e \left(\frac{\mathbf{v} \times \langle \mathbf{B}\rangle}{c}\right) \cdot \mathbf{\nabla}_{\mathbf{p}} \delta f \\
+&amp; \simeq -e \left(\frac{\mathbf{v} \times \mathbf{\delta B}}{c} \right) \cdot \mathbf{\nabla}_{\mathbf{p}} \langle f \rangle
+\end{aligned}
+\tag{28.22}\]</span></span> 这里我们选择忽略差值 <span class="math display">\[
+e \frac{\mathbf{v} \times \mathbf{\delta B}}{c} \cdot \nabla_{\mathbf{p}} \delta f - \left \langle e \frac{\mathbf{v} \times \mathbf{\delta B}}{c} \cdot \nabla_{\mathbf{p}} \delta f \right \rangle
+\]</span> 它是扰动量 <span class="math inline">\(\delta\mathbf{B}\)</span> 和 <span class="math inline">\(\delta f\)</span> 的二阶项。这当然假设 <span class="math inline">\(|\delta\mathbf{B}|\ll |\langle \mathbf{B} \rangle|\)</span>，因此 <span class="math inline">\(\delta f \ll \langle f \rangle\)</span>。现在可以用特征线法积分 <a href="#eq-vlasov-fluctuation-cgs" class="quarto-xref">式&nbsp;<span>28.22</span></a>，形式解为 <span id="eq-f-fluctuation-solution"><span class="math display">\[
+\delta f = \delta f_{0} - \int _{t_{0}}^{t} \mathrm {d} t' \left[ e \left( \frac{\mathbf{v} \times \mathbf{\delta B}}{c} \right) \cdot \mathbf{\nabla}_{\mathbf{p}} \langle f \rangle \right]_{P(t')}
+\tag{28.23}\]</span></span> 这里 <span class="math inline">\(\delta f_{0} \equiv \delta f(\mathbf{r}, \mathbf{p}, t_{0})\)</span> 表示时刻 <span class="math inline">\(t_0\)</span> 的相空间密度，下标 <span class="math inline">\(P(t')\)</span> 表示方括号中的位置和动量沿 <a href="#eq-vlasov-fluctuation-cgs" class="quarto-xref">式&nbsp;<span>28.22</span></a> 的特征线计算，即运动方程 <a href="#eq-charge-particle-motion" class="quarto-xref">式&nbsp;<span>28.18</span></a> 的解，其中 <span class="math inline">\(\mathbf{B}\)</span> 仅用规则场 <span class="math inline">\(\langle\mathbf{B}\rangle\)</span> 代替（并且同样没有电场）。这些解 <span class="math inline">\(P\)</span> 通常称为_未扰动轨道_或_未扰动轨迹_。对于这里假设的均匀规则磁场 <span class="math inline">\(\langle\mathbf{B}\rangle = B_z\hat{z}\)</span>，它们当然是沿 z 方向的螺旋线。</p>
+<p>现在可以将 <a href="#eq-f-fluctuation-solution" class="quarto-xref">式&nbsp;<span>28.23</span></a> 代入 <a href="#eq-vlasov-averaged-cgs" class="quarto-xref">式&nbsp;<span>28.21</span></a>， <span id="eq-vlasov-averaged-cgs2"><span class="math display">\[
+\begin{aligned}
+&amp; \frac{\partial \langle f \rangle }{\partial t} + \frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} \cdot \mathbf{\nabla}_{\mathbf{r}} \langle f \rangle + e \frac{\mathbf{v} \times \langle \mathbf {B} \rangle}{c} \cdot \mathbf{\nabla}_{\mathbf{p}} \langle f \rangle \\
+&amp;\simeq \int _{t_{0}}^{t} \!\! \mathrm {d} t' \! \left \langle e \frac{\mathbf{v} \! \times \! \mathbf{\delta B}}{c} \! \cdot \! \nabla _{\mathbf{p}} \left [ e \frac{\mathbf{v} \! \times \! \mathbf{\delta B}}{c} \! \cdot \! \mathbf{\nabla}_{\mathbf{p}} \langle f \rangle \right ]_{P(t')} \right \rangle
+\end{aligned}
+\tag{28.24}\]</span></span> 其中我们舍去了 <span class="math inline">\(\propto \delta f_0\)</span> 项。此时已经可以看出，右侧将产生扩散项（由于两个动量导数），且它依赖于沿未扰动轨迹 <span class="math inline">\(P(t')\)</span> 积分的湍流磁场两点函数。为进一步推导，考虑球坐标中的动量 <span class="math inline">\(\mathbf{p}\)</span>，即 <span class="math inline">\(\mathbf{p} = p\left( \sqrt{1-\mu^2}\cos\phi, \sqrt{1-\mu^2}\sin\phi, \mu \right)^T\)</span>，并引入湍流磁场的相关长度 <span class="math inline">\(l_c\)</span> 和相关时间 <span class="math inline">\(\tau_c\)</span>，定义为<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> <span id="eq-turbulence-correlation-length"><span class="math display">\[
+\langle \delta B^{2} \rangle l_{\text{c}} \equiv \int _{0}^{\infty} \mathrm {d} \Delta r \, \langle \delta B(\mathbf{r}) \delta B(\mathbf{r}+\mathbf{\Delta r}) \rangle
+\tag{28.25}\]</span></span> <span id="eq-turbulence-correlation-time"><span class="math display">\[
+\langle \delta B^{2} \rangle \tau_{\text{c}} \equiv \int _{0}^{\infty} \mathrm {d} \Delta t \, \langle \delta B(t) \delta B(t+\Delta t) \rangle
+\tag{28.26}\]</span></span> 这里 <span class="math inline">\(\delta B(t)\)</span> 是 <span class="math inline">\(\left[\delta B(\mathbf{r}) \right]_{P(t)}\)</span> 的简写，即在时刻 t 沿未扰动轨迹计算的 <span class="math inline">\(\delta B(\mathbf{r})\)</span>。</p>
+<p><a href="#eq-vlasov-averaged-cgs2" class="quarto-xref">式&nbsp;<span>28.24</span></a> 的右侧仍然相当繁琐，要进一步推导需要若干假设。除了</p>
+<ol type="1">
+<li>扰动很小，<span class="math inline">\(|\mathbf{\delta B}| \ll |\langle \mathbf{B} \rangle|\)</span></li>
+</ol>
+<p>之外，还有：</p>
+<ol start="2" type="1">
+<li><p>回旋对称性：系综平均相空间密度 <span class="math inline">\(\langle f \rangle\)</span> 不依赖于方位角 <span class="math inline">\(\phi\)</span>，因此 <span class="math inline">\(\langle f \rangle (\mathbf{r}, p, \mu, \phi, t) \to \langle f \rangle (\mathbf{r}, p, \mu, t)\)</span>。</p></li>
+<li><p>绝热近似：相空间密度只在远大于湍流磁场相关时间 <span class="math inline">\(\tau_c\)</span> 的时间尺度上变化， <span id="eq-adiabatic-approx"><span class="math display">\[
+\langle f \rangle \left / \frac{\partial \langle f \rangle }{\partial t} \right . \gg \tau _{\text{c}}
+\tag{28.27}\]</span></span></p></li>
+<li><p>有限相关时间：湍流磁场的相关时间远大于拉莫尔时间，<span class="math inline">\(\tau_c \gg \Omega^{-1}\)</span>。</p></li>
+<li><p>均匀平稳湍流：统计矩在空间和时间平移下不变。通俗地说，湍流的统计性质不依赖于测量的时间和地点。</p></li>
+</ol>
+<p>在这些条件下，系综平均 Vlasov 方程最终得到 Fokker-Planck 型方程（Fokker 1914；Planck 1917），也称 Kolmogorov 前向方程（Kolmogorov 1931）或 Smoluchowski 方程（Bogoliubov and Krylov 1939），它描述俯仰角扩散， <span id="eq-fokker-planck"><span class="math display">\[
+\frac{\partial \langle f \rangle }{\partial t} + v \mu \frac{\partial \langle f \rangle }{\partial z} = \frac{\partial }{\partial \mu } \left ( D_{\mu \mu } \frac{\partial \langle f \rangle }{\partial \mu } \right ) \, .
+\tag{28.28}\]</span></span></p>
+<p>按照上面概述的方法，俯仰角扩散系数 <span id="eq-pitch-angle-diffusion-coef"><span class="math display">\[
+D_{\mu \mu} \equiv \frac{\langle (\Delta \mu )^{2} \rangle }{2 \Delta t}
+\tag{28.29}\]</span></span> 可以用磁场相关函数表示。（怎么做到？？？）</p>
+<p>如果没有决定忽略所有电场，Fokker-Planck 方程 <a href="#eq-fokker-planck" class="quarto-xref">式&nbsp;<span>28.28</span></a> 中还会出现与动量 <span class="math inline">\(\mathbf{p}\)</span> 和俯仰角变化有关的附加项，扩散系数 <span class="math inline">\(D_{\mu p} = D_{p\mu}\)</span> 和 <span class="math inline">\(D_{pp}\)</span> 的定义与 <a href="#eq-pitch-angle-diffusion-coef" class="quarto-xref">式&nbsp;<span>28.29</span></a> 类似。</p>
+<p>我们还假设 <span class="math inline">\(v_A / v \ll 1\)</span>，以使 <span class="math inline">\(D_{xx}, D_{yy}, D_{xy}\)</span> 和 <span class="math inline">\(D_{yx}\)</span> 可忽略。如果不这样假设，就需要将附加项 <span class="math display">\[
+\frac{\partial}{\partial x} \left (D_{xx} \frac{\partial \langle f \rangle }{\partial x} + D_{xy} \frac{\partial \langle f \rangle }{\partial y} \right ) + \frac{\partial}{\partial y} \left (D_{yx} \frac{\partial \langle f \rangle }{\partial x} + D_{yy} \frac{\partial \langle f \rangle }{\partial y} \right )
+\]</span> 加到 <a href="#eq-fokker-planck" class="quarto-xref">式&nbsp;<span>28.28</span></a> 的右侧。</p>
+<p>总之，在湍流磁场影响下，带电粒子在俯仰角上进行随机游走，系综平均后表现为俯仰角（余弦）扩散。</p>
+</section>
+<section id="扩散近似" class="level3" data-number="28.5.2">
+<h3 data-number="28.5.2" class="anchored" data-anchor-id="扩散近似"><span class="header-section-number">28.5.2</span> 扩散近似</h3>
+<p>如果 i 方向的均方位移 <span class="math inline">\(\langle \Delta x_i^2 \rangle\)</span> 具有幂律依赖关系，便可以方便地对粒子输运分类，<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> <span id="eq-diffusion-power-law"><span class="math display">\[
+\langle \Delta {r}_{i}^{2} \rangle \propto (\Delta t)^{\alpha}
+\tag{28.30}\]</span></span> 分类如下： <span class="math display">\[
+\begin{array}{r@{\quad } l}
+\alpha &lt; 1: &amp; \text{亚扩散，} \\
+\alpha = 1: &amp; \text{正常扩散，} \\
+\alpha &gt; 1:&amp; \text{超扩散，特别是} \\
+\alpha = 2: &amp; \text{弹道输运。}
+\end{array}
+\]</span></p>
+<p>显然，在任何满足 <span class="math inline">\(|\mathbf{\delta B}| \ll |\langle \mathbf{B} \rangle|\)</span> 的微扰理论中，足够早的输运必然是弹道性的：粒子只绕 <span class="math inline">\(\langle\mathbf{B}\rangle\)</span> 回旋，且 <span class="math inline">\(\langle \Delta z^{2} \rangle = (v \mu \Delta t)^{2}\)</span>，而在完整回旋周期上积分时 <span class="math inline">\(\langle \Delta x^{2} \rangle = \langle \Delta y^{2} \rangle = 0\)</span>。在较晚时刻，即 <span class="math inline">\(t \gg D_{\mu\mu}^{-1}\)</span> 时，我们预计沿磁场的输运表现为扩散。</p>
+<p>为了将这一图像形式化，我们从 Fokker-Planck 方程 <a href="#eq-fokker-planck" class="quarto-xref">式&nbsp;<span>28.28</span></a> 导出空间扩散方程。为此，将 <span class="math inline">\(\langle f\rangle\)</span> 分解为各向同性部分 <span class="math inline">\(g\)</span> 和各向异性部分 <span class="math inline">\(h\)</span>， <span class="math display">\[
+\langle f \rangle (p, \mu, t) = g(p, t) + h(p, \mu, t)
+\]</span> 其中 <span class="math display">\[
+g(p, t) = \frac{1}{2}\int_{-1}^{1} \mathrm{d}\mu \langle f \rangle (p, \mu, t)
+\]</span> 以及 <span class="math display">\[
+\int_{-1}^{1} \mathrm{d}\mu\, h(p, \mu, t) = 0
+\]</span></p>
+<p>如果 <span class="math inline">\(g\)</span> 随时间和位置仅缓慢变化， <span class="math display">\[
+g \left / \frac{\partial g}{\partial t} \right . \gg \tau_{\text{sc}} \quad \text{且} \quad g \left / \frac{\partial g}{\partial z} \right . \gg \lambda_{\text{sc}}
+\]</span> 其中 <span class="math inline">\(\tau_{\text{sc}} \sim D_{\mu \mu }^{-1}\)</span> 和 <span class="math inline">\(\lambda_{\text{sc}} \sim v \tau_{\text{sc}}\)</span> 分别是散射时间和平均自由程，则相空间密度将非常接近各向同性，<span class="math inline">\(h\ll g\)</span>。此时，可以为各向同性部分 <span class="math inline">\(g\)</span> 导出空间扩散方程（例如 Hasselmann and Wibberenz 1970）， <span id="eq-isotropic-diffusion"><span class="math display">\[
+\frac{\partial g}{\partial t} - \frac{\partial }{\partial z} \left( \kappa_{\parallel} \frac{\partial g}{\partial z} \right) = 0
+\tag{28.31}\]</span></span> 其中平行扩散系数为 <span id="eq-parallel-diffusion-coef"><span class="math display">\[
+\kappa_{\parallel} = \frac{v^{2}}{8} \int_{-1}^{1} \mathrm{d} \mu \frac{(1- \ \mu^{2})^{2}}{D_{\mu\mu}}
+\tag{28.32}\]</span></span></p>
+<p>此外，我们预计各向异性部分 <span class="math inline">\(h\)</span> 由_偶极各向异性_主导（？？？），即 <span class="math inline">\(h\approx h_1\mu\)</span>，其中 <span id="eq-dipole-anisotropy"><span class="math display">\[
+h_{1} = \frac{3}{2} \int_{-1}^{1} \mathrm{d} \mu \, \mu \, h(\mu) = - \frac{2}{v} \kappa_{\parallel} \frac{\partial g}{\partial z}
+\tag{28.33}\]</span></span></p>
+</section>
+<section id="输运系数的计算" class="level3" data-number="28.5.3">
+<h3 data-number="28.5.3" class="anchored" data-anchor-id="输运系数的计算"><span class="header-section-number">28.5.3</span> 输运系数的计算</h3>
+<p>到目前为止，我们尚未指定 Fokker-Planck 系数（例如俯仰角扩散系数 <span class="math inline">\(D_{\mu\mu}\)</span>）的函数形式，也未指定它对推导 Fokker-Planck 方程 <a href="#eq-fokker-planck" class="quarto-xref">式&nbsp;<span>28.28</span></a> 时出现的湍流两点相关函数 <span class="math inline">\(P_{ij}(\mathbf{k})\)</span> 的依赖。<a href="#sec-fokker-planck" class="quarto-xref"><span>小节 28.5.1</span></a> 中推导的另一种方法是直接从运动方程的解计算 Fokker-Planck 系数。事实上，任意 Fokker-Planck 系数 <span class="math inline">\(D_{PQ}\)</span> 都可以用所涉及变量 P 和 Q 的平均位移来定义。例如，俯仰角扩散系数可以作为时变扩散系数在 <span class="math inline">\(t\to\infty\)</span> 时的极限导出， <span id="eq-running-diffusion-coef"><span class="math display">\[
+D_{\mu\mu}(t) = \frac{1}{2} \frac{\mathrm{d}}{\mathrm{d}t}\left \langle (\Delta \mu )^{2} \right \rangle
+\tag{28.34}\]</span></span></p>
+<p>这是 Taylor-Green-Kubo 公式的结果（Taylor 1922；Green 1951；Kubo 1957）， <span id="eq-TGK"><span class="math display">\[
+D_{\mu\mu} = \int_{0}^{\infty} \mathrm{d} t \langle \dot{\mu}(0) \dot{\mu}(t) \rangle
+\tag{28.35}\]</span></span> 其中上方的点表示对时间求导。对于扩散输运，<a href="#eq-pitch-angle-diffusion-coef" class="quarto-xref">式&nbsp;<span>28.29</span></a> 和 <a href="#eq-running-diffusion-coef" class="quarto-xref">式&nbsp;<span>28.34</span></a> 当然一致。此外，这使我们能够直接计算平行扩散系数 <span class="math inline">\(\kappa_\parallel\)</span>，而不必先计算 <span class="math inline">\(D_{\mu\mu}\)</span> 再应用扩散近似 <a href="#eq-parallel-diffusion-coef" class="quarto-xref">式&nbsp;<span>28.32</span></a>。</p>
+<p>从运动方程 <a href="#eq-lorentz-force-cgs" class="quarto-xref">式&nbsp;<span>28.16</span></a> 得到（怎么得到？？？） <span id="eq-pitch-angle-cosine-time-derivative"><span class="math display">\[
+\dot{\mu} = \frac{e}{c p} \left( \mathbf{v} \times \mathbf{B} \right)_{z} = \frac{1}{r_{\text{g}} B_z} \left(v_{x} \delta B_{x}(\mathbf{r}) - v_{y} \delta B_{y}(\mathbf{r}) \right)
+\tag{28.36}\]</span></span> 因此 <span id="eq-pitch-angle-coef"><span class="math display">\[
+D_{\mu\mu} = \frac{1}{ B_{z} ^{2} r_{\text{g}}^{2}} \int_{0}^{\infty }\mathrm{d} t \left[ v_{x}(t) v_{x}(0) \mathcal{P}_{yy}(t) + v_{y}(t) v_{y}(0) \mathcal{P}_{xx}(t) \right]
+\tag{28.37}\]</span></span></p>
+<p>这里定义了 <span id="eq-two-point-func"><span class="math display">\[
+\mathcal{P}_{ij}(t) \equiv \langle \delta B_{i}(0) \delta B_{j}(t) \rangle
+\tag{28.38}\]</span></span> 速度和磁场均沿未扰动轨迹计算。注意，Fokker-Planck 系数仅依赖于两点函数，这意味着我们可以只考虑湍流磁场的高斯部分。</p>
+</section>
+<section id="湍流几何形态与频谱" class="level3" data-number="28.5.4">
+<h3 data-number="28.5.4" class="anchored" data-anchor-id="湍流几何形态与频谱"><span class="header-section-number">28.5.4</span> 湍流几何形态与频谱</h3>
+<p>为了进一步推导，需要指定湍流相关张量 <span class="math inline">\(\mathcal{P}_{ij}\)</span>。推导 Fokker-Planck 方程时，我们必须假设湍流是均匀和平稳的（假设 5）。在这种情况下，场可以在傅里叶空间中非常简洁地表示。为此，引入傅里叶变换对 <span id="eq-turbulence-B-fourier"><span class="math display">\[
+\begin{aligned}
+\delta \tilde{B}_{j}(\mathbf{k}, t) &amp;= (2\pi)^{-3/2} \int_{-\infty }^{\infty} \mathrm{d}^{3} r \, \delta B_{j}(\mathbf{r}, t) \mathrm{e} ^{\imath \mathbf{k} \cdot \mathbf{r}} \\
+\delta B_{j}(\mathbf{x}, t) &amp;= (2\pi)^{-3/2} \int_{-\infty}^{\infty} \mathrm{d}^{3} k \, \delta \tilde{B}_{j}(\mathbf{k}, t) \mathrm{e} ^{-\imath \mathbf{k} \cdot \mathbf{r}}
+\end{aligned}
+\tag{28.39}\]</span></span></p>
+<p>注意，为使磁场取实值，即 <span class="math inline">\(\delta B_{j}(\mathbf{r}) = \delta B^{*}_{j}(\mathbf{r})\)</span>，傅里叶分量及其复共轭必须满足 <span class="math display">\[
+\delta \tilde{B}^{*}_{j}(\mathbf{k}) = \delta \tilde{B}_{j}(-\mathbf{k})
+\]</span></p>
+<p>均匀性和平稳性保证两点函数 <span class="math inline">\(\langle \delta B_{i}(\mathbf{r}, t) \delta B_{j}(\mathbf{r}', t') \rangle\)</span> 对位置 <span class="math inline">\(\mathbf{r}\)</span>、<span class="math inline">\(\mathbf{r}'\)</span> 和时间 <span class="math inline">\(t\)</span>、<span class="math inline">\(t'\)</span> 的依赖仅通过差值 <span class="math inline">\(\Delta \mathbf{r} \equiv (\mathbf{r} - \mathbf{r}')\)</span> 和 <span class="math inline">\((t-t')\)</span> 体现。于是容易看出傅里叶空间中的两点函数是对角的， <span class="math display">\[
+\begin{aligned}
+&amp; \langle \delta \tilde{B}_{i}(\mathbf{k}, t) \delta \tilde{B}^{*}_{j}(\mathbf{k}', t') \rangle \\ &amp;= \! (2 \pi )^{-3} \!\!\! \int \!\! \mathrm {d} ^{3} r \, \mathrm {e} ^{ \imath \mathbf{k} \cdot \mathbf{r}} \!\!\! \int \!\! \mathrm {d} ^{3} r' \mathrm {e} ^{-\imath \mathbf{k}' \cdot \mathbf{r}'} \!\! \langle \delta B_{i}(\mathbf{r}, t) \delta B_{j}(\mathbf{r}'\!, t') \rangle \\
+&amp;= \delta ^{(3)} (\mathbf{k} - \mathbf{k}') P_{ij}(\mathbf{k}, t-t')
+\end{aligned}
+\]</span> 其中湍流相关张量 <span class="math inline">\(P_{ij}(\mathbf{k}, \Delta t)\)</span> 是坐标空间两点函数的傅里叶变换 <span id="eq-turbulence-correlation-tensor"><span class="math display">\[
+\begin{aligned}
+P_{ij}(\mathbf{k}, \Delta t) \equiv &amp; (2 \pi )^{-3/2} \int _{-\infty}^{\infty} \mathrm {d} ^{3} (\Delta r) \, \mathrm {e} ^{\imath \mathbf{k} \cdot \Delta \mathbf{r}} \\ &amp; \times \langle \delta B_{i}(\mathbf{r}, t) \delta B_{j}(\mathbf{r} - \Delta \mathbf{r}\!, t') \rangle
+\end{aligned}
+\tag{28.40}\]</span></span></p>
+<p>它包含计算 Fokker-Planck 系数时所需的全部磁湍流（统计）信息：</p>
+<ul>
+<li>湍流几何形态的信息，例如波传播是否具有优先方向；</li>
+<li>湍流谱的信息，即能量在不同湍流尺度之间的分布；</li>
+<li>相关性的时间依赖信息。</li>
+</ul>
+<p>通常假设 <span class="math inline">\(P_{ij}(\mathbf{k}, \Delta t)\)</span> 可分解为不依赖时间的磁静态相关张量 <span class="math inline">\(P_{ij}(\mathbf{k}) \equiv P_{ij}(\mathbf{k}, 0)\)</span> 和依赖时间的动力学相关函数 <span class="math inline">\(\Gamma(\mathbf{k}, \Delta t)\)</span>， <span id="eq-turbulence-correlation-tensor-decomposition"><span class="math display">\[
+P_{ij}(\mathbf{k}, \Delta t) = P_{ij}(\mathbf{k}) \Gamma (\mathbf{k}, \Delta t)
+\tag{28.41}\]</span></span></p>
+<p>在磁静态近似中，完全忽略任何时间依赖，因此 <span class="math display">\[
+\Gamma \equiv 1
+\]</span></p>
+<p>虽然实际中的 <span class="math inline">\(P_{ij}\)</span> 可能极其复杂，但在输运系数解析研究和数值测试粒子模拟的文献中，三种湍流几何形态占据主导地位。这三种形态概念简单，特别适合解析计算扩散张量各分量和其他 Fokker-Planck 系数：</p>
+<ul>
+<li>三维各向同性湍流</li>
+<li>板状湍流</li>
+<li>板状湍流与二维各向同性湍流的组合</li>
+</ul>
+<section id="三维各向同性湍流" class="level4" data-number="28.5.4.1">
+<h4 data-number="28.5.4.1" class="anchored" data-anchor-id="三维各向同性湍流"><span class="header-section-number">28.5.4.1</span> 三维各向同性湍流</h4>
+<p>对于三维各向同性湍流，磁静态相关张量具有如下形式（Batchelor 1982） <span id="eq-correlation-tensor-3disotropic"><span class="math display">\[
+P^{\text{3D}}_{ij}(\mathbf{k}) = g^{\text{3D}}(k) \left( \delta _{ij} - \frac{k_{i} k_{j}}{k^{2}} + \imath \sigma(k) \epsilon_{ijm} \frac{k_{m}}{k} \right)
+\tag{28.42}\]</span></span></p>
+<p>依赖于 k 的实函数 <span class="math inline">\(g^{\text{3D}}(k)\)</span> 和 <span class="math inline">\(\sigma(k)\)</span> 分别用于对总体频谱和依赖于波数的螺度建模。注意，对于线偏振波，<span class="math inline">\(\sigma(k)\equiv 0\)</span>。通过要求下式确定 <span class="math inline">\(g^{\text{3D}}(k)\)</span> 的归一化 <span id="eq-isotropic-normalization"><span class="math display">\[
+\begin{aligned}
+\delta B^{2} &amp;\equiv \langle \mathbf{\delta B}^{2}(\mathbf{x}) \rangle \! = \!\! \int \mathrm {d} ^{3} k \left ( P^{\text{3D}}_{xx}(\mathbf{k}) + P^{\text{3D}}_{yy}( \mathbf{k}) + P^{\text{3D}}_{zz}(\mathbf{k}) \right ) \\ &amp;= 2 \int \mathrm {d} ^{3} k \, g^{\text{3D}}(k) = 8 \pi \int _{0}^{\infty } \mathrm {d} k \, k^{2} g^{\text{3D}}(k)
+\end{aligned}
+\tag{28.43}\]</span></span></p>
+</section>
+<section id="板状湍流" class="level4" data-number="28.5.4.2">
+<h4 data-number="28.5.4.2" class="anchored" data-anchor-id="板状湍流"><span class="header-section-number">28.5.4.2</span> 板状湍流</h4>
+<p>在板状湍流中，假设所有量都不依赖于垂直背景场的坐标（x 和 y），且湍流场没有 z 分量。因此波矢 <span class="math inline">\(\mathbf{k}\parallel \hat{z}\)</span>；如果进一步要求湍流轴对称，湍流相关张量为 <span id="eq-correlation-tensor-slab"><span class="math display">\[
+P^{\text{slab}}_{ij}(\mathbf{k}) = g^{\text{slab}}(k_{\parallel }) \frac{\delta (k_{\perp })}{k_{\perp }} \left ( \delta _{ij} + \imath \sigma (k_{\parallel }) \epsilon _{ijz} \right )
+\tag{28.44}\]</span></span> 其中 <span class="math inline">\(i, j \in x, y\)</span>，其余情况下为零。在这里 <span class="math inline">\(k_\parallel = k_z\)</span>，<span class="math inline">\(k_{\perp } = \sqrt{k_{x}^{2} + k_{y}^{2}}\)</span>。同样，<span class="math inline">\(\sigma(k_\parallel)\)</span> 允许螺度依赖波数，但在线偏振时为零。归一化为 <span id="eq-slab-normalization"><span class="math display">\[
+\begin{aligned}
+\delta B^{2} &amp;\equiv \int \mathrm{d} ^{3} k \left( P^{\text{slab}}_{xx}( \mathbf{k}) + P^{\text{slab}}_{yy}(\mathbf{k}) \right) \\
+&amp;= 4 \pi \int _{-\infty}^{\infty} \mathrm{d} k_{\parallel} \, g^{ \text{slab}}(k_{\parallel})
+\end{aligned}
+\tag{28.45}\]</span></span></p>
+<p>虽然板状湍流作为湍流模型似乎限制较多，但由于简单而很有吸引力。此外，在湍流由宇宙射线分布的各向异性自发产生的情况下，它可以被认为具有物理意义（Kulsrud and Pearce 1969；Skilling 1975）：已有研究表明（例如 Tademaru 1969），波矢沿背景磁场的模态增长最快。</p>
+</section>
+<section id="复合板状-二维各向同性湍流" class="level4" data-number="28.5.4.3">
+<h4 data-number="28.5.4.3" class="anchored" data-anchor-id="复合板状-二维各向同性湍流"><span class="header-section-number">28.5.4.3</span> 复合（板状 + 二维各向同性）湍流</h4>
+</section>
+<section id="湍流频谱" class="level4" data-number="28.5.4.4">
+<h4 data-number="28.5.4.4" class="anchored" data-anchor-id="湍流频谱"><span class="header-section-number">28.5.4.4</span> 湍流频谱</h4>
+<p>回顾了三种简单湍流几何形态后，为计算输运系数，需要指定频谱形状 <span class="math inline">\(g(k)\)</span>。在湍流级联模型中，能量在最大尺度上注入，即所谓的_注入（能量）区_。非线性相互作用在所谓的_惯性区_将能量传递到较小尺度。在非常小的尺度上，湍流能量在所谓的_耗散区_耗散。分隔注入区与惯性区的尺度称为_湍流外尺度_，分隔惯性区与耗散区的尺度称为_耗散尺度_。</p>
+<p>大多数研究采用两种频谱之一。第一种是谱指数为 <span class="math inline">\(q\)</span>、低波数截断为 <span class="math inline">\(k_0\)</span> 的简单幂律，对应外尺度 <span class="math inline">\((2\pi/k_0)\)</span>， <span class="math display">\[
+g_{\text{PL}}(k) = \left \{ \textstyle\begin{array}{l@{\quad }l} g_{0} (k/k_{0})^{-q} &amp; \text{当 } k \geq k_{0} \, , \\ 0 &amp; \text{其他情况。} \end{array}\displaystyle \right .
+\]</span></p>
+<p>另一种是折断幂律：波数低于 <span class="math inline">\(k_0\)</span> 时频谱平坦，高于该值时具有幂律斜率 <span class="math inline">\(q\)</span>， <span class="math display">\[
+g_{\text{BPL}}(k) = g_{0} \left ( 1 + \left ( \frac{k}{k_{0}} \right )^{1/s} \right )^{-q s} \, .
+\]</span> 这里 <span class="math inline">\(s\)</span> 表征折断的平滑程度，<span class="math inline">\(s\to 0\)</span> 对应尖锐折断。假设折断幂律形式也有可能描述注入区，即 <span class="math inline">\(k&lt;k_0\)</span> 时的湍流。</p>
+</section>
+<section id="具有折断幂律谱的板状湍流" class="level4" data-number="28.5.4.5">
+<h4 data-number="28.5.4.5" class="anchored" data-anchor-id="具有折断幂律谱的板状湍流"><span class="header-section-number">28.5.4.5</span> 具有折断幂律谱的板状湍流</h4>
+<p>下面以板状湍流和折断幂律谱的俯仰角扩散系数结果为例（Shalchi 2009）。 <span id="eq-g-slab-turbulence"><span class="math display">\[
+g^{\text{slab}}(k_{\parallel }) = \frac{C \left (q, \frac{1}{2} \right )}{2 \pi k_{0}} \delta B^{2} \left ( 1 + \left ( \frac{k}{k_{0}} \right )^{2} \right )^{-q/2} \, .
+\tag{28.46}\]</span></span></p>
+<p>函数 <span class="math inline">\(C(q, s)\)</span> 由归一化条件确定，见 <a href="#eq-slab-normalization" class="quarto-xref">式&nbsp;<span>28.45</span></a>， <span id="eq-slab-normalization2"><span class="math display">\[
+\begin{aligned}
+\frac{1}{C(q, s)} &amp; \equiv \frac{4}{k_{0}} \int_{0}^{\infty} \mathrm {d} k \, \left ( 1 + \left( \frac{k}{k_{0}} \right )^{1/s} \right)^{-q s} \\
+&amp;= \frac{4}{k_{0}} \frac{\Gamma (s(q-1)) \Gamma (1+s)}{\Gamma (q \, s)}
+\end{aligned}
+\tag{28.47}\]</span></span></p>
+<p>其中 <span class="math inline">\(\Gamma (\cdot)\)</span> 表示伽马函数。我们假设 <span class="math inline">\(q&gt;1\)</span>，以使 <a href="#eq-slab-normalization2" class="quarto-xref">式&nbsp;<span>28.47</span></a> 中对 k 的积分收敛。而对于 <span class="math inline">\(q=1\)</span>，需要假设一个截断，即当 <span class="math inline">\(k_{\parallel} &gt; k_{\text{max}}\)</span> 时 <span class="math inline">\(g^{\text{slab}} = 0\)</span>。</p>
+<p>将 <a href="#eq-g-slab-turbulence" class="quarto-xref">式&nbsp;<span>28.46</span></a> 代入 <a href="#eq-correlation-tensor-slab" class="quarto-xref">式&nbsp;<span>28.44</span></a> 和 <a href="#eq-pitch-angle-coef" class="quarto-xref">式&nbsp;<span>28.37</span></a>，会出现共振函数（Schlickeiser 2002） <span id="eq-slab-turbulence-resonance"><span class="math display">\[
+R^{\text{slab}} = \pi \delta (k_{\parallel } \mu v \pm \Omega )
+\tag{28.48}\]</span></span></p>
+<p>最终，它简化为 <span id="eq-diffusion-coef-slab-turbulence"><span class="math display">\[
+D_{\mu \mu } = \frac{\pi }{2} C \! \left ( \! q, \frac{1}{2} \! \right ) q k_{0} \frac{\delta B^{2}}{B_{z}^{2}} \frac{(1 - \mu ^{2}) \mu ^{q-1} (r_{\text{L}} k_{0})^{q-2}}{(1 + \mu ^{2} (r_{\text{L}} k_{0}))^{q/2}}
+\tag{28.49}\]</span></span></p>
+</section>
+</section>
+<section id="磁力线随机游走" class="level3" data-number="28.5.5">
+<h3 data-number="28.5.5" class="anchored" data-anchor-id="磁力线随机游走"><span class="header-section-number">28.5.5</span> 磁力线随机游走</h3>
+<p><a href="#eq-TGK" class="quarto-xref">式&nbsp;<span>28.35</span></a> 和 <a href="#eq-pitch-angle-coef" class="quarto-xref">式&nbsp;<span>28.37</span></a> 中俯仰角扩散系数的计算，基于沿绕均匀背景场的轨迹计算洛伦兹力的湍流部分。只要扰动很小，这就给出平行扩散系数 <a href="#eq-parallel-diffusion-coef" class="quarto-xref">式&nbsp;<span>28.32</span></a> 的主导贡献。</p>
+<p>然而，对于垂直输运，还有另一个重要贡献，原因是磁力线并非完全均匀。沿磁力线考察粒子所处的大尺度磁场时，其方向随沿该磁力线的距离而变化。在某些条件下，可以证明这种运动是扩散性的，见下文。如果在计算均方位移时（或等价地通过 Taylor-Green-Kubo 方法）纳入这一效应造成的粒子运动，便得到对垂直输运的所谓_磁力线随机游走（FLRW）<em>贡献。不包含这一效应的贡献通常称为_微观贡献</em>。</p>
+<p>对于板状湍流，微观扩散系数为零（输运实际上是亚扩散的），因此唯一的贡献来自 FLRW。对于其他湍流几何形态，FLRW 也可能有贡献，但不一定占主导。</p>
+<p>再次假设规则背景场 <span class="math inline">\(\langle \mathbf{B} \rangle = B_{z} \hat{z}\)</span> 相对于扰动 <span class="math inline">\(\delta\mathbf{B}\)</span> 占主导。确定磁力线 <span class="math inline">\(\{ x(z), y(z) \}\)</span> 的方程为 <span class="math display">\[
+\frac{\mathrm{d}x}{\mathrm{d}z} = \frac{\delta B_{x}}{B_{z}} \, ,\frac{\mathrm{d}y}{\mathrm{d}z} = \frac{\delta B_{y}}{B_{z}}
+\]</span> 形式上可以对其积分，得到垂直方向的均方位移，例如 <span id="eq-mean-sqr-displacement-perp"><span class="math display">\[
+\langle (\Delta x)^{2} \rangle \! = \! \frac{1}{B_{z}^{2}} \int _{0}^{z} \!\! \! \mathrm {d} z' \!\! \int _{0}^{z} \!\!\! \mathrm {d} z'' \langle \delta B_{x}(\mathbf{r}(z')) \delta B_{x}(\mathbf{r}(z'')) \rangle
+\tag{28.50}\]</span></span></p>
+<p>在板状湍流中，被积函数只依赖于 z，容易证明垂直均方位移 <span class="math inline">\(\langle (\Delta r_{\perp})^{2} \rangle\)</span> 在小 z 时是弹道性的，在大 z 时是扩散性的，例如 <span class="math display">\[
+\langle (\Delta x)^{2} \rangle = \left \{ \textstyle\begin{array}{l@{\quad } l} z^{2} \left ( \delta B_{x} / B_{z} \right )^{2} &amp; \text{当 } z \to 0 \, , \\ 2 \kappa _{\text{FLRW}} |z| &amp; \text{当 } z \to \infty \, , \end{array}\displaystyle \right .
+\]</span> 其中 FLRW 扩散系数为 <span class="math display">\[
+\kappa _{\text{FLRW}} = \frac{2 \pi ^{2}}{B_{z}^{2}} g^{\text{slab}}(0)
+\]</span></p>
+<p>在其他湍流几何形态中，<a href="#eq-mean-sqr-displacement-perp" class="quarto-xref">式&nbsp;<span>28.50</span></a> 的被积函数还依赖于 x 和 y，因此没有进一步假设就无法得到显式解。</p>
+<p>如果假设粒子沿磁力线扩散，<span class="math inline">\(\langle (\Delta z)^{2} \rangle \propto \Delta t\)</span>，FLRW 会导致亚扩散的垂直输运，<span class="math inline">\(\langle (\Delta r_{\perp})^{2} \rangle \propto \sqrt{\Delta t}\)</span>；这一现象称为_复合（亚）扩散_（Jokipii 1966）。复合亚扩散已应用于实验室等离子体、日球层、近源输运以及激波加速等多种环境。</p>
+</section>
+<section id="qlt-的不足" class="level3" data-number="28.5.6">
+<h3 data-number="28.5.6" class="anchored" data-anchor-id="qlt-的不足"><span class="header-section-number">28.5.6</span> QLT 的不足</h3>
+<p>尽管 QLT 广泛使用，它仍存在若干问题。磁静态 QLT 最著名的缺陷是无法使粒子散射穿过 <span class="math inline">\(90^\circ\)</span>。虽然这一问题存在于多种湍流几何形态中，但在板状湍流中最容易说明，因为此时俯仰角扩散系数 <span class="math inline">\(D_{\mu\mu}\)</span> 对频谱 <span class="math inline">\(g^{\text{slab}}(k)\)</span> 的依赖变得非常简单。事实上，考察 <a href="#eq-diffusion-coef-slab-turbulence" class="quarto-xref">式&nbsp;<span>28.49</span></a> 可见，当 <span class="math inline">\(\mu\to 0\)</span> 时 <span class="math inline">\(D_{\mu\mu}\to 0\)</span>。</p>
+<p><span class="math inline">\(90^\circ\)</span> 问题的根源是磁静态 QLT 中狭窄的共振条件 <span class="math inline">\(k_{\parallel } \mu \, r_{\text{L}} = \pm 1\)</span>（<a href="#eq-slab-turbulence-resonance" class="quarto-xref">式&nbsp;<span>28.48</span></a>）。具有有限 <span class="math inline">\(\mu\)</span> 的粒子与平行波数有限的波共振，<span class="math inline">\(k_{\parallel} = \pm 1 / (\mu r_{\text{L}})\)</span>。然而，当 <span class="math inline">\(\mu\to 0\)</span> 时，共振平行波数无限增大。由于湍流频谱是递减幂律，小尺度上的能量很少，俯仰角散射率趋于零。实际上，在低于耗散尺度的尺度上当然完全没有能量。</p>
+</section>
+</section>
+<section id="sec-test-particle" class="level2" data-number="28.6">
+<h2 data-number="28.6" class="anchored" data-anchor-id="sec-test-particle"><span class="header-section-number">28.6</span> 测试粒子模拟</h2>
+<p>由于尚无广泛接受的准线性理论扩展，还必须通过数值模拟研究波粒相互作用，即在湍流磁场的一个实现中直接求解运动方程。这类宇宙射线测试粒子模拟有多种应用：检验输运理论、计算扩散系数等参数，或预测标准扩散理论之外的现象，例如宇宙射线的小尺度各向异性。</p>
+<p>理想情况下，应通过将预测与观测数据比较，检验这些超越 QLT 的非线性理论。虽然日球层研究界正在采用这种方法，但仍有一个困难：实际湍流（如果已知）远比解析输运理论中通常假设的复杂。另一种方法是通过将输运理论的预测与数值实验结果比较来检验理论。</p>
+<p>测试粒子模拟计算高能带电粒子在给定电磁场中的输运，而不考虑高能粒子对电磁场的影响。为此，生成湍流磁场的一个实现，并求解测试粒子的运动方程，也就是说忽略宇宙射线粒子对电磁场的贡献。给定足够多测试粒子的轨迹，就可以数值计算 Fokker-Planck 系数。</p>
+<p>除了通过比较解析计算和模拟得到的扩散系数来检验输运理论，测试粒子模拟至少还有另外两种应用：</p>
+<ol type="1">
+<li><p>对于距离近于或接近散射平均自由程的源，扩散输运理论不一定适用。求解扩散方程时一个经常被提及的缺陷是出现超光速传播。近年来，人们对输运的弹道阶段与扩散阶段之间的过渡越来越感兴趣，测试粒子模拟使我们能够在给定湍流电磁场的情况下探索这一过渡。</p></li>
+<li><p>解析输运理论通常只预测系综平均相空间密度，并通常假设观测到的相空间密度接近系综平均值。如今这一假设受到质疑，特别是考虑到在 TeV-PeV 宇宙射线到达方向上观测到了小尺度各向异性。测试粒子模拟自然地模拟湍流场各个实现对应的宇宙射线分布，因此能够直接研究这类随机性效应。</p></li>
+</ol>
+<p>需要指出，如果相对论粒子的密度足够高，粒子可以自行产生波并改变湍流。在这种情况下，测试粒子模型不再能够有效描述相关物理。</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bellan2008fundamentals" class="csl-entry" role="listitem">
+Bellan, Paul M. 2008年. <em>Fundamentals of plasma physics</em>. Cambridge University Press.
+</div>
+<div id="ref-jokipii1966cosmic" class="csl-entry" role="listitem">
+Jokipii, Jo R. 1966年. <span>《Cosmic-ray propagation. I. Charged particles in a random magnetic field》</span>. <em>Astrophysical Journal, vol. 146, p. 480</em> 146: 480. <a href="https://doi.org/10.1086/148912">https://doi.org/10.1086/148912</a>.
+</div>
+<div id="ref-mertsch2020test" class="csl-entry" role="listitem">
+Mertsch, Philipp. 2020年. <span>《Test particle simulations of cosmic rays》</span>. <em>Astrophysics and Space Science</em> 365 (8): 135. <a href="https://doi.org/10.1007/s10509-020-03832-3">https://doi.org/10.1007/s10509-020-03832-3</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>这是 <a href="https://stochastic-parker.readthedocs.io/en/latest/theory/parker_intro.html">GPAT 模型</a>给出的形式。Riaan Steenkamp 的笔记给出了略有不同的导引中心漂移版本，将绝热能量变化纳入扩散张量。另请注意 <span class="math inline">\(\frac{\partial f_0}{\partial \ln{p}} = p\,\partial f_0 / \partial p\)</span>。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>在 CGS 单位制中，电场和磁场具有相同的单位。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>严格来说，由于两点函数中磁场的矢量性质，相关长度和时间是张量；但这里仅用它们进行数量级论证，因此不区分不同分量。<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>在粒子输运中，弹道运动指粒子运动受到环境的影响极小。想象一个粒子沿无摩擦的直线轨迹运动，几乎像一颗子弹。这就是弹道输运！<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/gc.html" class="pagination-link" aria-label="导引中心">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/boundary.html" class="pagination-link" aria-label="边界条件">
+        <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/cr.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

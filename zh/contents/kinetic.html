@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>12&nbsp; 动力学理论 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/stability.html" rel="next">
+<link href="../contents/emhd.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/kinetic.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#相空间" id="toc-相空间" class="nav-link active" data-scroll-target="#相空间"><span class="header-section-number">12.1</span> 相空间</a></li>
+  <li><a href="#分布函数" id="toc-分布函数" class="nav-link" data-scroll-target="#分布函数"><span class="header-section-number">12.2</span> 分布函数</a>
+  <ul class="collapse">
+  <li><a href="#分布函数的矩" id="toc-分布函数的矩" class="nav-link" data-scroll-target="#分布函数的矩"><span class="header-section-number">12.2.1</span> 分布函数的矩</a></li>
+  <li><a href="#麦克斯韦分布" id="toc-麦克斯韦分布" class="nav-link" data-scroll-target="#麦克斯韦分布"><span class="header-section-number">12.2.2</span> 麦克斯韦分布</a></li>
+  <li><a href="#kappa-分布" id="toc-kappa-分布" class="nav-link" data-scroll-target="#kappa-分布"><span class="header-section-number">12.2.3</span> Kappa 分布</a></li>
+  <li><a href="#分布的熵" id="toc-分布的熵" class="nav-link" data-scroll-target="#分布的熵"><span class="header-section-number">12.2.4</span> 分布的熵</a></li>
+  <li><a href="#sec-collision-entropy" id="toc-sec-collision-entropy" class="nav-link" data-scroll-target="#sec-collision-entropy"><span class="header-section-number">12.2.5</span> 碰撞对熵的影响</a></li>
+  </ul></li>
+  <li><a href="#动力学理论的方程" id="toc-动力学理论的方程" class="nav-link" data-scroll-target="#动力学理论的方程"><span class="header-section-number">12.3</span> 动力学理论的方程</a>
+  <ul class="collapse">
+  <li><a href="#sec-vlasov" id="toc-sec-vlasov" class="nav-link" data-scroll-target="#sec-vlasov"><span class="header-section-number">12.3.1</span> 弗拉索夫方程</a></li>
+  <li><a href="#玻尔兹曼方程" id="toc-玻尔兹曼方程" class="nav-link" data-scroll-target="#玻尔兹曼方程"><span class="header-section-number">12.3.2</span> 玻尔兹曼方程</a></li>
+  </ul></li>
+  <li><a href="#sec-kinetic-fluid-moments" id="toc-sec-kinetic-fluid-moments" class="nav-link" data-scroll-target="#sec-kinetic-fluid-moments"><span class="header-section-number">12.4</span> 流体方程的推导</a></li>
+  <li><a href="#sec-landau" id="toc-sec-landau" class="nav-link" data-scroll-target="#sec-landau"><span class="header-section-number">12.5</span> 等离子体振荡与朗道阻尼</a></li>
+  <li><a href="#sec-landau_damping" id="toc-sec-landau_damping" class="nav-link" data-scroll-target="#sec-landau_damping"><span class="header-section-number">12.6</span> 朗道阻尼的意义</a>
+  <ul class="collapse">
+  <li><a href="#一束电子的动能" id="toc-一束电子的动能" class="nav-link" data-scroll-target="#一束电子的动能"><span class="header-section-number">12.6.1</span> 一束电子的动能</a></li>
+  <li><a href="#初始条件的影响" id="toc-初始条件的影响" class="nav-link" data-scroll-target="#初始条件的影响"><span class="header-section-number">12.6.2</span> 初始条件的影响</a></li>
+  </ul></li>
+  <li><a href="#朗道阻尼的物理推导" id="toc-朗道阻尼的物理推导" class="nav-link" data-scroll-target="#朗道阻尼的物理推导"><span class="header-section-number">12.7</span> 朗道阻尼的物理推导</a>
+  <ul class="collapse">
+  <li><a href="#共振粒子" id="toc-共振粒子" class="nav-link" data-scroll-target="#共振粒子"><span class="header-section-number">12.7.1</span> 共振粒子</a></li>
+  <li><a href="#两个佯谬的解决" id="toc-两个佯谬的解决" class="nav-link" data-scroll-target="#两个佯谬的解决"><span class="header-section-number">12.7.2</span> 两个佯谬的解决</a></li>
+  </ul></li>
+  <li><a href="#bgk-模式与-van-kampen-模式" id="toc-bgk-模式与-van-kampen-模式" class="nav-link" data-scroll-target="#bgk-模式与-van-kampen-模式"><span class="header-section-number">12.8</span> BGK 模式与 Van Kampen 模式</a></li>
+  <li><a href="#离子朗道阻尼" id="toc-离子朗道阻尼" class="nav-link" data-scroll-target="#离子朗道阻尼"><span class="header-section-number">12.9</span> 离子朗道阻尼</a>
+  <ul class="collapse">
+  <li><a href="#等离子体色散函数" id="toc-等离子体色散函数" class="nav-link" data-scroll-target="#等离子体色散函数"><span class="header-section-number">12.9.1</span> 等离子体色散函数</a></li>
+  <li><a href="#离子波及其阻尼" id="toc-离子波及其阻尼" class="nav-link" data-scroll-target="#离子波及其阻尼"><span class="header-section-number">12.9.2</span> 离子波及其阻尼</a></li>
+  </ul></li>
+  <li><a href="#磁场中的动力学效应" id="toc-磁场中的动力学效应" class="nav-link" data-scroll-target="#磁场中的动力学效应"><span class="header-section-number">12.10</span> 磁场中的动力学效应</a>
+  <ul class="collapse">
+  <li><a href="#sec-HPDR" id="toc-sec-HPDR" class="nav-link" data-scroll-target="#sec-HPDR"><span class="header-section-number">12.10.1</span> 热等离子体介电张量</a></li>
+  <li><a href="#伯恩斯坦波" id="toc-伯恩斯坦波" class="nav-link" data-scroll-target="#伯恩斯坦波"><span class="header-section-number">12.10.2</span> 伯恩斯坦波</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/kinetic.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-kinetic" class="quarto-section-identifier"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="相空间" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="相空间"><span class="header-section-number">12.1</span> 相空间</h2>
+<p>考虑一个在一维空间中运动的粒子，设其位置为 <span class="math inline">\(x = x(t)\)</span>，速度为 <span class="math inline">\(v = v(t)\)</span>。一种同时观察 <span class="math inline">\(x\)</span> 和 <span class="math inline">\(v\)</span> 轨迹的方法，是在二维图上以参数形式绘制这些轨迹，其中横坐标为 <span class="math inline">\(x(t)\)</span>，纵坐标为 <span class="math inline">\(v(t)\)</span>。这个 <span class="math inline">\(x\)</span>-<span class="math inline">\(v\)</span> 平面称为_相空间_。多个粒子的轨迹（或轨道）可以表示为相空间中的一组曲线。<a href="#fig-phase-space" class="quarto-xref">图&nbsp;<span>12.1</span></a> 展示了几种性质不同的相空间轨道。</p>
+<div id="fig-phase-space" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-phase-space-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/phase_space_trajectories.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-phase-space-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;12.1: 展示不同类型的可能粒子轨道的相空间。
+</figcaption>
+</figure>
+</div>
+<p>上半平面中的粒子速度为正，因此总是向右运动；下半平面中的粒子则总是向左运动。作严格周期运动的粒子（例如 <span class="math inline">\(x = A\cos t,\, v = −A\sin t\)</span>）交替向右和向左运动，因此在相空间中描绘出一个椭圆。作准周期运动的粒子具有近似椭圆形或螺旋形的轨道。不改变运动方向的粒子称为通过粒子，而被限制在相空间某一区域内的粒子（例如作周期运动的粒子）称为俘获粒子。</p>
+</section>
+<section id="分布函数" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="分布函数"><span class="header-section-number">12.2</span> 分布函数</h2>
+<p>到目前为止，我们一直使用的流体理论是对等离子体最简单的描述；幸运的是，这种近似足够精确，能够描述所观察到的大多数现象。然而，对某些现象而言，流体处理方法并不充分。在任意给定时刻，每个粒子都有确定的位置和速度。因此，我们可以通过指定相空间中每一点 <span class="math inline">\(x, v\)</span> 处的粒子密度，来表征大量粒子的瞬时状态。描述相空间中粒子瞬时密度的函数称为_分布函数_，记为 <span class="math inline">\(f(x, v, t)\)</span>。因此，<span class="math inline">\(f(x, v, t)\mathrm{d}x\mathrm{d}v\)</span> 是在时刻 <span class="math inline">\(t\)</span> 位置处于 <span class="math inline">\(x\)</span> 与 <span class="math inline">\(x+\mathrm{d}x\)</span> 之间、速度处于 <span class="math inline">\(v\)</span> 与 <span class="math inline">\(v+\mathrm{d}v\)</span> 之间的粒子数。随着时间推移，粒子的运动和加速使这些 <span class="math inline">\(x\)</span> 和 <span class="math inline">\(v\)</span> 范围内的粒子数发生变化，因此 <span class="math inline">\(f\)</span> 也会改变。<span class="math inline">\(f\)</span> 的这种时间演化提供了比流体描述更详细、但比追踪每个粒子的轨迹更粗略的系统描述。利用 <span class="math inline">\(f\)</span> 的演化来表征系统，并不追踪各个粒子的轨迹，而是表征具有相同 <span class="math inline">\(x, v\)</span> 的粒子群。</p>
+<p>在流体理论中，因变量仅是四个自变量 <span class="math inline">\(x, y, z,\)</span> 和 <span class="math inline">\(t\)</span> 的函数。这是因为假定每一种粒子的速度分布在各处都是麦克斯韦分布，因而可以由其整体速度 <span class="math inline">\(\vec{U}\)</span> 和温度 <span class="math inline">\(T\)</span> 唯一确定。由于高温等离子体中的碰撞可能很少，偏离热平衡的状态可以保持相对较长的时间。例如，考虑一维系统中的两个速度分布 <span class="math inline">\(f_1(v_x)\)</span> 和 <span class="math inline">\(f_2(v_x)\)</span>（<a href="#fig-distributions-1d" class="quarto-xref">图&nbsp;<span>12.2</span></a>）。这两个分布的行为会完全不同，但只要曲线下的面积相同，流体理论就无法区分它们。</p>
+<div id="fig-distributions-1d" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distributions-1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/distributions_nonmaxwellian_1d.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distributions-1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;12.2: 非麦克斯韦分布函数的例子
+</figcaption>
+</figure>
+</div>
+<p>考虑三维速度分布时，我们有七个自变量：<span class="math inline">\(f = f(\mathbf{r}, \mathbf{v}, t)\)</span>。 <span class="math inline">\(f(\mathbf{r}, \mathbf{v}, t)\)</span> 的含义是，在位置 <span class="math inline">\(\mathbf{r}\)</span> 和时刻 <span class="math inline">\(t\)</span>，速度分量分别处于 <span class="math inline">\(v_x\)</span> 与 <span class="math inline">\(v_x + \mathrm{d}v_x\)</span>、<span class="math inline">\(v_y\)</span> 与 <span class="math inline">\(v_y + \mathrm{d}v_y\)</span>、<span class="math inline">\(v_z\)</span> 与 <span class="math inline">\(v_z + \mathrm{d}v_z\)</span> 之间的粒子，其每立方米的数量为 <span class="math display">\[
+f(x, y, z, v_x, v_y, v_z, t) \mathrm{d}v_x \mathrm{d}v_y \mathrm{d}v_z
+\]</span></p>
+<section id="分布函数的矩" class="level3" data-number="12.2.1">
+<h3 data-number="12.2.1" class="anchored" data-anchor-id="分布函数的矩"><span class="header-section-number">12.2.1</span> 分布函数的矩</h3>
+<div id="fig-distribution-moments" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distribution-moments-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/distribution_moments.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distribution-moments-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;12.3: 矩给出阴影竖条内粒子的加权平均值。
+</figcaption>
+</figure>
+</div>
+<p>让我们计算 <a href="#fig-distribution-moments" class="quarto-xref">图&nbsp;<span>12.3</span></a> 中阴影竖条内的粒子数。该竖条中的粒子数就是位置处于 <span class="math inline">\(x\)</span> 与 <span class="math inline">\(x + \mathrm{d}x\)</span> 之间的粒子数，其中 <span class="math inline">\(x\)</span> 是竖条左侧的位置，<span class="math inline">\(x + \mathrm{d}x\)</span> 是右侧的位置。竖条中的粒子数也可定义为 <span class="math inline">\(n(x, t)\mathrm{d}x\)</span>，其中 <span class="math inline">\(n(x)\)</span> 是 <span class="math inline">\(x\)</span> 处的粒子密度。因此可知 <span class="math inline">\(\int f(x, v)\mathrm{d}v = n(x)\)</span>。从相空间描述（即 <span class="math inline">\(x, v\)</span> 是自变量）过渡到通常的描述（即只有 <span class="math inline">\(x\)</span> 是自变量），需要通过积分消去速度依赖性，得到只依赖位置的量（例如密度）。由于粒子数有限，且 <span class="math inline">\(f\)</span> 为正，当 <span class="math inline">\(v\rightarrow\pm\infty\)</span> 时，<span class="math inline">\(f\)</span> 必须趋于零。</p>
+<p>在三维情况下，密度是四个标量变量的函数 <span class="math inline">\(n=n(\mathbf{r}, t)\)</span>，它等于分布函数在速度空间上的积分： <span id="eq-distribution-density"><span class="math display">\[
+\begin{aligned}
+n(\mathbf{r}, t) &amp;= \int_{-\infty}^{\infty} \mathrm{d}v_x \int_{-\infty}^{\infty} \mathrm{d}v_y \int_{-\infty}^{\infty} \mathrm{d}v_z f(\mathbf{r}, \mathbf{v}, t) \\
+&amp;= \int_{-\infty}^{\infty}f(\mathbf{r}, \mathbf{v}, t)\mathrm{d}^3v \\
+&amp;= \int_{-\infty}^{\infty}f(\mathbf{r}, \mathbf{v}, t)\mathrm{d}\mathbf{v}
+\end{aligned}
+\tag{12.1}\]</span></span></p>
+<p>注意，<span class="math inline">\(\mathrm{d}\mathbf{v}\)</span> 不是矢量；它表示速度空间中的三维体积元。若将 <span class="math inline">\(f\)</span> 归一化，使得 <span id="eq-f_normalization"><span class="math display">\[
+\int_{-\infty}^{\infty} \hat{f}(\mathbf{r}, \mathbf{v}, t) \mathrm{d}\mathbf{v} = 1
+\tag{12.2}\]</span></span></p>
+<p>则 <span id="eq-f_normalization_dimensionless"><span class="math display">\[
+\hat{f}(\mathbf{r}, \mathbf{v}, t) = f(\mathbf{r}, \mathbf{v}, t) / n(\mathbf{r}, t)
+\tag{12.3}\]</span></span> 表示在位置 <span class="math inline">\(\mathbf{r}\)</span> 随机选取的粒子在时刻 <span class="math inline">\(t\)</span> 具有速度 <span class="math inline">\(\mathbf{v}\)</span> 的概率。从这个角度看，对 <span class="math inline">\(x\)</span> 处所有粒子的速度取平均便得到平均速度 <span id="eq-distribution-velocity"><span class="math display">\[
+u(\mathrm{x},t)=\frac{\int\mathbf{v}f(\mathbf{x},\mathbf{v},t)\mathrm{d}\mathbf{v}}{n(\mathbf{x},t)}
+\tag{12.4}\]</span></span></p>
+<p>类似地，将 <span class="math inline">\(\hat{f}\)</span> 乘以 <span class="math inline">\(mv^2/2\)</span>，再对速度积分，就能得到所有粒子平均动能的表达式。这种将 <span class="math inline">\(f\)</span> 乘以 <span class="math inline">\(\mathbf{v}\)</span> 的不同幂次，再对速度积分的过程，称为_求分布函数的矩_。</p>
+<p>注意，<span class="math inline">\(\hat{f}\)</span> 仍然是七个变量的函数，因为分布的形状以及密度都可以随空间和时间变化。由 <a href="#eq-f_normalization" class="quarto-xref">式&nbsp;<span>12.2</span></a> 可知，<span class="math inline">\(\hat{f}\)</span> 的量纲为 <span class="math inline">\((\text{m}/\text{s})^{-3}\)</span>；因此，由 <a href="#eq-f_normalization_dimensionless" class="quarto-xref">式&nbsp;<span>12.3</span></a> 可知，<span class="math inline">\(f\)</span> 的量纲为 <span class="math inline">\(\text{s}^3 \text{m}^{-6}\)</span>。</p>
+</section>
+<section id="麦克斯韦分布" class="level3" data-number="12.2.2">
+<h3 data-number="12.2.2" class="anchored" data-anchor-id="麦克斯韦分布"><span class="header-section-number">12.2.2</span> 麦克斯韦分布</h3>
+<p>一个特别重要的分布函数是麦克斯韦分布： <span id="eq-maxwellian-distribution-normalized"><span class="math display">\[
+\hat{f}_m = \left(\frac{m}{2\pi k_B T}\right)^{3/2}\exp\left(-\frac{v^2}{v_{th}^2}\right)
+\tag{12.5}\]</span></span> 其中 <span class="math display">\[
+v\equiv(v_x^2 + v_y^2 + v_z^2)^{1/2}\quad\text{且}\quad v_{th}\equiv(2k_B T/m)^{1/2}
+\]</span></p>
+<p>这是归一化形式，其中 <span class="math inline">\(\hat{f}_m\)</span> 相当于概率：利用定积分 <span class="math display">\[
+\int_{-\infty}^{\infty}\exp(-x^2)dx = \sqrt{\pi}
+\]</span> 可以容易地验证，<span class="math inline">\(\hat{f}_m\)</span> 对 <span class="math inline">\(\mathrm{d}v_x \mathrm{d}v_y \mathrm{d}v_z\)</span> 的积分等于 1。</p>
+<p>一个常见的问题是：</p>
+<blockquote class="blockquote">
+<p>为什么麦克斯韦分布／高斯分布／正态分布在自然界中无处不在？</p>
+</blockquote>
+<p>这与统计学中的<a href="https://en.wikipedia.org/wiki/Central_limit_theorem">中心极限定理</a>有关：在许多情况下，当独立随机变量相加时，即使原来的变量本身不服从正态分布（例如一枚正面出现概率为 95%、反面出现概率为 5% 的不均匀硬币），适当归一化后的和也趋向于正态分布。在统计物理中，这与以下事实有关：在能量守恒的约束下，麦克斯韦分布代表系统熵最高的状态。</p>
+<p>麦克斯韦分布有几种常用的平均速度。均方根速度为 <span class="math display">\[
+(\overline{v^2})^{1/2} = (3k_B T/m)^{1/2}
+\]</span></p>
+<p>速度的平均大小 <span class="math inline">\(|v|\)</span>，简称 <span class="math inline">\(\bar{v}\)</span>，可按下式求出： <span class="math display">\[
+\bar{v} = \int_{-\infty}^{\infty}v\hat{f}(\mathbf{v})d^3v
+\]</span></p>
+<p>由于 <span class="math inline">\(\hat{f}_m\)</span> 是各向同性的，最容易在速度空间的球坐标中计算这个积分。每个球壳的体积元为 <span class="math inline">\(4\pi v^2 \mathrm{d}v\)</span>，所以 <span class="math display">\[
+\begin{aligned}
+\bar{v} &amp;= (m/2\pi k_B T)^{3/2}\int_0^\infty v[\exp(-v^2/v_{th}^2)]4\pi v^2 \mathrm{d}v \\
+&amp;= (\pi v_{th}^2)^{-3/2} 4\pi v_{th}^4 \int_0^\infty [\exp(-y^2)]y^3 dy
+\end{aligned}
+\]</span></p>
+<p>通过分部积分可得该定积分的值为 1/2。因此 <span class="math display">\[
+\bar{v} = 2\sqrt{\pi}v_{th} = 2(2k_B T/\pi m)^{1/2}
+\]</span></p>
+<p>_单一方向_上的速度分量，例如 <span class="math inline">\(v_x\)</span>，有不同的平均值。当然，对于各向同性分布，<span class="math inline">\(\bar{v}_x\)</span> 为零；但 <span class="math inline">\(|\bar{v}_x|\)</span> 不为零： <span class="math display">\[
+|\bar{v}_x| = \int |v_x|\hat{f}_m(\mathbf{v})\mathrm{d}^3 v = \pi^{-1/2}v_{th} = (2k_B T/\pi m)^{1/2}
+\]</span></p>
+<p>总之，对于麦克斯韦分布， <span class="math display">\[
+\begin{aligned}
+v_{rms} &amp;= (3k_B T/m)^{1/2} \\
+|\bar{v}| &amp;= 2(2k_B T/\pi m)^{1/2} \\
+|\bar{v}_x| &amp;= (2k_B T/\pi m)^{1/2} \\
+\bar{v}_x &amp;= 0
+\end{aligned}
+\]</span></p>
+<p>对于麦克斯韦分布这样的各向同性分布，我们可以另定义一个函数 <span class="math inline">\(g(v)\)</span>，它是 <span class="math inline">\(\mathbf{v}\)</span> 的标量大小的函数，并且满足 <span class="math display">\[
+\int_0^\infty g(v) \mathrm{d}v = \int_{-\infty}^{\infty} f(\mathbf{v})\mathrm{d}v
+\]</span></p>
+<p>对于麦克斯韦分布，我们有 <span id="eq-g_dist"><span class="math display">\[
+g(v) = 4\pi n (m/2\pi k_B T)^{3/2} v^2 \exp(-v^2/v_{th}^2)
+\tag{12.6}\]</span></span></p>
+<p>（添加图片？）注意 <span class="math inline">\(g(v)\)</span> 与一维麦克斯韦分布 <span class="math inline">\(f(v_x)\)</span> 的区别。虽然 <span class="math inline">\(f(v_x)\)</span> 在 <span class="math inline">\(v_x=0\)</span> 时达到最大值，但 <span class="math inline">\(g(v)\)</span> 在 <span class="math inline">\(v=0\)</span> 时为零。这只是 <span class="math inline">\(v=0\)</span> 时相空间体积消失的结果。有时人们不够严谨地将 <span class="math inline">\(g(v)\)</span> 记作 <span class="math inline">\(f(v)\)</span>，以区别于 <span class="math inline">\(f(\mathbf{v})\)</span>；但 <span class="math inline">\(g(v)\)</span> 和 <span class="math inline">\(f(\mathbf{v})\)</span> 是各自变量的不同函数。由 <a href="#eq-g_dist" class="quarto-xref">式&nbsp;<span>12.6</span></a> 可知，<span class="math inline">\(g(v)\)</span> 的量纲为 <span class="math inline">\(\text{s}/\text{m}^4\)</span>。</p>
+<p>（添加分布示例！）</p>
+<ul>
+<li>各向同性分布</li>
+<li>各向异性（饼状）分布</li>
+</ul>
+<p><span class="math display">\[
+f(v_\perp, v_\parallel) = \frac{n}{T_\perp T_\parallel^{1/2}}\Big( \frac{m}{2\pi k_B} \Big)^{3/2} \exp\Big( -\frac{mv_\perp^2}{2k_B T_\perp} - \frac{m(v_\parallel - v_{0\parallel})^2}{2k_B T_\parallel} \Big)
+\]</span></p>
+<ul>
+<li>束流分布</li>
+<li>新月形分布</li>
+</ul>
+<p>将分布函数表示为能量而非速度的函数通常很方便。如果所有能量都是动能，则能量直接由 <span class="math inline">\(W=mv^2/2\)</span> 得到。当粒子处于外加电势场 <span class="math inline">\(U=-q\varphi\)</span> 中时，粒子的总能量为 <span class="math inline">\(W=mv^2/2+U\)</span>，麦克斯韦分布为 <span class="math display">\[
+f(v) = n\Big(\frac{m}{2\pi k_B T}\Big)^{3/2}\exp\Big(-\frac{W}{k_B T}\Big)
+\]</span></p>
+<p>这可以写成能量分布（？？？）： <span class="math display">\[
+g(W) = 4\pi\Big[ \frac{2(W-U)}{m^3} \Big]^{1/2} f(v)
+\]</span></p>
+<p>归一化因子由能量分布对所有能量积分后等于密度这一要求确定。</p>
+<p>速度和能量分布函数无法直接测量。实际上观测到的量是_到达探测器的粒子通量_。粒子通量定义为粒子数密度乘以垂直于表面的速度分量。我们将单位时间、单位立体角（在球坐标中，立体角微元为 <span class="math inline">\(d\Omega = \sin\theta d\theta d\phi\)</span>）和单位能量内穿过单位面积的粒子_微分通量_定义为 <span class="math inline">\(J(W,\Omega, \alpha, \mathbf{r},t)\)</span>。（<span class="math inline">\(\alpha\)</span> 是粒子种类？）<span class="math inline">\(J\)</span> 的单位通常写作 <span class="math inline">\((\text{m}^2\text{sr}\,\text{s}\,\text{eV})^{-1}\)</span>。注意，文献中常用 <span class="math inline">\(\text{cm}\)</span> 代替 <span class="math inline">\(\text{m}\)</span>，而且根据所考虑的实际能量范围，电子伏特也常被 keV、MeV 或 GeV 取代。</p>
+<p>接下来定义粒子微分通量与分布函数之间的关系。速度微元内的数密度（在球坐标中 <span class="math inline">\(\mathrm{d}^3v=v^2\mathrm{d}v\mathrm{d}\Omega\)</span>）可写为（<span class="math inline">\(\mathrm{d}n=f(\alpha,\mathbf{r},t)v^2\mathrm{d}v\mathrm{d}\Omega\)</span>）。将其乘以 <span class="math inline">\(v\)</span>，得到微分通量的另一个表达式 <span class="math inline">\(f(\alpha,\mathbf{r},t)v^3dvd\Omega\)</span>。与前面微分通量的定义比较，得到 <span class="math display">\[
+J(W,\Omega, \alpha, \mathbf{r},t)\mathrm{d}W\mathrm{d}\Omega = f(\alpha,\mathbf{r},t)v^3\mathrm{d}v\mathrm{d}\Omega
+\]</span></p>
+<p>由于 <span class="math inline">\(\mathrm{d}W=mv\mathrm{d}v\)</span>，微分通量与分布函数之间的关系可写为 <span id="eq-diff_flux_dist"><span class="math display">\[
+J(W,\Omega, \alpha, \mathbf{r},t) = \frac{v^2}{m}f
+\tag{12.7}\]</span></span></p>
+<p>微分通量的一个应用是_粒子沉降通量_。根据损失锥的概念，存在一个沿磁力线运动并能向下传播至电离层的粒子锥，其中从 <span class="math inline">\(v\)</span> 到 <span class="math inline">\(v+\mathrm{d}v\)</span> 的每个壳层都对应特定的能量范围。这是我们可以在接近地面处测量，并用来推断磁层中等离子体性质的量。</p>
+</section>
+<section id="kappa-分布" class="level3" data-number="12.2.3">
+<h3 data-number="12.2.3" class="anchored" data-anchor-id="kappa-分布"><span class="header-section-number">12.2.3</span> Kappa 分布</h3>
+<p>麦克斯韦分布在理论上或许是研究最多的分布，但在无碰撞空间等离子体系统中，它未必是最常观测到的分布。近年来，另一种称为 <a href="https://link.springer.com/article/10.1007/s11214-013-9982-9">Kappa 分布</a>的分布受到更多关注。</p>
+<p>分布函数在低能量下通常接近麦克斯韦分布，但在高能量下下降得更慢。在较高能量下，幂律比麦克斯韦分布的指数衰减更适合描述该分布。想到库仑碰撞频率随温度升高按 <span class="math inline">\(T^{-3/2}\)</span> 减小（<a href="diffres.html#eq-coulomb_resistivity_maxwellian_correction" class="quarto-xref">式&nbsp;<span>9.23</span></a>），这种行为就不足为奇了。因此，快粒子比慢粒子需要更长时间才能达到麦克斯韦分布。Kappa 分布的形式为 <span class="math display">\[
+f_\kappa(W) = n\Big( \frac{m}{2\pi\kappa W_0} \Big)^{3/2}\frac{\Gamma(\kappa + 1)}{\Gamma(\kappa-1/2)}\Big( 1+\frac{W}{\kappa W_0} \Big)^{-(\kappa+1)}
+\]</span></p>
+<p>这里 <span class="math inline">\(W_0\)</span> 是粒子通量达到峰值时的能量，<span class="math inline">\(\Gamma\)</span> 是伽马函数。当 <span class="math inline">\(\kappa\gg 1\)</span> 时，Kappa 分布趋近于麦克斯韦分布。当 <span class="math inline">\(\kappa\)</span> 较小但 <span class="math inline">\(&gt;1\)</span> 时，分布具有高能尾部。详尽的综述见 <span class="citation" data-cites="livadiotis2013">(<a href="#ref-livadiotis2013" role="doc-biblioref">Livadiotis 和 McComas 2013年</a>)</span>。</p>
+</section>
+<section id="分布的熵" class="level3" data-number="12.2.4">
+<h3 data-number="12.2.4" class="anchored" data-anchor-id="分布的熵"><span class="header-section-number">12.2.4</span> 分布的熵</h3>
+<p>碰撞使分布函数趋向一个简单的最终状态，该状态的特点是在给定约束条件（例如总能量固定）下具有最大熵。为了说明这一点，我们简要讨论熵，并说明它与分布函数的关系。</p>
+<p>假设我们掷两枚骰子，分别标记为 <span class="math inline">\(A\)</span> 和 <span class="math inline">\(B\)</span>，并用 <span class="math inline">\(R\)</span> 表示一次投掷的结果。因此 <span class="math inline">\(R\)</span> 的范围是 2 到 12。得到这些 <span class="math inline">\(R\)</span> 值的全部 (A,B) 组合列于 <a href="#tbl-dice" class="quarto-xref">表&nbsp;<span>12.1</span></a>：</p>
+<div id="tbl-dice" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+表&nbsp;12.1: 掷两枚骰子的所有可能组合。
+</figcaption>
+<div aria-describedby="tbl-dice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(R\)</span></th>
+<th><span class="math inline">\((A,B)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2</td>
+<td>(1,1)</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>(1,2),(2,1)</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>(1,3),(2,2),(3,1)</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>(1,4),(2,3),(3,2),(4,1)</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>(1,5),(2,4),(3,3),(4,2),(5,1)</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>(2,6),(3,5),(4,4),(5,3),(6,2)</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>(3,6),(4,5),(5,4),(6,3)</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>(4,6),(5,5),(6,4)</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td>(5,6),(6,5)</td>
+</tr>
+<tr class="odd">
+<td>12</td>
+<td>(6,6)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>有六对 <span class="math inline">\((A, B)\)</span> 给出 <span class="math inline">\(R = 7\)</span>，但给出 <span class="math inline">\(R = 2\)</span> 的只有一对，给出 <span class="math inline">\(R = 12\)</span> 的也只有一对。因此，对应于 <span class="math inline">\(R = 7\)</span> 的微观状态（不同的 <span class="math inline">\((A, B)\)</span> 对）有六个，而对应于 <span class="math inline">\(R = 2\)</span> 或 <span class="math inline">\(R = 12\)</span> 的微观状态各只有一个。因此，当 <span class="math inline">\(R=2\)</span> 或 <span class="math inline">\(R=12\)</span> 时，我们对系统微观状态的了解比 <span class="math inline">\(R=7\)</span> 时更多。我们将熵 <span class="math inline">\(S\)</span> 定义为_对应于给定宏观状态的微观状态数的自然对数_。因此，对于骰子，熵就是对应于给定 <span class="math inline">\(R\)</span> 的 <span class="math inline">\((A, B)\)</span> 对数的自然对数。<span class="math inline">\(R = 2\)</span> 或 <span class="math inline">\(R = 12\)</span> 时熵为零，因为 <span class="math inline">\(S = \ln(1) = 0\)</span>；而 <span class="math inline">\(R = 7\)</span> 时熵为 <span class="math inline">\(S = \ln(6)\)</span>，因为得到 <span class="math inline">\(R = 7\)</span> 有六种不同方式。</p>
+<p>如果掷骰子的次数在统计意义上足够大，那么任何一次投掷最可能的结果是 <span class="math inline">\(R = 7\)</span>；这是具有最多微观状态的宏观状态。由于每一种可能的微观状态出现的概率都相同，大量投掷后最可能出现的宏观状态就是熵最高的宏观状态。</p>
+<p>现在考虑一种与分布函数概念关系更密切的情况。为此，我们首先提出以下简单问题：假设有一块带有 <span class="math inline">\(\mathcal{N}\)</span> 个孔的插板，孔分别标记为 <span class="math inline">\(h_1\)</span>、<span class="math inline">\(h_2\)</span>、…、<span class="math inline">\(h_{\mathcal{N}}\)</span>；我们还有 <span class="math inline">\(\mathcal{N}\)</span> 个插钉，分别标记为 <span class="math inline">\(p_1\)</span>、<span class="math inline">\(p_2\)</span>、…、<span class="math inline">\(p_{\mathcal{N}}\)</span>。把所有插钉放入所有孔中有多少种方法？从孔 <span class="math inline">\(h_1\)</span> 开始，我们可以选择 <span class="math inline">\(\mathcal{N}\)</span> 个不同的插钉；但到孔 <span class="math inline">\(h_2\)</span> 时，只剩下 <span class="math inline">\(\mathcal{N}-1\)</span> 个插钉，因此只有 <span class="math inline">\(\mathcal{N}-1\)</span> 种选择。对后续的孔使用同样的推理，可知把所有插钉放入所有孔中有 <span class="math inline">\(\mathcal{N}!\)</span> 种方法。</p>
+<p>让我们进一步增加问题的复杂性。假设我们把孔分成 <span class="math inline">\(\mathcal{M}\)</span> 组。例如，组 <span class="math inline">\(G_1\)</span> 包含前 10 个孔，组 <span class="math inline">\(G_2\)</span> 包含接下来的 19 个孔，组 <span class="math inline">\(G_3\)</span> 包含再接下来的 4 个孔，依此类推，直至第 <span class="math inline">\(\mathcal{M}\)</span> 组。我们用 <span class="math inline">\(f\)</span> 表示一组中的孔数，因此 <span class="math inline">\(f(1)=10\)</span>、<span class="math inline">\(f(2)=19\)</span>、<span class="math inline">\(f(3)=4\)</span>，等等。组内排列插钉的方法数恰好是该组插钉数的阶乘；例如，第 1 组内排列插钉的方法数恰好是 10!，因此一般来说，第 j 组内排列插钉的方法数是 <span class="math inline">\([f(j)]!\)</span>。</p>
+<p>令 <span class="math inline">\(C\)</span> 表示将所有插钉放入各组、而_不考虑_组内排列的方法数。考虑所有组内排列时，将插钉放入各组的方法数为 <span class="math inline">\(C\times f(1)!\times f(2)\times f(3)!\times ... f(4)!\)</span>，但这恰好等于将所有插钉放入所有孔中的方法数，即 <span class="math display">\[
+C\times f(1)!\times f(2)\times f(3)!\times ... f(4)! = \mathcal{N}!
+\]</span> 或者 <span class="math display">\[
+C = \frac{\mathcal{N}!}{C\times f(1)!\times f(2)\times f(3)!\times ... f(4)!}
+\]</span></p>
+<p>现在，<span class="math inline">\(C\)</span> 恰好是与指定分组 <span class="math inline">\(f(1) = 10\)</span>、<span class="math inline">\(f(2) = 19\)</span>、<span class="math inline">\(f(3) = 4\)</span> 等所对应的宏观状态相对应的微观状态数，因此熵为 <span class="math inline">\(S = \ln C\)</span>，即 <span class="math display">\[
+\begin{aligned}
+S &amp;= \ln\left( \frac{\mathcal{N}!}{C\times f(1)!\times f(2)\times f(3)!\times ... f(4)!} \right) \\
+&amp;= \ln\mathcal{N}! - \ln f(1)! - \ln f(2)! - ... - \ln f(\mathcal{M})!
+\end{aligned}
+\]</span></p>
+<p>斯特林公式表明，阶乘函数在自变量很大时的渐近极限为 <span class="math display">\[
+\lim_{k\rightarrow\infty} \ln k! = k\ln k - k
+\]</span></p>
+<p>注意到 <span class="math inline">\(f(1)+f(2)+...+f(\mathcal{M})=\mathcal{N}\)</span>，熵变为 <span class="math display">\[
+\begin{aligned}
+S &amp;= \mathcal{N}\ln\mathcal{N} - f(1)\ln f(1) - f(2)\ln f(2) - ... - f(\mathcal{M})\ln f(\mathcal{M}) \\
+&amp;= \mathcal{N}\ln\mathcal{N} - \sum_{j=1}^{\mathcal{M}}\ln f(j)
+\end{aligned}
+\]</span></p>
+<p>常数 <span class="math inline">\(\mathcal{N}\ln\mathcal{N}\)</span> 常被省略，从而得到 <span class="math display">\[
+S = -\sum_{j=1}^{\mathcal{M}} f(j)\ln f(j)
+\]</span></p>
+<p>如果将 <span class="math inline">\(j\)</span> 变成连续变量，例如 <span class="math inline">\(j \rightarrow v\)</span>，使得 <span class="math inline">\(f(v)\mathrm{d}v\)</span> 是标记为 <span class="math inline">\(v\)</span> 的组中的项目数，那么熵可写为 <span class="math display">\[
+S = -\int\mathrm{d}v f(v)\ln f(v)
+\]</span></p>
+<p>至此可以看出，<span class="math inline">\(f\)</span> 可以是速度分布函数，此时 <span class="math inline">\(f(v)\mathrm{d}v\)</span> 恰好是速度处于 <span class="math inline">\(v\)</span> 与 <span class="math inline">\(v+\mathrm{d}v\)</span> 之间的粒子组中的粒子数。由于插钉的组对应不同的速度范围坐标，增加维度只意味着增加组数，因此在三维情况下熵推广为 <span class="math display">\[
+S = -\int\mathrm{d}\mathbf{v} f(\mathbf{v})\ln f(\mathbf{v})
+\]</span></p>
+<p>如果分布函数还依赖位置，这就对应更多的插钉组，因此同时依赖速度和位置的分布函数具有如下熵： <span id="eq-distribution-entropy"><span class="math display">\[
+S = -\int\mathrm{d}\mathbf{x}\int\mathrm{d}\mathbf{v} f(\mathbf{x},\mathbf{v})\ln f(\mathbf{x},\mathbf{v})
+\tag{12.8}\]</span></span></p>
+</section>
+<section id="sec-collision-entropy" class="level3" data-number="12.2.5">
+<h3 data-number="12.2.5" class="anchored" data-anchor-id="sec-collision-entropy"><span class="header-section-number">12.2.5</span> 碰撞对熵的影响</h3>
+<p>最高熵状态是系统最可能的状态，因为与该宏观状态相对应的微观状态数最多。碰撞（或其他随机化形式）会使某个给定的初始微观状态中粒子的相空间位置发生混乱，从而将系统转变为另一个微观状态。原则上，这个新状态可以是任何微观状态，但它最可能属于最高熵宏观状态对应的微观状态类别。因此，碰撞等任何随机化过程都会使系统向具有最大熵的宏观状态演化。</p>
+<p>这一论证的一个重要缺陷是，它忽略了必须满足的守恒关系。为说明这一点，注意如果将所有粒子放入同一组，就可以使熵的表达式达到最大值，此时 <span class="math inline">\(C = \mathcal{N}!\)</span>，这是 <span class="math inline">\(C\)</span> 的最大可能值。因此，<span class="math inline">\(\mathcal{N}\)</span> 个等离子体粒子的最大熵构型对应于所有粒子具有相同的速度。然而，这将使系统具有特定的能量，而该能量通常不同于初始微观状态的能量。因此，孤立系统无法达到这一最大熵状态，因为如果系统从初始微观状态转变到该最大熵状态，能量就不会守恒。</p>
+<p>因此，必须对上述论证加以限定。随机化过程将打乱系统，使其达到与系统所受各种约束相容的最大熵状态。此类约束例如要求系统总能量和粒子总数守恒。因此，我们将问题重新表述为：给定一个处于固定体积 <span class="math inline">\(V\)</span> 内、具有 <span class="math inline">\(\mathcal{N}\)</span> 个粒子和初始单粒子平均能量 <span class="math inline">\(\left&lt;E\right&gt;\)</span> 的孤立系统，与能量守恒和粒子数守恒相容的最大熵状态是什么？这是一个变分问题，因为目标是在 <span class="math inline">\(\mathcal{N}\)</span> 和 <span class="math inline">\(\mathcal{N}\left&lt;E\right&gt;\)</span> 均固定的约束下使 <span class="math inline">\(S\)</span> 最大。然后可以利用_拉格朗日乘数法_考虑这些约束。使用该方法，变分问题变为 <span class="math display">\[
+\delta S - \lambda_1\delta\mathcal{N} - \lambda_2\delta(\mathcal{N}\left&lt;E\right&gt;) = 0
+\]</span> 其中 <span class="math inline">\(\lambda_1\)</span> 和 <span class="math inline">\(\lambda_2\)</span> 是尚待确定的拉格朗日乘数。粒子数为 <span class="math display">\[
+\mathcal{N} = V\int f\mathrm{d}v
+\]</span></p>
+<p>单个粒子的能量为 <span class="math inline">\(E = mv^2/2\)</span>，其中 <span class="math inline">\(v\)</span> 是在全部 <span class="math inline">\(\mathcal{N}\)</span> 个粒子所组成系统的质心静止系中测得的速度。因此，在此静止系中所有粒子的总动能为 <span class="math display">\[
+\mathcal{N}\left&lt;E\right&gt; = V\int\frac{mv^2}{2}f(v)\mathrm{d}v
+\]</span> 于是变分问题变为 <span class="math display">\[
+\delta\int\mathrm{d}v\left( f\ln f - \lambda_1 Vf - \lambda_2 V\frac{mv^2}{2}f \right) = 0
+\]</span></p>
+<p>将体积 <span class="math inline">\(V\)</span> 并入拉格朗日乘数，并提出系数 <span class="math inline">\(\delta f\)</span>，得到 <span class="math display">\[
+\int\mathrm{d}v \delta f \left( 1+\ln f - \lambda_1 - \lambda_2\frac{mv^2}{2} \right) = 0
+\]</span></p>
+<p>由于 <span class="math inline">\(\delta f\)</span> 是任意的，被积函数必须为零，得到 <span class="math display">\[
+\ln f = \lambda_2\frac{mv^2}{2} - \lambda_1
+\]</span> 其中“1”已并入 <span class="math inline">\(\lambda_1\)</span>。</p>
+<p>因此，一个能量和粒子数守恒的孤立系统的最大熵分布函数为 <span class="math display">\[
+f = \lambda_1\exp\left( -\lambda_2 mv^2/2 \right)
+\]</span> 这就是麦克斯韦分布函数。我们常常假设等离子体在局部服从麦克斯韦分布，因此 <span class="math inline">\(\lambda_1 = \lambda_1(\mathbf{x},t), \lambda_2 = \lambda_2(\mathbf{x},t)\)</span>。我们将温度定义为 <span class="math display">\[
+k_B T_s(\mathbf{x},t) = \frac{1}{\lambda_2(\mathbf{x},t)}
+\]</span></p>
+<p>归一化因子设为 <span class="math display">\[
+\lambda_1(\mathbf{x},t) = n_s(\mathbf{x},t)\left( \frac{m_s}{2\pi k_B T_s(\mathbf{x},t)} \right)^{N/2}
+\]</span> 其中 <span class="math inline">\(N\)</span> 是维数（1、2 或 3），使得 <span class="math inline">\(\int f_s(\mathbf{x},\mathbf{v},t)\mathrm{d}^N\mathbf{v}=n_s(\mathbf{x},t)\)</span>。 由于单个粒子的动能是用在整个粒子系统的质心静止系中测得的速度定义的，如果该质心在实验室参考系中以速度 <span class="math inline">\(\mathbf{u}_s\)</span> 运动，那么在实验室参考系中麦克斯韦分布的形式为 <span id="eq-maxwellian-distribution-N"><span class="math display">\[
+f_s(\mathbf{x},\mathbf{v},t) = n_s\left( \frac{m_s}{2\pi k_B T_s} \right)^{N/2} \exp\left( -\frac{m_s(\mathbf{v}-\mathbf{u}_s)^2}{2k_B T_s} \right)
+\tag{12.9}\]</span></span></p>
+<p><a href="#eq-maxwellian-distribution-N" class="quarto-xref">式&nbsp;<span>12.9</span></a> 等价于三维情况下的 <a href="#eq-maxwellian-distribution-normalized" class="quarto-xref">式&nbsp;<span>12.5</span></a> 乘以数密度。</p>
+</section>
+</section>
+<section id="动力学理论的方程" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="动力学理论的方程"><span class="header-section-number">12.3</span> 动力学理论的方程</h2>
+<section id="sec-vlasov" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="sec-vlasov"><span class="header-section-number">12.3.1</span> 弗拉索夫方程</h3>
+<div id="fig-phase-space-box" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-phase-space-box-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/phase_space_box.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-phase-space-box-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;12.4: 相空间中一个宽度为 <span class="math inline">\(\mathrm{d}x\)</span>、高度为 <span class="math inline">\(\mathrm{d}v\)</span> 的小方框。
+</figcaption>
+</figure>
+</div>
+<p>现在考虑相空间中一个小方框内粒子数的变化率，如 <a href="#fig-phase-space-box" class="quarto-xref">图&nbsp;<span>12.4</span></a> 所示。将粒子的加速度定义为 <span class="math inline">\(a(x, v, t)\)</span>，可知水平方向的粒子通量为 <span class="math inline">\(fv\)</span>，竖直方向的粒子通量为 <span class="math inline">\(fa\)</span>。因此，流入方框四个边界的粒子通量分别为：</p>
+<ol type="1">
+<li>流入方框左侧的通量为 <span class="math inline">\(f(x, v, t)v\mathrm{d}v\)</span></li>
+<li>流入方框右侧的通量为 <span class="math inline">\(-f(x+\mathrm{d}x, v, t)v\mathrm{d}v\)</span></li>
+<li>流入方框底部的通量为 <span class="math inline">\(f(x, v, t)a(x, v, t)\mathrm{d}x\)</span></li>
+<li>流入方框顶部的通量为 <span class="math inline">\(-f(x, v+dv, t)a(x, v+dv, t)dx\)</span></li>
+</ol>
+<p>方框内的粒子数为 <span class="math inline">\(f(x, v, t)\mathrm{d}x\mathrm{d}v\)</span>，因此方框内粒子数的变化率为 <span class="math display">\[
+\begin{aligned}
+\frac{\partial f(x,v,t)}{\partial t}\mathrm{d}x\mathrm{d}v &amp;= -f(x+\mathrm{d}x,v,t)v\mathrm{d}v + f(x,v,t)v\mathrm{d}v \\
+&amp; -f(x,v+\mathrm{d}v,t)a(x,v+\mathrm{d}v,t)\mathrm{d}x \\
+&amp; +f(x,v,t)a(x,v,t)\mathrm{d}x
+\end{aligned}
+\]</span> 或者，将右侧各量作泰勒展开，得到一维_弗拉索夫方程_： <span id="eq-vlasov-1d"><span class="math display">\[
+\frac{\partial f}{\partial t} + v\frac{\partial f}{\partial x} + \frac{\partial}{\partial v}(a f) = 0
+\tag{12.10}\]</span></span></p>
+<p>很容易将 <a href="#eq-vlasov-1d" class="quarto-xref">式&nbsp;<span>12.10</span></a> 推广到三维，得到三维弗拉索夫方程： <span id="eq-vlasov"><span class="math display">\[
+\frac{\partial f}{\partial t} + \mathbf{v}\cdot\nabla f +\frac{\partial}{\partial\mathbf{v}}\cdot(\mathbf{a}f) = 0
+\tag{12.11}\]</span></span></p>
+<p>符号 <span class="math inline">\(\nabla\)</span> 与通常一样，表示 <span class="math inline">\((x, y, z)\)</span> 空间中的梯度。符号 <span class="math inline">\(\partial/\partial\mathbf{v}\)</span> 或 <span class="math inline">\(\nabla_\mathbf{v}\)</span> 表示速度空间中的梯度： <span class="math display">\[
+\nabla_\mathbf{v} = \frac{\partial}{\partial \mathbf{v}} = \hat{x}\frac{\partial}{\partial v_x} + \hat{y}\frac{\partial}{\partial v_y} + \hat{z}\frac{\partial}{\partial v_z}
+\]</span></p>
+<p>由于 <span class="math inline">\(\mathbf{x},\mathbf{v}\)</span> 是相空间中的独立变量，空间导数项具有交换性质： <span class="math display">\[
+\mathbf{v}\cdot\frac{\partial f}{\partial\mathbf{x}} = \frac{\partial}{\partial\mathbf{x}}\cdot(\mathbf{v}f)
+\]</span></p>
+<p>粒子的加速度由洛伦兹力给出： <span class="math display">\[
+\mathbf{a}=\frac{q}{m}(\mathbf{E}+\mathbf{v}\times\mathbf{B})
+\]</span></p>
+<p>由于 <span class="math inline">\((\mathbf{v}\times\mathbf{B})_i=v_jB_k - v_kB_j\)</span> 与 <span class="math inline">\(v_i\)</span> 无关，<span class="math inline">\(\partial(\mathbf{v}\times\mathbf{B})_i/\partial v_i\)</span> 项为零。因此，即使洛伦兹加速度 <span class="math inline">\(\mathbf{a}\)</span> 依赖于速度，它仍与矢量速度导数满足如下交换关系： <span class="math display">\[
+\mathbf{a}\cdot\frac{\partial f}{\partial\mathbf{v}} = \frac{\partial}{\partial\mathbf{v}}\cdot(\mathbf{a}f)
+\]</span></p>
+<p>由于这一交换性质，弗拉索夫方程还可以写为 <span id="eq-vlasov"><span class="math display">\[
+\frac{\partial f}{\partial t} + \mathbf{v}\cdot\frac{\partial f}{\partial\mathbf{x}} + \mathbf{a}\cdot\frac{\partial f}{\partial\mathbf{v}} = 0
+\tag{12.12}\]</span></span></p>
+<p>如果我们“坐在”一个相空间轨迹为 <span class="math inline">\(\mathbf{x} = \mathbf{x}(t),\, \mathbf{v} = \mathbf{v}(t)\)</span> 的粒子上，随粒子一起运动并测量分布函数，观测到的分布函数变化率将是 <span class="math inline">\(\mathrm{d}f(\mathbf{x}(t), \mathbf{v}(t), t)/\mathrm{d}t\)</span>，其中 <span class="math inline">\(\mathrm{d}/\mathrm{d}t\)</span> 表示在运动参考系中测量的导数。由于 <span class="math inline">\(\mathrm{d}\mathbf{x}/\mathrm{d}t = \mathbf{v}\)</span> 且 <span class="math inline">\(\mathrm{d}\mathbf{v}/\mathrm{d}t = \mathbf{a}\)</span>，这一观测到的变化率为 <span class="math display">\[
+\left( \frac{\mathrm{d}f(\mathbf{x}(t), \mathbf{v}(t), t)}{\mathrm{d}t} \right)_\mathrm{orbit} = \frac{\partial f}{\partial t} + \mathbf{v}\cdot\frac{\partial f}{\partial\mathbf{x}} + \mathbf{a}\cdot\frac{\partial f}{\partial\mathbf{v}} = 0
+\]</span></p>
+<p>因此，沿粒子轨迹（轨道）运动时测得的分布函数 <span class="math inline">\(f\)</span> 是常数。这为求解弗拉索夫方程提供了一种强有力的方法。由于 <span class="math inline">\(f\)</span> 在随轨道运动的参考系中测量时为常数，我们可以选择让 <span class="math inline">\(f\)</span> 依赖于任何沿轨道保持不变的量（Jeans 1915，Watson 1956）。</p>
+<p>例如，如果粒子的能量 <span class="math inline">\(E\)</span> 沿其轨道保持不变，那么 <span class="math inline">\(f = f(E)\)</span> 就是弗拉索夫方程的一个解。另一方面，如果能量和动量 <span class="math inline">\(\mathbf{p}\)</span> 沿粒子轨道都保持不变，那么任何具有函数依赖关系 <span class="math inline">\(f = f(E, \mathbf{p})\)</span> 的分布函数都是弗拉索夫方程的解。根据具体情况，能量和／或动量沿轨道可能守恒，也可能不守恒，因此 <span class="math inline">\(f = f(E, \mathbf{p})\)</span> 是否为弗拉索夫方程的解取决于所考虑的具体问题。然而，任何轨迹都至少存在一个运动常量，因为正如每个人都有一个不变的生日一样，粒子轨迹的初始条件沿该轨迹保持不变。作为一个简单例子，考虑没有电磁场的情况，此时 <span class="math inline">\(\mathbf{a}=0\)</span>，粒子轨迹就是 <span class="math inline">\(\mathbf{x}(t) = \mathbf{x}_0+ \mathbf{v}_0(t),\, \mathbf{v}(t) = \mathbf{v}_0\)</span>，其中 <span class="math inline">\(\mathbf{x}_0, \mathbf{v}_0\)</span> 分别是初始位置和速度。 让我们检验 <span class="math inline">\(f(\mathbf{x}_0)\)</span> 是否是弗拉索夫方程的解。写出 <span class="math inline">\(\mathbf{x}_0 = \mathbf{x}(t) - \mathbf{v}_0 t\)</span>，因此 <span class="math inline">\(f(\mathbf{x}_0) = f(\mathbf{x}(t)-\mathbf{v}_0 t)\)</span>，我们看到 <span class="math inline">\(f = f(\mathbf{x}_0)\)</span> 确实是一个解，因为 <span class="math display">\[
+\frac{\partial f}{\partial t} + \mathbf{v}\cdot\frac{\partial f}{\partial\mathbf{x}} + \mathbf{a}\cdot\frac{\partial f}{\partial\mathbf{v}} = \mathbf{v}_0\cdot\frac{\partial f}{\partial(\mathbf{x}-\mathbf{x}_0)} + \mathbf{v}\cdot\frac{\partial f}{\partial\mathbf{x}} = \mathbf{v}_0\cdot\frac{\partial f}{\partial\mathbf{x}} + \mathbf{v}\cdot\frac{\partial f}{\partial\mathbf{x}} = 0
+\]</span></p>
+</section>
+<section id="玻尔兹曼方程" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="玻尔兹曼方程"><span class="header-section-number">12.3.2</span> 玻尔兹曼方程</h3>
+<p>??? 中已表明，掠射碰撞的累积效应超过发生频率较低的大角度碰撞的累积效应。为了了解碰撞如何影响弗拉索夫方程，现在暂时设想将掠射碰撞替换为一系列等效的、散射角突然变大的碰撞，如 <a href="#fig-phase-space-collision" class="quarto-xref">图&nbsp;<span>12.5</span></a> 所示。参与碰撞的两个粒子在碰撞过程中位置不会发生显著变化，但速度会发生很大变化。例如，一个粒子与一个质量相等的静止粒子发生正碰后会停下来，而靶粒子将获得入射粒子的速度。如果画出两个粒子发生碰撞的详细相空间轨迹，就会看到每个粒子的竖直坐标（即速度）突然变化，但水平坐标（即位置）不变。碰撞引起的速度跳变发生得非常快，因此，如果用帧率不足以捕捉跳变细节的“电影摄影机”记录相空间轨迹，所得影片将显示粒子在相空间的给定体积内（例如 <a href="#fig-phase-space-collision" class="quarto-xref">图&nbsp;<span>12.5</span></a> 中的方框内）自发产生或湮灭。</p>
+<div id="fig-phase-space-collision" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-phase-space-collision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/distribution_collision.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-phase-space-collision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;12.5: 碰撞导致相空间中出现“跳变”的详细示意图。
+</figcaption>
+</figure>
+</div>
+<p>这些相空间中单次跳变的细节很复杂，但意义不大，因为我们真正想知道的是许多次碰撞的累积效应。因此，在慢时间尺度上追踪轨迹，同时通过在弗拉索夫方程右侧引入碰撞算符来计入粒子表观上的“产生”或“湮灭”，既高效又充分。在这里所示的例子中可以看到，当一个粒子在某个方框内表观上被“产生”时，另一个粒子必然同时在具有相同 <span class="math inline">\(x\)</span> 坐标但不同 <span class="math inline">\(v\)</span> 坐标的另一个方框内被“湮灭”（当然，实际发生的是一个粒子突然从一个方框移动到另一个方框）。不同方框中湮灭率与产生率的这种耦合限制了碰撞算符的形式。本章不会尝试推导碰撞算符，而只讨论对这些算符的约束。从更形式化的角度看，碰撞由相空间中受约束的粒子源和汇来表征；将碰撞纳入弗拉索夫方程后，方程具有如下形式： <span id="eq-boltzmann"><span class="math display">\[
+\frac{\partial f_s}{\partial t} + \frac{\partial}{\partial\mathbf{x}}\cdot(\mathbf{v}f_s) + \frac{\partial}{\partial\mathbf{v}}\cdot(\mathbf{a}f_s) = \sum_\alpha C_{s\alpha}(f_s)
+\tag{12.13}\]</span></span> 其中 <span class="math inline">\(C_{s\alpha}(f_s)\)</span> 是由于粒子种类 <span class="math inline">\(s\)</span> 与种类 <span class="math inline">\(\alpha\)</span> 发生碰撞而引起的 <span class="math inline">\(f_s\)</span> 变化率<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>。这称为_玻尔兹曼方程_。</p>
+<p>碰撞算符 <span class="math inline">\(C_{s\alpha}(f_s)\)</span> 必须满足以下约束：</p>
+<ul>
+<li><p>粒子数守恒——碰撞不能改变特定位置处的粒子总数，因此 <span id="eq-distribution_particle_cons"><span class="math display">\[
+\int \mathrm{d}\mathbf{v} C_{s\alpha}(f_s) = 0
+\tag{12.14}\]</span></span></p></li>
+<li><p>动量守恒——同一种类粒子之间的碰撞不能改变该种类的总动量，因此 <span id="eq-distribution_momentum_cons_self"><span class="math display">\[
+\int \mathrm{d}\mathbf{v} m_s\mathbf{v}C_{ss}(f_s) = 0
+\tag{12.15}\]</span></span> 而不同种类之间的碰撞必须使两种粒子的总动量守恒，因此 <span id="eq-distribution_momentum_cons_mutual"><span class="math display">\[
+\int \mathrm{d}\mathbf{v} m_i\mathbf{v}C_{ie}(f_i) + \int \mathrm{d}\mathbf{v} m_e\mathbf{v}C_{ei}(f_e) = 0
+\tag{12.16}\]</span></span></p></li>
+<li><p>能量守恒——同一种类粒子之间的碰撞不能改变该种类的总能量，因此 <span id="eq-distribution_energy_cons_self"><span class="math display">\[
+\int \mathrm{d}\mathbf{v} m_s\mathbf{v}^2C_{ss}(f_s) = 0
+\tag{12.17}\]</span></span> 而不同种类之间的碰撞必须使两种粒子的总能量守恒，因此 <span id="eq-distribution_energy_cons_mutual"><span class="math display">\[
+\int \mathrm{d}\mathbf{v} m_i\mathbf{v}^2C_{ie}(f_i) + \int \mathrm{d}\mathbf{v} m_e\mathbf{v}^2C_{ei}(f_e) = 0
+\tag{12.18}\]</span></span></p></li>
+</ul>
+<p>在温度足够高的等离子体中，可以忽略碰撞。如果力 <span class="math inline">\(\mathbf{F}\)</span> 也完全是电磁力，<a href="#eq-boltzmann" class="quarto-xref">式&nbsp;<span>12.13</span></a> 就取 <a href="#eq-vlasov" class="quarto-xref">式&nbsp;<span>12.12</span></a> 的特殊形式。由于它相对简单，这是动力学理论中最常研究的方程。当存在与中性原子的碰撞时，<a href="#eq-boltzmann" class="quarto-xref">式&nbsp;<span>12.13</span></a> 中的碰撞项可近似为 <span class="math display">\[
+\Big( \frac{\partial f}{\partial t} \Big)_c = \frac{f_n - f}{\tau}
+\]</span> 其中 <span class="math inline">\(f_n\)</span> 是中性原子的分布函数，<span class="math inline">\(\tau\)</span> 是常数碰撞时间。这称为 <em>Krook 碰撞项</em>。它是 <span class="citation" data-cites="chen2016introduction">(<a href="#ref-chen2016introduction" role="doc-biblioref">Chen 2016年</a>)</span> 中式 (5.5) 的碰撞项在动力学理论中的推广。当存在库仑碰撞时，<a href="#eq-boltzmann" class="quarto-xref">式&nbsp;<span>12.13</span></a> 可以近似为 <span id="eq-fokker_planck"><span class="math display">\[
+\frac{\mathrm{d}f}{\mathrm{d}t} = -\frac{\partial}{\partial\mathbf{v}}\cdot(f\left&lt;\Delta\mathbf{v}\right&gt;)\frac{1}{2}\frac{\partial^2}{\partial\mathbf{v}\partial\mathbf{v}}:(f\left&lt;\Delta\mathbf{v}\Delta\mathbf{v}\right&gt;)
+\tag{12.19}\]</span></span></p>
+<p>这称为_福克–普朗克方程_；它只考虑二体库仑碰撞。这里，<span class="math inline">\(\Delta\mathbf{v}\)</span> 是一次碰撞中的速度变化，<a href="#eq-fokker_planck" class="quarto-xref">式&nbsp;<span>12.19</span></a> 是一个相当复杂的表达式的简写形式。 冒号算符 <span class="math inline">\(\mathbf{a}\mathbf{b}:\mathbf{c}\mathbf{d} = a_ib_jc_id_j\)</span>。</p>
+<p>无碰撞时 <span class="math inline">\(\mathrm{d}f/\mathrm{d}t\)</span> 为常数这一事实意味着粒子在相空间中运动时沿 <span class="math inline">\(f\)</span> 的等值线运动。为了举例说明如何使用这些等值线，考虑第 ??? 节的束流–等离子体不稳定性。在未受扰动的等离子体中，电子都具有速度 <span class="math inline">\(v_0\)</span>，而 <span class="math inline">\(f\)</span> 的等值线是一条直线。函数 <span class="math inline">\(f(x, v_x)\)</span> 是在 <span class="math inline">\(v_x=v_0\)</span> 处从纸面升起的一面墙。电子沿图示轨迹运动。当波形成时，电场 <span class="math inline">\(\mathbf{E}_1\)</span> 使电子在流动过程中 <span class="math inline">\(v_x\)</span> 发生变化。轨迹于是出现正弦形波纹（<a href="#fig-beam-e-dist-1d" class="quarto-xref">图&nbsp;<span>12.6</span></a> B）。这一波纹以相速度而非粒子速度传播。粒子相对于波运动时仍留在曲线上。如果随着波的增长 <span class="math inline">\(\mathbf{E}_1\)</span> 变得很大，且存在少量碰撞，一些电子就会被俘获在波的静电势中。在坐标空间中，波势如 <a href="#fig-wave-potential" class="quarto-xref">图&nbsp;<span>12.7</span></a> 所示。在相空间中，<span class="math inline">\(f(x, v_x)\)</span> 在每个势阱处都会出现峰值（<a href="#fig-contour-dist" class="quarto-xref">图&nbsp;<span>12.8</span></a>）。由于 <span class="math inline">\(f\)</span> 的等值线也是电子轨迹，可以看出有些电子在相空间中沿闭合轨道运动；这些就是被俘获的电子。</p>
+<div id="fig-beam-e-dist-1d" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-beam-e-dist-1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/beam_e_dist_1d.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-beam-e-dist-1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;12.6: （A）速度均为 <span class="math inline">\(v_0\)</span> 的电子束在一维相空间中的表示。分布函数 <span class="math inline">\(f(x, v_x)\)</span> 在这条线上为无穷大，在其他地方为零。这条线也是各个电子的轨迹，电子沿箭头方向运动。（B）电子束中存在等离子体波时的情况。整个图样以波的相速度向右运动。如果观察者进入波的参考系，图样将静止，而电子将以速度 <span class="math inline">\(v_0-v_\phi\)</span> 沿曲线运动。
+</figcaption>
+</figure>
+</div>
+<div id="fig-wave-potential" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wave-potential-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/wave_potential.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wave-potential-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;12.7: 电子看到的等离子体波电势。图样以速度 <span class="math inline">\(v_\phi\)</span> 运动。相对于波速度较小的电子将被俘获在势阱中，并随波一起运动。
+</figcaption>
+</figure>
+</div>
+<div id="fig-contour-dist" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-contour-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/contour_dist.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-contour-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;12.8: 在图样静止的波参考系中看到的电子轨迹，或 <span class="math inline">\(f\)</span> 的等值线。这类适用于有限分布 <span class="math inline">\(f(v)\)</span> 的图比 <a href="#fig-beam-e-dist-1d" class="quarto-xref">图&nbsp;<span>12.6</span></a> 中的 <span class="math inline">\(\delta\)</span> 函数分布更容易理解。
+</figcaption>
+</figure>
+</div>
+<p>电子俘获是一种非线性现象，不能通过直接求解弗拉索夫方程来处理。不过，可以用计算机追踪电子轨迹，结果通常以类似 <a href="#fig-contour-dist" class="quarto-xref">图&nbsp;<span>12.8</span></a> 的图形表示。</p>
+<p>添加双流不稳定性的相空间动画！</p>
+</section>
+</section>
+<section id="sec-kinetic-fluid-moments" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="sec-kinetic-fluid-moments"><span class="header-section-number">12.4</span> 流体方程的推导</h2>
+<p>现在，我们不再只对分布函数 <span class="math inline">\(f\)</span> 本身求矩，而是对整个弗拉索夫方程求矩，以得到一组联系平均量 <span class="math inline">\(n(\mathbf{x}),\mathbf{u}(\mathbf{x})\)</span> 等的偏微分方程。首先对每个粒子种类的弗拉索夫方程 <a href="#eq-vlasov" class="quarto-xref">式&nbsp;<span>12.12</span></a> 按速度积分。这一过程的第一步也是最简单的一步称为求“零阶”矩，因为乘以 1 的操作可以看作将整个弗拉索夫方程乘以 <span class="math inline">\(\mathbf{v}\)</span> 的零次幂。将弗拉索夫方程乘以 1，再对速度积分，得到 <span class="math display">\[
+\int\left[ \frac{\partial f_s}{\partial t} + \frac{\partial}{\partial\mathbf{x}}\cdot(\mathbf{v}f_s) + \frac{\partial}{\partial\mathbf{v}}\cdot(\mathbf{a}f_s) \right]\mathrm{d}\mathbf{v} = \sum_\alpha \int C_{s\alpha}(f_s)\mathrm{d}\mathbf{v}
+\]</span></p>
+<p>由于 <span class="math inline">\(\mathbf{x}, \mathbf{v}\)</span> 和 <span class="math inline">\(t\)</span> 是独立变量，速度积分与左侧的时间导数和空间导数都可以交换次序；而左侧第三项是速度空间中一个散度的体积分。根据高斯定理（即 <span class="math inline">\(\int_V\mathrm{d}\mathbf{x}\nabla\cdot\mathbf{Q}=\int_A\mathrm{d}\mathbf{s}\cdot\mathbf{Q}\)</span>），得到在 <span class="math inline">\(v=\infty\)</span> 的曲面上取值的 <span class="math inline">\(f_s\)</span>。但是，由于 <span class="math inline">\(v\rightarrow\infty\)</span> 时 <span class="math inline">\(f_s\rightarrow 0\)</span>，这一速度空间中的面积分为零。将 <a href="#eq-distribution-density" class="quarto-xref">式&nbsp;<span>12.1</span></a>、<a href="#eq-distribution-velocity" class="quarto-xref">式&nbsp;<span>12.4</span></a> 和 <a href="#eq-distribution_particle_cons" class="quarto-xref">式&nbsp;<span>12.14</span></a> 代入上式，得到该粒子种类的连续性方程： <span id="eq-vlasov-0th-moment"><span class="math display">\[
+\frac{\partial n_s}{\partial t} + \nabla\cdot(n_s\mathbf{u}_s)=0
+\tag{12.20}\]</span></span></p>
+<p>现在将 <a href="#eq-vlasov" class="quarto-xref">式&nbsp;<span>12.12</span></a> 乘以 <span class="math inline">\(\mathbf{v}\)</span>，并对速度积分，以求取“一阶矩”： <span class="math display">\[
+\int \mathbf{v}\left[ \frac{\partial f_s}{\partial t} + \frac{\partial}{\partial\mathbf{x}}\cdot(\mathbf{v}f_s) + \frac{\partial}{\partial\mathbf{v}}\cdot(\mathbf{a}f_s) \right]\mathrm{d}\mathbf{v} = \sum_\alpha \int \mathbf{v}C_{s\alpha}(f_s)\mathrm{d}\mathbf{v}
+\]</span></p>
+<p>通过以下操作，可以将其整理成更便于处理的形式：</p>
+<ol type="1">
+<li>将时间导数和空间导数都移到速度积分之外；</li>
+<li>写成 <span class="math inline">\(\mathbf{v} = \mathbf{v}^\prime(\mathbf{x},t) + \mathbf{u}(\mathbf{x},t)\)</span>，其中 <span class="math inline">\(\mathbf{v}^\prime(\mathbf{x},t)\)</span> 是给定速度的_随机_部分，即偏离平均值的部分（注意 <span class="math inline">\(\mathbf{v}\)</span> 与 <span class="math inline">\(\mathbf{x}\)</span> 和 <span class="math inline">\(t\)</span> 均无关，但 <span class="math inline">\(\mathbf{v}^\prime\)</span> 并非如此；另外，由于 <span class="math inline">\(\mathbf{u}\)</span> 与 <span class="math inline">\(\mathbf{v}\)</span> 无关，<span class="math inline">\(\mathrm{d}\mathbf{v}=\mathrm{d}\mathbf{v}^\prime\)</span>）；</li>
+<li>对加速度项在三维速度空间中进行分部积分，并使用 <span class="math display">\[
+\partial_i\mathbf{v}_j = \delta_{ij}
+\]</span></li>
+</ol>
+<p>进行上述处理后，弗拉索夫方程的一阶矩变为 <span id="eq-vlasov-1st-moment"><span class="math display">\[
+\begin{aligned}
+\frac{\partial(n_s\mathbf{u}_s)}{\partial t} + \frac{\partial}{\partial\mathbf{x}}\cdot\int\left( \mathbf{v}^\prime\mathbf{v}^\prime + \mathbf{v}^\prime\mathbf{u}_s + \mathbf{u}_s\mathbf{v}^\prime +\mathbf{u}_s\mathbf{u}_s \right)f_s \mathrm{d}\mathbf{v}^\prime \\
+- \frac{q_s}{m_s}\int \left( \mathbf{E}+\mathbf{v}\times\mathbf{B} \right)f_s\mathrm{d}\mathbf{v}^\prime = -\frac{1}{m_s}\mathbf{R}_{s\alpha}
+\end{aligned}
+\tag{12.21}\]</span></span> 其中 <span class="math inline">\(\mathbf{R}_{s\alpha}\)</span> 是种类 <span class="math inline">\(s\)</span> 与种类 <span class="math inline">\(\alpha\)</span> 碰撞所产生的净摩擦阻力。 注意 <span class="math inline">\(\mathbf{R}_{ss} = 0\)</span>，因为一种粒子不能对自身施加净阻力。摩擦项的形式为 <span class="math display">\[
+\begin{aligned}
+\mathbf{R}_{ei} &amp;= \nu_{ei}m_e n_e (\mathbf{u}_e - \mathbf{u}_i) \\
+\mathbf{R}_{ie} &amp;= \nu_{ie}m_i n_i (\mathbf{u}_i - \mathbf{u}_e)
+\end{aligned}
+\]</span> 因此，在离子参考系中，电子受到的阻力就是在该参考系中测得的电子总动量 <span class="math inline">\(m_e n_e\mathbf{u}_e\)</span> 乘以这一动量因与离子碰撞而损失的速率 <span class="math inline">\(\nu_{ei}\)</span>。这种形式的摩擦阻力具有以下性质：（i）<span class="math inline">\(\mathbf{R}_{ei} + \mathbf{R}_{ie} = 0\)</span>，表明等离子体不能对自身施加摩擦阻力；（ii）摩擦使较快的粒子种类受到较慢种类的减速作用；（iii）如果两种粒子的平均速度相同，它们之间就没有摩擦。</p>
+<p>将 <span class="math inline">\(\mathbf{u}\)</span> 从速度积分中提出，并注意到根据定义 <span class="math inline">\(\int \mathbf{v}^\prime f_s \mathrm{d}\mathbf{v}^\prime=0\)</span>，可以进一步简化 <a href="#eq-vlasov-1st-moment" class="quarto-xref">式&nbsp;<span>12.21</span></a>。因此 <a href="#eq-vlasov-1st-moment" class="quarto-xref">式&nbsp;<span>12.21</span></a> 化为 <span class="math display">\[
+m_s\left[ \frac{\partial(n_s\mathbf{u}_s)}{\partial t} + \frac{\partial}{\partial\mathbf{x}}\cdot(n_s\mathbf{u}_s\mathbf{u}_s) \right] = n_s q_s (\mathbf{E} + \mathbf{u}_s\times\mathbf{B}) - \frac{\partial}{\partial\mathbf{x}}\cdot\overleftrightarrow{P}_s - \mathbf{R}_{s\alpha}
+\]</span> 其中_压力张量_定义为 <span id="eq-tensor-pressure"><span class="math display">\[
+\overleftrightarrow{P}_s \equiv m_s\int \mathbf{v}^\prime \mathbf{v}^\prime f_s \mathrm{d}\mathbf{v}^\prime
+\tag{12.22}\]</span></span></p>
+<p>如果 <span class="math inline">\(f_s\)</span> 是 <span class="math inline">\(\mathbf{v}^\prime\)</span> 的各向同性函数，那么 <span class="math inline">\(\overleftrightarrow{P}_s\)</span> 的非对角项为零，三个对角项相同。此时，将对角项定义为_标量压力_ <span class="math inline">\(p_s\)</span> 是有用的，即 <span id="eq-scalar-pressure"><span class="math display">\[
+\begin{aligned}
+p_s &amp;= m_s \int v_x^\prime v_x^\prime f_s \mathrm{d}\mathbf{v}^\prime = m_s \int v_y^\prime v_y^\prime f_s \mathrm{d}\mathbf{v}^\prime = m_s \int v_z^\prime v_z^\prime f_s \mathrm{d}\mathbf{v}^\prime \\
+&amp;= \frac{m_s}{3} \int \mathbf{v}^\prime\cdot \mathbf{v}^\prime f_s \mathrm{d}\mathbf{v}^\prime
+\end{aligned}
+\tag{12.23}\]</span></span></p>
+<p><a href="#eq-scalar-pressure" class="quarto-xref">式&nbsp;<span>12.23</span></a> 定义了三维各向同性系统的压力。然而，我们常常要处理维数减少的系统，即只有一维或二维的系统。因此，可以引入标量压力的一般 N 维定义，将 <a href="#eq-scalar-pressure" class="quarto-xref">式&nbsp;<span>12.23</span></a> 推广到这些情况： <span id="eq-pressure-def"><span class="math display">\[
+p_s = \frac{m_s}{N}\int \mathbf{v}^\prime\cdot \mathbf{v}^\prime f_s \mathrm{d}^N\mathbf{v}^\prime
+\tag{12.24}\]</span></span> 其中 <span class="math inline">\(\mathbf{v}^\prime\)</span> 是 N 维随机速度。</p>
+<p>将 <a href="#eq-pressure-def" class="quarto-xref">式&nbsp;<span>12.24</span></a> 改写如下，可以看出标量压力与广义麦克斯韦分布有简单的关系： <span class="math display">\[
+\begin{aligned}
+p_s &amp;= \frac{m_s}{N}\int \mathbf{v}^\prime\cdot \mathbf{v}^\prime f_s \mathrm{d}^N\mathbf{v}^\prime \\
+&amp;= \frac{n_s m_s}{N}\left( \frac{m_s}{2\pi k_B T_s} \right)^{N/2} \int {\mathbf{v}^\prime}^2 \exp \left( -\frac{m_s {\mathbf{v}^\prime}^2}{2k_B T_s} \right) \mathrm{d}^N\mathbf{v}^\prime \\
+&amp;= -\frac{n_s m_s}{N}\left( \frac{\alpha}{\pi} \right)^{N/2} \frac{\mathrm{d}}{\mathrm{d}\alpha}\int e^{-\alpha {v^\prime}^2}\mathrm{d}^N\mathbf{v}^\prime,\, \alpha \equiv m_s/2k_B T_s \\
+&amp;= -\frac{n_s m_s}{N}\left( \frac{\alpha}{\pi} \right)^{N/2} \frac{\mathrm{d}}{\mathrm{d}\alpha}\left( \frac{\alpha}{\pi} \right)^{-N/2} \\
+&amp;= n_s k_B T_s
+\end{aligned}
+\]</span> 这正是理想气体定律。因此，所提出的压力和温度定义与这些量的日常概念一致。</p>
+<p>需要强调的是，假设各向同性主要是为了数学上的方便，而在真实系统中，分布函数往往具有相当强的各向异性。碰撞具有随机化作用，会促使分布函数趋于各向同性；与此同时，与之竞争的过程则促使分布函数趋于各向异性。因此，必须逐一考虑每种情况，以确定碰撞是否足够频繁，能使 <span class="math inline">\(f\)</span> 各向同性。由于完全电离的高温等离子体中碰撞往往不足以使 <span class="math inline">\(f\)</span> 各向同性，常用的各向同性假设是一种过度简化，其是否可以接受取决于所研究的现象。</p>
+<p>展开 <a href="#eq-vlasov-1st-moment" class="quarto-xref">式&nbsp;<span>12.21</span></a> 左侧的导数，可以看到其中两项组合成 <span class="math inline">\(\mathbf{u}\)</span> 乘以 <a href="#eq-vlasov-0th-moment" class="quarto-xref">式&nbsp;<span>12.20</span></a>。消去这个包含在内的连续性方程后，E@eq-vlasov-1st-moment 化为 <span class="math display">\[
+n_s m_s\frac{\mathrm{d}\mathbf{u}_s}{\mathrm{d}t} = n_s q_s(\mathbf{E} + \mathbf{u}_s\times\mathbf{B}) - \nabla p_s - \mathbf{R}_{s\alpha}
+\]</span> 其中算符 <span class="math inline">\(\mathrm{d}/\mathrm{d}t\)</span> 是对流导数（<a href="math.html#eq-convective-derivative" class="quarto-xref">式&nbsp;<span>3.2</span></a>）。</p>
+<p>进行到这里，可以明显看到，对弗拉索夫方程依次求各阶矩时会反复出现某种规律。求零阶矩时，得到密度 <span class="math inline">\(\int f\mathrm{d}\mathbf{v}\)</span> 的方程，但同时引入了涉及下一阶矩的项，即平均速度 <span class="math inline">\(\sim\int\mathbf{v}f\mathrm{d}\mathbf{v}\)</span>。接着，求一阶矩以获得速度方程时，所得方程又包含涉及下一阶矩的项，即压力 <span class="math inline">\(\sim\int \mathbf{v}\mathbf{v}f\mathrm{d}\mathbf{v}\)</span>。因此，每次对弗拉索夫方程求矩时，都会得到所需矩的方程，但由于弗拉索夫方程中的 <span class="math inline">\(\mathbf{v}\cdot\nabla f\)</span> 项，也会出现下一阶矩。因此，求矩永远不会产生封闭的方程组；总会有一个“未完结的部分”，即没有确定方程的最高阶矩。必须引入某种专门的封闭方法来终止这个链条（如下所示，典型的封闭方法包括引入绝热或等温假设）。求矩的另一个特点是，每个较高阶矩中都包含一些项，它们是完整的低阶矩方程乘以某个因子。通过代数运算可以识别并消去这些低阶矩方程，从而得到简化的高阶矩方程。 现在来求弗拉索夫方程的二阶矩。与零阶矩和一阶矩不同，系统的维数现在显式地进入方程，因此将使用 <a href="#eq-pressure-def" class="quarto-xref">式&nbsp;<span>12.24</span></a> 给出的更一般的压力定义。将弗拉索夫方程乘以 <span class="math inline">\(m_s v^2/2\)</span> 并对速度积分，得到 <span id="eq-vlasov-2nd-moment"><span class="math display">\[
+\begin{Bmatrix}
+\frac{\partial}{\partial t}\int \frac{m_s v^2}{2}f_s\mathrm{d}^N\mathbf{v} \\
++\frac{\partial}{\partial\mathbf{x}}\cdot\int\frac{m_s v^2}{2}\mathbf{v}f_s\mathrm{d}^N\mathbf{v} \\
++q_s\int\frac{v^2}{2}\frac{\partial}{\partial\mathbf{v}}\cdot(\mathbf{E}+\mathbf{v}\times\mathbf{B})f_s\mathrm{d}^N\mathbf{v}
+\end{Bmatrix} =
+\sum_\alpha \int m_s \frac{v^2}{2}C_{s\alpha}f_s\mathrm{d}^N \mathbf{v}
+\tag{12.25}\]</span></span></p>
+<p>下面分别考察此方程中的各项：</p>
+<ol type="1">
+<li><p>时间导数项变为 <span class="math display">\[
+\frac{\partial}{\partial t}\int \frac{m_s v^2}{2}f_s\mathrm{d}^N\mathbf{v} = \frac{\partial}{\partial t}\int \frac{m_s(\mathbf{v}^\prime + \mathbf{u}_s)^2}{2} f_s\mathrm{d}^N\mathbf{v}^\prime = \frac{\partial}{\partial t}\left( \frac{Np_s}{2} + \frac{m_sn_su_s^2}{2} \right)
+\]</span></p></li>
+<li><p>再次利用 <span class="math inline">\(\mathbf{v}=\mathbf{v}^\prime + \mathbf{u}_s\)</span>，空间导数项变为 <span class="math display">\[
+\frac{\partial}{\partial\mathbf{x}}\cdot\int\frac{m_s v^2}{2}\mathbf{v}f_s\mathrm{d}^N\mathbf{v} = \nabla\cdot\left( \mathbf{Q}_s + \frac{2+N}{2}p_s\mathbf{u}_s + \frac{m_sn_su_s^2}{2}\mathbf{u}_s \right)
+\]</span> 其中 <span class="math display">\[
+\mathbf{Q}_s = \int\frac{m_s{v^\prime}^2}{2}\mathbf{v}^\prime f_s\mathrm{d}^N\mathbf{v}
+\]</span> 称为_热通量_。</p></li>
+<li><p>分部积分后，加速度项变为 <span class="math display">\[
+q_s\int\frac{v^2}{2}\frac{\partial}{\partial\mathbf{v}}\cdot(\mathbf{E}+\mathbf{v}\times\mathbf{B})f_s\mathrm{d}^N\mathbf{v} = -q_s\int\mathbf{v}\cdot\mathbf{E} f_s\mathrm{d}\mathbf{v} = -q_s n_s\mathbf{u}_s\cdot\mathbf{E}
+\]</span></p></li>
+<li><p>碰撞项变为（使用 <a href="#eq-distribution_energy_cons_self" class="quarto-xref">式&nbsp;<span>12.17</span></a>） <span class="math display">\[
+\sum_\alpha \int m_s \frac{v^2}{2}C_{s\alpha}f_s\mathrm{d}^N \mathbf{v} = \int_{s\neq \alpha}m_s\frac{v^2}{2}C_{s\alpha} f_s\mathrm{d}\mathbf{v} = -\left( \frac{\partial W}{\partial t} \right)_\mathrm{Es\alpha}
+\]</span> 其中 <span class="math inline">\((\partial W/\partial t)_\mathrm{Es\alpha}\)</span> 是种类 <span class="math inline">\(s\)</span> 通过碰撞向种类 <span class="math inline">\(\alpha\)</span> 传递能量的速率。</p></li>
+</ol>
+<p>将上述四个关系合并，<a href="#eq-vlasov-2nd-moment" class="quarto-xref">式&nbsp;<span>12.25</span></a> 变为 <span id="eq-vlasov-2nd-moment2"><span class="math display">\[
+\begin{aligned}
+\frac{\partial}{\partial t}\left( \frac{Np_s}{2} + \frac{m_sn_su_s^2}{2} \right) + \nabla\cdot\left( \mathbf{Q}_s +\frac{2+N}{2}p_s\mathbf{u}_s + \frac{m_sn_su_s^2}{2}\mathbf{u}_s \right) - q_s n_s \mathbf{u}_s\cdot\mathbf{E} \\
+= -\left( \frac{\partial W}{\partial t} \right)_\mathrm{E\sigma s}
+\end{aligned}
+\tag{12.26}\]</span></span></p>
+<p>利用两个数学恒等式可以简化此方程，第一个是 <span class="math display">\[
+\frac{\partial}{\partial t}\left( \frac{m_s n_s u_s^2}{2} \right) + \nabla\cdot\left( \frac{m_sn_su_s^2}{2}\mathbf{u}_s \right) = n_s\left( \frac{\partial}{\partial t} + \mathbf{u}_s\cdot\nabla \right)\frac{m_su_s^2}{2} = n_s\frac{\mathrm{d}}{\mathrm{d}t}\left( \frac{m_su_s^2}{2} \right)
+\]</span></p>
+<p>将运动方程与 <span class="math inline">\(\mathbf{u}_s\)</span> 点乘，可得到第二个恒等式： <span class="math display">\[
+\begin{aligned}
+n_s m_s\left[ \frac{\partial}{\partial t}\left( \frac{u_s^2}{2}\right) + \mathbf{u}_s\cdot\left( \nabla\left( \frac{u_s^2}{2} \right) - \mathbf{u}_s\times\nabla\times\mathbf{u}_s \right) \right] \\
+= n_s q_s \mathbf{u}_s\cdot\mathbf{E} - \mathbf{u}_s\cdot\nabla p_s - \mathbf{R}_{s\alpha}\cdot\mathbf{u}_s
+\end{aligned}
+\]</span> 或者 <span class="math display">\[
+n_s\frac{\mathrm{d}}{\mathrm{d}t}\left( \frac{m_su_s^2}{2} \right) = n_sq_s\mathbf{u}_s\cdot\mathbf{E} - \mathbf{u}_s\cdot\nabla p_s - \mathbf{R}_{s\alpha}\cdot\mathbf{u}_s
+\]</span></p>
+<p>将这两个恒等式代入 <a href="#eq-vlasov-2nd-moment2" class="quarto-xref">式&nbsp;<span>12.26</span></a>，得到能量演化方程 <span id="eq-vlasov-2nd-moment3"><span class="math display">\[
+\frac{N}{2}\frac{\mathrm{d}p_s}{\mathrm{d}t} + \frac{2+N}{2}p_s\nabla\cdot\mathbf{u}_s = -\nabla\cdot\mathbf{Q}_s + \mathbf{R}_{s\alpha}\cdot\mathbf{u}_s - \left(\frac{\partial W}{\partial t}\right)_\mathrm{Es\alpha}
+\tag{12.27}\]</span></span></p>
+<p>右侧第一项表示热通量，第二项表示种类 <span class="math inline">\(s\)</span> 因受到种类 <span class="math inline">\(\alpha\)</span> 的摩擦阻力而产生的摩擦加热，最后一项则表示种类 <span class="math inline">\(s\)</span> 通过碰撞向其他种类传递能量的速率。尽管 <a href="#eq-vlasov-2nd-moment3" class="quarto-xref">式&nbsp;<span>12.27</span></a> 很复杂，如果令 <span class="math inline">\(t_\mathrm{char}\)</span> 为给定现象的特征时间尺度，<span class="math inline">\(l_\mathrm{char}\)</span> 为其特征长度尺度，就可以看出两种重要的极限情形。于是可为该现象定义特征速度 <span class="math inline">\(V_\mathrm{ph}\sim l_\mathrm{char}/t_\mathrm{char}\)</span>，在 <a href="#eq-vlasov-2nd-moment3" class="quarto-xref">式&nbsp;<span>12.27</span></a> 中用 <span class="math inline">\(t_\mathrm{char}^{-1}\)</span> 代替时间导数、用 <span class="math inline">\(l_\mathrm{char}^{-1}\)</span> 代替空间导数，可以看出这两种极限情形为：</p>
+<ol type="1">
+<li><p><em>等温极限</em>——热通量项占据主导地位，此时温度在空间中变得均匀。当以下条件成立时即为这种情形：（i）<span class="math inline">\(v_{Ts}\gg V_\mathrm{ph}\)</span>，因为左侧各项与热通量项之比为 <span class="math inline">\(\sim V_\mathrm{ph}/v_{Ts}\)</span>；（ii）碰撞项足够小，可以忽略。</p></li>
+<li><p><em>绝热极限</em>——与左侧各项相比，热通量项和碰撞项足够小，可以忽略；当 <span class="math inline">\(V_\mathrm{ph} \gg  v_{Ts}\)</span> 时即为这种情形。绝热一词源自希腊语，意为“不可通过”，这里用它表示没有热量流动，即所考虑的体积与外界热隔离。</p></li>
+</ol>
+<p>这两种极限都使我们能够避免求解涉及三阶矩的 <span class="math inline">\(\mathbf{Q}_s\)</span>，因此绝热极限和等温极限都为矩方程提供了一种闭合方法。</p>
+<p>在绝热极限下，可以先重新排列连续性方程，得到 <span class="math display">\[
+\nabla\cdot\mathbf{u}_s = -\frac{1}{n_s}\frac{\mathrm{d}n_s}{\mathrm{d}t}
+\]</span> 再将此式代入 <a href="#eq-vlasov-2nd-moment3" class="quarto-xref">式&nbsp;<span>12.27</span></a> 左侧，从而大大简化能量方程，得到 <span id="eq-adiabatic1"><span class="math display">\[
+\frac{1}{p_s}\frac{\mathrm{d}p_s}{\mathrm{d}t} = \frac{\gamma}{n_s}\frac{\mathrm{d}n_s}{\mathrm{d}t}
+\tag{12.28}\]</span></span> 其中 <span class="math display">\[
+\gamma = \frac{N+2}{N}
+\]</span></p>
+<p><a href="#eq-adiabatic1" class="quarto-xref">式&nbsp;<span>12.28</span></a> 表明 <span class="math display">\[
+\frac{\mathrm{d}}{\mathrm{d}t}\left( \frac{p_s}{n_s^\gamma} \right) = 0
+\]</span> 因此，在运动等离子体的参考系中，<span class="math inline">\(p_s/n_s^\gamma\)</span> 是常数。这构成了基于几何和统计力学而非热力学论证的绝热性推导。</p>
+<p>能量方程的推导也可见 <a href="https://arxiv.org/abs/1901.09354">An introductory guide to fluid models with anisotropic temperatures</a>。</p>
+<p>简要总结一下，我们一直使用的流体方程实际上就是玻尔兹曼方程的各阶矩。由 <a href="#eq-vlasov" class="quarto-xref">式&nbsp;<span>12.12</span></a> 可以看出一个有趣的现象：为了得到流体力学方程，并不需要加速度项 <span class="math inline">\(\mathbf{a}\cdot\partial_\mathbf{v}f\)</span>；驱动流动的压力梯度来自平流项 <span class="math inline">\(\mathbf{v}\cdot\partial_\mathbf{x}f\)</span> 中所包含的热运动。</p>
+<p>我们必须谨慎，不要对流体观点的描述能力过于自信，因为这种观点存在弱点。例如，如上所述，当 <span class="math inline">\(V_\mathrm{ph}\sim v_{Ts}\)</span> 时，绝热近似和等温近似都不适用。在这种情形下，流体描述失效，必须使用弗拉索夫描述。此外，只有当碰撞足够频繁或存在其他随机化过程时，分布函数才是麦克斯韦分布。由于等离子体的碰撞较弱，情况往往并非如此。特别是，由于碰撞频率按 <span class="math inline">\(v^{-3}\)</span> 缩放（<a href="diffres.html#eq-coulomb_collision_freq" class="quarto-xref">式&nbsp;<span>9.20</span></a>），快速粒子达到麦克斯韦分布所需的时间比慢速粒子长得多。真实等离子体中，低速粒子已达到麦克斯韦分布，而快速粒子形成非麦克斯韦尾部的状态并不罕见。</p>
+</section>
+<section id="sec-landau" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="sec-landau"><span class="header-section-number">12.5</span> 等离子体振荡与朗道阻尼</h2>
+<p>作为运用弗拉索夫方程的一个初步例子，我们将推导电子等离子体振荡的色散关系；此前这一问题是从流体观点处理的。推导需要用到围道积分的知识。</p>
+<p>在零阶近似中，假定等离子体均匀，其分布为 <span class="math inline">\(f_0(\mathbf{v})\)</span>，并令 <span class="math inline">\(\mathbf{B}_0 = \mathbf{E}_0 = 0\)</span>。在一阶近似中，用 <span class="math inline">\(f_1(\mathbf{r},\mathbf{v},t)\)</span> 表示 <span class="math inline">\(f(\mathbf{r},\mathbf{v},t)\)</span> 的扰动：</p>
+<p><span class="math display">\[
+f(\mathbf{r},\mathbf{v},t) = f_0(\mathbf{v}) + f_1(\mathbf{r},\mathbf{v},t)
+\]</span></p>
+<p>由于 <span class="math inline">\(\mathbf{v}\)</span> 现在是独立变量，不需要线性化，电子的一阶弗拉索夫方程为</p>
+<p><span id="eq-vlasov_1st"><span class="math display">\[
+\frac{\partial f_1}{\partial t} + \mathbf{v}\cdot\nabla f_1 - \frac{e}{m}\mathbf{E}_1\cdot\frac{\partial f_0}{\partial \mathbf{v}} = 0
+\tag{12.29}\]</span></span></p>
+<p>与前面一样，假设离子质量很大且固定不动，波是沿 x 方向传播的平面波，<span class="math inline">\(f_1 \propto e^{i(kx - \omega t)}\)</span>。于是线性化的弗拉索夫方程变为</p>
+<p><span class="math display">\[
+\begin{aligned}
+-i\omega f_1 + ikv_x f_1 x &amp;= \frac{e}{m}E_x\frac{\partial f_0}{\partial v_x} \\
+f_1 &amp;= \frac{ieE_x}{m}\frac{\partial f_0/\partial v_x}{\omega - kv_x}
+\end{aligned}
+\]</span></p>
+<p>泊松方程给出 <span class="math display">\[
+\epsilon_0\nabla\cdot\mathbf{E}_1 = ik\epsilon_0 E_x = -en_1 = -e\int f_1 d^3v
+\]</span></p>
+<p>代入 <span class="math inline">\(f_1\)</span> 并除以 <span class="math inline">\(ik\epsilon_0 E_x\)</span>，得到 <span class="math display">\[
+1 = -\frac{e^2}{km\epsilon_0}\int \frac{\partial f_0/\partial v_x}{\omega - k v_x}d^3v
+\]</span></p>
+<p>如果用归一化函数 <span class="math inline">\(\hat{f}_0\)</span> 代替 <span class="math inline">\(f_0\)</span>，就可以提取出因子 <span class="math inline">\(n_0\)</span>： <span class="math display">\[
+1 = -\frac{\omega_p^2}{k}\int_{-\infty}^{\infty}dv_z\int_{-\infty}^{\infty}dv_y\int_{-\infty}^{\infty}\frac{\partial \hat{f}_0(v_x, v_y, v_z)/\partial v_x}{\omega- k v_x}dv_x
+\]</span></p>
+<p>如果 <span class="math inline">\(f_0\)</span> 是麦克斯韦分布或其他可分解的分布，就可以容易地完成对 <span class="math inline">\(v_y\)</span> 和 <span class="math inline">\(v_z\)</span> 的积分，剩下的是一维分布 <span class="math inline">\(\hat{f}_0(v_x)\)</span>。例如，一维麦克斯韦分布为 <span class="math display">\[
+\hat{f}_m(v_x) = \sqrt{\frac{m}{2\pi k_B T}} \exp\left(\frac{-mv_x^2}{2 k_B T}\right)
+\]</span></p>
+<p>由于我们处理的是一维问题，可以省略下标 x，但要注意不要将 <span class="math inline">\(v\)</span>（实际上是 <span class="math inline">\(v_x\)</span>）与前面使用的总速度 <span class="math inline">\(v\)</span> 混淆： <span id="eq-dispersion_0th"><span class="math display">\[
+1 = \frac{\omega_p^2}{k^2}\int_{-\infty}^{\infty}\frac{\partial \hat{f}_0/\partial v}{v - \omega/k}\mathrm{d}v
+\tag{12.30}\]</span></span></p>
+<p>这里，<span class="math inline">\(\hat{f}_0\)</span> 是已对 <span class="math inline">\(v_y\)</span> 和 <span class="math inline">\(v_z\)</span> 积分后的一维分布函数。这个方程对任何平衡分布 <span class="math inline">\(\hat{f}_0(v)\)</span> 都成立。</p>
+<p>由于 <span class="math inline">\(v=\omega/k\)</span> 处存在奇点，方程中的积分并不容易求出。人们可能认为这个奇点不必担心，因为实际中 <span class="math inline">\(\omega\)</span> 几乎从来不是实数；波通常会受到碰撞的轻微阻尼，或者由某种不稳定机制放大。由于速度 <span class="math inline">\(v\)</span> 是实数，分母永远不为零。朗道首次正确处理了这个方程。他发现，尽管奇点不在积分路径上，它的存在仍会对等离子体波的色散关系产生重要修正——这是流体理论没有预言的效应。</p>
+<p>考虑一个初值问题：等离子体受到正弦扰动，因此 <span class="math inline">\(k\)</span> 为实数。如果扰动增长或衰减，<span class="math inline">\(\omega\)</span> 就是复数。这个积分必须作为复 <span class="math inline">\(v\)</span> 平面上的围道积分处理。图中给出了可能的围道：（a）不稳定波，<span class="math inline">\(\Im(\omega) &gt; 0\)</span>；（b）受阻尼的波，<span class="math inline">\(\Im(\omega) &lt; 0\)</span>。通常，可以用留数定理计算沿实 <span class="math inline">\(v\)</span> 轴的线积分： <span class="math display">\[
+\int_{C_1} G \mathrm{d}v + \int_{C_2} G \mathrm{d}v = 2\pi i R(\omega/k)
+\]</span> 其中 <span class="math inline">\(G\)</span> 是被积函数，<span class="math inline">\(C_1\)</span> 是沿实轴的路径，<span class="math inline">\(C_2\)</span> 是无穷远处的半圆，<span class="math inline">\(R(\omega/k)\)</span> 是 <span class="math inline">\(\omega/k\)</span> 处的留数。如果沿 <span class="math inline">\(C_2\)</span> 的积分为零，这种方法就成立。不幸的是，对于包含下列因子的麦克斯韦分布，情况并非如此： <span class="math display">\[
+\exp(-v^2/v_{th}^2)
+\]</span></p>
+<p>当 <span class="math inline">\(v\rightarrow \pm i \infty\)</span> 时，这个因子变大，不能忽略 <span class="math inline">\(C_2\)</span> 的贡献。朗道证明，正确地将此问题作为初值问题处理时，应使用的围道是从奇点下方经过的曲线 <span class="math inline">\(C_1\)</span>。一般必须用数值方法计算这个积分。</p>
+<p>尽管对此问题的精确分析很复杂，我们可以针对相速度大、阻尼弱的情况得到近似色散关系。此时 <span class="math inline">\(\omega/k\)</span> 处的极点靠近实 <span class="math inline">\(v\)</span> 轴。朗道规定的围道便是沿 <span class="math inline">\(\Re(v)\)</span> 轴的一条直线，并以一个小半圆绕过极点。绕过极点时得到 <span class="math inline">\(2\pi i\)</span> 乘以该处留数的一半。于是 <a href="#eq-dispersion_0th" class="quarto-xref">式&nbsp;<span>12.30</span></a> 变为 <span id="eq-landau_residue"><span class="math display">\[
+1 = \frac{\omega_p^2}{k^2} \left[ P\int_{-\infty}^{\infty}\frac{\partial\hat{f}_0/\partial v}{v - (\omega/k)}\mathrm{d}v + i\pi \frac{\partial\hat{f}_0}{\partial v}\biggr\rvert_{v=\omega/k} \right]
+\tag{12.31}\]</span></span> 其中 <span class="math inline">\(P\)</span> 表示柯西主值。为了计算它，我们沿实 <span class="math inline">\(v\)</span> 轴积分，但在到达极点之前停止。如果如我们假设的那样，相速度 <span class="math inline">\(v_\phi = \omega/k\)</span> 足够大，那么被忽略的围道部分贡献不大，因为 <span class="math inline">\(\hat{f}_0\)</span> 和 <span class="math inline">\(\partial\hat{f}_0/\partial v\)</span> 在那里都很小。上面的积分可以通过分部积分计算： <span class="math display">\[
+\int_{-\infty}^{\infty}\frac{\partial\hat{f}_0}{\partial v}\frac{\mathrm{d}v}{v - v_\phi} = \left[ \frac{\hat{f}_0}{v-v_\phi} \right]_{-\infty}^{\infty} - \int_{-\infty}^{\infty}\frac{-\hat{f}_0 \mathrm{d}v}{(v-v_\phi)^2} = \int_{-\infty}^{\infty}\frac{\hat{f}_0 \mathrm{d}v}{(v-v_\phi)^2}
+\]</span></p>
+<p>由于这只是 <span class="math inline">\((v-v_\phi)^{-2}\)</span> 对分布的平均，色散关系的实部可以写成 <span class="math display">\[
+1 = \frac{\omega_p^2}{k^2} \overline{(v-v_\phi)^{-2}}
+\]</span></p>
+<p>由于已经假设 <span class="math inline">\(v_\phi \gg v\)</span>，可以展开 <span class="math inline">\((v-v_\phi)^{-2}\)</span>： <span class="math display">\[
+(v-v_\phi)^{-2} = v_\phi^{-2}\Big( 1 - \frac{v}{v_\phi} \Big)^{-2} = v_\phi^{-2}\Big( 1 + \frac{2v}{v_\phi} + \frac{3v^2}{v_\phi^2} + \frac{4v^3}{v_\phi^3} + ... \Big)
+\]</span></p>
+<p>取平均后奇数项消失，得到 <span class="math display">\[
+\overline{(v-v_\phi)^{-2}} \approx v_\phi^{-2} \Big( 1 + \frac{3\overline{v^2}}{v_\phi^2} \Big)
+\]</span></p>
+<p>现在令 <span class="math inline">\(\hat{f}_0\)</span> 为麦克斯韦分布，并计算 <span class="math inline">\(\overline{v^2}\)</span>。注意这里的 <span class="math inline">\(v\)</span> 是 <span class="math inline">\(v_x\)</span> 的简写，可以写出 <span class="math display">\[
+\frac{1}{2}m\overline{v_x^2} = \frac{1}{2}k_B T_e
+\]</span> 因为只有一个自由度。色散关系于是变为 <span class="math display">\[
+\begin{aligned}
+1 &amp;= \frac{\omega_p^2}{k^2}\frac{k^2}{\omega^2}\Big( 1+ 3\frac{k^2}{\omega^2}\frac{k_B T_e}{m} \Big) \\
+\omega^2 &amp;= \omega_p^2 + \frac{\omega_p^2}{\omega^2}\frac{3k_B T_e}{m}k^2
+\end{aligned}
+\]</span></p>
+<p>如果热修正很小（即右侧第二项很小，使得 <span class="math inline">\(\omega \approx \omega_p\)</span>），就可以将第二项中的 <span class="math inline">\(\omega^2\)</span> 替换为 <span class="math inline">\(\omega_p^2\)</span>。于是得到 <span class="math display">\[
+\omega^2 = \omega_p^2 + \frac{3k_B T_e}{m}k^2
+\]</span> 这与取 <span class="math inline">\(\gamma=3\)</span> 时由流体方程得到的结果相同。</p>
+<p>现在回到色散关系的虚数项。在计算这个小项时，忽略 <span class="math inline">\(\omega\)</span> 实部的热修正并令 <span class="math inline">\(\omega^2\approx \omega_p^2\)</span> 就已足够精确。由上面对实部的计算可知，积分的主值近似为 <span class="math inline">\(k^2/\omega^2\)</span>。色散关系现在变为 <span class="math display">\[
+1 = \frac{\omega_p^2}{\omega^2} + i\pi\frac{\omega_p^2}{k^2}\frac{\partial\hat{f}_0}{\partial v}\biggr\rvert_{v=v_\phi}
+\]</span></p>
+<p><span class="math display">\[
+\omega^2 \Big( 1 - i\pi\frac{\omega_p^2}{k^2}\frac{\partial\hat{f}_0}{\partial v}\biggr\rvert_{v=v_\phi} \Big) = \omega_p^2
+\]</span></p>
+<p>将虚数项视为小量，可以把它移到右侧并通过泰勒级数展开求平方根，于是得到 <span id="eq-landau"><span class="math display">\[
+\omega = \omega_p\Big( 1 + i\frac{\pi}{2}\frac{\omega_p^2}{k^2}\frac{\partial\hat{f}_0}{\partial v}\biggr\rvert_{v=v_\phi} \Big)
+\tag{12.32}\]</span></span></p>
+<p>如果 <span class="math inline">\(\hat{f}_0\)</span> 是一维麦克斯韦分布，则有 <span class="math display">\[
+\frac{\partial\hat{f}_0}{\partial v} = (\pi v_{th}^2)^{-1/2} \left( \frac{-2v}{v_{th}^2} \right) \exp\left( \frac{-v^2}{v_{th}^2} \right) = -\frac{2v}{\sqrt{\pi}v_{th}}\exp\left( \frac{-v^2}{v_{th}^2} \right)
+\]</span></p>
+<p>在系数中可以用 <span class="math inline">\(\omega_p/k\)</span> 近似 <span class="math inline">\(v_\phi\)</span>，但在指数中必须保留色散关系实部的热修正。阻尼于是由下式给出： <span class="math display">\[
+\begin{aligned}
+\Im(\omega) &amp;= -\frac{\pi}{2}\frac{\omega_p^2}{k^2}\frac{2\omega_p}{k\sqrt{\pi}}\frac{1}{v_{th}^3}\exp\left( \frac{-\omega^2}{k^2 v_{th}^2} \right) \\
+&amp;= -\sqrt{\pi}\omega_p \left( \frac{\omega_p}{kv_{th}} \right)^3 \exp\left( \frac{-\omega_p^2}{k^2 v_{th}^2}\right)\exp\left( \frac{-3}{2} \right) \\
+\Im\left(\frac{\omega}{\omega_p}\right) &amp;= -0.22 \sqrt{\pi}\left( \frac{\omega_p}{kv_{th}} \right)^3 \exp\left( \frac{-1}{2k^2\lambda_D^2} \right)
+\end{aligned}
+\]</span></p>
+<p>由于 <span class="math inline">\(\Im(\omega)\)</span> 为负，等离子体波存在无碰撞阻尼，称为_朗道阻尼_。从表达式可以看出，当 <span class="math inline">\(k\lambda_D\)</span> 很小时，这种阻尼极小；但当 <span class="math inline">\(k\lambda_D = \mathcal{O}(1)\)</span> 时，它就变得重要。这种效应与 <span class="math inline">\(f_1\)</span> 有关，即与波造成的分布函数畸变有关。</p>
+</section>
+<section id="sec-landau_damping" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="sec-landau_damping"><span class="header-section-number">12.6</span> 朗道阻尼的意义</h2>
+<p><strong>从理论上发现波可以在没有碰撞耗散能量的情况下受到阻尼，或许是等离子体物理研究中最令人惊奇的结果</strong>。实验室已经证明这是一种真实的效应。虽然现在已有对这种阻尼的简单物理解释，但这一出人意料的效应最初是在仔细分析围道积分的过程中纯粹通过数学方法发现的，这是应用数学的一项胜利。朗道阻尼是无碰撞等离子体的特征，但也可能应用于其他领域。例如，在用动力学方法处理星系形成时，可以把恒星视为等离子体中的原子，只不过它们通过引力而非电磁力相互作用。恒星气体的不稳定性可以导致旋臂形成，但这一过程受到朗道阻尼的限制。</p>
+<p>为了了解朗道阻尼的成因，首先注意 <span class="math inline">\(\Im(\omega)\)</span> 来自 <span class="math inline">\(v=v_\phi\)</span> 处的极点。因此，这一效应与分布中速度接近相速度的粒子——“共振粒子”——有关。这些粒子随波一起运动，不会看到快速波动的电场，因此可以有效地与波交换能量。理解这种能量交换最容易的方法，是想象冲浪者试图追上海浪。（注意：这个图像只能将我们的思路引向正确方向，不能正确解释阻尼。）如果冲浪板不动，波经过时它只会上下起伏，平均而言不会获得能量。同样，一艘行驶速度远高于波速的船也不能与波交换多少能量。然而，如果冲浪板的速度几乎与波速相同，它就可能被波带上并向前推动；毕竟这正是冲浪的主要目的。在这种情况下，冲浪板获得能量，因此波必然失去能量并受到阻尼。另一方面，如果冲浪板运动得比波稍快，它在向波峰上方运动时会推动波，波就可能获得能量。在等离子体中，有些电子比波快，有些比波慢。然而，麦克斯韦分布中的慢电子比快电子多。因此，从波中获取能量的粒子比向波传递能量的粒子多，波便受到阻尼。当 <span class="math inline">\(v\approx v_\phi\)</span> 的粒子被波俘获时，<span class="math inline">\(f(v)\)</span> 在相速度附近变平。这种畸变就是我们计算的 <span class="math inline">\(f_1(v)\)</span>。如图所示（添加该图！），受扰动的分布函数所含粒子数相同，但总能量增加了（以波的能量为代价）。</p>
+<p>由此可以推测，如果 <span class="math inline">\(f_0(v)\)</span> 中的快粒子比慢粒子多，就可以激发波。事实上，从上面 <span class="math inline">\(\omega\)</span> 的表达式可以明显看出，如果 <span class="math inline">\(\partial\hat{f}_0/\partial v\)</span> 在 <span class="math inline">\(v=v_\phi\)</span> 处为正，那么 <span class="math inline">\(\Im(\omega)\)</span> 就为正。图 7-19 给出了这样的分布（添加该图！）。<span class="math inline">\(v_\phi\)</span> 位于正斜率区域的波将不稳定，以粒子的能量为代价获得能量。这正是双流不稳定性的有限温度对应情形。当两股冷电子流（<span class="math inline">\(k_B T=0\)</span>）运动时，<span class="math inline">\(f_0(v)\)</span> 由两个 <span class="math inline">\(\delta\)</span> 函数组成。这显然是不稳定的，因为 <span class="math inline">\(\partial f_0/\partial v\)</span> 是无穷大；事实上，我们也从流体理论得到了这种不稳定性。当流具有有限温度时，动力学理论告诉我们，两股流的相对密度和温度必须使它们之间存在 <span class="math inline">\(\partial f_0(v)/\partial v\)</span> 为正的区域；更准确地说，要产生不稳定性，总分布函数必须具有一个极小值。</p>
+<p><strong>冲浪者追上海浪的物理图像很吸引人，但它不够精确，不能使我们真正理解朗道阻尼</strong>。实际上朗道阻尼有两种。两种都与耗散性碰撞机制无关。如果粒子被波的势阱捕获，这种现象称为“俘获”。与冲浪者的情况一样，粒子在俘获过程中确实可以获得或失去能量。然而，俘获不属于线性理论的范围。从运动方程可以看出这一点： <span class="math display">\[
+m\ddot{x} = qE(x)
+\]</span></p>
+<p>如果代入 <span class="math inline">\(x\)</span> 的精确值来计算 <span class="math inline">\(E(x)\)</span>，方程就是非线性的，因为 <span class="math inline">\(E(x)\)</span> 类似于 <span class="math inline">\(\sin kx\)</span>。在线性理论中，使用的是 <span class="math inline">\(x\)</span> 的未扰动轨道，即 <span class="math inline">\(x=x_0 + v_0 t\)</span>。这样方程就成为线性的。然而，粒子被俘获时，这种近似不再有效。当粒子遇到足以将它反射的势垒时，它的速度和位置当然会受到波的强烈影响，不再接近未扰动值。在流体理论中，运动方程为 <span class="math display">\[
+m\left[ \frac{\partial\mathbf{v}}{\partial t}+(\mathbf{v}\cdot\nabla)\mathbf{v} \right] = q\mathbf{E}(x)
+\]</span></p>
+<p>这里，<span class="math inline">\(\mathbf{E}(x)\)</span> 要在实验室参考系中计算，这很容易；但作为代价，方程中出现了 <span class="math inline">\((\mathbf{v}\cdot\nabla)\mathbf{v}\)</span> 项。在线性理论中忽略 <span class="math inline">\((\mathbf{v}_1\cdot\nabla)\mathbf{v}_1\)</span>，相当于使用未扰动轨道。在动力学理论中，根据一阶弗拉索夫方程 <a href="#eq-vlasov_1st" class="quarto-xref">式&nbsp;<span>12.29</span></a>，被忽略的非线性项是 <span class="math display">\[
+\frac{q}{m}E_1\frac{\partial f_1}{\partial v}
+\]</span></p>
+<p>粒子被俘获时，它们相对于波的运动方向会反转，因此分布函数 <span class="math inline">\(f(v)\)</span> 在 <span class="math inline">\(v=\omega/k\)</span> 附近受到强烈扰动。这意味着 <span class="math inline">\(\partial f_1/\partial v\)</span> 与 <span class="math inline">\(\partial f_0/\partial v\)</span> 可比，上述项不能忽略。因此，俘获不属于线性理论。</p>
+<p>当波增长到大振幅时，确实会出现伴随俘获的无碰撞阻尼。此时会发现，波并非单调衰减；相反，由于被俘获粒子在势阱中来回反弹，振幅在衰减期间会发生波动。这是_非线性_朗道阻尼。既然前面的结果是从_线性_理论推导出来的，它必然来自另一种物理效应。问题是：速度接近波的相速度但未被俘获的电子，能否与波交换能量？在回答之前，先来考察这些电子的能量。</p>
+<section id="一束电子的动能" class="level3" data-number="12.6.1">
+<h3 data-number="12.6.1" class="anchored" data-anchor-id="一束电子的动能"><span class="header-section-number">12.6.1</span> 一束电子的动能</h3>
+<p>我们可以将电子分布 <span class="math inline">\(f_0(v)\)</span> 分成大量单能束流。考虑其中一束：它的未扰动速度为 <span class="math inline">\(u\)</span>，密度为 <span class="math inline">\(n_u\)</span>。速度 <span class="math inline">\(u\)</span> 可能接近 <span class="math inline">\(v_\phi\)</span>，因此这束流可能由共振电子组成。现在引入等离子体振荡 <span class="math inline">\(E(x,t)\)</span>，考察束流穿过波峰和波谷时的动能。这个波由所有束流共同的自洽运动产生。如果 <span class="math inline">\(n_u\)</span> 足够小（束流数量足够多），所考察的束流对波的影响可以忽略，可以认为它在给定的场 <span class="math inline">\(E(x,t)\)</span> 中运动。令 <span class="math display">\[
+\begin{aligned}
+E &amp;= E_0\sin(kx-\omega t) = -d\phi/\mathrm{d}t \\
+\phi &amp;= (E_0/k)\cos(kx-\omega t)
+\end{aligned}
+\]</span></p>
+<p>束流的线性化流体方程为 <span class="math display">\[
+m\left(\frac{\partial v_1}{\partial t} + u\frac{\partial v_1}{\partial x} \right) = -eE_0\sin(kx-\omega t)
+\]</span></p>
+<p>一个可能的解为 <span class="math display">\[
+v_1 = -\frac{eE_0}{m}\frac{\cos(kx-\omega t)}{\omega-ku}
+\]</span></p>
+<p>这是束流电子经过时波所引起的速度调制。为了守恒粒子通量，密度也相应地发生振荡，由线性化连续性方程给出：</p>
+<p><span class="math display">\[
+\frac{\partial n_1}{\partial t} + u\frac{\partial n_1}{\partial x} = -n_u\frac{\partial v_1}{\partial x}
+\]</span></p>
+<p>由于 <span class="math inline">\(v_1\)</span> 与 <span class="math inline">\(\cos(kx-\omega t)\)</span> 成正比，可以尝试令 <span class="math inline">\(n_1 = \bar{n}_1 \cos(kx-\omega t)\)</span>。将其代入上式，得到 <span class="math display">\[
+n_1 = -n_u\frac{eE_0 k}{m}\frac{\cos(kx-\omega t)}{(\omega-ku)^2}
+\]</span></p>
+<p>（可以用一系列相位关系图表示 <span class="math inline">\(n_1\)</span> 和 <span class="math inline">\(v_1\)</span>，如图 7-21 所示）（添加该图！）束流电子所看到的 <span class="math inline">\(E\)</span> 和势能 <span class="math inline">\(-e\phi\)</span> 的一个波长。</p>
+<p>现在可以计算束流的动能 <span class="math inline">\(W_k\)</span>： <span class="math display">\[
+\begin{aligned}
+W_k &amp;= \frac{1}{2}m(n_u+n_1)(u+v_1)^2 \\
+&amp;= \frac{1}{2}m(n_u u^2 + n_uv_1^2 +2un_1v_1 + n_1u^2 + 2n_uuv_1 + n_1v_1^2)
+\end{aligned}
+\]</span></p>
+<p>最后三项含有振荡量的奇数次幂，因此在对一个波长取平均时会消失。减去表示原始能量的第一项，就得到波引起的 <span class="math inline">\(W_k\)</span> 变化。平均能量变化为 <span class="math display">\[
+\left&lt;\Delta W_k \right&gt; = \frac{1}{2}m\left&lt;n_uv_1^2 + 2un_1v_1\right&gt;
+\]</span></p>
+<p>由 <span class="math inline">\(v_1\)</span> 的形式可得 <span class="math display">\[
+n_u\left&lt; v_1^2 \right&gt; = \frac{1}{2}n_u\frac{e^2E_0^2}{m^2(\omega-ku)^2}
+\]</span> 因子 <span class="math inline">\(\frac{1}{2}\)</span> 表示 <span class="math inline">\(\left&lt; \cos^2(kx-\omega t) \right&gt;\)</span>。类似地，由 <span class="math inline">\(n_1\)</span> 的形式得到 <span class="math display">\[
+2u\left&lt; n_1v_1 \right&gt; = n_u\frac{e^2E_0^2 ku}{m^2(\omega - ku)^3}
+\]</span></p>
+<p>因此， <span class="math display">\[
+\begin{aligned}
+\left&lt;\Delta W_k \right&gt; &amp;= \frac{1}{4}mn_u \frac{e^2E_0^2}{m^2(\omega - ku)^2}\Big[ 1+\frac{2ku}{\omega-ku} \Big] \\
+&amp;= \frac{n_u}{4}\frac{e^2E_0^2}{m}\frac{\omega+ku}{m^2(\omega - ku)^3}
+\end{aligned}
+\]</span></p>
+<p>这一结果表明，<span class="math inline">\(\left&lt;\Delta W_k\right&gt;\)</span> 取决于观察者的参考系，而且不会随时间发生长期变化。想象一个无摩擦的物块在类似搓衣板的表面上滑动。（添加插图！）在搓衣板参考系中，取 <span class="math inline">\(\omega = 0\)</span> 可知 <span class="math inline">\(\left&lt;\Delta W_k \right&gt;\)</span> 与 <span class="math inline">\(-(ku)^{-2}\)</span> 成正比。直观上很清楚：（1）<span class="math inline">\(\left&lt;\Delta W_k \right&gt;\)</span> 为负，因为物块在峰顶停留的时间比在谷底长；（2）<em>振荡开始后</em>，物块平均而言既不获得也不失去能量（没有时间依赖性）。现在进入一个参考系，在其中搓衣板以恒定速度 <span class="math inline">\(\omega/k\)</span> 运动（这一速度不受物块运动的影响，因为我们已假定 <span class="math inline">\(n_u\)</span> 与整个等离子体的密度相比可以忽略）；振荡开始后，物块平均而言仍然既不获得也不失去能量。但上式告诉我们，<span class="math inline">\(\left&lt;\Delta W_k\right&gt;\)</span> 取决于速度 <span class="math inline">\(\omega/k\)</span>，因而取决于观察者的参考系。具体来说，当 <span class="math inline">\(\omega - ku&lt;0\)</span> 或 <span class="math inline">\(u&gt;u_\phi\)</span> 时，束流在有波存在时的能量比无波时少；当 <span class="math inline">\(\omega - ku&gt;0\)</span> 或 <span class="math inline">\(u&lt;u_\phi\)</span> 时，其能量则更大。其原因可以追溯到 <span class="math inline">\(n_1\)</span> 与 <span class="math inline">\(v_1\)</span> 之间的相位关系。如图 7-23 所示（添加该图！），<span class="math inline">\(W_k\)</span> 是 <span class="math inline">\(v\)</span> 的抛物线函数。当 <span class="math inline">\(v\)</span> 在 <span class="math inline">\(u-|v_1|\)</span> 与 <span class="math inline">\(u+|v_1|\)</span> 之间振荡时，只要粒子在振荡的每一半周期内停留的时间相等，<span class="math inline">\(W_k\)</span> 的平均值就会大于平衡值 <span class="math inline">\(W_{k0}\)</span>。这就是第一项 <span class="math inline">\(\frac{1}{2}m\left&lt; n_uv_1^2 \right&gt;\)</span> 的含义，它是正定的。第二项 <span class="math inline">\(\frac{1}{2}m\left&lt; 2un_1v_1 \right&gt;\)</span> 是对粒子在两半周期中停留时间不等这一事实的修正。在图 7-21 中（添加该图！），可以看到电子 a 和 b 在势垒顶部停留的时间都比在底部长，但电子 a 是经过一段减速后到达该处的，所以那里的 <span class="math inline">\(v_1\)</span> 为负；电子 b 则是经过一段向右加速后到达该处的，所以那里的 <span class="math inline">\(v_1\)</span> 为正。这一效应使 <span class="math inline">\(\left&lt;W_k\right&gt;\)</span> 在 <span class="math inline">\(u=v_\phi\)</span> 处改变符号。</p>
+</section>
+<section id="初始条件的影响" class="level3" data-number="12.6.2">
+<h3 data-number="12.6.2" class="anchored" data-anchor-id="初始条件的影响"><span class="header-section-number">12.6.2</span> 初始条件的影响</h3>
+<p>然而，我们刚刚推导出的结果仍然与线性朗道阻尼无关。阻尼要求 <span class="math inline">\(W_k\)</span> 以波能为代价持续增加，但我们发现未被俘获粒子的 <span class="math inline">\(\left&lt;\Delta W_k\right&gt;\)</span> 随时间保持不变。如果未被俘获的粒子和被俘获的粒子都不是线性朗道阻尼的原因，那么原因是什么？下面的观察可以提供答案：假如 <span class="math inline">\(\left&lt;\Delta W_k\right&gt;\)</span> 为正，那么必定曾有一段时间它在增加。事实上，原始分布中有一些粒子的速度非常接近 <span class="math inline">\(v_\phi\)</span>，以至于在时刻 <span class="math inline">\(t\)</span>，它们相对于波尚未走过半个波长。对于这些粒子，不能取平均 <span class="math inline">\(\left&lt;\Delta W_k\right&gt;\)</span>。这些粒子可以从波中吸收能量，恰当地称为“共振”粒子。随着时间推移，共振电子的数量减少，因为越来越多的电子已从原来的位置移动了超过 <span class="math inline">\(\frac{1}{2}\lambda\)</span>。不过，阻尼率可以保持不变，因为此时振幅更小，需要更少的电子就能维持恒定的阻尼率。</p>
+<p>初始条件的影响最容易从相空间图中看出来（图 7-24）（用 Luxor 添加该图？）。</p>
+</section>
+</section>
+<section id="朗道阻尼的物理推导" class="level2" data-number="12.7">
+<h2 data-number="12.7" class="anchored" data-anchor-id="朗道阻尼的物理推导"><span class="header-section-number">12.7</span> 朗道阻尼的物理推导</h2>
+<p>现在我们可以推导朗道阻尼率，而不必借助围道积分。虽然朗道对无碰撞阻尼的推导简短而巧妙，但直到 J. M. Dawson 给出较长而直观的推导之后，人们才清楚它涉及一种可以通过物理观测发现的现象；本节将转述该推导。与前面一样，我们将等离子体分成速度为 <span class="math inline">\(u\)</span>、密度为 <span class="math inline">\(n_u\)</span> 的束流，并考察它们在波</p>
+<p><span class="math display">\[
+E = E_1 \sin(kx-\omega t)
+\]</span></p>
+<p>中的运动。根据上一节的推导，每束流的速度为</p>
+<p><span class="math display">\[
+v_1 = -\frac{eE_1}{m}\frac{\cos(kx-\omega t)}{\omega-ku}
+\]</span></p>
+<p>这个解满足运动方程，但不满足 <span class="math inline">\(t = 0\)</span> 时 <span class="math inline">\(v_1 = 0\)</span> 的初始条件。显然必须施加这一初始条件；否则，在 <span class="math inline">\(u=\omega/k\)</span> 附近 <span class="math inline">\(v_1\)</span> 会非常大，等离子体初始时就处于一种经过特殊制备的状态。我们可以添加一个关于 <span class="math inline">\(kx-kut\)</span> 的任意函数，修正这个解以满足初始条件。组合后的解仍满足运动方程，因为左侧的算符作用于 <span class="math inline">\(f(kx-kut)\)</span> 时结果为零。显然，为使 <span class="math inline">\(t=0\)</span> 时 <span class="math inline">\(v_1 = 0\)</span>，函数 <span class="math inline">\(f(kx-kut)\)</span> 必须取为 <span class="math inline">\(-\cos(kx-kut)\)</span>。因此，上式应改为</p>
+<p><span class="math display">\[
+v_1 = \frac{-eE_1}{m}\frac{\cos(kx-\omega t) - \cos(kx-kut)}{\omega-ku}
+\]</span></p>
+<p>接下来必须求解 <span class="math inline">\(n_1\)</span> 的连续性方程，同样要求满足 <span class="math inline">\(t=0\)</span> 时 <span class="math inline">\(n_1=0\)</span> 的初始条件。由于我们现在比之前聪明得多，可以尝试如下形式的解：</p>
+<p><span class="math display">\[
+n_1 = \bar{n}_1[\cos(kx-\omega t) - \cos(kx-kut)]
+\]</span></p>
+<p>将它代入连续性方程，并使用上面 <span class="math inline">\(v_1\)</span> 的表达式，得到</p>
+<p><span class="math display">\[
+\bar{n}_1 \sin(kx-\omega t) = -n_u\frac{eE_1 k}{m}\frac{\sin(kx-\omega t) - \sin(kx-kut)}{(\omega - ku)^2}
+\]</span></p>
+<p>显然，我们还不够聪明，因为 <span class="math inline">\(\sin(kx-\omega t)\)</span> 因子并未消去。为了得到来自 <span class="math inline">\(v_1\)</span> 中所添加项的 <span class="math inline">\(\sin(kx-kut)\)</span> 形式的项，可以给 <span class="math inline">\(n_1\)</span> 增加一个 <span class="math inline">\(At\sin(kx-kut)\)</span> 形式的项。此项在 <span class="math inline">\(t=0\)</span> 时显然为零；当连续性方程左侧的算符作用于 <span class="math inline">\(t\)</span> 因子时，它会给出 <span class="math inline">\(\sin(kx-kut)\)</span> 项。当算符作用于 <span class="math inline">\(\sin(kx-kut)\)</span> 因子时，结果为零。为了与 <span class="math inline">\(\partial v_1/\partial x\)</span> 中的相同因子匹配，系数 <span class="math inline">\(A\)</span> 必须与 <span class="math inline">\((\omega-ku)^{-1}\)</span> 成正比。因此取</p>
+<p><span class="math display">\[
+\begin{aligned}
+n_1 =&amp; -n_u\frac{eE_1 k}{m}\frac{1}{(\omega-ku)^2} \\
+&amp;\times[\cos(kx-\omega t) - \cos(kx-kut) - (\omega - ku)t\sin(kx-kut)]
+\end{aligned}
+\]</span></p>
+<p>它在 <span class="math inline">\(t=0\)</span> 时显然为零，而且容易验证它满足连续性方程。</p>
+<p>利用 <span class="math inline">\(v_1\)</span> 和 <span class="math inline">\(n_1\)</span> 的这些表达式，现在可以计算波对每束流所做的功。作用于每束流单位体积的力为</p>
+<p><span class="math display">\[
+F_u = -eE_q\sin(kx-\omega t)(n_u+n_1)
+\]</span></p>
+<p>因此，其能量变化率为</p>
+<p><span class="math display">\[
+\frac{\mathrm{d}W}{\mathrm{d}t} = F_u(u+v_1) = -eE_1\sin(kx-\omega t)(\underbrace{n_u u}_{1} +\underbrace{n_uv_1}_{2} + \underbrace{n_1 u}_{3} + \underbrace{n_1 v_1}_{4})
+\]</span></p>
+<p>现在对一个波长取空间平均。第一项消失，因为 <span class="math inline">\(n_u u\)</span> 是常数。第四项是二阶项，可以忽略；无论如何，也可以证明其平均值为零。第二项和第三项可借助以下恒等式计算：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left&lt; \sin(kx-\omega t)\cos(kx-kut) \right&gt; &amp;= -\frac{1}{2}\sin(\omega t-kut) \\
+\left&lt; \sin(kx-\omega t)\sin(kx-kut) \right&gt; &amp;= \frac{1}{2}\cos(\omega t-kut)
+\end{aligned}
+\]</span></p>
+<p>结果为</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left&lt; \frac{\mathrm{d}W}{\mathrm{d}t}\right&gt;_u = \frac{e^2E_1^2}{2m}n_u\Big[ &amp;\frac{\sin(\omega t - kut)}{\omega - ku} \\
+&amp; + ku\frac{\sin(\omega t-kut) - (\omega-ku)t\cos(\omega t-kut)}{(\omega-ku)^2} \Big]
+\end{aligned}
+\]</span></p>
+<p>对所有束流求和，就得到对粒子所做的总功：</p>
+<p><span class="math display">\[
+\sum_u \left&lt; \frac{\mathrm{d}W}{\mathrm{d}t}\right&gt;_u = \int \frac{f_0(u)}{n_u}\left&lt; \frac{\mathrm{d}W}{\mathrm{d}t}\right&gt;_u dy = n_0\int\frac{\hat{f}_0(u)}{n_u}\left&lt; \frac{\mathrm{d}W}{\mathrm{d}t}\right&gt;_u du
+\]</span></p>
+<p>代入 <span class="math inline">\(\left&lt; \frac{\mathrm{d}W}{\mathrm{d}t}\right&gt;_u\)</span> 的表达式并使用 <span class="math inline">\(\omega_p\)</span> 的定义，得到动能变化率</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left&lt; \frac{dW_k}{\mathrm{d}t}\right&gt; =&amp; \frac{\epsilon_0 E_1^2}{2}\omega_p^2 \Big[ \int\hat{f}_0(u)\frac{\sin(\omega t - kut)}{\omega - ku} du \\
+&amp; + \int\hat{f}_0(u) \frac{\sin(\omega t-kut) - (\omega-ku)t\cos(\omega t-kut)}{(\omega-ku)^2}ku du \Big] \\
+=&amp; \frac{1}{2}\epsilon_0 E_1^2 \omega_p^2 \int_{-\infty}^{\infty}\hat{f}_0(u) du \Big\{ \frac{\sin(\omega t - kut)}{\omega - ku} + u\frac{d}{du}\Big[\frac{\sin(\omega t - kut)}{\omega - ku} \Big] \Big\} \\
+=&amp; \frac{1}{2}\epsilon_0 E_1^2 \omega_p^2 \int_{-\infty}^{\infty}\hat{f}_0(u) du \frac{d}{du}\Big[u\frac{\sin(\omega t - kut)}{\omega - ku} \Big]
+\end{aligned}
+\]</span></p>
+<p>这个变化率应等于波能量密度 <span class="math inline">\(W_w\)</span> 的损失率。波能由两部分组成。第一部分是静电场的能量密度：</p>
+<p><span class="math display">\[
+\left&lt; W_E \right&gt; = \frac{\epsilon \left&lt; E^2 \right&gt;}{2} = \frac{\epsilon E_1^2}{4}
+\]</span></p>
+<p>第二部分是粒子振荡的动能。如果再次将等离子体分成束流，每束流的能量仍如前面所给：</p>
+<p><span class="math display">\[
+\left&lt;\Delta W_k \right&gt;_u = \frac{1}{4}\frac{n_u}{m} \frac{e^2E_1^2}{(\omega - ku)^2}\Big[ 1+\frac{2ku}{\omega-ku} \Big]
+\]</span></p>
+<p>推导这一结果时，我们没有使用对共振粒子很重要的正确初始条件；不过，共振粒子对波总能量的贡献很小。对各束流求和，得到</p>
+<p><span class="math display">\[
+\left&lt;\Delta W_k \right&gt; = \frac{1}{4}\frac{e^2E_1^2}{m}\int_{-\infty}^{\infty} \frac{f_0(u)}{(\omega - ku)^2}\Big[ 1+\frac{2ku}{\omega-ku} \Big] du
+\]</span></p>
+<p>在 <span class="math inline">\(\omega/k \gg v_{th}\)</span> 的极限下，可以忽略方括号中的第二项；为了与先前的结果比较，我们将采用这一极限。（？？？）由泊松方程求出色散关系：</p>
+<p><span class="math display">\[
+k\epsilon_0 E_1\cos(kx-\omega t) = -e\sum_u n_1
+\]</span></p>
+<p>使用上一节中初始条件不正确的 <span class="math inline">\(n_1\)</span> 表达式，得到</p>
+<p><span class="math display">\[
+1 = \frac{e^2}{\epsilon_0 m}\sum_u \frac{n_u}{(\omega-ku)^2} = \frac{e^2}{\epsilon_0 m}\int_{-\infty}^{\infty} \frac{f_0(u)du}{(\omega-ku)^2}
+\]</span></p>
+<p>将它与 <span class="math inline">\(\left&lt; \Delta W_k \right&gt;\)</span> 的表达式比较，得到</p>
+<p><span class="math display">\[
+\left&lt; \Delta W_k \right&gt; = \frac{1}{4}\frac{e^2E_1^2}{m}\frac{\epsilon_0 m}{e^2} = \frac{\epsilon_0 E_1^2}{4} = \left&lt; W_E \right&gt;
+\]</span></p>
+<p>因此</p>
+<p><span class="math display">\[
+W_w = \frac{\epsilon E_1^2}{2}
+\]</span></p>
+<p>波能量密度 <span class="math inline">\(W_w\)</span> 的变化率由 <span class="math inline">\(-\left&lt; \frac{dW_k}{\mathrm{d}t} \right&gt;\)</span> 给出：</p>
+<p><span class="math display">\[
+\frac{dW_w}{\mathrm{d}t} = -W_w \omega_p^2 \int_{-\infty}^{\infty}\hat{f}_0(u) du \frac{d}{du}\Big[u\frac{\sin(\omega t - kut)}{\omega - ku} \Big]
+\]</span></p>
+<p>分部积分得到</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{dW_w}{\mathrm{d}t} =&amp; W_w \omega_p^2 \Big\{ \Big[ u\hat{f}_0(u)\frac{\sin(\omega-ku)t}{\omega - ku} \Big]_{-\infty}^{\infty} \\
+&amp;- \int_{-\infty}^{\infty} u\frac{d\hat{f}_0}{du}\frac{\sin(\omega-ku)t}{\omega-ku} du \Big\}
+\end{aligned}
+\]</span></p>
+<p>对于性质良好的函数 <span class="math inline">\(\hat{f}_0(u)\)</span>，积分所得的边界项消失，于是有</p>
+<p><span class="math display">\[
+\frac{dW_w}{\mathrm{d}t} = W_w\frac{\omega}{k}\omega_p^2 \int_{-\infty}^{\infty} \frac{d\hat{f}_0}{du}\Big[\frac{\sin(\omega-ku)t}{\omega-ku}\Big] du
+\]</span></p>
+<p>这里将 <span class="math inline">\(u\)</span> 取为 <span class="math inline">\(\omega/k\)</span>（常数），因为只有非常接近这个值的速度才会对积分有贡献。事实上，当 <span class="math inline">\(t\)</span> 足够大时，方括号中的量可以近似为 <span class="math inline">\(\delta\)</span> 函数：</p>
+<p><span class="math display">\[
+\delta\Big( u - \frac{\omega}{k}\Big) = \frac{k}{\pi}\lim_{t\rightarrow\infty}\Big[ \frac{\sin(\omega-ku) t}{\omega-ku} \Big]
+\]</span></p>
+<p>（原始形式是 <span class="math inline">\(\delta(x) = \lim_{\epsilon\rightarrow 0}\frac{\sin(x/\epsilon)}{\pi x}\)</span>，其中右侧的函数称为 sinc 函数。）</p>
+<p>因此</p>
+<p><span class="math display">\[
+\frac{dW_w}{\mathrm{d}t} = W_w\frac{\omega}{k}\omega_p^2 \frac{\pi}{k}\frac{\omega}{k}\hat{f}_0\Big(\frac{\omega}{k}\Big) = W_w \pi \omega\frac{\omega_p^2}{k^2}\hat{f}_0^\prime\Big(\frac{\omega}{k}\Big)
+\]</span></p>
+<p>由于 <span class="math inline">\(\Im(\omega)\)</span> 是 <span class="math inline">\(E_1\)</span> 的增长率，而 <span class="math inline">\(W_w\)</span> 与 <span class="math inline">\(E_1^2\)</span> 成正比，必有</p>
+<p><span class="math display">\[
+\frac{dW_w}{\mathrm{d}t} = 2\Im(\omega)W_w
+\]</span></p>
+<p>因此</p>
+<p><span class="math display">\[
+\Im(\omega) = \frac{\pi}{2}\omega\frac{\omega_p^2}{k^2}\hat{f}_0^\prime\Big(\frac{\omega}{k}\Big)
+\]</span></p>
+<p>当 <span class="math inline">\(\omega=\omega_p\)</span> 时，这与先前的结果一致。</p>
+<section id="共振粒子" class="level3" data-number="12.7.1">
+<h3 data-number="12.7.1" class="anchored" data-anchor-id="共振粒子"><span class="header-section-number">12.7.1</span> 共振粒子</h3>
+<p>现在我们可以准确地看出哪些共振粒子对线性朗道阻尼有贡献。图 7-25（sinc 函数，添加该图！）绘出了被积函数中乘以 <span class="math inline">\(\hat{f}_0^\prime(u)\)</span> 的因子。可以看到，最大的贡献来自满足 <span class="math inline">\(|\omega - ku| &lt; \pi/t\)</span> 或 <span class="math inline">\(|v-v_\phi| &lt; \pi/k = \lambda/2\)</span> 的粒子；也就是说，来自初始分布中相对于波尚未走过半个波长的粒子。如预期的那样，中央峰的宽度随时间变窄。图 7-25 的“衍射图样”中的次峰来自已进入波势相邻半波长的粒子。这些粒子的相位很快分散开来，因此它们的平均贡献很小；初始分布的影响被遗忘。注意，中央峰的宽度与波的初始振幅无关，因此共振粒子可以同时包括被俘获和未被俘获的粒子。这一现象与粒子俘获无关。</p>
+</section>
+<section id="两个佯谬的解决" class="level3" data-number="12.7.2">
+<h3 data-number="12.7.2" class="anchored" data-anchor-id="两个佯谬的解决"><span class="header-section-number">12.7.2</span> 两个佯谬的解决</h3>
+<p>图 7-25 表明，被积函数中的 sinc 函数是 <span class="math inline">\(\omega-ku\)</span> 的偶函数，因此比波快和比波慢的粒子都对朗道阻尼有贡献。这就是我们在图 7-24 中发现的物理图像。另一方面，图 7-25 中曲线的斜率表示前面一个方程（我们需要编号！）的被积函数中的因子，它是 <span class="math inline">\(\omega-ku\)</span> 的奇函数；由此可以推断，比波快的粒子向波传递能量，而比波慢的粒子从波中获取能量。这两种描述相差一次分部积分。两种描述都是正确的；选择哪一种取决于希望被积函数中出现 <span class="math inline">\(\hat{f}_0(u)\)</span> 还是 <span class="math inline">\(\hat{f}_0(u)^\prime\)</span>。</p>
+<p>第二个佯谬涉及伽利略不变性的问题。如果认为阻尼要求比波快的粒子少于比波慢的粒子，那么只要处在等离子体静止的参考系中，就没有问题。然而，如果进入另一个以速度 <span class="math inline">\(V\)</span> 运动的参考系，似乎比波快的粒子会比慢的粒子多，于是人们会预期波增长而非衰减。将我们忽略的式（？？？）中的第二项 <span class="math inline">\(\frac{2ku}{\omega-ku}\)</span> 重新代入，就可以消除这个佯谬。如上一节所示，这一项可以使 <span class="math inline">\(\left&lt; \Delta W_k \right&gt;\)</span> 为负。事实上，在运动参考系中，第二项不可忽略，<span class="math inline">\(\left&lt; \Delta W_k \right&gt;\)</span> 为负，波表现为具有负能量（也就是说，平静的漂移麦克斯韦分布所含的能量比存在振荡时更多）。波会“增长”，但向负能量波增加能量会使其振幅减小。</p>
+</section>
+</section>
+<section id="bgk-模式与-van-kampen-模式" class="level2" data-number="12.8">
+<h2 data-number="12.8" class="anchored" data-anchor-id="bgk-模式与-van-kampen-模式"><span class="header-section-number">12.8</span> BGK 模式与 Van Kampen 模式</h2>
+<p>我们已经看到，朗道阻尼与要求 <span class="math inline">\(f_0(v)\)</span> 初始时在空间中均匀直接相关。（它倾向于使负斜率变为零。）另一方面，如果使 <span class="math inline">\(f(v, t=0)\)</span> 初始时沿粒子轨迹保持常数，就可以产生无阻尼电子波。（？？？）从图 7-24 容易看出，如果等离子体的初始状态被制备成沿每条轨迹密度都保持不变，那么粒子平均而言既不获得也不失去能量。这样的波称为 BGK 模式，因为 I. B. Bernstein、J. M. Greene 和 M. D. Kruskal 首先证明了任意 <span class="math inline">\(\omega\)</span>、<span class="math inline">\(k\)</span>、振幅和波形的无阻尼波都是可能的。在调整 <span class="math inline">\(f(v,t=0)\)</span> 以形成 BGK 模式时，需要调整的关键参数是被俘获粒子和未被俘获粒子的相对数量。如果取 BGK 模式的小振幅极限，就得到所谓的 Van Kampen 模式。在这一极限下，只有 <span class="math inline">\(v=v_\phi\)</span> 的粒子被俘获。通过向 <span class="math inline">\(f(v,t=0)\)</span> 添加一个与 <span class="math inline">\(\delta(v-v_\phi)\)</span> 成正比的项，可以改变被俘获粒子的数量。考察图 7-24 可以看出，沿 <span class="math inline">\(v=v_\phi\)</span> 线增加粒子不会产生阻尼——在之后的某个时刻，获得能量和失去能量的粒子数量恰好相同。事实上，通过选择在其他 <span class="math inline">\(v_\phi\)</span> 值处具有 <span class="math inline">\(\delta\)</span> 函数的分布，可以产生任意 <span class="math inline">\(v_\phi\)</span> 的无阻尼 Van Kampen 模式。然而，这样的奇异初始条件是不符合物理实际的。为了得到平滑变化的 <span class="math inline">\(f(v,t=0)\)</span>，必须对具有不同 <span class="math inline">\(v_\phi\)</span> 分布的 Van Kampen 模式求和。虽然每个模式都无阻尼，总扰动却会表现出朗道阻尼，因为各模式之间逐渐失去相位同步。（？？？）</p>
+</section>
+<section id="离子朗道阻尼" class="level2" data-number="12.9">
+<h2 data-number="12.9" class="anchored" data-anchor-id="离子朗道阻尼"><span class="header-section-number">12.9</span> 离子朗道阻尼</h2>
+<p>电子并不是唯一的共振粒子。如果波的相速度足够低，能够与离子的热速度相匹配，就会出现离子朗道阻尼。例如，离子声波受朗道阻尼的影响很大。回顾流体理论，离子波的色散关系为 <span class="math display">\[
+\frac{\omega}{k} = v_s = \Big( \frac{k_BT_e + \gamma_i k_B T_i}{m_i} \Big)^{1/2}
+\]</span></p>
+<p>如果 <span class="math inline">\(T_e \le T_i\)</span>，相速度位于 <span class="math inline">\(f_{0i}(v)\)</span> 斜率为负的区域，如图 7-30(A) 所示（添加该图！！！）。因此，当 <span class="math inline">\(T_e \le T_i\)</span> 时，离子波受到很强的朗道阻尼。只有当 <span class="math inline">\(T_e \gg T_i\)</span>（图 7-30(B)），使相速度远远落在离子速度分布的尾部时，才能观测到离子波。Alexeff、Jones 和 Montgomery 曾采用一种巧妙的方法，以受控方式引入朗道阻尼。他们在 <span class="math inline">\(T_e \gg T_i\)</span> 的重离子等离子体（例如氙等离子体）中产生了一种弱阻尼离子波，然后加入少量轻原子（氦）。由于氦的温度与氙大致相同，但质量小得多，其分布函数宽得多，如图 7-30(B) 中的虚线所示。共振氦离子于是使波受到阻尼。</p>
+<section id="等离子体色散函数" class="level3" data-number="12.9.1">
+<h3 data-number="12.9.1" class="anchored" data-anchor-id="等离子体色散函数"><span class="header-section-number">12.9.1</span> 等离子体色散函数</h3>
+<p>为了介绍动力学理论的一些标准术语，现在计算无磁场时离子声波的离子朗道阻尼。离子和电子都遵循弗拉索夫方程，其扰动具有 <span class="math inline">\(f_1\propto\exp(ikx-i\omega t)\)</span> 的形式，表示沿 x 方向传播的平面波。对线性化动量方程作适当修改，就可得到 <span class="math inline">\(f_1\)</span> 的解： <span class="math display">\[
+f_{1j} = -\frac{iq_jE}{m_j}\frac{\partial f_{oj}/\partial v_j}{\omega-kv_j}
+\]</span> 其中 <span class="math inline">\(E\)</span> 和 <span class="math inline">\(v_j\)</span> 分别表示 <span class="math inline">\(E_x, v_{xj}\)</span>；第 <span class="math inline">\(j\)</span> 种粒子的电荷为 <span class="math inline">\(q_j\)</span>，质量为 <span class="math inline">\(m_j\)</span>，粒子速度为 <span class="math inline">\(v_j\)</span>。第 <span class="math inline">\(j\)</span> 种粒子的密度扰动为 <span class="math display">\[
+n_{1j} = \int_{-\infty}^{\infty}f_{1j}(v_j)dv_j = -\frac{iq_jE}{m_j}\int_{-\infty}^{\infty}\frac{\partial f_{oj}/\partial v_j}{\omega-kv_j}dv_j
+\]</span></p>
+<p>令平衡分布 <span class="math inline">\(f_{0j}\)</span> 为一维麦克斯韦分布： <span class="math display">\[
+f_{0j} = \frac{n_{0j}}{v_{thj}\pi^{1/2}}e^{-v_j^2/v_{th}^2},\quad v_{thj}\equiv (2k_B T_j/m_j)^{1/2}
+\]</span></p>
+<p>引入积分哑变量 <span class="math inline">\(s = v_j/v_{thj}\)</span>，可以将 <span class="math inline">\(n_{1j}\)</span> 写为 <span class="math display">\[
+n_{1j} = \frac{iq_j E n_{0j}}{km_j v_{thj}^2}\frac{1}{\pi^{1/2}}\int_{-\infty}^{\infty}\frac{(d/ds)(e^{-s^2})}{s -\zeta_j}ds
+\]</span> 其中 <span class="math display">\[
+\zeta\equiv \omega/k v_{thj}
+\]</span></p>
+<p>现在定义_等离子体色散函数_ <span class="math inline">\(Z(\zeta)\)</span>： <span id="eq-plasma_dispersion_function"><span class="math display">\[
+Z(\zeta) = \frac{1}{\pi^{1/2}}\int_{-\infty}^{\infty}\frac{e^{-s^2}}{s -\zeta}ds\quad \Im(\zeta)&gt;0
+\tag{12.33}\]</span></span></p>
+<p>（为什么虚部为正？？？）如前几节所述，这是一个围道积分；如果 <span class="math inline">\(\Im(\zeta)&lt;0\)</span>，必须使用向下半平面的解析延拓。<span class="math inline">\(Z(\zeta)\)</span> 是复变量的复函数（因为 <span class="math inline">\(\omega\)</span> 或 <span class="math inline">\(k\)</span> 通常有虚部）。当不能用渐近公式近似 <span class="math inline">\(Z(\zeta)\)</span> 时，可以用数值方法计算。</p>
+<p>为了用 <span class="math inline">\(Z(\zeta)\)</span> 表示 <span class="math inline">\(n_{1j}\)</span>，对 <span class="math inline">\(\zeta\)</span> 求导： <span class="math display">\[
+Z^\prime(\zeta) = \frac{1}{\pi^{1/2}}\int_{-\infty}^{\infty}\frac{e^{-s^2}}{(s -\zeta)^2}ds
+\]</span></p>
+<p>分部积分得到 <span class="math display">\[
+Z^\prime(\zeta) = \frac{1}{\pi^{1/2}}\Big[ \frac{-e^{-s^2}}{s-\zeta} \Big]_{-\infty}^{\infty} + \frac{1} {\pi^{1/2}}\int_{-\infty}^{\infty}\frac{(d/ds)(e^{-s^2})}{s -\zeta}ds
+\]</span></p>
+<p>第一项消失，任何性质良好的分布函数都必须如此。现在有 <span class="math display">\[
+n_{1j} = \frac{iq_j E n_{0j}}{km_j v_{thj}^2}Z^\prime(\zeta_j)
+\]</span></p>
+<p>泊松方程为 <span class="math display">\[
+\epsilon\nabla\cdot\mathbf{E} = ik\epsilon_0E = \sum_j q_j n_{1j}
+\]</span></p>
+<p>结合最后两个方程，显式分离出电子项，并定义 <span class="math display">\[
+\Omega_{pj}\equiv(n_{oj}Z_j^2 e^2/\epsilon_0 m_j)^{1/2}
+\]</span></p>
+<p>得到色散关系 <span class="math display">\[
+k^2 = \frac{\omega_p^2}{v_{the}^2}Z^\prime(\zeta_e) + \sum_j\frac{\Omega_{pj}^2}{v_{thj}^2}Z^\prime(\zeta_j)
+\]</span></p>
+<p>令 <span class="math inline">\(\Omega_{pj}=0\)</span>（离子质量无限大），即可得到电子等离子体波。定义 <span class="math display">\[
+k_D^2 = 2\omega_p^2/v_{the}^2 = \lambda_D^{-2}
+\]</span> 于是得到 <span class="math display">\[
+k/k_D^2 = \frac{1}{2}Z^\prime(\zeta_e)
+\]</span> 当 <span class="math inline">\(f_{0e}\)</span> 为麦克斯韦分布时，这与 <a href="#eq-dispersion_0th" class="quarto-xref">式&nbsp;<span>12.30</span></a> 相同。</p>
+</section>
+<section id="离子波及其阻尼" class="level3" data-number="12.9.2">
+<h3 data-number="12.9.2" class="anchored" data-anchor-id="离子波及其阻尼"><span class="header-section-number">12.9.2</span> 离子波及其阻尼</h3>
+<p>为了得到离子波，回到等离子体色散关系，并利用其相速度 <span class="math inline">\(\omega/k\)</span> 远小于 <span class="math inline">\(v_{the}\)</span> 这一事实；因此 <span class="math inline">\(\zeta_e\)</span> 很小，可以将 <span class="math inline">\(Z(\zeta_e)\)</span> 展开为幂级数： <span class="math display">\[
+Z(\zeta_e) = i\sqrt{\pi}e^{-\zeta_e^2} - 2\zeta_e(1-\frac{2}{3}\zeta_e^2 + ...)
+\]</span></p>
+<p>虚数项来自靠近实 <span class="math inline">\(s\)</span> 轴的极点处的留数，表示电子朗道阻尼。当 <span class="math inline">\(\zeta_e \ll 1\)</span> 时，对上式求导得到 <span class="math display">\[
+Z^\prime(\zeta_e) = -2i\sqrt{\pi}\zeta_e e^{-\zeta_e^2} - 2 + ... \simeq -2
+\]</span></p>
+<p>在离子波中通常可以忽略电子朗道阻尼，因为 <span class="math inline">\(f_e(v)\)</span> 在峰值附近的斜率很小。在色散关系中用 -2 替换 <span class="math inline">\(Z^\prime(\zeta_e)\)</span>，得到 <span class="math display">\[
+\lambda_D\sum_j \frac{\Omega_{pj}^2}{v_{thj}^2}Z^\prime(\zeta_j) = 1+k^2\lambda_D^2 \simeq 1
+\]</span></p>
+<p><span class="math inline">\(k^2\lambda_D^2\)</span> 项表示对准中性的偏离。（<span class="math inline">\(1/k\sim L,k^2\lambda_D^2 \sim\lambda_D^2/L^2\ll 1\)</span>，其中 <span class="math inline">\(L\)</span> 是系统长度尺度。）</p>
+<p>现在专门考虑只有一种离子的情况。由于 <span class="math inline">\(n_{0e}=Z_in_{0i}\)</span>，上式中的系数为 <span class="math display">\[
+\lambda_D\frac{\Omega_{p}^2}{v_{thi}^2}=\frac{\epsilon k_B T_e}{n_{0e}e^2}\frac{n_{0i}Z^2e^2}{\epsilon m_i}\frac{m_i}{2k_B T_i} = \frac{1}{2}\frac{ZT_e}{T_i}
+\]</span></p>
+<p>当 <span class="math inline">\(k_2\lambda_D^2\ll 1\)</span> 时，色散关系变为 <span class="math display">\[
+Z^\prime(\frac{\omega}{kv_{thi}}) = \frac{2T_i}{ZT_e}
+\]</span></p>
+<p>求解这个方程并非易事。假设取实数 <span class="math inline">\(k\)</span> 和复数 <span class="math inline">\(\omega\)</span> 来研究时间阻尼。那么必须调整 <span class="math inline">\(\omega\)</span> 的实部和虚部，使 <span class="math inline">\(\Im(Z^\prime)=0\)</span> 且 <span class="math inline">\(\Re(Z^\prime) = 2T_i/ZT_e\)</span>。一般有许多满足条件的根 <span class="math inline">\(\omega\)</span>，它们均有 <span class="math inline">\(\Im(\omega)&lt;0\)</span>。阻尼最弱、占主导地位的根是 <span class="math inline">\(|\Im(\omega)|\)</span> 最小的根。空间阻尼通常通过取实数 <span class="math inline">\(\omega\)</span> 和复数 <span class="math inline">\(k\)</span> 来处理。同样会得到一系列满足 <span class="math inline">\(\Im(k)&gt;0\)</span> 的根 <span class="math inline">\(k\)</span>，表示空间阻尼。然而，占主导地位的根对应的 <span class="math inline">\(\zeta_i\)</span> 值与复数 <span class="math inline">\(\omega\)</span> 的情况并不相同。事实表明，空间问题的处理需要特别注意边界处的激发机制，并更仔细地处理电子项 <span class="math inline">\(Z^\prime(\zeta_e)\)</span>。</p>
+<p>为了得到解析结果，考虑 <span class="math inline">\(\zeta_i \gg 1\)</span> 的极限，它对应于较大的温度比 <span class="math inline">\(\theta\equiv ZT_e/T_i\)</span>。（？？？）<span class="math inline">\(Z^\prime(\zeta_i)\)</span> 的渐近表达式为 <span class="math display">\[
+Z^\prime(\zeta_i) = -2i\sqrt{\pi}\zeta_i e^{-\zeta_i^2} + \zeta_i^{-2} + \frac{3}{2}\zeta_i^{-4} + ...
+\]</span></p>
+<p>（我认为这可以在等离子体手册中找到；也可以在<a href="https://farside.ph.utexas.edu/teaching/plasma/lectures/node87.html">这里</a>找到。）如果阻尼很小，在第一近似中可以忽略朗道项。方程变为 <span class="math display">\[
+\frac{1}{\zeta_i^2}\Big( 1+\frac{3}{2}\frac{1}{\zeta_i^2} \Big) = \frac{2}{\theta}
+\]</span></p>
+<p>由于假设 <span class="math inline">\(\theta\)</span> 很大，<span class="math inline">\(\zeta_i^2\)</span> 也很大；因此可以在第二项中用 <span class="math inline">\(\theta/2\)</span> 近似 <span class="math inline">\(\zeta_i^2\)</span>。于是 <span class="math display">\[
+\frac{1}{\zeta_i^2}\Big( 1+\frac{3}{\theta} \Big) = \frac{2}{\theta},\quad \zeta_i^2 = \frac{3}{2} + \frac{\theta}{2}
+\]</span> 或者 <span class="math display">\[
+\frac{\omega^2}{k^2} = \frac{2k_B T_i}{m_i}\Big( \frac{3}{2} + \frac{ZT_e}{2T_i} \Big) = \frac{Zk_B T_e + 3k_B T_i}{m_i}
+\]</span></p>
+<p>这是 <span class="math inline">\(\gamma_i=3\)</span> 时的离子波色散关系，推广到了任意 <span class="math inline">\(Z\)</span>。</p>
+<p>现在将上述近似代回色散关系，并保留朗道项： <span class="math display">\[
+\begin{aligned}
+\frac{1}{\zeta_i^2}\Big( 1+\frac{3}{\theta} \Big) - 2i\sqrt{\pi}\zeta_i e^{-\zeta_i^2} = \frac{2}{\theta} \\
+\frac{1}{\zeta_i^2}\Big( 1+\frac{3}{\theta} \Big) = \frac{2}{\theta}(1+i\sqrt{\pi}\theta\zeta_i e^{-\zeta_i^2}) \\
+\zeta_i^2 = \Big(\frac{3+\theta}{2}\Big)^{1/2}(1+i\sqrt{\pi}\theta\zeta_i e^{-\zeta_i^2})^{-1}
+\end{aligned}
+\]</span></p>
+<p>展开平方根，得到 <span class="math display">\[
+\zeta_i \simeq \Big(\frac{3+\theta}{2}\Big)^{1/2}\Big(1-\frac{1}{2}i\sqrt{\pi}\theta\zeta_i e^{-\zeta_i^2}\Big)
+\]</span></p>
+<p>在虚数项中使用上述近似，得到近似阻尼率： <span class="math display">\[
+-\frac{\Im(\zeta_i)}{\Re(\zeta_i)} = \frac{\Im(\omega)}{\Re(\omega)} = \Big(\frac{\pi}{8} \Big)^{1/2}\theta (3+\theta)^{1/2} e^{-(3+\theta)/2}
+\]</span></p>
+<p>这个在 <span class="math inline">\(\theta\)</span> 较大时准确的渐近表达式表明，阻尼随 <span class="math inline">\(\theta\)</span> 增大而指数下降。当 <span class="math inline">\(\theta\)</span> 低于 10 时，此表达式变得不准确，必须使用包含 Z 函数的原始表达式计算阻尼。对于实验上感兴趣的区域 <span class="math inline">\(1&lt;\theta&lt;10\)</span>，以下简单公式是对精确解的解析拟合： <span class="math display">\[
+-\Im(\omega)/\Re(\omega) = 1.1\theta^{7/4}\exp(-\theta^2)
+\]</span></p>
+<p>如果在离子朗道阻尼中加入碰撞，会发生什么？影响小得惊人。离子和电子流体几乎一起运动，彼此间产生的摩擦很小，因此离子–电子碰撞很弱。离子–离子碰撞（离子黏性）可以阻尼离子声波，但我们知道，尽管碰撞占主导地位，空气中的声波仍能良好传播。实际上，碰撞会破坏导致朗道阻尼的粒子共振，结果发现除非碰撞率极大，总阻尼反而_小于_朗道阻尼。总之，离子朗道阻尼几乎总是离子波中的主导过程，它随比值 <span class="math inline">\(ZT_e/T_i\)</span> 呈指数变化。</p>
+</section>
+</section>
+<section id="磁场中的动力学效应" class="level2" data-number="12.10">
+<h2 data-number="12.10" class="anchored" data-anchor-id="磁场中的动力学效应"><span class="header-section-number">12.10</span> 磁场中的动力学效应</h2>
+<p>当直流磁场 <span class="math inline">\(\mathbf{B}_0\)</span> 或振荡磁场 <span class="math inline">\(\mathbf{B}_1\)</span> 不为零时，必须计入无碰撞等离子体弗拉索夫方程中的 <span class="math inline">\(\mathbf{v}\times\mathbf{B}\)</span> 项。线性化方程于是变为 <span id="eq-vlasov-linear"><span class="math display">\[
+\frac{\mathrm{d}f_1}{\mathrm{d}t} = \frac{\partial f_1}{\partial t} + \mathbf{v}\cdot\nabla f_1 +\frac{q}{m}(\mathbf{v}\times\mathbf{B}_0)\cdot\frac{\partial f_1}{\partial \mathbf{v}} = -\frac{q}{m}(\mathbf{E}_1 + \mathbf{v}\times\mathbf{B}_1)\cdot\frac{\partial f_0}{\partial \mathbf{v}}
+\tag{12.34}\]</span></span></p>
+<p>如果 <span class="math inline">\(\omega/k\simeq v_{th}\)</span>，沿 <span class="math inline">\(\mathbf{B}_0\)</span> 运动的共振粒子仍会产生朗道阻尼，但现在还出现两种与垂直于 <span class="math inline">\(\mathbf{B}_0\)</span> 的速度分量 <span class="math inline">\(\mathbf{v}_\perp\)</span> 有关的新动力学效应。一种是后面将讨论的回旋阻尼；另一种是回旋谐波的产生，由此可能出现通常称为伯恩斯坦波的振荡。</p>
+<p>当粒子的圆形拉莫尔轨道受到波场 <span class="math inline">\(\mathbf{E}_1\)</span> 和 <span class="math inline">\(\mathbf{B}_1\)</span> 的扰动时，就会产生回旋频率的谐波。普通流体理论忽略这些有限 <span class="math inline">\(r_L\)</span> 效应，但通过计入黏性可以考虑到 <span class="math inline">\(k^2r_L^2\)</span> 阶。即使当 <span class="math inline">\(k^2r_L^2 = \mathcal{O}(1)\)</span> 时，动力学处理也可以是精确的。为了理解谐波如何产生，考虑粒子在电场中的运动： <span class="math display">\[
+\mathbf{E} = E_x e^{i(kx-\omega t)}\hat{\mathbf{x}}
+\]</span></p>
+<p>运动方程为 <span class="math display">\[
+\ddot{x} + \omega_c^2 x = \frac{1}{m}E_x e^{i(kx-\omega t)}
+\]</span></p>
+<p>如果 <span class="math inline">\(kr_L\)</span> 不小，指数从轨道的一侧到另一侧会发生变化。可以代入未扰动轨道 <span class="math inline">\(x=r_L\sin\omega_c t\)</span> 来近似 <span class="math inline">\(kx\)</span>： <span class="math display">\[
+\ddot{x} + \omega_c^2 x = \frac{1}{m}E_x e^{i(kr_L\sin\omega_c t-\omega t)}
+\]</span></p>
+<p>贝塞尔函数 <span class="math inline">\(J_n(z)\)</span> 的生成函数为 <span class="math display">\[
+e^{z(t-1/t)/2} = \sum_{n=-\infty}^{\infty} t^n J_n(z)
+\]</span></p>
+<p>令 <span class="math inline">\(z=kr_L\)</span>、<span class="math inline">\(t = \exp(i\omega_c t)\)</span>，得到 <span class="math display">\[
+e^{ikr_L\sin\omega_c t} = \sum_{n=-\infty}^{\infty} J_n(kr_L) e^{in\omega_c t}
+\]</span></p>
+<p><span class="math display">\[
+\ddot{x} + \omega_c^2 x = \frac{q}{m}E_x \sum_{n=-\infty}^{\infty}J_n(kr_L) e^{i(\omega-n\omega_c) t}
+\]</span></p>
+<p>可以通过直接代入验证下列解： <span class="math display">\[
+x = \frac{q}{m}E_x \sum_{n=-\infty}^{\infty} \frac{J_n(kr_L)e^{i(\omega-n\omega_c) t}}{\omega_c^2 - (\omega - n\omega_c)^2}
+\]</span></p>
+<p>这表明运动具有与驱动频率相差 <span class="math inline">\(\omega_c\)</span> 整数倍的频率分量，而且这些分量的振幅与 <span class="math inline">\(J_n(kr_L)/[\omega_c^2 - (\omega - n\omega_c)^2]\)</span> 成正比。当分母为零时，振幅变大。这发生在 <span class="math inline">\(\omega-n\omega_c = \pm \omega_c\)</span>，或 <span class="math inline">\(\omega=(n\pm 1)\omega_c,\ n=0,\pm 1, \pm 2, ...\)</span> 时；也就是说，当场 <span class="math inline">\(\mathbf{E}(x,t)\)</span> 与 <span class="math inline">\(\omega_c\)</span> 的任意谐波共振时。在流体极限 <span class="math inline">\(kr_L\rightarrow 0\)</span> 下，<span class="math inline">\(J_n(kr_L)\)</span> 可以近似为 <span class="math inline">\((kr_L/2)^n/n!\)</span>，除 <span class="math inline">\(n=0\)</span> 外所有 <span class="math inline">\(n\)</span> 的该值都趋于 0。对于 <span class="math inline">\(n=0\)</span>，系数变为 <span class="math inline">\((\omega_c^2-\omega^2)^{-1}\)</span>，这就是只包含基频回旋频率的流体结果。</p>
+<section id="sec-HPDR" class="level3" data-number="12.10.1">
+<h3 data-number="12.10.1" class="anchored" data-anchor-id="sec-HPDR"><span class="header-section-number">12.10.1</span> 热等离子体介电张量</h3>
+<p>对 <span class="math inline">\(f_1(\mathbf{r},\mathbf{v},t)\)</span> 在空间和时间上进行傅里叶分析后，可以针对麦克斯韦分布 <span class="math inline">\(f_0(\mathbf{v})\)</span> 求解线性化弗拉索夫方程，并用得到的表达式 <span class="math inline">\(f_1(\mathbf{k},\mathbf{v},\omega)\)</span> 计算每种粒子的密度和电流。结果通常表示为等效介电张量 <span class="math inline">\(\overleftrightarrow{\epsilon}\)</span> 的形式，使电位移矢量 <span class="math inline">\(\mathbf{D}=\overleftrightarrow{\epsilon}\cdot\mathbf{E}\)</span> 可以用于麦克斯韦方程，从而计算各种波的色散关系。代数运算极为繁琐，因此省略。我们只引用一个受限制的结果，它适用于压力各向同性 <span class="math inline">\(T_\perp = T_\parallel\)</span> 且没有零阶漂移 <span class="math inline">\(\mathbf{v}_{0j}\)</span> 的非相对论等离子体；这些限制容易解除，但一般公式过于繁杂，不适合这里的目的。进一步假设 <span class="math inline">\(\mathbf{k} = k_x\hat{\mathbf{x}} + k_z\hat{\mathbf{z}}\)</span>，其中 <span class="math inline">\(\hat{\mathbf{z}}\)</span> 是 <span class="math inline">\(\mathbf{B}_0\)</span> 的方向；由于等离子体在垂直于 <span class="math inline">\(\mathbf{B}_0\)</span> 的平面中各向同性，令 <span class="math inline">\(k_y\)</span> 等于零不会损失一般性。于是 <span class="math inline">\(\overleftrightarrow{\epsilon}_R = \overleftrightarrow{\epsilon}/\epsilon_0\)</span> 的各分量为</p>
+<p><span class="math display">\[
+\begin{aligned}
+\epsilon_{xx} &amp;= \\
+\epsilon_{yy} &amp;= \\
+\epsilon_{zz} &amp;= \\
+\epsilon_{xz} &amp;= \\
+\epsilon_{yz} &amp;= \\
+\epsilon_{zx} &amp;=
+\end{aligned}
+\]</span></p>
+<p>其中 <span class="math inline">\(Z(\zeta)\)</span> 是等离子体色散函数，<span class="math inline">\(I_n(b)\)</span> 是虚变量的 <span class="math inline">\(n\)</span> 阶贝塞尔函数，其他符号定义为</p>
+<p><span class="math display">\[
+\begin{aligned}
+\omega_{ps}^2 &amp;= n_{0s} Z_s^2 e^2 / \epsilon_0 m_s \\
+\zeta_s &amp;= (\omega+n\omega_{cs})/k_z v_{ths} \\
+\omega_{cs} &amp;= |Z_seB_0/m_s| \\
+v_{ths}^2 &amp;= 2k_B T_s/m_s \\
+b_s &amp;= \frac{1}{2}k_\perp^2 r_{Ls} = k_x^2 k_B T_s / m_s \omega_{cs}^2
+\end{aligned}
+\]</span></p>
+<p>第一个求和对粒子种类 <span class="math inline">\(s\)</span> 进行，其中 <span class="math inline">\(\omega_p, b, \zeta_0\)</span> 和 <span class="math inline">\(\zeta_n\)</span> 都依赖于 <span class="math inline">\(s\)</span>，<span class="math inline">\(\pm\)</span> 表示电荷的符号。第二个求和对谐波数 <span class="math inline">\(n\)</span> 进行。撇号表示对函数的自变量求导。</p>
+<p>正如预期，出现了以有限 <span class="math inline">\(r_L\)</span> 参数 <span class="math inline">\(b\)</span> 为变量的贝塞尔函数。（从 <span class="math inline">\(J_n(b)\)</span> 变为 <span class="math inline">\(I_n(b)\)</span> 是在对速度积分时发生的。）<span class="math inline">\(\overleftrightarrow{\epsilon}\)</span> 中涉及沿 <span class="math inline">\(\hat{\mathbf{z}}\)</span> 方向运动的分量包含 <span class="math inline">\(Z^\prime(\zeta_n)\)</span>，当 <span class="math inline">\(n=0\)</span> 且 <span class="math inline">\(\omega/k_z\simeq v_{th}\)</span> 时，它会产生朗道阻尼。<span class="math inline">\(n\neq 0\)</span> 的项现在使另一种无碰撞阻尼机制——回旋阻尼——成为可能，它发生在 <span class="math inline">\((\omega_c \pm n\omega_c)/k_z\simeq v_{th}\)</span> 时。</p>
+</section>
+<section id="伯恩斯坦波" class="level3" data-number="12.10.2">
+<h3 data-number="12.10.2" class="anchored" data-anchor-id="伯恩斯坦波"><span class="header-section-number">12.10.2</span> 伯恩斯坦波</h3>
+<p>以回旋频率的各次谐波垂直于 <span class="math inline">\(\mathbf{B}_0\)</span> 传播的静电波称为伯恩斯坦波。将上一节给出的介电张量分量代入泊松方程 <span class="math inline">\(\nabla\cdot\overleftrightarrow{\epsilon}\cdot\mathbf{E}=0\)</span>，即可求出色散关系。如果假设静电扰动满足 <span class="math inline">\(\mathbf{E}_1=-\nabla\phi_0\)</span>，并考虑形式为 <span class="math inline">\(\phi_1=\phi_1\exp i(\mathbf{k}\cdot\mathbf{r}-\omega t)\)</span> 的波，泊松方程可以写为</p>
+<p><span class="math display">\[
+k_x^2 \epsilon_{xx} + 2k_x k_z \epsilon_{xz} + k_z^2 \epsilon_{zz} = 0
+\]</span></p>
+<p>注意，我们选择的坐标系使 <span class="math inline">\(\mathbf{k}\)</span> 位于 x-z 平面，因此 <span class="math inline">\(k_y=0\)</span>。接下来代入介电张量表达式中的 <span class="math inline">\(\epsilon_{xx},\epsilon_{xz}\)</span> 和 <span class="math inline">\(\epsilon_{zz}\)</span>，并用通过分部积分得到的恒等式</p>
+<p><span class="math display">\[
+Z^\prime(\zeta_n) = -2[1+\zeta Z(\zeta_n)]
+\]</span></p>
+<p>将 <span class="math inline">\(Z^\prime(\zeta_n)\)</span> 表示为 <span class="math inline">\(Z(\zeta_n)\)</span>。方程变为</p>
+<p><span class="math display">\[
+\begin{aligned}
+k_x^2 + &amp;k_z^2 + \sum_s\frac{\omega_p^2}{\omega^2}e^{-b}\zeta_0 \sum_{n=-\infty}^{\infty} I_n(b) \\
+&amp;\times \big[ k_x^2\frac{n^2}{b}Z - 2\big(\frac{2}{b}\big)^{1/2}nk_xk_z(1+\zeta_n Z)-2k_z^2 \zeta_n(1+\zeta_n Z) \big] = 0
+\end{aligned}
+\]</span></p>
+<p>利用定义 <span class="math inline">\(b = k_x^2 v_{th}^2/2\omega_c^2\)</span> 和 <span class="math inline">\(\zeta_n=(\omega+n\omega_c)/k_zv_{th}\)</span>，通过几步代数运算即可将方括号中的表达式简化为 <span class="math inline">\(2k_z^2[\zeta_{-n} + \zeta_0^2 Z(\zeta_n)]\)</span>。进一步注意到，对每种粒子都有 <span class="math inline">\(2k_z^2 \omega_p^2 \zeta_0/\omega^2 = 2\omega_p^2/v_{th}^2\equiv k_D^2\)</span>，于是可以将方程写为</p>
+<p><span class="math display">\[
+k_x^2 + k_z^2 + \sum_s k_D^2 e^{-b}\sum_{n=-\infty}^{\infty} I_n(b)[\zeta_{-n}/\zeta_0 + \zeta_0 Z(\zeta_n)] = 0
+\]</span></p>
+<p><span class="math inline">\(\zeta_{-n}/\zeta_0=1-n\omega_c/\omega\)</span>。由于 <span class="math inline">\(I_n(b)=I_{-n}(b)\)</span>，当 <span class="math inline">\(n\)</span> 从 <span class="math inline">\(-\infty\)</span> 到 <span class="math inline">\(\infty\)</span> 求和时，<span class="math inline">\(I_n(b)n\omega_c/\omega\)</span> 项的和为零；因此，可以用 1 代替 <span class="math inline">\(\zeta_{-n}/\zeta_0\)</span>。定义 <span class="math inline">\(k^2 = k_x^2 + k_z^2\)</span>，得到伯恩斯坦波的一般色散关系：</p>
+<p><span class="math display">\[
+1+ \sum_s\frac{k_D^2}{k_\perp^2}e^{-b}\sum_{n=-\infty}^{\infty} I_n(b)[1 + \zeta_0 Z(\zeta_n)] = 0
+\]</span></p>
+<p>（A）<em>电子伯恩斯坦波</em>。首先考虑离子不运动的高频波。这些波对偏离垂直传播方向的小偏差不敏感，可以令 <span class="math inline">\(k_z=0\)</span>，于是 <span class="math inline">\(\zeta_n\rightarrow\infty\)</span>。因此不存在回旋阻尼；我们将发现的频谱间隙并非由这种阻尼造成。当 <span class="math inline">\(\zeta_n\)</span> 很大时，可以用 <span class="math inline">\(-1/\zeta_n\)</span> 代替 <span class="math inline">\(Z(\zeta_n)\)</span>。（？？？）上式第二个求和中的 <span class="math inline">\(n=0\)</span> 项于是相互抵消，可以将求和分成两部分，如下所示：</p>
+<p><span class="math display">\[
+k_\perp^2 + \sum_s k_D^2 e^{-b}\Big[ \sum_{n=1}^{\infty} I_n(b)(1 - \zeta_0 /\zeta_n) + \sum_{n=1}^{\infty} I_{-n}(b)(1 - \zeta_0 /\zeta_{-n})\Big] = 0
+\]</span></p>
+<p>或者</p>
+<p><span class="math display">\[
+k_\perp^2 + \sum_s k_D^2 e^{-b}\sum_{n=1}^{\infty} I_n(b)\Big[ 2-\frac{\omega}{\omega+n\omega_c} - \frac{\omega}{\omega-n\omega_c} \Big] = 0
+\]</span></p>
+<p>通分后，方括号合并为一项：</p>
+<p><span class="math display">\[
+1 = \sum_s \frac{k_D^2}{k_\perp^2}e^{-b}\sum_{n=1}^\infty I_n(b)\frac{2n^2\omega_c^2}{\omega^2 - n^2\omega_c^2}
+\]</span></p>
+<p>利用 <span class="math inline">\(k_D\)</span> 和 <span class="math inline">\(b\)</span> 的定义，得到众所周知的（我可不知道！！！）<span class="math inline">\(k_z=0\)</span> 色散关系</p>
+<p><span class="math display">\[
+1 = \sum_s \frac{\omega_p^2}{\omega_c^2}\frac{2}{b}e^{-b}\sum_{n=1}^\infty \frac{I_n(b)}{(\omega/n\omega_c)^2-1}
+\]</span></p>
+<p>现在专门考虑电子振荡。去掉对粒子种类的求和，得到</p>
+<p><span class="math display">\[
+\frac{k_\perp^2}{k_D^2} = 2\omega_c^2 \sum_{n=1}^\infty \frac{e^{-b}I_n(b)}{\omega^2 - n\omega_c^2}n^2 \equiv \alpha(\omega, b)
+\]</span></p>
+<p>……（添加图 7-33！！！）</p>
+<p>为了得到流体极限，用 <span class="math inline">\(I_n(b)\)</span> 在小 <span class="math inline">\(b\)</span> 时的值 <span class="math inline">\((b/2)^n/n!\)</span> 代替它。在极限 <span class="math inline">\(b\rightarrow 0\)</span> 下只剩下 <span class="math inline">\(n=1\)</span> 项，得到</p>
+<p><span class="math display">\[
+1 = \frac{\omega_p^2}{\omega_c^2}\frac{2}{b}\frac{b}{2}\Big( \frac{\omega^2}{\omega_c^2} - 1\Big)^{-1} = \frac{\omega_p^2}{\omega^2 - \omega_c^2}
+\]</span></p>
+<p>或者 <span class="math inline">\(\omega^2 = \omega_p^2 + \omega_c^2 = \omega_h^2\)</span>，这就是上杂化振荡。当 <span class="math inline">\(k_\perp\rightarrow 0\)</span> 时，这个频率必定是其中一个根。如果 <span class="math inline">\(\omega_h\)</span> 落在 <span class="math inline">\(\omega_c\)</span> 的两个高次谐波之间，<span class="math inline">\(\omega-k\)</span> 曲线的形状会在 <span class="math inline">\(\omega = \omega_h\)</span> 附近改变，以使这一情况能够发生。 ……</p>
+<p>（B）<em>离子伯恩斯坦波</em>。对于处于离子回旋谐波频率的波，必须区分 <span class="math inline">\(k_z=0\)</span> 的_纯_离子伯恩斯坦波与 <span class="math inline">\(k_z\)</span> 具有较小但非零值的_中和_离子伯恩斯坦波。正如前面在讨论下杂化振荡时所见，其区别在于有限的 <span class="math inline">\(k_z\)</span> 允许电子沿 <span class="math inline">\(\mathbf{B}_0\)</span> 流动，从而消除电荷分离。虽然 <span class="math inline">\(k_z=0\)</span> 的情况已在……中处理过</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-chen2016introduction" class="csl-entry" role="listitem">
+Chen, Francis F. 2016年. <em>Introduction to plasma physics and controlled fusion</em>. 卷 1. Springer.
+</div>
+<div id="ref-livadiotis2013" class="csl-entry" role="listitem">
+Livadiotis, G, 和 DJ McComas. 2013年. <span>《Understanding kappa distributions: A toolbox for space science and astrophysics》</span>. <em>Space Science Reviews</em> 175 (1): 183～214. <a href="https://doi.org/10.1007/s11214-013-9982-9">https://doi.org/10.1007/s11214-013-9982-9</a>.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>在模拟中，数值扩散的效应可以视为一种“碰撞”。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/emhd.html" class="pagination-link" aria-label="电子磁流体力学">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/stability.html" class="pagination-link" aria-label="稳定性">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/kinetic.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

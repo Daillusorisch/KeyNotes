@@ -1,0 +1,2015 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; 单粒子运动 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/fluid.html" rel="next">
+<link href="../contents/unit.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/single.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#均匀电场和磁场" id="toc-均匀电场和磁场" class="nav-link active" data-scroll-target="#均匀电场和磁场"><span class="header-section-number">7.1</span> 均匀电场和磁场</a>
+  <ul class="collapse">
+  <li><a href="#e0" id="toc-e0" class="nav-link" data-scroll-target="#e0"><span class="header-section-number">7.1.1</span> E=0</a></li>
+  <li><a href="#非零电场" id="toc-非零电场" class="nav-link" data-scroll-target="#非零电场"><span class="header-section-number">7.1.2</span> 非零电场</a></li>
+  <li><a href="#sec-gravity_field" id="toc-sec-gravity_field" class="nav-link" data-scroll-target="#sec-gravity_field"><span class="header-section-number">7.1.3</span> 重力场</a></li>
+  </ul></li>
+  <li><a href="#非均匀磁场" id="toc-非均匀磁场" class="nav-link" data-scroll-target="#非均匀磁场"><span class="header-section-number">7.2</span> 非均匀磁场</a>
+  <ul class="collapse">
+  <li><a href="#b-b磁场梯度漂移" id="toc-b-b磁场梯度漂移" class="nav-link" data-scroll-target="#b-b磁场梯度漂移"><span class="header-section-number">7.2.1</span> ∇B ⊥ B：磁场梯度漂移</a></li>
+  <li><a href="#弯曲磁场曲率漂移" id="toc-弯曲磁场曲率漂移" class="nav-link" data-scroll-target="#弯曲磁场曲率漂移"><span class="header-section-number">7.2.2</span> 弯曲磁场：曲率漂移</a></li>
+  <li><a href="#b-b磁镜" id="toc-b-b磁镜" class="nav-link" data-scroll-target="#b-b磁镜"><span class="header-section-number">7.2.3</span> ∇B ∥ B：磁镜</a></li>
+  </ul></li>
+  <li><a href="#sec-nonuniform_E" id="toc-sec-nonuniform_E" class="nav-link" data-scroll-target="#sec-nonuniform_E"><span class="header-section-number">7.3</span> 非均匀电场</a></li>
+  <li><a href="#sec-time-varying_E" id="toc-sec-time-varying_E" class="nav-link" data-scroll-target="#sec-time-varying_E"><span class="header-section-number">7.4</span> 随时间变化的电场</a></li>
+  <li><a href="#随时间变化的磁场" id="toc-随时间变化的磁场" class="nav-link" data-scroll-target="#随时间变化的磁场"><span class="header-section-number">7.5</span> 随时间变化的磁场</a></li>
+  <li><a href="#缓慢变化的任意场中的漂移" id="toc-缓慢变化的任意场中的漂移" class="nav-link" data-scroll-target="#缓慢变化的任意场中的漂移"><span class="header-section-number">7.6</span> 缓慢变化的任意场中的漂移</a></li>
+  <li><a href="#导引中心漂移汇总" id="toc-导引中心漂移汇总" class="nav-link" data-scroll-target="#导引中心漂移汇总"><span class="header-section-number">7.7</span> 导引中心漂移汇总</a></li>
+  <li><a href="#sec-adiabatic-invariant" id="toc-sec-adiabatic-invariant" class="nav-link" data-scroll-target="#sec-adiabatic-invariant"><span class="header-section-number">7.8</span> 绝热不变量</a>
+  <ul class="collapse">
+  <li><a href="#摆的绝热不变量" id="toc-摆的绝热不变量" class="nav-link" data-scroll-target="#摆的绝热不变量"><span class="header-section-number">7.8.1</span> 摆的绝热不变量</a></li>
+  <li><a href="#将-wkb-方法推广到一般绝热不变量" id="toc-将-wkb-方法推广到一般绝热不变量" class="nav-link" data-scroll-target="#将-wkb-方法推广到一般绝热不变量"><span class="header-section-number">7.8.2</span> 将 WKB 方法推广到一般绝热不变量</a></li>
+  <li><a href="#一般绝热不变量的证明" id="toc-一般绝热不变量的证明" class="nav-link" data-scroll-target="#一般绝热不变量的证明"><span class="header-section-number">7.8.3</span> 一般绝热不变量的证明</a></li>
+  <li><a href="#第一绝热不变量" id="toc-第一绝热不变量" class="nav-link" data-scroll-target="#第一绝热不变量"><span class="header-section-number">7.8.4</span> 第一绝热不变量</a></li>
+  <li><a href="#第二绝热不变量" id="toc-第二绝热不变量" class="nav-link" data-scroll-target="#第二绝热不变量"><span class="header-section-number">7.8.5</span> 第二绝热不变量</a></li>
+  <li><a href="#第三绝热不变量" id="toc-第三绝热不变量" class="nav-link" data-scroll-target="#第三绝热不变量"><span class="header-section-number">7.8.6</span> 第三绝热不变量</a></li>
+  </ul></li>
+  <li><a href="#sec-ring-current" id="toc-sec-ring-current" class="nav-link" data-scroll-target="#sec-ring-current"><span class="header-section-number">7.9</span> 环电流</a></li>
+  <li><a href="#粒子加速" id="toc-粒子加速" class="nav-link" data-scroll-target="#粒子加速"><span class="header-section-number">7.10</span> 粒子加速</a></li>
+  <li><a href="#测试粒子模型" id="toc-测试粒子模型" class="nav-link" data-scroll-target="#测试粒子模型"><span class="header-section-number">7.11</span> 测试粒子模型</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/single.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-single" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>等离子体特别难以分析，原因在于其密度处于中间范围。水等流体的密度很高，不必考虑单个分子的运动。碰撞占主导地位，普通流体动力学的简单方程便已足够。另一个极端是密度极低的装置，只需考虑单粒子轨迹，集体效应往往并不重要。等离子体有时表现得像流体，有时又像单个粒子的集合。学习如何应对这种双重特性的第一步，是理解单个粒子在电场和磁场中的行为。</p>
+<p>中性气体中的单粒子运动很简单——粒子沿直线运动，直到撞上其他粒子或器壁。由于这种简单性，没有必要追踪中性气体中单粒子运动的细节，对这种运动进行统计平均就已足够；这种平均表明，中性气体具有麦克斯韦速度分布，并处于局部热力学平衡。相比之下，等离子体粒子近乎无碰撞，其轨迹通常很复杂，并受到电场和磁场的强烈影响。</p>
+<p>正如 <a href="kinetic.html#sec-collision-entropy" class="quarto-xref"><span>小节 12.2.5</span></a> 将要说明的，当发生足够多的碰撞使熵达到最大值时，等离子体的速度分布将变为麦克斯韦分布。然而，由于高温等离子体中的碰撞很少发生，许多重要现象的时间尺度短于等离子体速度分布变为麦克斯韦分布所需的时间。因此，需要用无碰撞模型来描述这些快速现象。在这些情况下，随机化不会发生，熵守恒，分布函数不一定是麦克斯韦分布，等离子体也不处于热力学平衡。因此，热力学概念不再适用，转而使用经典力学概念来描述等离子体，例如单个粒子的动量或能量守恒。在这些无碰撞情况下，单粒子动力学的复杂细节不会被碰撞抹平，而是持续存在并影响宏观尺度。例如，在无碰撞等离子体中，单个粒子的回旋共振可能在宏观尺度上十分重要。本章研究单粒子运动的各个方面，并说明这些方面如何影响等离子体的宏观性质。</p>
+<p>此外，单粒子动力学的研究与弗拉索夫理论有着非常直接的联系，因为如 <a href="kinetic.html#sec-vlasov" class="quarto-xref"><span>小节 12.3.1</span></a> 所示，任何由单粒子运动常量构造的函数都是无碰撞弗拉索夫方程的有效解。因此，了解单粒子动力学可以提供一组可供选用的运动常量，从而构造适用于各种情况的弗拉索夫方程解。</p>
+<p>最后，研究单粒子运动能够培养对波–粒相互作用的宝贵直觉，并揭示某些超出流体模型描述能力的特殊情况，例如随机或非绝热粒子运动。</p>
+<p>这里假定电磁场是预先给定的，不受带电粒子的影响。相应的方法通常称为_测试粒子_方法。换言之，只要电场和磁场_在空间和时间上都缓慢变化_，就可以推导出直观且相当准确的解析解，描述带电粒子在任意复杂电场和磁场中的漂移（这一要求本质上就是 <a href="#sec-adiabatic-invariant" class="quarto-xref"><span>小节 7.8</span></a> 中介绍的绝热不变量所要求的缓慢变化条件）。利用所假定的快、慢运动之间的尺度分离，通过迭代求解洛伦兹方程 <span id="eq-lorentz"><span class="math display">\[
+m\frac{\mathrm{d}\mathbf{v}}{\mathrm{d}t} = q\left( \mathbf{E}+\mathbf{v}\times\mathbf{B} \right)
+\tag{7.1}\]</span></span> 可得到漂移解。</p>
+<p>考虑相对论时，洛伦兹方程变为 <span id="eq-lorentz-relativistic"><span class="math display">\[
+\frac{\mathrm{d}\mathbf{p}}{\mathrm{d}t} = q\left( \mathbf{E}+\mathbf{v}\times\mathbf{B} \right)
+\tag{7.2}\]</span></span> 其中 <span class="math inline">\(\mathbf{p}=\gamma m\mathbf{v}\)</span> 是相对论动量，<span class="math inline">\(\gamma = \left( 1 - v^2/c^2 \right)^{-1/2}\)</span> 是_洛伦兹因子_。电子的静质量为 <span class="math inline">\(me = 511\,\mathrm{keV}/c^2\)</span>，质子的静质量为 <span class="math inline">\(m_p = 938\,\mathrm{MeV}/c^2\)</span>。</p>
+<section id="均匀电场和磁场" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="均匀电场和磁场"><span class="header-section-number">7.1</span> 均匀电场和磁场</h2>
+<p>这里约定速度 <span class="math inline">\(\mathbf{v}\)</span> 表示单粒子速度，本章大部分内容都采用这一约定。</p>
+<section id="e0" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="e0"><span class="header-section-number">7.1.1</span> E=0</h3>
+<p>在这种情况下，带电粒子作简单的回旋运动。运动方程为 <span class="math display">\[
+m\frac{\mathrm{d}\mathbf{v}}{\mathrm{d}t} = q\mathbf{v}\times\mathbf{B}
+\]</span></p>
+<p>取 <span class="math inline">\(\widehat{z}\)</span> 为 <span class="math inline">\(\mathbf{B}\)</span> 的方向（<span class="math inline">\(\mathbf{B} = B\widehat{z}\)</span>），得到 <span class="math display">\[
+\begin{aligned}
+m\dot{v}_x = qB v_y,\quad m\dot{v}_y = -qB v_x,\quad m\dot{v}_z = 0, \\
+\ddot{v}_x = \frac{qB}{m}\dot{v}_y = -\Big( \frac{qB}{m}\Big)^2 v_x \\
+\ddot{v}_y = \frac{qB}{m}\dot{v}_x = -\Big( \frac{qB}{m}\Big)^2 v_y
+\end{aligned}
+\]</span></p>
+<p>这描述了一个以<em>回旋频率</em>振荡的简谐振子，回旋频率定义为 <span class="math display">\[
+\omega_c \equiv \frac{| q | B}{m}
+\]</span></p>
+<p>按照所选的约定，<span class="math inline">\(\omega_c\)</span> 始终非负。因此速度的解为 <span class="math display">\[
+v_{x,y} = v_\perp \exp(\pm i \omega_c t + i\delta_{x,y})
+\]</span></p>
+<p><span class="math inline">\(\pm\)</span> 表示 q 的符号。我们可以选择相位 <span class="math inline">\(\delta\)</span>，使得 <span class="math display">\[
+v_x = v_\perp e^{i\omega_c t} = \dot{x}
+\]</span> 其中 <span class="math inline">\(v_\perp\)</span> 是正的常数，表示垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的平面内的速率。于是 <span class="math display">\[
+v_y  = \frac{m}{qB} \dot{v}_x = \pm \frac{1}{\omega_c}\dot{v}_x = \pm i v_\perp e^{i\omega_c t} = \dot{y}
+\]</span></p>
+<p>再次积分，得到 <span class="math display">\[
+\begin{aligned}
+x - x_0 &amp;= -i\frac{v_\perp}{\omega_c}e^{i\omega_c t} \\
+y - y_0 &amp;= \pm i\frac{v_\perp}{\omega_c}e^{i\omega_c t}
+\end{aligned}
+\]</span></p>
+<p>我们将<em>拉莫尔半径</em>定义为 <span id="eq-larmor_radius"><span class="math display">\[
+r_L \equiv \frac{v_\perp}{\omega_c} = \frac{mv_\perp}{|q| B}
+\tag{7.3}\]</span></span></p>
+<p>注意 <a href="#eq-larmor_radius" class="quarto-xref">式&nbsp;<span>7.3</span></a> 中没有出现 <span class="math inline">\(2\pi\)</span>！</p>
+<p>对位置取实部，得到 <span class="math display">\[
+\begin{aligned}
+x - x_0 &amp;= r_L\sin\omega_c t \\
+y - y_0 &amp;= \pm r_L \cos\omega_c t
+\end{aligned}
+\]</span></p>
+<p>这描述了围绕固定<em>导引中心</em>（<span class="math inline">\(x_0, y_0\)</span>）的圆形轨道。回旋方向总是使带电粒子产生的磁场与外加磁场相反。因此，等离子体粒子倾向于<em>减弱</em>磁场，等离子体具有<em>抗磁性</em>。除了这种运动，还有沿 <span class="math inline">\(\mathbf{B}\)</span> 方向的任意速度 <span class="math inline">\(v_z\)</span>，它不受 <span class="math inline">\(\mathbf{B}\)</span> 的影响。带电粒子在空间中的轨迹一般是一条螺旋线。沿磁场方向（逆磁场方向）观察时，顺时针（逆时针）旋转的粒子带负电。在等离子体物理中，这就是_右手性_的约定。</p>
+<p>在国际单位制中，<span class="math inline">\(\omega_c\)</span> 的单位是 rad/s。要将其换算为赫兹，需要除以 <span class="math inline">\(2\pi\)</span>。电子和质子对应的_振荡频率_ <span class="math inline">\(f_{c\alpha} = \omega_{c\alpha}/(2\pi)\)</span> 为 <span class="math display">\[
+\begin{aligned}
+f_{ce}[\mathrm{Hz}] &amp;= 28 B [\mathrm{nT}] \\
+f_{cp}[\mathrm{Hz}] &amp;= 0.015 B [\mathrm{nT}]
+\end{aligned}
+\]</span></p>
+</section>
+<section id="非零电场" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="非零电场"><span class="header-section-number">7.1.2</span> 非零电场</h3>
+<p>如果现在允许存在电场，可以发现运动是两种运动之和：通常的圆形拉莫尔回旋，加上导引中心的漂移。所假定的场在空间中均匀且不随时间变化，是假定场在空间和时间上缓慢变化的极限情况。我们可以选取 <span class="math inline">\(\mathbf{E}\)</span> 位于 x-z 平面，使得 <span class="math inline">\(E_y = 0\)</span>。与前面一样，速度的 z 分量与横向分量无关，可以单独处理。现在运动方程为 <span class="math display">\[
+m\dot{\mathbf{v}} = q( \mathbf{E} + \mathbf{v}\times\mathbf{B} )
+\]</span> 其 z 分量为 <span class="math display">\[
+\dot{v_z} = \frac{q}{m}E_z
+\]</span> 或者 <span class="math display">\[
+v_z = \frac{qE_z}{m}t + v_{z0}
+\]</span></p>
+<p>这就是沿 <span class="math inline">\(\mathbf{B}\)</span> 方向的直接加速。横向分量为 <span class="math display">\[
+\begin{aligned}
+\dot{v_x} &amp;= \frac{q}{m}E_x \pm \omega_c v_y \\
+\dot{v_y} &amp;= 0 \mp \omega_c v_x
+\end{aligned}
+\]</span></p>
+<p>求导得到（对于恒定的 <span class="math inline">\(\mathbf{E}\)</span>） <span class="math display">\[
+\begin{aligned}
+\ddot{v}_x &amp;= -\omega_c^2 v_x \\
+\ddot{v}_y &amp;= \mp \omega_c \Big( \frac{q}{m}E_x \pm \omega_c v_y \Big) = -\omega_c^2 \Big( v_y + \frac{E_x}{B} \Big)
+\end{aligned}
+\]</span></p>
+<p>可以将其写为 <span class="math display">\[
+\frac{\mathrm{d}^2}{\mathrm{d}t^2}\Big( v_y + \frac{E_x}{B} \Big) = -\omega_c^2\Big( v_y + \frac{E_x}{B} \Big)
+\]</span> 因此，如果将 <span class="math inline">\(v_y\)</span> 替换为 <span class="math inline">\(v_y + (E_x/B)\)</span>，便可化为先前的情况。速度解相应变为 <span class="math display">\[
+\begin{aligned}
+v_x &amp;= v_\perp e^{i\omega_c t} \\
+v_y &amp;= \pm v_\perp e^{i\omega_c t} - \frac{E_x}{B}
+\end{aligned}
+\]</span></p>
+<p>拉莫尔运动与之前相同，但叠加了导引中心在 <span class="math inline">\(-y\)</span> 方向上的漂移 <span class="math inline">\(\mathbf{v}_{gc}\)</span>（对于 <span class="math inline">\(E_x &gt; 0\)</span>）。</p>
+<p>为了得到 <span class="math inline">\(\mathbf{v}_{gc}\)</span> 的一般公式，可以求解矢量形式的动量方程。我们可以省略 <span class="math inline">\(m \mathrm{d}\mathbf{v}/\mathrm{d}t\)</span> 项，因为这一项只给出频率为 <span class="math inline">\(\omega_c\)</span> 的圆周运动，而我们已经了解这种运动。于是动量方程变为 <span class="math display">\[
+\mathbf{E} + \mathbf{v}\times\mathbf{B} = 0
+\]</span></p>
+<p>与 <span class="math inline">\(\mathbf{B}\)</span> 取叉积，得到 <span class="math display">\[
+\mathbf{E}\times\mathbf{B} = \mathbf{B}\times(\mathbf{v}\times\mathbf{B}) = \mathbf{v}B^2 - \mathbf{B}(\mathbf{v}\cdot\mathbf{B})
+\]</span></p>
+<p>这一方程相对于 <span class="math inline">\(\mathbf{B}\)</span> 的横向分量为 <span class="math display">\[
+\mathbf{v}_{gc} = \mathbf{E}\times\mathbf{B}/B^2 \equiv \mathbf{v}_E
+\]</span></p>
+<p>我们将其定义为 <span class="math inline">\(\mathbf{v}_E\)</span>，即导引中心的电场漂移。该漂移的大小为 <span class="math display">\[
+v_E = \frac{E(\text{V/m})}{B(\text{tesla})}\frac{\text{m}}{\text{sec}}
+\]</span></p>
+<p>需要注意，<span class="math inline">\(\mathbf{v}_E\)</span> 与 q、m 和 <span class="math inline">\(v_\perp\)</span> 无关。从下面的物理图像可以清楚地看出原因。在离子轨道的前半个周期内，离子从电场获得能量，<span class="math inline">\(v_\perp\)</span> 随之增大，因此 <span class="math inline">\(r_L\)</span> 也增大。在后半个周期内，离子失去能量，<span class="math inline">\(r_L\)</span> 减小。轨道左右两侧的 <span class="math inline">\(r_L\)</span> 差异造成了漂移 <span class="math inline">\(v_E\)</span>。带负电的电子沿相反方向回旋，但也沿相反方向获得能量；它最终与离子沿相同方向漂移。对于速度相同但质量不同的粒子，质量较小者的 <span class="math inline">\(r_L\)</span> 较小，因此每周期漂移得较少。但是，它的回旋频率也更大，这两种效应恰好抵消。两个质量相同但能量不同的粒子具有相同的 <span class="math inline">\(\omega_c\)</span>。较慢粒子的 <span class="math inline">\(r_L\)</span> 较小，因此在半个周期内从 <span class="math inline">\(\mathbf{E}\)</span> 获得的能量较少。然而，对于能量较低的粒子，给定能量变化引起的 <span class="math inline">\(r_L\)</span> 相对变化较大，这两种效应也相互抵消。解释这一行为的另一种方法是回顾：根据狭义相对论，以速度 <span class="math inline">\(\mathbf{u}\)</span> 运动的参考系中观测到的电场 <span class="math inline">\(\mathbf{E}^\prime\)</span> 为 <span class="math inline">\(\mathbf{E}^\prime = \mathbf{E}+\mathbf{u}\times\mathbf{B}\)</span>，因此 <span class="math inline">\(\mathbf{v}_E\)</span> 只是表明粒子以这样的方式漂移，使其自身参考系中看到的电场为零。</p>
+<p>因此，具有非零初始速度的带电粒子在空间中的三维轨道是一条螺距不断变化的倾斜螺旋线。俯仰角定义为 <span id="eq-pitch-angle"><span class="math display">\[
+\alpha = \arctan{\frac{v_\perp}{v_\parallel}} = \arcsin{\frac{v_\perp}{v}} = \arccos{\frac{v_\parallel}{v}}
+\tag{7.4}\]</span></span></p>
+</section>
+<section id="sec-gravity_field" class="level3" data-number="7.1.3">
+<h3 data-number="7.1.3" class="anchored" data-anchor-id="sec-gravity_field"><span class="header-section-number">7.1.3</span> 重力场</h3>
+<p>将运动方程中的 <span class="math inline">\(q\mathbf{E}\)</span> 替换为一般的力 <span class="math inline">\(\mathbf{F}\)</span>，即可把前面的结果应用于其他力。由 <span class="math inline">\(\mathbf{F}\)</span> 引起的导引中心漂移为 <span class="math display">\[
+\mathbf{v}_f = \frac{1}{q}\frac{\mathbf{F}\times\mathbf{B}}{B^2}
+\]</span></p>
+<p>特别地，如果 <span class="math inline">\(\mathbf{F}\)</span> 是重力 <span class="math inline">\(m\mathbf{g}\)</span>，就存在漂移 <span id="eq-gravity_drift"><span class="math display">\[
+\mathbf{v}_g = \frac{m}{q}\frac{\mathbf{g}\times\mathbf{B}}{B^2}
+\tag{7.5}\]</span></span></p>
+<p>这与漂移 <span class="math inline">\(\mathbf{v}_E\)</span> 相似，都是垂直于力和 <span class="math inline">\(\mathbf{B}\)</span> 的方向，但在一个重要方面有所不同：漂移 <span class="math inline">\(\mathbf{v}_g\)</span> 随粒子电荷的符号而改变方向。在重力作用下，离子和电子向相反方向漂移，因此等离子体中存在净电流密度 <span class="math display">\[
+\mathbf{j} = n(m_i+m_e)\frac{\mathbf{g}\times\mathbf{B}}{B^2}
+\]</span></p>
+<p>这种漂移的物理原因仍然是粒子在重力场中获得和失去能量时拉莫尔半径的变化。此时电子的回旋方向与离子相反，但它们受到的力方向相同，因此漂移方向相反。<span class="math inline">\(\mathbf{v}_g\)</span> 的大小通常可以忽略，但当力线（即磁力线）弯曲时，离心力会产生一个有效重力。这个不可忽略的力与质量无关；这就是我们在此没有强调漂移对 m 的依赖关系的原因。离心力是一种称为“重力”不稳定性的等离子体不稳定性的基础，这种不稳定性与真正的重力无关。</p>
+<p>现在应当清楚，只需在洛伦兹方程中作替换 <span class="math inline">\(\mathbf{E}\rightarrow\mathbf{F}/q\)</span>，就可以轻易地将 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移分析推广到描述任何垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的力对带电粒子的作用。因此，任何在空间上均匀、在时间上恒定且垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的力都会引起漂移 <span class="math display">\[
+\mathbf{v}_F = \frac{\mathbf{F}\times\mathbf{B}}{qB^2}
+\]</span> 由此得到两个违反直觉而又重要的结论：</p>
+<ol type="1">
+<li><p>垂直于磁场的稳态电场不会在等离子体中驱动电流，而是使整个等离子体以速度 <span class="math inline">\(\mathbf{v}_E\)</span> 横跨磁场作整体运动。</p></li>
+<li><p>垂直于磁场的稳态力（例如重力、离心力等）使电子和离子沿相反方向运动，从而驱动横跨磁场的电流 <span class="math display">\[
+\mathbf{j}_F = \sum_\sigma n_\sigma \frac{\mathbf{F}\times\mathbf{B}}{B^2}
+\]</span></p></li>
+</ol>
+</section>
+</section>
+<section id="非均匀磁场" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="非均匀磁场"><span class="header-section-number">7.2</span> 非均匀磁场</h2>
+<p>现在导引中心漂移的概念已经确立，可以讨论粒子在非均匀场中的运动，即 <span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 随空间或时间变化的情况。对于均匀场，我们能够得到导引中心漂移的精确表达式。一旦引入非均匀性，问题就变得过于复杂，无法精确求解。为了得到近似答案，通常按小量 <span class="math inline">\(r_L/L\)</span> 展开，其中 L 是非均匀性的尺度长度。这类称为<em>轨道理论</em>的理论可能极其复杂。我们只研究最简单的情况，即每次只出现一种非均匀性。</p>
+<section id="b-b磁场梯度漂移" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="b-b磁场梯度漂移"><span class="header-section-number">7.2.1</span> ∇B ⊥ B：磁场梯度漂移</h3>
+<p>这里磁力线是直的，但其密度沿某个方向增加，例如沿 y 方向。我们可以利用简单的物理图像预见结果。<span class="math inline">\(|B|\)</span> 的梯度使轨道下方的拉莫尔半径大于上方，这应该导致垂直于 B 和 <span class="math inline">\(\nabla B\)</span> 的漂移，且离子与电子的漂移方向相反。漂移速度显然应当与 <span class="math inline">\(r_L/L\)</span> 和 <span class="math inline">\(v_\perp\)</span> 成正比。</p>
+<p>考虑对一个回旋周期取平均的洛伦兹力 <span class="math inline">\(\mathbf{F} = q\mathbf{v}\times\mathbf{B}\)</span>。显然 <span class="math inline">\(\bar{F}_x = 0\)</span>，因为粒子向上和向下运动的时间相同。我们希望利用粒子的<em>未受扰动轨道</em>求平均，从而近似计算 <span class="math inline">\(\bar{F}_y\)</span>。未受扰动轨道由第一节中均匀 <span class="math inline">\(\mathbf{B}\)</span> 场的解给出。取 <span class="math inline">\(v_x\)</span> 和 <span class="math inline">\(y\)</span> 的解的实部，得到 <span class="math display">\[
+F_y = -q v_x B_z(y) = -q v_\perp(\cos \omega_c t) \Big[ B_0 \pm r_L(\cos\omega_c t )\frac{\partial B}{\partial y} \Big]
+\]</span> 其中我们在 <span class="math inline">\(x_0=0, y_0=0\)</span> 点附近对 <span class="math inline">\(\mathbf{B}\)</span> 场作了泰勒展开： <span class="math display">\[
+\begin{aligned}
+\mathbf{B} &amp;= \mathbf{B}_0 + (\mathbf{r}\cdot\nabla)\mathbf{B} + ... \\
+Bz &amp;= B_0 + y(\partial B_z/\partial y) + ...
+\end{aligned}
+\]</span></p>
+<p>这一展开当然要求 <span class="math inline">\(r_L / L \ll 1\)</span>，其中 L 是 <span class="math inline">\(\partial Bz/\partial y\)</span> 的长度尺度。上式第一项在一个回旋周期内的平均值为零，而 <span class="math inline">\(\cos^2 \omega_c t\)</span> 的平均值为 <span class="math inline">\(1/2\)</span>，因此 <span class="math display">\[
+\bar{F}_y = \mp q v_\perp r_L \frac{1}{2}\frac{\partial B}{\partial y}
+\]</span></p>
+<p>于是导引中心漂移速度为 <span class="math display">\[
+\mathbf{v}_{gc} = \frac{1}{q}\frac{\mathbf{F}\times\mathbf{B}}{B^2} = \frac{1}{q}\frac{\bar{F}_y}{|B|}\widehat{x} = \mp \frac{v_\perp r_L}{B}\frac{1}{2} \frac{\partial B}{\partial y} \widehat{x}
+\]</span> 其中使用了前面给出的公式。由于 y 轴的选择是任意的，可以将其推广为 <span class="math display">\[
+\mathbf{v}_{\nabla B} = \pm \frac{1}{2}v_\perp r_L \frac{\mathbf{B}\times \nabla B}{B^2}
+\]</span></p>
+<p>这一结果具有我们从物理图像预期的所有依赖关系；只有因子 <span class="math inline">\(\frac{1}{2}\)</span>（来自平均）未被预见。注意，<span class="math inline">\(\pm\)</span> 表示电荷的符号，非粗体的 <span class="math inline">\(B\)</span> 表示 <span class="math inline">\(|B|\)</span>。量 <span class="math inline">\(\mathbf{v}_{\nabla B}\)</span> 称为<em>磁场梯度漂移</em>；离子和电子的漂移方向相反，并产生垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的电流。精确计算 <span class="math inline">\(\mathbf{v}_{\nabla B}\)</span> 需要在求平均时使用包含漂移在内的精确轨道。</p>
+</section>
+<section id="弯曲磁场曲率漂移" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="弯曲磁场曲率漂移"><span class="header-section-number">7.2.2</span> 弯曲磁场：曲率漂移</h3>
+<p>这里假设磁力线弯曲，曲率半径 <span class="math inline">\(R_c\)</span> 恒定，并取 <span class="math inline">\(|B|\)</span> 为常数。这样的场在真空中不满足麦克斯韦方程组，因此实际情况下，磁场梯度漂移总会叠加在这里推导的效应上。粒子在热运动中沿磁力线运动时受到离心力，从而产生导引中心漂移。如果 <span class="math inline">\(v_\parallel^2\)</span> 表示沿 <span class="math inline">\(\mathbf{B}\)</span> 方向的随机速度分量的平方平均值，<span class="math inline">\(\mathbf{R}_c\)</span> 表示从曲率中心指向曲线的曲率半径矢量，则平均离心力为 <span class="math display">\[
+\mathbf{F}_{cf} = \frac{mv_\parallel^2}{R_c}\widehat{r} = mv_\parallel^2\frac{\mathbf{R}_c}{R_c^2}
+\]</span></p>
+<p>根据导引中心漂移公式，这产生漂移 <span class="math display">\[
+\mathbf{v}_{R} = \frac{1}{q}\frac{\mathbf{F}_{cf}\times\mathbf{B}}{B^2} = \frac{mv_\parallel^2}{qB^2}\frac{\mathbf{R}_c \times\mathbf{B}}{R_c^2}
+\]</span></p>
+<p>漂移 <span class="math inline">\(\mathbf{v}_c\)</span> 称为<em>曲率漂移</em>。</p>
+<p>现在必须考虑 <span class="math inline">\(|B|\)</span> 随半径减小，并计算伴随曲率漂移的磁场梯度漂移。在真空中，<span class="math inline">\(\nabla\times\mathbf{B} = 0\)</span>（无电流）。在柱坐标中，<span class="math inline">\(\nabla\times\mathbf{B}\)</span> 只有 <span class="math inline">\(z\)</span> 分量，因为 <span class="math inline">\(\mathbf{B}\)</span> 只有 <span class="math inline">\(\theta\)</span> 分量，而 <span class="math inline">\(\nabla B\)</span> 只有 <span class="math inline">\(r\)</span> 分量。于是 <span class="math display">\[
+(\nabla\times\mathbf{B})_z = \frac{1}{r}\frac{\partial}{\partial r}(rB_\theta) = 0,\, B\propto \frac{1}{r}
+\]</span></p>
+<p>因此 <span id="eq-curvature-radius"><span class="math display">\[
+|B| \propto \frac{1}{R_c},\, \frac{\nabla B}{B} = - \frac{\mathbf{R}_c}{R_c^2}
+\tag{7.6}\]</span></span></p>
+<p>利用磁场梯度漂移的表达式，得到 <span class="math display">\[
+\mathbf{v}_{\nabla B} = \mp \frac{1}{2}\frac{v_\perp r_L}{B^2}\mathbf{B}\times\frac{\mathbf{R}_c}{R_c^2} = \pm \frac{1}{2}\frac{v_\perp^2}{\omega_c}\frac{\mathbf{R}_c\times\mathbf{B}}{R_c^2 B} = \frac{1}{2}\frac{m}{q}v_\perp^2\frac{\mathbf{R}_c\times\mathbf{B}}{R_c^2 B^2}
+\]</span></p>
+<p>将其与 <span class="math inline">\(\mathbf{v}_c\)</span> 相加，得到弯曲真空场中的总漂移 <span class="math display">\[
+\mathbf{v}_c + \mathbf{v}_{\nabla B} = \frac{m}{q}\frac{\mathbf{R}_c\times\mathbf{B}}{R_c^2 B^2}\left( v_\parallel^2 + \frac{1}{2}v_\perp^2 \right)
+\]</span></p>
+<p>或者只用磁场表示为 <span id="eq-gc-drift-curvature-current-free"><span class="math display">\[
+\mathbf{v}_c + \mathbf{v}_{\nabla B} = \frac{m}{q}\frac{\mathbf{B}\times\nabla B}{B^3}\left( v_\parallel^2 + \frac{1}{2}v_\perp^2 \right)
+\tag{7.7}\]</span></span></p>
+<p>或者用动能 <span class="math inline">\(W\)</span> 和俯仰角 <span class="math inline">\(\theta\)</span> 表示为 <span id="eq-gc-drift-b-pitchangle"><span class="math display">\[
+\mathbf{v}_c + \mathbf{v}_{\nabla B} = \frac{\mathbf{B}\times\nabla B}{qB^3}\Big( 2W\cos^2\theta + W\sin^2\theta \Big) = \frac{\mathbf{B}\times\nabla B}{qB^3}\left( 1 + W\cos^2\theta \right)
+\tag{7.8}\]</span></span></p>
+<p>遗憾的是，这些漂移会相加。这意味着，如果为了约束热核等离子体而把磁场弯成环面，那么无论如何调整温度和磁场，粒子都会漂出环面。</p>
+<p>对于麦克斯韦分布，<span class="math inline">\(\bar{v_\parallel^2}\)</span> 和 <span class="math inline">\(\frac{1}{2}\bar{v_\perp^2}\)</span> 都等于 <span class="math inline">\(k_B T/m\)</span>，因为 <span class="math inline">\(v_\perp\)</span> 涉及两个自由度。于是平均弯曲场漂移可写为 <span class="math display">\[
+\bar{\mathbf{v}}_{c+\nabla B} = \pm \frac{v_{th}^2}{R_c\omega_c}\widehat{y} = \pm\frac{\bar{r}_L}{R_c}v_{th}\widehat{y}
+\]</span> 其中 <span class="math inline">\(\widehat{y}\)</span> 是 <span class="math inline">\(\widehat{R}_c\times\mathbf{B}\)</span> 的方向。这表明 <span class="math inline">\(\bar{\mathbf{v}}_{c+\nabla B}\)</span> 依赖于粒子种类的电荷，但不依赖其质量。</p>
+<p>如果存在电流，不能假定 <span class="math inline">\(\nabla\times\mathbf{B}=0\)</span>，则采用曲率半径的原始定义 <span id="eq-curvature-radius"><span class="math display">\[
+\frac{\hat{r}}{R_c} = \frac{\mathbf{R}_c}{R_c^2} = -\hat{b}\cdot\nabla\hat{b}
+\tag{7.9}\]</span></span></p>
+<p>于是曲率漂移可写为 <span id="eq-gc-drift-curvature-general"><span class="math display">\[
+\mathbf{v}_{R} = \frac{mv_\parallel^2}{qB^2}\frac{\mathbf{R}_c \times\mathbf{B}}{R_c^2} = \frac{mv_\parallel^2}{qB^4}\mathbf{B}\times\left[ \mathbf{B}\cdot\nabla\mathbf{B} \right]
+\tag{7.10}\]</span></span></p>
+<p>利用以下等式<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>可以验证 <a href="#eq-gc-drift-curvature-current-free" class="quarto-xref">式&nbsp;<span>7.7</span></a> 和 <a href="#eq-gc-drift-curvature-general" class="quarto-xref">式&nbsp;<span>7.10</span></a> 的等价性： <span class="math display">\[
+\begin{aligned}
+\mathbf{B}\times(\cancel{\nabla\times\mathbf{B}}) &amp;= (\nabla\mathbf{B})\cdot\mathbf{B} - (\mathbf{B}\cdot\nabla)\mathbf{B} \\
+(\mathbf{B}\cdot\nabla)\mathbf{B} &amp;= (\nabla\mathbf{B})\cdot\mathbf{B} = B\nabla B
+\end{aligned}
+\]</span></p>
+</section>
+<section id="b-b磁镜" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="b-b磁镜"><span class="header-section-number">7.2.3</span> ∇B ∥ B：磁镜</h3>
+<p>现在考虑一个主要沿 z 方向、其大小也沿 z 方向变化的磁场。设该场轴对称，即 <span class="math inline">\(B_\theta = 0\)</span> 且 <span class="math inline">\(\partial/\partial\theta = 0\)</span>。由于磁力线会聚和发散，必然存在分量 <span class="math inline">\(B_r\)</span>。我们要说明，这会产生一种能够将粒子俘获在磁场中的力。</p>
+<p>由 <span class="math inline">\(\nabla\cdot\mathbf{B} = 0\)</span> 可得到 <span class="math inline">\(B_r\)</span>： <span class="math display">\[
+\frac{1}{r}\frac{\partial}{\partial r}(rB_r) + \frac{\partial B_z}{\partial z} = 0
+\]</span></p>
+<p>如果给定 <span class="math inline">\(r=0\)</span> 处的 <span class="math inline">\(\partial \mathbf{B}_z/\partial z\)</span>，且它随 r 的变化不大，则近似有 <span class="math display">\[
+\begin{aligned}
+rB_r &amp;= -\int_0^r r\frac{\partial B_z}{\partial z}dr \simeq -\frac{1}{2}r^2 \Big[ \frac{\partial \mathbf{B}_z}{\partial z} \Big]_{r=0} \\
+B_r &amp;= -\frac{1}{2}r \Big[ \frac{\partial \mathbf{B}_z}{\partial z} \Big]_{r=0}
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(|B|\)</span> 随 r 的变化使导引中心绕对称轴发生磁场梯度漂移，但由于 <span class="math inline">\(\partial B/\partial \theta = 0\)</span>，不存在径向磁场梯度漂移。洛伦兹力的各分量为 <span class="math display">\[
+\begin{aligned}
+F_r &amp;= q(\underbrace{v_\theta B_z}_{\small{1}} - v_z \cancel{B_\theta}) \\
+F_\theta &amp;= q(\underbrace{-v_r B_z}_{\small{2}} + \underbrace{v_z B_r}_{\small{3}}) \\
+F_z &amp;= q(v_r \cancel{B}_\theta - \underbrace{v_\theta B_r}_{\small{4}})
+\end{aligned}
+\]</span></p>
+<p>当 <span class="math inline">\(B_\theta = 0\)</span> 时有两项为零，第 1 项和第 2 项产生通常的拉莫尔回旋。第 3 项在轴线上为零；当它不为零时，这个方位角方向的力会引起径向漂移。这种漂移仅使导引中心沿磁力线运动。我们感兴趣的是第 4 项。利用 <span class="math inline">\(B_r\)</span> 的表达式，得到 <span class="math display">\[
+F_z = \frac{1}{2}q v_\theta r_L \frac{\partial B_z}{\partial z}
+\]</span></p>
+<p>现在必须对一个回旋周期取平均。为简单起见，考虑导引中心位于轴线上的粒子。此时 <span class="math inline">\(v_\theta\)</span> 在一个回旋周期内为常数；根据 q 的符号，<span class="math inline">\(v_\theta\)</span> 为 <span class="math inline">\(\mp v_\perp\)</span>。由于 <span class="math inline">\(r = r_L\)</span>，平均力为 <span class="math display">\[
+\bar{F}_z = \mp \frac{1}{2}q v_\perp r_L \frac{\partial B_z}{\partial z} = \mp \frac{1}{2}q\frac{v_\perp^2}{\omega_c} \frac{\partial B_z}{\partial z} = -\frac{1}{2}\frac{mv_\perp^2}{B} \frac{\partial B_z}{\partial z}
+\]</span></p>
+<p>我们将回旋粒子的<em>磁矩</em>定义为 <span class="math display">\[
+\mu \equiv \frac{1}{2}mv_\perp^2 / B
+\]</span> 因此 <span class="math display">\[
+\bar{F}_z = -\mu \frac{\partial B_z}{\partial z}
+\]</span></p>
+<p>这是抗磁粒子所受力的一个具体例子，一般可以写为 <span class="math display">\[
+\mathbf{F}_\parallel = -\mu\frac{\partial B}{\partial \mathbf{s}} = -\mu\nabla_\parallel B
+\]</span> 其中 <span class="math inline">\(\mathrm{d}\mathbf{s}\)</span> 是沿 <span class="math inline">\(\mathbf{B}\)</span> 的线元。注意，这里磁矩的定义与面积为 A、电流为 I 的电流环磁矩的通常定义相同：<span class="math inline">\(\mu = IA\)</span>。对于单电荷离子，I 由电荷 e 每秒绕行 <span class="math inline">\(\omega_c / 2\pi\)</span> 次产生：<span class="math inline">\(I = e\omega_c/2\pi\)</span>。面积 A 为 <span class="math inline">\(\pi r_L^2 = \pi r_L^2/\omega_c^2\)</span>。因此 <span class="math display">\[
+\mu = \frac{e\omega_c}{2\pi}\frac{\pi r_L^2}{\omega_c^2} = \frac{1}{2}\frac{v_\perp^2 e}{\omega_c} = \frac{1}{2}\frac{mv_\perp^2}{B}
+\]</span></p>
+<p>当粒子进入 B 更强或更弱的区域时，它的拉莫尔半径会改变，但 <em>μ 保持不变</em>。为证明这一点，考虑运动方程沿 <span class="math inline">\(\mathbf{B}\)</span> 的分量： <span class="math display">\[
+m\frac{\mathrm{d}v_\parallel}{\mathrm{d}t} = -\mu \frac{\partial B}{\partial s}
+\]</span></p>
+<p>左侧乘以 <span class="math inline">\(v_\parallel\)</span>，右侧乘以与其等价的 <span class="math inline">\(ds/\mathrm{d}t\)</span>，得到 <span class="math display">\[
+mv_\parallel \frac{\mathrm{d}v_\parallel}{\mathrm{d}t} = \frac{\mathrm{d}}{\mathrm{d}t}\Big( \frac{1}{2}mv_\parallel^2 \Big) = -\mu\frac{\partial B}{\partial s}\frac{ds}{\mathrm{d}t} = -\mu\frac{\mathrm{d}B}{\mathrm{d}t}
+\]</span></p>
+<p>这里 <span class="math inline">\(\mathrm{d}B/\mathrm{d}t\)</span> 是粒子看到的 <span class="math inline">\(B\)</span> 的变化；<span class="math inline">\(B\)</span> 本身不随时间变化。粒子的能量必须守恒，因此 <span class="math display">\[
+\frac{\mathrm{d}}{\mathrm{d}t}\Big( \frac{1}{2}mv_\parallel^2 + \frac{1}{2}mv_\perp^2 \Big) = \frac{\mathrm{d}}{\mathrm{d}t}\Big( \frac{1}{2}mv_\parallel^2 + \mu B \Big) = 0
+\]</span></p>
+<p>结合前一个方程得到 <span class="math display">\[
+-\mu\frac{\mathrm{d}B}{\mathrm{d}t} + \frac{\mathrm{d}}{\mathrm{d}t}(\mu B) = 0
+\]</span> 因此 <span class="math display">\[
+\frac{\mathrm{d}\mu}{\mathrm{d}t} = 0
+\]</span></p>
+<p><span class="math inline">\(\mu\)</span> 的不变性是等离子体约束的主要方案之一——<em>磁镜</em>——的基础。粒子在热运动过程中从弱场区域进入强场区域时，看到的 B 增大，因此为了保持 μ 不变，其 <span class="math inline">\(v_\perp\)</span> 必须增大。由于总能量必须保持不变，<span class="math inline">\(v_\parallel\)</span> 必然减小。如果磁镜“喉部”的 B 足够大，<span class="math inline">\(v_\parallel\)</span> 最终变为零，粒子被“反射”回弱场区域。当然，引起反射的是力 <span class="math inline">\(\mathbf{F}_\parallel\)</span>。一对简单线圈产生的非均匀场形成两个磁镜，等离子体可以被俘获在它们之间。这一效应对离子和电子都适用。</p>
+<p>然而，这种俘获并不完美。例如，<span class="math inline">\(v_\perp = 0\)</span> 的粒子没有磁矩，也不会受到沿 <span class="math inline">\(\mathbf{B}\)</span> 的力。若最大场强 <span class="math inline">\(B_m\)</span> 不够大，那么在中平面（<span class="math inline">\(B = B_0\)</span>）处 <span class="math inline">\(v_\perp / v_\parallel\)</span> 较小的粒子也会逃逸。给定 <span class="math inline">\(B_0\)</span> 和 <span class="math inline">\(B_m\)</span> 时，哪些粒子会逃逸？一个在中平面处具有 <span class="math inline">\(v_\perp = v_{\perp 0}\)</span> 和 <span class="math inline">\(v_\parallel = v_{\parallel 0}\)</span> 的粒子，在其转折点处具有 <span class="math inline">\(v_\perp = v_\perp^\prime\)</span> 和 <span class="math inline">\(v_\parallel = 0\)</span>。设该处磁场为 <span class="math inline">\(B^\prime\)</span>。由 <span class="math inline">\(\mu\)</span> 的不变性得到 <span class="math display">\[
+\frac{1}{2}\frac{mv_{\perp 0}^2}{B_0} = \frac{1}{2}\frac{m{v_{\perp 0}^{\prime}}^2}{B^\prime}
+\]</span></p>
+<p>能量守恒要求 <span class="math display">\[
+{v_{\perp 0}^{\prime}}^2 = v_{\perp 0}^2 + v_{\parallel 0}^2 \equiv v_0^2
+\]</span></p>
+<p>结合以上两个方程，得到 <span class="math display">\[
+\frac{B_0}{B^\prime} = \frac{v_{\perp 0}^2}{{v_{\perp}^{\prime}}^2} \equiv \sin^2 \theta
+\]</span> 其中 <span class="math inline">\(\theta\)</span> 是弱场区域中轨道的俯仰角。θ 较小的粒子会在 B 较大的区域被镜面反射。如果 θ 太小，<span class="math inline">\(B^\prime\)</span> 就超过 <span class="math inline">\(B_m\)</span>，粒子根本不会被镜面反射。将 <span class="math inline">\(B^\prime\)</span> 替换为 <span class="math inline">\(B_m\)</span>，可见被约束粒子的最小 <span class="math inline">\(\theta\)</span> 由下式给出： <span class="math display">\[
+\sin^2 \theta_m = \frac{B_0}{B_m} \equiv \frac{1}{R_m}
+\]</span> 其中 <span class="math inline">\(R_m\)</span> 是<em>镜比</em>。它定义了速度空间中一个锥形区域的边界，该区域称为<em>损失锥</em>。位于损失锥内的粒子不会被约束。因此，磁镜约束的等离子体绝不会是各向同性的。注意，损失锥与 q 或 m 无关。没有碰撞时，离子和电子受到同样良好的约束。发生碰撞时，粒子会在碰撞中改变俯仰角，被散射进入损失锥而损失。通常电子更容易损失，因为它们的碰撞频率更高。</p>
+<p>磁镜最初由恩里科·费米提出，作为宇宙线加速的一种机制。质子在高速相互接近的磁镜之间来回反弹，每次反弹都可能获得能量。这种磁镜如何产生则是另一个问题。磁镜效应的另一个例子是粒子在范艾伦辐射带中的约束。地球磁场在两极强、赤道弱，形成一个 <span class="math inline">\(R_m\)</span> 相当大的天然磁镜。</p>
+</section>
+</section>
+<section id="sec-nonuniform_E" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="sec-nonuniform_E"><span class="header-section-number">7.3</span> 非均匀电场</h2>
+<p>现在设磁场均匀、电场非均匀。为简单起见，假定 <span class="math inline">\(\mathbf{E}\)</span> 沿 x 方向，并沿 x 方向按正弦规律变化： <span class="math display">\[
+\mathbf{E} \equiv E_0 (\cos kx)\widehat{x}
+\]</span></p>
+<p>这种场分布的波长为 <span class="math inline">\(\lambda = 2\pi / k\)</span>，它是电荷按正弦规律分布的结果，我们不必具体说明该电荷分布。实际上，等离子体在波动过程中可以产生这样的电荷分布。运动方程为 <span class="math display">\[
+m\frac{\mathrm{d}\mathbf{v}}{\mathrm{d}t} = q[\mathbf{E}(x) + \mathbf{v}\times\mathbf{B}]
+\]</span> 其横向分量为 <span class="math display">\[
+\begin{aligned}
+\dot{v}_x &amp;= \frac{qB}{m}v_y + \frac{q}{m}E_x(x) \\
+\dot{v}_y &amp;= -\frac{qB}{m}v_x
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\ddot{v}_x &amp;= -\omega_c^2 v_x \pm \omega_c \frac{\dot{E}_x}{B} \\
+\ddot{v}_y &amp;= -\omega_c^2 v_y -\omega_c^2\frac{E_x(x)}{B}
+\end{aligned}
+\]</span></p>
+<p>这里 <span class="math inline">\(E_x(x)\)</span> 是粒子所在位置的电场。为了计算它，需要知道粒子的轨道，而这正是我们首先要解决的问题。如果电场很弱，可以近似使用<em>未受扰动轨道</em>来计算 <span class="math inline">\(E_x(x)\)</span>。前面已给出不存在电场时的轨道： <span class="math display">\[
+x = x_0 + r_L\sin \omega_c t
+\]</span> 因此 <span class="math display">\[
+\ddot{v}_y = -\omega_c^2 v_y -\omega_c^2\frac{E_0}{B}\cos k (x_0 + r_L \sin\omega_c t)
+\]</span></p>
+<p>预见到结果，我们寻找一个由频率为 <span class="math inline">\(\omega_c\)</span> 的回旋和稳定漂移 <span class="math inline">\(\mathbf{v}_E\)</span> 相加组成的解。由于我们有兴趣求出 <span class="math inline">\(v_E\)</span> 的表达式，因此对一个周期取平均以消去回旋运动。 于是 <span class="math inline">\(v_x\)</span> 分量给出 <span class="math inline">\(\bar{v}_x = 0\)</span>。<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> 在 <span class="math inline">\(v_y\)</span> 分量中，振荡项 <span class="math inline">\(\ddot{v}_y\)</span> 的平均值显然为零，因此</p>
+<p><span class="math display">\[
+\bar{\ddot{v}_y} = 0 = -\omega_c^2 \bar{v}_y -\omega_c^2\frac{E_0}{B}\bar{\cos k (x_0 + r_L \sin\omega_c t)}
+\]</span></p>
+<p>展开余弦，得到 <span class="math display">\[
+\cos k (x_0 + r_L \sin\omega_c t) = \cos(kx_0) \cos(kr_L \sin\omega_c t) - \sin(kx_0) \sin(kr_L \sin\omega_c t)
+\]</span></p>
+<p>只需处理小拉莫尔半径的情况 <span class="math inline">\(kr_L \ll 1\)</span>。利用泰勒展开可写为 <span class="math display">\[
+\cos k (x_0 + r_L \sin\omega_c t) \approx \cos(kx_0)\big( 1 - \frac{1}{2}k^2r_L^2 \sin^2\omega_c t \big) - \sin(kx_0)k r_L \sin\omega_c t
+\]</span></p>
+<p>最后一项对时间取平均后为零，于是得到 <span class="math display">\[
+\bar{v}_y = -\frac{E_0}{B}\cos(kx_0)\big( 1 - \frac{1}{4}k^2r_L^2 \big) = -\frac{E_x(x_0)}{B}\big( 1 - \frac{1}{4}k^2r_L^2 \big)
+\]</span></p>
+<p>因此，通常的 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移受到非均匀性的修正，变为 <span class="math display">\[
+\mathbf{v}_E = \frac{\mathbf{E}\times\mathbf{B}}{B^2}\big( 1 - \frac{1}{4}k^2r_L^2 \big)
+\]</span></p>
+<p>这背后的物理原因很容易理解。导引中心位于 <span class="math inline">\(\mathbf{E}\)</span> 最大值处的离子，实际上有相当多的时间处于 <span class="math inline">\(\mathbf{E}\)</span> 较弱的区域。因此，其平均漂移小于在导引中心处计算得到的 E/B。在随位置线性变化的 <span class="math inline">\(\mathbf{E}\)</span> 场中，离子在轨道一侧处于较强的场中，而在另一侧处于弱相同量的场中；此时对 <span class="math inline">\(\mathbf{v}_E\)</span> 的修正相互抵消。由此可见，修正项依赖于 <span class="math inline">\(\mathbf{E}\)</span> 的<em>二阶导数</em>。对于我们假定的正弦分布，二阶导数相对于 <span class="math inline">\(\mathbf{E}\)</span> 始终为负。对于 <span class="math inline">\(\mathbf{E}\)</span> 的任意变化，只需将 <span class="math inline">\(ik\)</span> 替换为 <span class="math inline">\(\nabla\)</span>，便可将漂移写为 <span id="eq-vE"><span class="math display">\[
+\mathbf{v}_E = \Big( 1 + \frac{1}{4}r_L^2\nabla^2 \Big) \frac{\mathbf{E}\times\mathbf{B}}{B^2}
+\tag{7.11}\]</span></span></p>
+<p>第二项称为<em>有限拉莫尔半径效应</em>。这一修正有什么意义？由于离子的 <span class="math inline">\(r_L\)</span> 比电子大得多，<span class="math inline">\(\mathbf{v}_E\)</span> 不再与粒子种类无关。如果等离子体中出现密度团块，电场可能使离子与电子分离，从而产生另一个电场。如果存在某种反馈机制，使第二个电场增强第一个电场，<span class="math inline">\(\mathbf{E}\)</span> 就会无限增长，等离子体便不稳定。这种称为<em>漂移不稳定性</em>的不稳定性是等离子体不稳定性的一种。当然，磁场梯度漂移也是一种有限拉莫尔半径效应，同样会造成电荷分离。然而，<span class="math inline">\(\mathbf{v}_{\nabla B} \propto kr_L\)</span>，而上面的修正项与 <span class="math inline">\(k^2 r_L^2\)</span> 成正比。因此，非均匀电场效应在 k 相对较大、即非均匀性尺度长度较小时比较重要。由于这一原因，漂移不稳定性属于更一般的一类不稳定性，称为<em>微观不稳定性</em>。</p>
+</section>
+<section id="sec-time-varying_E" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="sec-time-varying_E"><span class="header-section-number">7.4</span> 随时间变化的电场</h2>
+<p>现在设 <span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 在空间上均匀，但随时间变化。首先考虑只有 <span class="math inline">\(\mathbf{E}\)</span> 随时间按正弦规律变化的情况，并设它沿 x 轴方向： <span class="math display">\[
+\mathbf{E} = E_0 e^{i\omega t}\widehat{x}
+\]</span></p>
+<p>由于 <span class="math inline">\(\dot{E}_x = i\omega E_x\)</span>，可以将速度 x 分量的方程写为 <span class="math display">\[
+\ddot{v}_x = -\omega_c^2 \Big( v_x \mp \frac{i\omega}{\omega_c}\frac{\tilde{E}_x}{B} \Big)
+\]</span></p>
+<p>定义 <span class="math display">\[
+\begin{aligned}
+\tilde{v}_p &amp;\equiv \pm \frac{i\omega}{\omega_c}\frac{\tilde{E}_x}{B} \\
+\tilde{v}_E &amp;\equiv \frac{\tilde{E}_x}{B}
+\end{aligned}
+\]</span> 其中加上波浪号只是为了强调漂移在振荡。与往常一样，正号（负号）表示 <span class="math inline">\(q\)</span> 为正（负）。现在 x 和 y 方向的速度分量方程可写为 <span class="math display">\[
+\begin{aligned}
+\ddot{v}_x &amp;= -\omega_c^2(v_x - \tilde{v}_p) \\
+\ddot{v}_y &amp;= -\omega_c^2(v_y - \tilde{v}_E)
+\end{aligned}
+\]</span></p>
+<p>类比均匀电磁场情况下的推导，我们尝试一个由漂移和回旋运动相加组成的解： <span class="math display">\[
+\begin{aligned}
+v_x &amp;= v_\perp e^{i\omega_c t} + \tilde{v}_p \\
+v_y &amp;= \pm i v_\perp e^{i\omega_c t} + \tilde{v}_E
+\end{aligned}
+\]</span></p>
+<p>现在对时间求两次导数，得到 <span class="math display">\[
+\begin{aligned}
+\ddot{v}_x &amp;= -\omega_c^2 v_x + (\omega_c^2 - \omega^2)\tilde{v}_p \\
+\ddot{v}_y &amp;= -\omega_c^2 v_y + (\omega_c^2 - \omega^2)\tilde{v}_E
+\end{aligned}
+\]</span></p>
+<p>除非 <span class="math inline">\(\omega^2 \ll \omega_c^2\)</span>，否则这与上面刚给出的表达式<strong>不</strong>相同。如果现在假设 <span class="math inline">\(\mathbf{E}\)</span> 缓慢变化，使得 <span class="math inline">\(\omega^2 \ll \omega_c^2\)</span>，便得到了近似解。</p>
+<p>x 和 y 方向的速度解表明，导引中心运动有两个分量。垂直于 <span class="math inline">\(\mathbf{B}\)</span> 和 <span class="math inline">\(\mathbf{E}\)</span> 的 y 分量是通常的 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移，只是 <span class="math inline">\(v_E\)</span> 现在以频率 <span class="math inline">\(\omega\)</span> 缓慢振荡。x 分量是一种<em>沿 <span class="math inline">\(\mathbf{E}\)</span> 方向</em>的新漂移，称为<em>极化漂移</em>。将 <span class="math inline">\(i\omega\)</span> 替换为 <span class="math inline">\(\partial/\partial t\)</span>，可以推广 <span class="math inline">\(v_p\)</span> 的表达式，并将极化漂移定义为 <span class="math display">\[
+\mathbf{v}_p = \pm \frac{1}{\omega_c B}\frac{\mathrm{d}\mathbf{E}}{\mathrm{d}t}
+\]</span></p>
+<p>由于离子和电子的 <span class="math inline">\(\mathbf{v}_p\)</span> 方向相反，因此存在<em>极化电流</em>；当 Z = 1 时，它为 <span id="eq-polarization_current"><span class="math display">\[
+\mathbf{j}_p = ne(v_{ip} - v_{ep}) = \frac{ne}{eB^2}(M+m)\frac{\mathrm{d}\mathbf{E}}{\mathrm{d}t} = \frac{\rho}{B^2}\frac{\mathrm{d}\mathbf{E}}{\mathrm{d}t}
+\tag{7.12}\]</span></span> 其中 <span class="math inline">\(\rho\)</span> 是质量密度。</p>
+<p>极化电流的物理原因很简单。考虑磁场中静止的一个离子。如果突然施加电场 <span class="math inline">\(\mathbf{E}\)</span>，离子首先沿 <span class="math inline">\(\mathbf{E}\)</span> 方向运动。只有获得速度 <span class="math inline">\(\mathbf{v}\)</span> 之后，离子才会受到洛伦兹力 <span class="math inline">\(e\mathbf{v}\times\mathbf{B}\)</span>，并开始沿垂直于两个场的方向运动。如果此后保持 <span class="math inline">\(\mathbf{E}\)</span> 恒定，就不再有 <span class="math inline">\(\mathbf{v}_p\)</span> 漂移，而只有 <span class="math inline">\(\mathbf{v}_E\)</span> 漂移。但是，如果 <span class="math inline">\(\mathbf{E}\)</span> 反向，又会出现瞬时漂移，这次向左。因此，<span class="math inline">\(\mathbf{v}_p\)</span> 是由惯性引起的初始漂移，只发生在 <span class="math inline">\(\mathbf{E}\)</span> 变化期间每次回旋的前半个周期内。因此，当 <span class="math inline">\(\omega/\omega_c \ll 1\)</span> 时，<span class="math inline">\(\mathbf{v}_p\)</span> 趋于零。</p>
+<p>等离子体中的极化效应与固体电介质中的极化效应相似，后者满足 <span class="math inline">\(\mathbf{D} = \epsilon_0\mathbf{E} + \mathbf{P}\)</span>。等离子体中的偶极子是相隔距离 <span class="math inline">\(r_L\)</span> 的离子和电子。但由于离子和电子可以移动以维持准中性，施加稳态 <span class="math inline">\(\mathbf{E}\)</span> 场不会产生极化场 <span class="math inline">\(\mathbf{P}\)</span>。然而，如果 <span class="math inline">\(\mathbf{E}\)</span> 振荡，离子惯性造成的滞后会产生振荡电流 <span class="math inline">\(\mathbf{j}_p\)</span>。</p>
+<p>显然，在这种情况下，<span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移速度依赖于时间，导引中心坐标系是非惯性系。极化漂移由虚拟的惯性力 <span class="math inline">\(-m \mathrm{d}\mathbf{v}_E/\mathrm{d}t\)</span> 引起。这意味着导引中心的位置不会因极化漂移而改变！</p>
+<p>让我们用一个具体配置说明这一点。假定 <span class="math inline">\(\mathbf{B}=B\hat{z}\)</span>、<span class="math inline">\(\mathbf{E}=Et\hat{y}\)</span>。设 <span class="math inline">\(\theta\)</span> 是垂直平面内的角度： <span class="math display">\[
+\mathbf{v}_\perp = v_\perp\hat{e}_\perp = v_\perp(\cos\theta\hat{x}+\sin\theta\hat{y})
+\]</span></p>
+<p>导引中心定义为 <span class="math display">\[
+\mathbf{X} = \mathbf{x} - \mathbf{r}_L = \mathbf{x} - \mathbf{v}_\perp / \omega_c = \mathbf{x} - \frac{v_\perp}{\omega_c}\hat{\theta}
+\]</span> 其中 <span class="math inline">\(\hat{\theta} = \mathbf{b}\times\hat{e}_\perp\)</span>。运动方程为 <span class="math display">\[
+\begin{aligned}
+m\frac{\mathrm{d}\mathbf{v}}{\mathrm{d}t} &amp;= q(\mathbf{E} +\mathbf{v}\times\mathbf{B}) \\
+\frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t} &amp;= \mathbf{v}
+\end{aligned}
+\]</span> 在导引中心坐标中，选取的两个标量方程可写为 <span class="math display">\[
+\begin{aligned}
+m\frac{\mathrm{d}v_x}{\mathrm{d}t} &amp;= qE_x + qv_yB \\
+\frac{dX_y}{\mathrm{d}t} &amp;= v_y - \frac{1}{\omega_c}\frac{\mathrm{d}v_x}{\mathrm{d}t}
+\end{aligned}
+\]</span> 从而 <span class="math display">\[
+\frac{dX_y}{\mathrm{d}t} = 0
+\]</span></p>
+</section>
+<section id="随时间变化的磁场" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="随时间变化的磁场"><span class="header-section-number">7.5</span> 随时间变化的磁场</h2>
+<p>最后，允许磁场随时间变化。由于洛伦兹力始终垂直于 <span class="math inline">\(\mathbf{v}\)</span>，磁场本身不能向带电粒子传递能量。然而，随时间变化的 <span class="math inline">\(\mathbf{B}\)</span> 伴随着由下式给出的电场： <span class="math display">\[
+\nabla\times\mathbf{E} = -\dot{\mathbf{B}}
+\]</span> 而这个电场可以加速粒子。我们不能再假设场完全均匀。设 <span class="math inline">\(\mathbf{v}_\perp = \mathrm{d}\mathbf{l}/\mathrm{d}t\)</span> 为横向速度，其中 <span class="math inline">\(\mathbf{l}\)</span> 是沿粒子轨迹的路径元（忽略 <span class="math inline">\(v_\parallel\)</span>）。将运动方程与 <span class="math inline">\(\mathbf{v}_\perp\)</span> 作标量积，得到 <span class="math display">\[
+\frac{\mathrm{d}}{\mathrm{d}t}\Big( \frac{1}{2}mv_\perp^2 \Big) = q\mathbf{E}\cdot\mathbf{v}_\perp = q\mathbf{E}\cdot\frac{\mathrm{d}\mathbf{l}}{\mathrm{d}t}
+\]</span></p>
+<p>对一个周期积分，得到一次回旋中的变化： <span class="math display">\[
+\delta \Big( \frac{1}{2}mv_\perp^2  \Big) = \int_0^{2\pi/\omega_c}q\mathbf{E}\cdot\frac{\mathrm{d}\mathbf{l}}{\mathrm{d}t}\mathrm{d}t
+\]</span></p>
+<p>如果场变化缓慢，可以将时间积分替换为沿未受扰动轨道的线积分： <span class="math display">\[
+\delta \Big( \frac{1}{2}mv_\perp^2  \Big) = \oint q\mathbf{E}\cdot \mathrm{d}\mathbf{l} = q\int_s (\nabla\times\mathbf{E})\cdot \mathrm{d}\mathbf{S} = -q \int_s\dot{\mathbf{B}}\cdot \mathrm{d}\mathbf{S}
+\]</span></p>
+<p>这里 <span class="math inline">\(\mathbf{S}\)</span> 是拉莫尔轨道围成的曲面，其方向由右手定则给出：手指指向 <span class="math inline">\(\mathbf{v}\)</span> 的方向。由于等离子体具有抗磁性，对离子有 <span class="math inline">\(\mathbf{B}\cdot \mathrm{d}\mathbf{S}&lt;0\)</span>，对电子有 <span class="math inline">\(\mathbf{B}\cdot \mathrm{d}\mathbf{S}&gt;0\)</span>。于是 <span class="math display">\[
+\delta \Big( \frac{1}{2}mv_\perp^2  \Big) = \pm q \dot{B}\pi r_L^2 = \pm q \pi\dot{B}\frac{v_\perp^2}{\omega_c}\frac{m}{\pm qB} = \frac{\frac{1}{2}mv_\perp^2}{B}\cdot \frac{2\pi \dot{B}}{\omega_c}
+\]</span></p>
+<p>量 <span class="math inline">\(\frac{2\pi\dot{B}}{\omega_c} = \frac{\dot{B}}{\omega_c}\)</span> 恰好是一个回旋周期内的变化 <span class="math inline">\(\delta B\)</span>。因此 <span class="math display">\[
+\delta \Big( \frac{1}{2}mv_\perp^2  \Big) = \mu \delta B
+\]</span></p>
+<p>由于左侧为 <span class="math inline">\(\delta(\mu B)\)</span>，得到所需的结果 <span class="math display">\[
+\delta \mu = 0
+\]</span></p>
+<p><em>磁矩在缓慢变化的磁场中保持不变。</em></p>
+<p>随着磁场强度变化，拉莫尔轨道膨胀和收缩，粒子失去或获得横向能量。粒子与场之间的这种能量交换可以用磁矩不变量非常简单地描述。利用 <span class="math inline">\(\mu\)</span> 的不变性，可以容易地证明以下著名定理： <em>穿过拉莫尔轨道的磁通量保持不变。</em></p>
+<p>磁通量 <span class="math inline">\(\Phi\)</span> 由 <span class="math inline">\(BS\)</span> 给出，其中 <span class="math inline">\(S = \pi r_L^2\)</span>。因此 <span class="math display">\[
+\Phi = B\pi\frac{v_\perp^2}{\omega_c^2} = B\pi\frac{v_\perp^2 m^2}{q^2 B^2} = \frac{2\pi m}{q^2}\frac{\frac{1}{2}mv_\perp^2}{B} = \frac{2\pi m}{q^2}\mu
+\]</span></p>
+<p>因此，只要 <span class="math inline">\(\mu\)</span> 保持不变，<span class="math inline">\(\Phi\)</span> 就保持不变。</p>
+<p>这一性质用于一种称为<em>绝热压缩</em>的等离子体加热方法。将等离子体注入一系列磁镜，并持续增大后续磁镜中的磁场，就可以提高等离子体速度。</p>
+</section>
+<section id="缓慢变化的任意场中的漂移" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="缓慢变化的任意场中的漂移"><span class="header-section-number">7.6</span> 缓慢变化的任意场中的漂移</h2>
+<p>前面考虑的大多数漂移运动可以在同一个框架下描述。考虑任意复杂但缓慢变化、且满足以下限制的场：</p>
+<ol type="1">
+<li>时间变化足够缓慢，使得在运动的每个回旋周期内可以认为场近似恒定。</li>
+<li>场在空间中变化得足够_平缓_，使其在任意一次完整回旋漂移的空间范围内近乎均匀。</li>
+<li>电场和磁场满足法拉第定律 <span class="math inline">\(\nabla\times\mathbf{E}=-\dot{\mathbf{B}}\)</span>。</li>
+<li><span class="math inline">\(E/B\ll c\)</span>，因此相对论效应不重要（否则会出现 <span class="math inline">\(v_E\)</span> 超过 <span class="math inline">\(c\)</span> 的问题）。</li>
+</ol>
+<p>这些条件称为_导引中心近似_。回旋运动的中心是_导引中心_（GC），我们将 <span class="math inline">\(v_\parallel = 0\)</span> 的参考系称为_导引中心系_（GCS）。 在这种更一般的情况下，带电粒子将绕 <span class="math inline">\(\mathbf{B}\)</span> 回旋、平行于 <span class="math inline">\(\mathbf{B}\)</span> 流动、横跨 <span class="math inline">\(\mathbf{B}\)</span> 发生 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移，也可能发生由力引起的漂移。分析基于这些不同运动彼此充分分离的假设；这一假设与场缓慢变化的要求以及绝热不变量的概念密切相关。</p>
+<p>所假定的尺度分离通过将粒子运动分解为快速振荡分量——回旋运动——以及对回旋运动取平均后得到的缓慢分量来表达。如 <a href="#fig-drift-decomposition" class="quarto-xref">图&nbsp;<span>7.1</span></a> 所示，粒子的位置和速度各分解为两项： <span class="math display">\[
+\mathbf{x}(t) = \mathbf{x}_\mathrm{gc}(t) + \mathbf{r}_L(t),\quad \mathbf{v}(t) = \frac{\mathrm{d}\mathbf{x}}{\mathrm{d}t} = \mathbf{v}_\mathrm{gc}(t) + \mathbf{v}_L(t)
+\]</span> 其中 <span class="math inline">\(\mathbf{r}_L(t), \mathbf{v}_L(t)\)</span> 给出粒子在回旋轨道上的_快速_回旋，而 <span class="math inline">\(\mathbf{x}_\mathrm{gc}(t), \mathbf{v}_\mathrm{gc}(t)\)</span> 是对回旋运动取平均后得到的_导引中心_的_缓慢_变化运动。暂时忽略场对时间的任何依赖，粒子所见的磁场可写为 <span class="math display">\[
+\begin{aligned}
+\mathbf{B}(\mathbf{x}(t)) &amp;= \mathbf{B}(\mathbf{x}_\mathrm{gc}(t)+\mathbf{r}_L(t)) \\
+&amp;= \mathbf{B}(\mathbf{x}_\mathrm{gc}(t)) + (\mathbf{r}_L(t)\cdot\nabla)\mathbf{B}
+\end{aligned}
+\]</span></p>
+<p>由于假定 <span class="math inline">\(\mathbf{B}\)</span> 在回旋轨道范围内近乎均匀，只保留磁场泰勒展开的第一项就足够了。电场可以用类似方式展开。</p>
+<div id="fig-drift-decomposition" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-drift-decomposition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/drift_decomposition.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-drift-decomposition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;7.1: 任意复杂场中的漂移。
+</figcaption>
+</figure>
+</div>
+<p>将非均匀电场和磁场的这些泰勒展开代入后，洛伦兹方程变为 <span class="math display">\[
+\begin{aligned}
+m\frac{\mathrm{d}\left[ \mathbf{v}_\mathrm{gc}(t) + \mathbf{v}_\mathrm{L}(t) \right]}{\mathrm{d}t} =&amp; q\left[ \mathbf{E}(\mathbf{x}_\mathrm{gc}(t)) + (\mathbf{r}_L(t)\cdot\nabla)\mathbf{E} \right] \\
+&amp; + q[ \mathbf{v}_\mathrm{gc}(t) + \mathbf{v}_\mathrm{L}(t) ] \times \left[ \mathbf{B}(\mathbf{x}_\mathrm{gc}(t)) + (\mathbf{r}_L(t)\cdot\nabla)\mathbf{B} \right]
+\end{aligned}
+\]</span></p>
+<p>回旋运动（即快速回旋运动）定义为下列方程的解： <span class="math display">\[
+m\frac{\mathrm{d}\mathbf{v}_\mathrm{L}(t)}{\mathrm{d}t} = q\mathbf{v}_\mathrm{L}(t)\times\mathbf{B}(\mathbf{x}_\mathrm{gc}(t))
+\]</span></p>
+<p>从前一个方程中减去这一快速运动方程，得到 <span id="eq-lorentz-avg"><span class="math display">\[
+\begin{aligned}
+m\frac{\mathrm{d}\mathbf{v}_\mathrm{gc}(t)}{\mathrm{d}t} =&amp; q\left[ \mathbf{E}(\mathbf{x}_\mathrm{gc}(t)) + (\mathbf{r}_L(t)\cdot\nabla)\mathbf{E} \right] \\
+&amp; + q \left\{ \mathbf{v}_\mathrm{gc}(t)\times\left[ \mathbf{B}(\mathbf{x}_\mathrm{gc}(t)) + (\mathbf{r}_L(t)\cdot\nabla)\mathbf{B} \right] + \mathbf{v}_\mathrm{L}(t)\times(\mathbf{r}_\mathrm{L}(t)\cdot\nabla)\mathbf{B} \right\}
+\end{aligned}
+\tag{7.13}\]</span></span></p>
+<p>现在对 <a href="#eq-lorentz-avg" class="quarto-xref">式&nbsp;<span>7.13</span></a> 在一个回旋周期内取平均，其中关于回旋运动_线性_的项平均后为零。剩下的是描述缓变量的方程，即 <span id="eq-lorentz-avg2"><span class="math display">\[
+m\frac{\mathrm{d}\mathbf{v}_\mathrm{gc}(t)}{\mathrm{d}t} = q\left\{ \mathbf{E}(\mathbf{x}_\mathrm{gc}(t)) + \mathbf{v}_\mathrm{gc}(t)\times\mathbf{B}(\mathbf{x}_\mathrm{gc}(t)) + \left&lt; \mathbf{v}_\mathrm{L}(t)\times(\mathbf{r}_\mathrm{L}\cdot\nabla)\mathbf{B} \right&gt; \right\}
+\tag{7.14}\]</span></span> 其中 <span class="math inline">\(&lt;&gt;\)</span> 表示在一个回旋周期上取平均。现在可以将导引中心速度分解为垂直和平行于 <span class="math inline">\(\mathbf{B}\)</span> 的分量： <span class="math display">\[
+\mathbf{v}_\mathrm{gc}(t) = \mathbf{v}_{\perp gc}(t) + v_{\parallel gc}(t)\hat{b}
+\]</span> 因此 <span class="math display">\[
+\frac{\mathrm{d}\mathbf{v}_\mathrm{gc}(t)}{\mathrm{d}t} = \frac{\mathrm{d}\mathbf{v}_{\perp\mathrm{gc}}(t)}{\mathrm{d}t} + \frac{\mathrm{d}\left(\mathbf{v}_{\parallel\mathrm{gc}}(t)\hat{b}\right)}{\mathrm{d}t} = \frac{\mathrm{d}\mathbf{v}_{\perp\mathrm{gc}}(t)}{\mathrm{d}t} + \frac{\mathrm{d}\mathbf{v}_{\parallel\mathrm{gc}}(t)}{\mathrm{d}t}\hat{b} + \mathbf{v}_{\parallel\mathrm{gc}}(t)\frac{\mathrm{d}\hat{b}}{\mathrm{d}t}
+\]</span></p>
+<p>用 <span class="math inline">\(s\)</span> 表示沿磁场的距离，磁场单位矢量的导数在最低阶可写为（？？？） <span class="math display">\[
+\frac{\mathrm{d}\hat{b}}{\mathrm{d}t} = \frac{\partial\hat{b}}{\partial s}\frac{\mathrm{d}s}{\mathrm{d}t} = v_{\parallel gc}\hat{b}\cdot\nabla\hat{b}
+\]</span> 因此 <a href="#eq-lorentz-avg2" class="quarto-xref">式&nbsp;<span>7.14</span></a> 变为 <span class="math display">\[
+\begin{aligned}
+m\left[ \frac{\mathrm{d}\mathbf{v}_{\perp\mathrm{gc}}(t)}{\mathrm{d}t} + \frac{\mathrm{d}\mathbf{v}_{\parallel\mathrm{gc}}(t)}{\mathrm{d}t}\hat{b} + \mathbf{v}_{\parallel\mathrm{gc}}^2(t)\hat{b}\cdot\nabla\hat{b} \right] =&amp; q\mathbf{E}(\mathbf{x}_\mathrm{gc}(t)) \\
+&amp; + q\mathbf{v}_\mathrm{gc}(t)\times\mathbf{B}(\mathbf{x}_\mathrm{gc}(t)) \\
+&amp; + q\left&lt; \mathbf{v}_\mathrm{L}(t)\times(\mathbf{r}_\mathrm{L}\cdot\nabla)\mathbf{B} \right&gt;
+\end{aligned}
+\]</span></p>
+<p>这一方程沿 <span class="math inline">\(\mathbf{B}\)</span> 的分量为 <span class="math display">\[
+m \frac{\mathrm{d}\mathbf{v}_{\parallel\mathrm{gc}}(t)}{\mathrm{d}t} = q\left[ E_\parallel(\mathbf{x}_\mathrm{gc}(t)) + \left&lt; \mathbf{v}_\mathrm{L}(t)\times(\mathbf{r}_\mathrm{L}\cdot\nabla)\mathbf{B} \right&gt;_\parallel \right]
+\]</span> 而垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的分量为 <span id="eq-lorentz-perp"><span class="math display">\[
+\begin{aligned}
+m\left[ \frac{\mathrm{d}\mathbf{v}_{\perp\mathrm{gc}}(t)}{\mathrm{d}t} + \mathbf{v}_{\parallel\mathrm{gc}}^2(t)\hat{b}\cdot\nabla\hat{b} \right] =&amp; q\mathbf{E}_\perp(\mathbf{x}_\mathrm{gc}(t)) \\
+&amp; + q\mathbf{v}_\mathrm{gc}(t)\times\mathbf{B}(\mathbf{x}_\mathrm{gc}(t)) \\
+&amp; + q\left&lt; \mathbf{v}_\mathrm{L}(t)\times(\mathbf{r}_\mathrm{L}\cdot\nabla)\mathbf{B} \right&gt;_\perp
+\end{aligned}
+\tag{7.15}\]</span></span></p>
+<p><a href="#eq-lorentz-perp" class="quarto-xref">式&nbsp;<span>7.15</span></a> 的一般形式为 <span id="eq-lorentz-perp2"><span class="math display">\[
+m\frac{\mathrm{d}\mathbf{v}_{\perp gc}}{\mathrm{d}t} = \mathbf{F}_\perp + q\mathbf{v}_\mathrm{gc}\times\mathbf{B}
+\tag{7.16}\]</span></span> 其中 <span id="eq-lorentz-perp3"><span class="math display">\[
+\mathbf{F}_\perp = q\left[ \mathbf{E}_\perp(\mathbf{x}_\mathrm{gc}(t)) + \left&lt; \mathbf{v}_\mathrm{L}(t)\times(\mathbf{r}_\mathrm{L}\cdot\nabla)\mathbf{B} \right&gt;_\perp \right] - m\mathbf{v}_{\parallel\mathrm{gc}}^2(t)\hat{b}\cdot\nabla\hat{b}
+\tag{7.17}\]</span></span></p>
+<p>基于 <span class="math inline">\(\mathbf{v}_\mathrm{gc}\)</span> 随时间缓慢变化的假设，迭代求解 <a href="#eq-lorentz-perp2" class="quarto-xref">式&nbsp;<span>7.16</span></a>。在第一次迭代中，完全忽略时间依赖性，将 <a href="#eq-lorentz-perp2" class="quarto-xref">式&nbsp;<span>7.16</span></a> 的左侧设为零，得到垂直漂移的“第一次猜测”： <span class="math display">\[
+\mathbf{v}_{\perp gc}\simeq \mathbf{v}_\mathrm{F} \equiv \frac{\mathbf{F}_\perp\times\mathbf{B}}{qB^2}
+\]</span></p>
+<p>接下来，将 <span class="math inline">\(\mathbf{v}_p\)</span> 定义为对第一次猜测的修正，假定 <span class="math inline">\(\mathbf{v}_p\)</span> 很小，并包含 <span class="math inline">\(\mathbf{v}_{\perp gc}\)</span> 任何时间依赖性的效应。为了确定 <span class="math inline">\(\mathbf{v}_p\)</span>，写成 <span class="math inline">\(\mathbf{v}_{\perp gc} = \mathbf{v}_F +\mathbf{v}_p\)</span>，于是到二阶时 <a href="#eq-lorentz-perp2" class="quarto-xref">式&nbsp;<span>7.16</span></a> 变为 <span id="eq-lorentz-perp3"><span class="math display">\[
+m\frac{\mathrm{d}(\mathbf{v}_\mathrm{F}+\mathbf{v}_p)}{\mathrm{d}t} = \mathbf{F}_\perp + q(\mathbf{v}_\mathrm{F} + \mathbf{v}_\mathrm{p})\times\mathbf{B}
+\tag{7.18}\]</span></span></p>
+<p>按照缓慢变化条件，假定 <span class="math inline">\(|\mathrm{d}\mathbf{v}_p/\mathrm{d}t| \ll |\mathrm{d}\mathbf{v}_\mathrm{F}/\mathrm{d}t|\)</span>，于是 <a href="#eq-lorentz-perp3" class="quarto-xref">式&nbsp;<span>7.18</span></a> 变为 <span class="math display">\[
+0 = -m\frac{\mathrm{d}\mathbf{v}_F}{\mathrm{d}t} + q\mathbf{v}_p \times\mathbf{B}
+\]</span></p>
+<p>将此方程与 <span class="math inline">\(\mathbf{B}\)</span> 取叉积，得到一般的_极化漂移_ <span class="math display">\[
+\mathbf{v}_p = -\frac{m}{qB^2}\frac{\mathrm{d}\mathbf{v}_F}{\mathrm{d}t}\times\mathbf{B}
+\]</span></p>
+<p>极化漂移最重要的例子是 <span class="math inline">\(\mathbf{v}_F\)</span> 为均匀恒定磁场中的 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移，此时（<span class="math inline">\(\mathbf{E}\perp\mathbf{B}\)</span>？） <span class="math display">\[
+\begin{aligned}
+\mathbf{v}_p &amp;= -\frac{m}{qB^2}\frac{\mathrm{d}}{\mathrm{d}t}\left( \frac{\mathbf{E}\times\mathbf{B}}{B^2} \right)\times\mathbf{B} \\
+&amp;= \frac{m}{qB^2}\frac{\mathrm{d}\mathbf{E}}{\mathrm{d}t}
+\end{aligned}
+\]</span></p>
+<p>为了计算 <a href="#eq-lorentz-perp3" class="quarto-xref">式&nbsp;<span>7.18</span></a> 右侧的中间项，需要对回旋轨道取平均。这一中间项定义为“磁场梯度”力： <span id="eq-grad-B-force"><span class="math display">\[
+\mathbf{F}_{\nabla B} = q\left&lt; \mathbf{v}_L(t)\times(\mathbf{r}_L(t)\cdot\nabla)\mathbf{B} \right&gt;
+\tag{7.19}\]</span></span></p>
+<p>为了简化求平均时的代数运算，采用局部笛卡尔坐标系，其 <span class="math inline">\(x\)</span> 轴沿 <span class="math inline">\(t=0\)</span> 时的回旋速度方向，<span class="math inline">\(z\)</span> 轴沿_回旋中心_处磁场的方向。因此，拉莫尔轨道速度的形式为 <span class="math display">\[
+\mathbf{v}_L(t) = v_{L0}\left[ \hat{x}\cos\omega_c t -\hat{y}\sin\omega_c t \right]
+\]</span> 其中 <span class="math display">\[
+\omega_c = \frac{qB}{m}
+\]</span> 是前面所知的回旋频率，而拉莫尔轨道位置的形式为 <span class="math display">\[
+\mathbf{r}_L(t) = \frac{v_{L0}}{\omega_c}\left[ \hat{x}\sin\omega_c t +\hat{y}\cos\omega_c t \right]
+\]</span></p>
+<p>将上述两个表达式代入 <a href="#eq-grad-B-force" class="quarto-xref">式&nbsp;<span>7.19</span></a>，得到 <span class="math display">\[
+\mathbf{F}_{\nabla B} = q\frac{v_{L0}^2}{\omega_c} \left&lt;\left[ \hat{x}\cos\omega_c t -\hat{y}\sin\omega_c t \right]\times(\left[ \hat{x}\sin\omega_c t +\hat{y}\cos\omega_c t \right]\cdot\nabla)\mathbf{B} \right&gt;
+\]</span></p>
+<p>注意到 <span class="math inline">\(\left&lt; \sin^2\omega_c t \right&gt; = \left&lt; \cos^2\omega_c t \right&gt; = 1/2\)</span>，而 <span class="math inline">\(\left&lt; \sin\omega_c\cos\omega_c \right&gt; = 0\)</span>，上式化为 <span class="math display">\[
+\begin{aligned}
+\mathbf{F}_{\nabla B} &amp;= \frac{qv_{L0}^2}{2\omega_c}\left[ \hat{x}\times\frac{\partial\mathbf{B}}{\partial y} - \hat{y}\times\frac{\partial\mathbf{B}}{\partial x} \right] \\
+&amp;= \frac{mv_{L0}^2}{2B}\left[ \hat{x}\times\frac{\partial(B_y\hat{y}+B_z\hat{z})}{\partial y} - \hat{y}\times\frac{\partial(B_x\hat{x}+B_z\hat{z})}{\partial x} \right] \\
+&amp;= \frac{mv_{L0}^2}{2B}\left[ \hat{z}\left( \frac{\partial B_y}{\partial y} + \frac{\partial B_x}{\partial x} \right) -\hat{y}\frac{\partial B_z}{\partial y} - \hat{x}\frac{\partial B_z}{\partial x} \right]
+\end{aligned}
+\]</span></p>
+<p>但由 <span class="math inline">\(\nabla\cdot\mathbf{B}=0\)</span> 可知 <span class="math inline">\(\frac{\partial B_y}{\partial y} + \frac{\partial B_x}{\partial x} = -\frac{\partial B_z}{\partial z}\)</span>，因此“磁场梯度”力为 <span class="math display">\[
+\mathbf{F}_{\nabla B} = -\frac{mv_{L0}^2}{2B}\nabla B
+\]</span> 其中使用了近似 <span class="math inline">\(B_z\simeq B\)</span>，因为磁场方向主要沿 <span class="math inline">\(\hat{z}\)</span> 方向。</p>
+<p>通过应用导引中心近似，我们将独立变量的数量从 6 个 <span class="math inline">\((x,y,z,v_x,v_y,v_z)\)</span> 减少到 5 个 <span class="math inline">\((x,y,z,v_\perp, v_\parallel)\)</span>。</p>
+</section>
+<section id="导引中心漂移汇总" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="导引中心漂移汇总"><span class="header-section-number">7.7</span> 导引中心漂移汇总</h2>
+<p>一般的力： <span id="eq-gc-drift-f"><span class="math display">\[
+\mathbf{v}_f = \frac{1}{q}\frac{\mathbf{F}\times\mathbf{B}}{B^2}
+\tag{7.20}\]</span></span></p>
+<p>电场： <span id="eq-gc-drift-e"><span class="math display">\[
+\mathbf{v}_E = \frac{\mathbf{E}\times\mathbf{B}}{B^2}
+\tag{7.21}\]</span></span></p>
+<p>重力场： <span id="eq-gc-drift-g"><span class="math display">\[
+\mathbf{v}_g = \frac{m}{q}\frac{\mathbf{g}\times\mathbf{B}}{B^2}
+\tag{7.22}\]</span></span></p>
+<p>非均匀电场： <span id="eq-gc-drift-e-nonuniform"><span class="math display">\[
+\mathbf{v}_E = \Big( 1+\frac{1}{4}r_L^2 \nabla^2 \Big)\frac{\mathbf{E}\times\mathbf{B}}{B^2}
+\tag{7.23}\]</span></span></p>
+<p>非均匀磁场：</p>
+<p>磁场梯度漂移： <span id="eq-gc-drift-gradB"><span class="math display">\[
+\begin{aligned}
+\mathbf{v}_{\nabla B} &amp;= \pm \frac{1}{2}v_\perp r_L\frac{\mathbf{B}\times\nabla B}{B^2} \\
+&amp;=\frac{mv_\perp^2}{2qB^3}\mathbf{B}\times\nabla B
+\end{aligned}
+\tag{7.24}\]</span></span></p>
+<p>曲率漂移： <span id="eq-gc-drift-curvature"><span class="math display">\[
+\begin{aligned}
+\mathbf{v}_c &amp;= \frac{mv_\parallel^2}{q}\frac{\mathbf{R}_c \times\mathbf{B}}{R_c^2 B^2} \\
+&amp;= \frac{mv_\parallel^2}{qB^4}\mathbf{B}\times\left[ \mathbf{B}\cdot\nabla\mathbf{B} \right] \\
+&amp;= \frac{m v_\parallel^2}{qB^3}\mathbf{B}\times\nabla B\,\text{（无电流）}
+\end{aligned}
+\tag{7.25}\]</span></span></p>
+<p>弯曲真空场： <span id="eq-gc-drift-b"><span class="math display">\[
+\begin{aligned}
+\mathbf{v}_c + \mathbf{v}_{\nabla B} &amp;= \frac{m}{q}\Big( v_\parallel^2 + \frac{1}{2}v_\perp^2 \Big) \frac{\mathbf{R}_c \times\mathbf{B}}{R_c^2 B^2} \\
+&amp;= \frac{m}{q}\frac{\mathbf{B}\times\nabla B}{B^3}\Big( v_\parallel^2 + \frac{1}{2}v_\perp^2 \Big)
+\end{aligned}
+\tag{7.26}\]</span></span></p>
+<p>极化漂移： <span id="eq-gc-drift-polarization"><span class="math display">\[
+\mathbf{v}_p = \pm \frac{1}{\omega_c B}\frac{\mathrm{d}\mathbf{E}}{\mathrm{d}t}
+\tag{7.27}\]</span></span></p>
+</section>
+<section id="sec-adiabatic-invariant" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="sec-adiabatic-invariant"><span class="header-section-number">7.8</span> 绝热不变量</h2>
+<p>经典力学中众所周知，只要系统具有周期运动，在一个周期上计算的作用量积分 <span class="math inline">\(\oint p dq\)</span> 就是运动常量。这里 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(q\)</span> 是在运动中重复变化的广义动量和广义坐标。如果系统发生缓慢变化，使运动不再严格周期性，这个运动常量仍不改变，此时称为<em>绝热不变量</em>。<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> 这里的“缓慢”是指相对于运动周期而言缓慢，因此即使严格来说 <span class="math inline">\(\oint p dq\)</span> 不再是沿闭合路径的积分，它仍然有明确的定义。绝热不变量在等离子体物理中起着重要作用：在许多涉及复杂运动的情况下，它们使我们能够得到简单的答案。绝热不变量有三个，每个对应一种不同的周期运动。</p>
+<p>关于带电粒子绝热运动的综述见 <span class="citation" data-cites="northrop1963adiabatic">Northrop (<a href="#ref-northrop1963adiabatic" role="doc-biblioref">1963年</a>)</span>。</p>
+<section id="摆的绝热不变量" class="level3" data-number="7.8.1">
+<h3 data-number="7.8.1" class="anchored" data-anchor-id="摆的绝热不变量"><span class="header-section-number">7.8.1</span> 摆的绝热不变量</h3>
+<p>现实中永远无法达到完美的对称性。这引出了一个实际问题：当空间和／或时间对称性“良好”但并不完美时，运动常量会如何表现？当出现最轻微的不对称瑕疵时，运动常量的用处是否会突然消失、逐渐减弱，还是会发生完全不同的情况？为回答这些问题，首先考虑一个小振幅摆，其共振频率 <span class="math inline">\(\omega(t)\)</span> 随时间变化，但变化缓慢。由于 <span class="math inline">\(\omega^2=g/l\)</span>，频率的时间依赖性可能来自重力加速度 <span class="math inline">\(g\)</span> 的缓慢变化，也可能来自摆长 <span class="math inline">\(l\)</span> 的缓慢变化。在这两种情况下，摆的运动方程都是 <span id="eq-pendulum"><span class="math display">\[
+\frac{\mathrm{d}^2 x}{\mathrm{d}t^2} + \omega^2(t)x = 0
+\tag{7.28}\]</span></span></p>
+<p>对于任意 <span class="math inline">\(\omega(t)\)</span>，这个方程无法精确求解，但如果对 <span class="math inline">\(\omega(t)\)</span> 施加适当限制，就可以用 WKB 方法（Wentzel 1926，Kramers 1926，Brillouin 1926）_近似_求解。该方法基于以下假设：时间依赖频率的解很可能是恒定频率解 <span class="math display">\[
+x = \mathrm{Re}\left[ A\exp(i\omega t) \right]
+\]</span> 的推广，并假设这种推广具有形式 <span id="eq-pendulum-WKBJ-guess"><span class="math display">\[
+x = \mathrm{Re}\left[ A(t) e^{i\int^t \omega(t^\prime)\mathrm{d}t^\prime} \right]
+\tag{7.29}\]</span></span> 这里 <span class="math inline">\(A(t)\)</span> 是按以下方法确定的振幅函数：计算一阶导数，得到 <span class="math display">\[
+\frac{\mathrm{d}x}{\mathrm{d}t} = \mathrm{Re}\left[ i\omega A e^{i\int^t \omega(t^\prime)\mathrm{d}t^\prime} + \frac{\mathrm{d}A}{\mathrm{d}t} e^{i\int^t \omega(t^\prime)\mathrm{d}t^\prime} \right]
+\]</span> 然后计算二阶导数 <span class="math display">\[
+\frac{\mathrm{d}^2x}{\mathrm{d}t^2} = \mathrm{Re}\left[ \left( i\frac{\mathrm{d}\omega}{\mathrm{d}t}A + 2i\omega\frac{\mathrm{d}A}{\mathrm{d}t} -\omega^2 A + \frac{\mathrm{d}^2A}{\mathrm{d}t^2} \right) e^{i\int^t \omega(t^\prime)\mathrm{d}t^\prime} \right]
+\]</span> 将最后的结果代入 <a href="#eq-pendulum" class="quarto-xref">式&nbsp;<span>7.28</span></a>，化简为 <span id="eq-pendulum-WKBJ"><span class="math display">\[
+i\frac{\mathrm{d}\omega}{\mathrm{d}t}A + 2i\omega\frac{\mathrm{d}A}{\mathrm{d}t} + \frac{\mathrm{d}^2A}{\mathrm{d}t^2} = 0
+\tag{7.30}\]</span></span> 因为含 <span class="math inline">\(\omega^2\)</span> 的项恰好抵消。为了继续推导，我们作一个假设——其有效性将在后面检验——即 <span class="math inline">\(\mathrm{d}A/\mathrm{d}t\)</span> 对时间的依赖_足够_缓慢，以至于 <a href="#eq-pendulum-WKBJ" class="quarto-xref">式&nbsp;<span>7.30</span></a> 中的最后一项相对于中间项可以忽略。于是 <a href="#eq-pendulum-WKBJ" class="quarto-xref">式&nbsp;<span>7.30</span></a> 中剩下的两项可以整理为 <span class="math display">\[
+\frac{1}{\omega}\frac{\mathrm{d}\omega}{\mathrm{d}t} = -\frac{2}{A}\frac{\mathrm{d}A}{\mathrm{d}t}
+\]</span> 其精确解为 <span id="eq-WKBJ-A"><span class="math display">\[
+A(t) \sim \frac{1}{\sqrt{\omega(t)}}
+\tag{7.31}\]</span></span></p>
+<p>因此，缓慢变化的假设至少是自洽的，因为如果 <span class="math inline">\(t\)</span> 确实缓慢变化，<a href="#eq-WKBJ-A" class="quarto-xref">式&nbsp;<span>7.31</span></a> 表明 At 也将缓慢变化，忽略 <a href="#eq-pendulum-WKBJ" class="quarto-xref">式&nbsp;<span>7.30</span></a> 中的最后一项便是合理的。可以通过假定频率具有指数形式来量化缓慢变化的要求： <span class="math display">\[
+\omega(t) = \omega_0 e^{\alpha t}
+\]</span></p>
+<p>因此， <span class="math display">\[
+\alpha = \frac{1}{\omega}\frac{\mathrm{d}\omega}{\mathrm{d}t}
+\]</span> 衡量频率相对于其自身变化得有多快。所以，当下式成立时，忽略 <a href="#eq-pendulum-WKBJ" class="quarto-xref">式&nbsp;<span>7.30</span></a> 中的最后一项是合理的： <span id="eq-pendulum-wkbj-criterion"><span class="math display">\[
+\alpha = \frac{1}{\omega}\frac{\mathrm{d}\omega}{\mathrm{d}t} \ll 4\omega_0
+\tag{7.32}\]</span></span></p>
+<p>换言之，如果满足 <a href="#eq-pendulum-wkbj-criterion" class="quarto-xref">式&nbsp;<span>7.32</span></a>，那么每个周期中摆周期的相对变化很小。</p>
+<p><a href="#eq-WKBJ-A" class="quarto-xref">式&nbsp;<span>7.31</span></a> 表明，当 <span class="math inline">\(\omega\)</span> 依赖时间时，摆的振幅并不恒定，因此摆的能量_不_守恒。事实表明，守恒的是_作用量积分_ <span id="eq-pendulum-action-integral"><span class="math display">\[
+S = \oint v\mathrm{d}x
+\tag{7.33}\]</span></span> 其中积分在一个振荡周期上进行。该积分也可以用时间写为 <span class="math display">\[
+S = \int_{t_0}^{t_0+\tau} v\frac{\mathrm{d}x}{\mathrm{d}t}\mathrm{d}t
+\]</span> 其中 <span class="math inline">\(t_0\)</span> 是 <span class="math inline">\(x\)</span> 处于瞬时最大值的时刻，<span class="math inline">\(\tau\)</span> 是一个完整周期的时长，定义为连续两次满足 <span class="math inline">\(\mathrm{d}x/\mathrm{d}t = 0\)</span> 且 <span class="math inline">\(\mathrm{d}^2/\mathrm{d}t^2\)</span> 具有相同符号的时刻之间的时间间隔（例如，对于摆，<span class="math inline">\(t_0\)</span> 可以是摆向右摆到最远处、因而速度正在反向的时刻，而 <span class="math inline">\(\tau\)</span> 是等待这一情况再次发生所需的时间）。为说明作用量守恒，可对 <a href="#eq-pendulum-action-integral" class="quarto-xref">式&nbsp;<span>7.33</span></a> 分部积分： <span id="eq-pendulum-action-integral2"><span class="math display">\[
+\begin{aligned}
+S &amp;= \int_{t_0}^{t_0+\tau} \left[ \frac{\mathrm{d}}{\mathrm{d}t}\left( x\frac{\mathrm{d}x}{\mathrm{d}t} \right) - x\frac{\mathrm{d}^2 x}{\mathrm{d}t^2} \right]\mathrm{d}t \\
+&amp;= \left[ x\frac{\mathrm{d}x}{\mathrm{d}t} \right]_{t_0}^{t_0+\tau} - \int_{t_0}^{t_0+\tau}x\frac{\mathrm{d}^2 x}{\mathrm{d}t^2}\mathrm{d}t \\
+&amp;= \int_{t_0}^{t_0+\tau} \omega^2 x^2 \mathrm{d}t
+\end{aligned}
+\tag{7.34}\]</span></span> 根据 <span class="math inline">\(t_0\)</span> 和 <span class="math inline">\(\tau\)</span> 的定义，积分产生的边界项为零，并使用 <a href="#eq-pendulum" class="quarto-xref">式&nbsp;<span>7.28</span></a> 替换了 <span class="math inline">\(\mathrm{d}^2 x/\mathrm{d}t^2\)</span>。结合 <a href="#eq-pendulum-WKBJ-guess" class="quarto-xref">式&nbsp;<span>7.29</span></a> 和 <a href="#eq-WKBJ-A" class="quarto-xref">式&nbsp;<span>7.31</span></a> 得到 <span class="math display">\[
+x(t) = x(t_0)\sqrt{\frac{\omega(t_0)}{\omega(t)}}\cos\left( \int_{t_0}^{t}\omega(t^\prime)\mathrm{d}t^\prime \right)
+\]</span> 于是 <a href="#eq-pendulum-action-integral2" class="quarto-xref">式&nbsp;<span>7.34</span></a> 变为 <span id="eq-pendulum-action-integral3"><span class="math display">\[
+\begin{aligned}
+S &amp;= \int_{t_0}^{t_0+\tau}\omega(t^\prime)^2 \left[ x(t_0)\sqrt{\frac{\omega(t_0)}{\omega(t^\prime)}}\cos\left( \int_{t_0}^{t^\prime}\omega(t^{\prime\prime})\mathrm{d}t^{\prime\prime} \right) \right]\mathrm{d}t^\prime \\
+&amp;= [x(t_0)]^2 \omega(t_0)\int_{t_0}^{t_0+\tau}\omega(t^\prime)\cos^2\left( \int_{t_0}^{t^\prime}\omega(t^{\prime\prime}\mathrm{d}t^\prime) \right)\mathrm{d}t^\prime \\
+&amp;= [x(t_0)]^2 \omega(t_0)\int_{0}^{2\pi}\mathrm{d}\xi\cos^2\xi = \pi [x(t_0)]^2 \omega(t_0) = \mathrm{const.}
+\end{aligned}
+\tag{7.35}\]</span></span> 其中 <span class="math inline">\(\xi=\int_{t_0}^{t^\prime}\omega(t^{\prime\prime})\mathrm{d}t^{\prime\prime}\)</span>，<span class="math inline">\(\mathrm{d}\xi=\omega(t^\prime)\mathrm{d}t^\prime\)</span>。<a href="#eq-pendulum-action-integral" class="quarto-xref">式&nbsp;<span>7.33</span></a> 表明 <span class="math inline">\(S\)</span> 是轨迹 <span class="math inline">\([x(t),v(t)]\)</span> 在相空间中围成的面积，而 <a href="#eq-pendulum-action-integral3" class="quarto-xref">式&nbsp;<span>7.35</span></a> 表明，当摆的频率缓慢变化时，<em>这个面积是一个运动常量</em>。由于摆的平均能量按 <span class="math inline">\(\sim[\omega(t)x(t)]^2\)</span> 的尺度变化，由 <a href="#eq-WKBJ-A" class="quarto-xref">式&nbsp;<span>7.31</span></a> 可知比值 <span id="eq-pendulum-action-integral-const"><span class="math display">\[
+\frac{\text{能量}}{\text{频率}}\sim \omega(t)x^2(t)\sim S\sim\mathrm{const}.
+\tag{7.36}\]</span></span></p>
+<p><a href="#eq-pendulum-action-integral-const" class="quarto-xref">式&nbsp;<span>7.36</span></a> 中的比值在经典理论中相当于简谐振子的量子数 <span class="math inline">\(N\)</span>，因为在量子力学中，简谐振子的能量 <span class="math inline">\(E\)</span> 与频率的关系为 <span class="math inline">\(E/\hbar \omega = N+1/2\)</span>。</p>
+<p>这一分析显然适用于任何运动方程具有 <a href="#eq-pendulum" class="quarto-xref">式&nbsp;<span>7.28</span></a> 形式的动力系统。因此，如果等离子体粒子的动力学恰好具有这种形式，就可以把 <span class="math inline">\(S\)</span> 加入可供使用的运动常量之列。</p>
+</section>
+<section id="将-wkb-方法推广到一般绝热不变量" class="level3" data-number="7.8.2">
+<h3 data-number="7.8.2" class="anchored" data-anchor-id="将-wkb-方法推广到一般绝热不变量"><span class="header-section-number">7.8.2</span> 将 WKB 方法推广到一般绝热不变量</h3>
+<p>作用量的量纲是（正则动量）×（正则坐标），因此可以预料，对一般哈密顿系统而言，<a href="#eq-pendulum-action-integral" class="quarto-xref">式&nbsp;<span>7.33</span></a> 给出的作用量积分并非不变量，因为一般来说 <span class="math inline">\(v\)</span> 不与 <span class="math inline">\(P\)</span> 成正比。我们假设作用量积分的一般形式为 <span id="eq-action-integral"><span class="math display">\[
+S = \oint P\mathrm{d}Q
+\tag{7.37}\]</span></span> 其中积分在周期运动的一个周期上进行，<span class="math inline">\(P, Q\)</span> 是相关的正则动量–坐标共轭对。用于 <a href="#eq-pendulum-action-integral" class="quarto-xref">式&nbsp;<span>7.33</span></a> 的绝热不变性证明不能直接用于 <a href="#eq-action-integral" class="quarto-xref">式&nbsp;<span>7.37</span></a>；下面给出一个稍复杂的证明，说明 <a href="#eq-action-integral" class="quarto-xref">式&nbsp;<span>7.37</span></a> 确实是绝热不变量的更一般形式。</p>
+<div id="fig-q-p-plane" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-q-p-plane-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/canonical_momentum_coordinate_plane.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-q-p-plane-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;7.2: 正则坐标–动量平面。
+</figcaption>
+</figure>
+</div>
+<p>定义 <span class="math inline">\(Q-P\)</span> 平面中的径矢为 <span class="math inline">\(\mathbf{R}=(Q,P)\)</span>，并用 <span class="math inline">\(\hat{Q}\)</span> 和 <span class="math inline">\(\hat{P}\)</span> 定义 <span class="math inline">\(Q\)</span> 和 <span class="math inline">\(P\)</span> 方向的单位矢量；这些定义见 <a href="#fig-q-p-plane" class="quarto-xref">图&nbsp;<span>7.2</span></a>。此外，定义 <span class="math inline">\(z\)</span> 方向垂直于 <span class="math inline">\(Q-P\)</span> 平面，因此单位矢量 <span class="math inline">\(\hat{z}=\hat{Q}\times\hat{P}\)</span>。哈密顿方程（<span class="math inline">\(\dot{P} = -\partial H/\partial Q,\dot{Q}=\partial H/\partial P\)</span>）可以写成矢量形式： <span id="eq-hamilton-vector-form"><span class="math display">\[
+\frac{\mathrm{d}\mathbf{R}}{\mathrm{d}t} = -\hat{z}\times\nabla H
+\tag{7.38}\]</span></span> 其中 <span class="math display">\[
+\nabla = \hat{Q}\frac{\partial}{\partial Q} + \hat{P}\frac{\partial}{\partial P}
+\]</span> 是 <span class="math inline">\(Q-P\)</span> 平面中的梯度算符。<a href="#eq-hamilton-vector-form" class="quarto-xref">式&nbsp;<span>7.38</span></a> 表明相空间“速度” <span class="math inline">\(\mathrm{d}\mathbf{R}/\mathrm{d}t\)</span> 与 <span class="math inline">\(\nabla H\)</span> <em>正交</em>。因此，<span class="math inline">\(\mathbf{R}\)</span> <em>保持在 <span class="math inline">\(H\)</span> 的等值线上</em>。如果 <span class="math inline">\(H\)</span> 是常数，那么为了使运动具有周期性，沿这条等值线的路径必须绕一圈并与自身相接，如同围绕山顶（或火山口）边缘的一条等高道路。如果 <span class="math inline">\(H\)</span> 不是常数，而是随时间缓慢变化，那么等值线将绕一圈并几乎与自身相接。</p>
+<p>将 <a href="#eq-hamilton-vector-form" class="quarto-xref">式&nbsp;<span>7.38</span></a> 与 <span class="math inline">\(\hat{z}\)</span> 取叉积，可将其反转为 <span id="eq-hamilton-vector-form2"><span class="math display">\[
+\nabla H = \hat{z}\times\frac{\mathrm{d}\mathbf{R}}{\mathrm{d}t}
+\tag{7.39}\]</span></span></p>
+<p>对于周期和近周期运动，<span class="math inline">\(\mathrm{d}\mathbf{R}/\mathrm{d}t\)</span> 始终沿同一个旋转方向（始终顺时针或始终逆时针）。因此，<a href="#eq-hamilton-vector-form2" class="quarto-xref">式&nbsp;<span>7.39</span></a> 表明，沿路径前进的观察者总会看到 <span class="math inline">\(H\)</span> 在路径左侧增大、右侧减小（或相反）。为清晰起见，将 <span class="math inline">\(Q-P\)</span> 平面的原点重新定义在 <span class="math inline">\(H\)</span> 的局部极大值或极小值处。因此，在极值附近，<span class="math inline">\(H\)</span> 必须具有泰勒展开 <span class="math display">\[
+H(P,Q) = H_\mathrm{extremum} + \frac{P^2}{2}\left[ \frac{\partial^2 H}{\partial P^2} \right]_{P=0,Q=0} + \frac{Q^2}{2}\left[ \frac{\partial^2 H}{\partial Q^2} \right]_{P=0,Q=0}
+\]</span> 其中二阶导数要么都为正（谷底），要么都为负（山顶）。由于假定 <span class="math inline">\(H\)</span> 缓慢依赖于时间，这些二阶导数将依赖时间，因此 <span class="math inline">\(H\)</span> 具有形式 <span id="eq-hamilton-extremum"><span class="math display">\[
+H = \alpha(t)\frac{P^2}{2} + \beta(t)\frac{Q^2}{2}
+\tag{7.40}\]</span></span> 其中 <span class="math inline">\(\alpha(t)\)</span> 和 <span class="math inline">\(\beta(t)\)</span> 具有相同符号。<span class="math inline">\(H_\mathrm{extremum}\)</span> 项被省略，因为它只是加在能量上的常数，不影响哈密顿方程。由 <a href="#eq-hamilton-vector-form" class="quarto-xref">式&nbsp;<span>7.38</span></a> 可知，如果 <span class="math inline">\(H\)</span> 的极值是山顶，<span class="math inline">\(\mathbf{R}\)</span> 的旋转方向为逆时针；如果是谷底，则为顺时针。</p>
+<p>对 <a href="#eq-hamilton-extremum" class="quarto-xref">式&nbsp;<span>7.40</span></a> 应用哈密顿方程，得到 <span id="eq-hamilton-extremum2"><span class="math display">\[
+\frac{\mathrm{d}P}{\mathrm{d}t} = -\beta Q,\quad \frac{\mathrm{d}Q}{\mathrm{d}t} = \alpha P
+\tag{7.41}\]</span></span></p>
+<p>由于 <span class="math inline">\(\alpha,\beta\)</span> 依赖时间，这些方程不能直接导出简谐振子方程。不过，如果定义辅助变量 <span class="math display">\[
+\tau = \int^t \beta(t^\prime)\mathrm{d}t^\prime
+\]</span> 则 <span class="math display">\[
+\frac{\mathrm{d}}{\mathrm{d}t} = \frac{\mathrm{d}\tau}{\mathrm{d}t}\frac{\mathrm{d}}{\mathrm{d}\tau} = \beta\frac{\mathrm{d}}{\mathrm{d}\tau}
+\]</span> 于是 <a href="#eq-hamilton-extremum2" class="quarto-xref">式&nbsp;<span>7.41</span></a> 变为 <span id="eq-hamilton-extremum3"><span class="math display">\[
+\frac{\mathrm{d}P}{\mathrm{d}\tau} = -Q,\quad \frac{\mathrm{d}Q}{\mathrm{d}\tau} = \frac{\alpha}{\beta}P
+\tag{7.42}\]</span></span></p>
+<p>利用左侧方程将右侧方程中的 <span class="math inline">\(Q\)</span> 代入，得到 <span class="math display">\[
+\frac{\mathrm{d}^2P}{\mathrm{d}\tau^2} + \frac{\alpha}{\beta}P = 0
+\]</span> 这对应于一个 <span class="math inline">\(\omega^2(\tau) = \alpha(\tau)/\beta(\tau)\)</span> 的简谐振子。作用量积分可以改写为 <span class="math display">\[
+S = \oint P\frac{\mathrm{d}Q}{\mathrm{d}\tau}\mathrm{d}\tau
+\]</span> 其中积分在运动的一个周期上进行。使用 <a href="#eq-hamilton-extremum3" class="quarto-xref">式&nbsp;<span>7.42</span></a>，并遵循求得 <a href="#eq-pendulum-action-integral3" class="quarto-xref">式&nbsp;<span>7.35</span></a> 时的相同步骤，得到 <span class="math display">\[
+S = \oint P^2\frac{\alpha}{\beta}\mathrm{d}\tau = \lambda^2\int \left[ \left( \frac{\alpha(\tau^\prime)}{\beta(\tau^\prime)} \right)^{1/2}\cos^2\left( \int^{\tau^\prime} (\alpha/\beta)^{1/2}\mathrm{d}\tau^{\prime\prime} \right) \right]\mathrm{d}\tau^\prime
+\]</span> 其中 <span class="math inline">\(\lambda\)</span> 是由初始条件决定的常数。引入轨道相位 <span class="math inline">\(\phi=\int^\tau (\alpha/\beta)^{1/2}\mathrm{d}\tau\)</span>，上式变为 <span class="math display">\[
+S = \lambda^2 \int_0^{2\pi}\mathrm{d}\phi\cos^2\phi = \mathrm{const}.
+\]</span></p>
+<p>因此，一般作用量积分确实是绝热不变量。当然，这一证明只在 <span class="math inline">\(H\)</span> 的极值附近有效，即只在 <span class="math inline">\(H\)</span> 能够由 <a href="#eq-hamilton-extremum" class="quarto-xref">式&nbsp;<span>7.40</span></a> 充分表示的地方有效。</p>
+</section>
+<section id="一般绝热不变量的证明" class="level3" data-number="7.8.3">
+<h3 data-number="7.8.3" class="anchored" data-anchor-id="一般绝热不变量的证明"><span class="header-section-number">7.8.3</span> 一般绝热不变量的证明</h3>
+<p>现在推导一般绝热不变量的证明。与前面的讨论不同，这一证明不限于小振荡（即接近 <span class="math inline">\(H\)</span> 的极值）的情况。设哈密顿量通过缓慢变化的参数 <span class="math inline">\(\lambda(t)\)</span> 依赖时间，即 <span class="math inline">\(H=H(P,Q,\lambda(t))\)</span>。由 <a href="theoretical_mechanics.html#eq-hamiltonian-charged-particle" class="quarto-xref">式&nbsp;<span>4.6</span></a>，能量为 <span id="eq-hamilton-energy"><span class="math display">\[
+E(t) = H(P,Q,\lambda(t))
+\tag{7.43}\]</span></span> 原则上，这一关系可以反解为 <span class="math inline">\(P=P(E(t),Q,\lambda(t))\)</span>。假设粒子在 <span class="math inline">\(Q-P\)</span> 平面中作近周期运动。我们将转折点 <span class="math inline">\(Q_{tp}\)</span> 定义为 <span class="math inline">\(\mathrm{d}Q/\mathrm{d}t=0\)</span> 的位置。由于 <span class="math inline">\(Q\)</span> 在振荡，因此会有一个对应于 <span class="math inline">\(Q\)</span> 最大值的转折点和一个对应于 <span class="math inline">\(Q\)</span> 最小值的转折点。从现在起，我们只考虑 <span class="math inline">\(Q\)</span> 取最大值的转折点，也就是只考虑 <a href="#fig-q-p-nearly-periodic-traj" class="quarto-xref">图&nbsp;<span>7.3</span></a> 所示 <span class="math inline">\(Q-P\)</span> 平面中近周期轨迹右侧的转折点。</p>
+<div id="fig-q-p-nearly-periodic-traj" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-q-p-nearly-periodic-traj-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/canonical_plane_nearly_periodic_trajectory.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-q-p-nearly-periodic-traj-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;7.3: 哈密顿量缓慢变化时的相空间近周期轨迹。转折点 <span class="math inline">\(Q_{tp}(t)\)</span> 是 <span class="math inline">\(Q\)</span> 取最大值的位置。
+</figcaption>
+</figure>
+</div>
+<p>如果运动是周期性的，那么第 <span class="math inline">\(N+1^{\mathrm{th}}\)</span> 个周期的转折点与第 <span class="math inline">\(N^{\mathrm{th}}\)</span> 个周期的转折点相同；但如果运动只是近似周期性的，两者就会略有差异，如 <a href="#fig-q-p-nearly-periodic-traj" class="quarto-xref">图&nbsp;<span>7.3</span></a> 所示。可以将转折点表示为时间的函数 <span class="math inline">\(Q_{tp}=Q_{tp}(t)\)</span> 来描述这一差异。该函数仅在 <span class="math inline">\(\mathrm{d}Q/\mathrm{d}t = 0\)</span> 的时刻有定义。当运动不严格周期时，转折点满足 <span class="math inline">\(Q_{tp}(t+\tau)\neq Q_{tp}(t)\)</span>，其中 <span class="math inline">\(\tau\)</span> 是粒子从第一个转折点到下一个转折点所需的时间间隔。 作用量积分从一个右侧转折点开始，到下一个右侧转折点为止，覆盖整个振荡周期，因此可写为 <span class="math display">\[
+S = \oint P\mathrm{d}Q = \int_{Q_{tp}(t)}^{Q_{tp}(t+\tau)}P\mathrm{d}Q
+\]</span></p>
+<p>由 <a href="theoretical_mechanics.html#eq-hamiltonian-charged-particle" class="quarto-xref">式&nbsp;<span>4.6</span></a> 可知，一般来说 <span class="math inline">\(P/m\)</span> 并不是速度，因此速度 <span class="math inline">\(\mathrm{d}Q/\mathrm{d}t\)</span> 一般不与 <span class="math inline">\(P\)</span> 成正比（？？？）。所以转折点不一定在 <span class="math inline">\(P\)</span> 为零的位置；实际上，<span class="math inline">\(P\)</span> 在一个周期内不一定改变符号。不过，<span class="math inline">\(S\)</span> 仍对应于相空间轨迹一个周期所围成的相空间面积。</p>
+<p>现在可以计算 <span id="eq-action-integral-time-derivative"><span class="math display">\[
+\begin{aligned}
+\frac{\mathrm{d}S}{\mathrm{d}t} &amp;= \frac{\mathrm{d}}{\mathrm{d}t}\int_{Q_{tp}(t)}^{Q_{tp}(t+\tau)}P(E(t),Q,\lambda(t))\mathrm{d}Q \\
+&amp;= \left[ P\frac{\mathrm{d}Q}{\mathrm{d}t} \right]_{Q_{tp}(t)}^{Q_{tp}(t+\tau)} + \int_{Q_{tp}(t)}^{Q_{tp}(t+\tau)} \left( \frac{\partial P}{\partial t}_Q \right)\mathrm{d}Q \\
+&amp;= \int_{Q_{tp}(t)}^{Q_{tp}(t+\tau)} \left[ \left( \frac{\partial P}{\partial E} \right)_{Q,\lambda}\frac{\mathrm{d}E}{\mathrm{d}t} + \left(\frac{\partial P}{\partial \lambda} \right)_{Q,E}\frac{\mathrm{d}\lambda}{\mathrm{d}t} \right]\mathrm{d}Q
+\end{aligned}
+\tag{7.44}\]</span></span></p>
+<p>由于转折点处 <span class="math inline">\(\mathrm{d}Q/\mathrm{d}t = 0\)</span>，边界项为零，因此转折点的运动没有贡献。由 <a href="#eq-hamilton-energy" class="quarto-xref">式&nbsp;<span>7.43</span></a> 得到 <span class="math display">\[
+1 = \frac{\partial H}{\partial P}\left( \frac{\partial P}{\partial E} \right)_{Q,\lambda}
+\]</span> 以及 <span class="math display">\[
+0 = \frac{\partial H}{\partial P}\left( \frac{\partial P}{\partial \lambda} \right)_{Q,E} + \frac{\partial H}{\partial\lambda}
+\]</span> 因此 <a href="#eq-action-integral-time-derivative" class="quarto-xref">式&nbsp;<span>7.44</span></a> 变为 <span id="eq-action-integral-time-derivative2"><span class="math display">\[
+\frac{\mathrm{d}S}{\mathrm{d}t} = \oint \left( \frac{\partial H}{\partial P} \right)^{-1} \left[ \frac{\mathrm{d}E}{\mathrm{d}t} - \frac{\partial H}{\partial\lambda}\frac{\mathrm{d}\lambda}{\mathrm{d}t} \right]\mathrm{d}Q
+\tag{7.45}\]</span></span></p>
+<p>由 <a href="#eq-hamilton-energy" class="quarto-xref">式&nbsp;<span>7.43</span></a> 得到 <span id="eq-hamilton-time-derivative"><span class="math display">\[
+\frac{\mathrm{d}E}{\mathrm{d}t} = \frac{\partial H}{\partial P}\frac{\mathrm{d}P}{\mathrm{d}t} + \frac{\partial H}{\partial Q}\frac{\mathrm{d}Q}{\mathrm{d}t} + \frac{\partial H}{\partial \lambda}\frac{\mathrm{d}\lambda}{\mathrm{d}t} = \frac{\partial H}{\partial\lambda}\frac{\mathrm{d}\lambda}{\mathrm{d}t}
+\tag{7.46}\]</span></span> 因为前两项根据哈密顿方程相互抵消。将 <a href="#eq-hamilton-time-derivative" class="quarto-xref">式&nbsp;<span>7.46</span></a> 代入 <a href="#eq-action-integral-time-derivative2" class="quarto-xref">式&nbsp;<span>7.45</span></a>，得到 <span class="math inline">\(\mathrm{d}S/\mathrm{d}t=0\)</span>，从而完成绝热不变性的证明。这里没有假设 <span class="math inline">\(P,Q\)</span> 接近与 <span class="math inline">\(H\)</span> 的极值相关的值。</p>
+<p>这个证明似乎过于简洁，因为它只通过谨慎使用链式法则和计算偏导数就建立了绝热不变性。然而，这一观察揭示了绝热性的根本要义：从一个周期到下一个周期，<span class="math inline">\(H, P\)</span> 对 <span class="math inline">\(\lambda\)</span> 的可微性与系统的哈密顿性质共同提供了绝热不变量存在的条件。如果运动在一个周期后发生了剧烈变化，以至于对 <span class="math inline">\(H\)</span> 或 <span class="math inline">\(P\)</span> 求导没有意义，那么绝热不变量就不会存在。</p>
+</section>
+<section id="第一绝热不变量" class="level3" data-number="7.8.4">
+<h3 data-number="7.8.4" class="anchored" data-anchor-id="第一绝热不变量"><span class="header-section-number">7.8.4</span> 第一绝热不变量</h3>
+<p>我们已经遇到过量 <span class="math display">\[
+\mu = mv_\perp^2 / 2B
+\]</span> 并已证明它在空间和时间变化的 <span class="math inline">\(\mathbf{B}\)</span> 场中保持不变。这里涉及的周期运动当然是拉莫尔回旋。如果将 <span class="math inline">\(p\)</span> 取为角动量 <span class="math inline">\(mv_\perp r\)</span>，将 <span class="math inline">\(dq\)</span> 取为坐标微分 <span class="math inline">\(\mathrm{d}\theta\)</span>，作用量积分变为 <span class="math display">\[
+\oint p dq = \oint mv_\perp r \mathrm{d}\theta = 2\pi r_L m v_\perp = 2\pi \frac{mv_\perp^2}{\omega_c} = 4\pi \frac{m}{|q|}\mu
+\]</span></p>
+<p>因此，只要 <span class="math inline">\(q/m\)</span> 不改变，<span class="math inline">\(\mu\)</span> 就是运动常量。我们证明 <span class="math inline">\(\mu\)</span> 的不变性时仅隐含假设了 <span class="math inline">\(\omega/\omega_c \ll 1\)</span>，其中 <span class="math inline">\(\omega\)</span> 是表征粒子所见 <span class="math inline">\(\mathbf{B}\)</span> 变化速率的频率。不过，有一种证明表明，即使 <span class="math inline">\(\omega/\omega_c \le q\)</span>，<span class="math inline">\(\mu\)</span> 仍保持不变。用理论家的语言来说，<span class="math inline">\(\mu\)</span> 在“按 <span class="math inline">\(\omega/\omega_c\)</span> 展开的所有阶上”都是不变的。这在实际中意味着，在一个回旋周期内，<span class="math inline">\(\mu\)</span> 比 <span class="math inline">\(\mathbf{B}\)</span> 更接近于保持恒定。</p>
+<p>第一不变量由快速回旋运动的作用量积分导出。将磁矢势 <span class="math inline">\(\mathbf{A}\)</span> 在导引中心附近展开，并在一个回旋周期内对垂直于磁场的正则动量积分，得到第一绝热不变量： <span class="math display">\[
+I_1 = \oint \mathbf{P}_\perp \cdot d\boldsymbol{\rho} \approx \frac{c}{e} \frac{p_\perp^2}{2B} = \frac{cm}{e} \mu
+\]</span></p>
+<p>这给出磁矩 <span class="math inline">\(\mu\)</span>，它在导引中心极限下守恒： <span class="math display">\[
+\mu = \frac{p_\perp^2}{2mB}
+\]</span></p>
+<p>在相对论情况下，磁矩与绝热不变量的关系为 <span class="math inline">\(M = \mu/\gamma\)</span>。</p>
+<p>知道绝热不变量何时<em>不</em>存在，与知道它何时存在同样重要。当 ω 相对于 <span class="math inline">\(\omega_c\)</span> 不再很小时，μ 的绝热不变性会被破坏。下面给出三个例子。</p>
+<ul>
+<li><p><em>磁泵浦</em>。如果磁镜约束系统中 <span class="math inline">\(\mathbf{B}\)</span> 的强度按正弦规律变化，粒子的 <span class="math inline">\(v_\perp\)</span> 会振荡，但从长期来看不会获得能量。然而，如果粒子发生碰撞，μ 的不变性就会被破坏，等离子体可以被加热。特别是，在压缩阶段发生碰撞的粒子可以将其部分回旋能量转移到 <span class="math inline">\(v_\parallel\)</span> 对应的能量中，而这部分能量不会在膨胀阶段再次被取走。</p></li>
+<li><p><em>回旋加热</em>。现在设想 <span class="math inline">\(\mathbf{B}\)</span> 场以频率 <span class="math inline">\(\omega_c\)</span> 振荡。感应电场将与某些粒子同相旋转，并持续加速它们的拉莫尔运动。条件 <span class="math inline">\(\omega\ll \omega_c\)</span> 被破坏，μ 不再守恒，等离子体便可以被加热。</p></li>
+<li><p><em>磁尖点</em>。如果简单磁镜系统中一个线圈的电流反向，就会形成磁尖点。除了通常的磁镜之外，这种构型还具有一个沿方位角延伸 <span class="math inline">\(360^\circ\)</span> 的纺锤尖点磁镜。尖点装置中约束的等离子体应当具有比普通磁镜中更好的稳定性。不幸的是，由于增加了损失区域，损失锥损失更大；而且粒子运动是非绝热的。由于 <span class="math inline">\(\mathbf{B}\)</span> 场在对称中心为零，<span class="math inline">\(\omega_c\)</span> 在那里为零，μ 不再保持不变。中心附近的局部拉莫尔半径大于装置尺寸。因此，绝热不变量 μ 不能保证损失锥外的粒子在穿过非绝热区域后仍处于损失锥外。幸运的是，在这种情况下还有另一个不变量：正则角动量 <span class="math inline">\(p_\theta = mrv_\theta - erA_\theta\)</span>。这保证有一群粒子会一直被俘获，直到发生碰撞。</p></li>
+</ul>
+</section>
+<section id="第二绝热不变量" class="level3" data-number="7.8.5">
+<h3 data-number="7.8.5" class="anchored" data-anchor-id="第二绝热不变量"><span class="header-section-number">7.8.5</span> 第二绝热不变量</h3>
+<p>对快速回旋运动取平均之后，剩下的运动包括弹跳和漂移。</p>
+<p>第二不变量（<span class="math inline">\(I_2\)</span> 或 <span class="math inline">\(J\)</span>）：通过沿磁力线在弹跳点 <span class="math inline">\(s_m\)</span> 与 <span class="math inline">\(s'_m\)</span> 之间对平行动量积分得到： <span class="math display">\[
+J = \oint p_\parallel ds = 2p \int_{s_m}^{s'_m} \sqrt{1 - \frac{B(s)}{B_m}} ds
+\]</span> <span class="math inline">\(J\)</span> 的守恒意味着，当粒子横跨磁力线漂移时，它会调整弹跳路径，使该积分保持不变。</p>
+<p>考虑一个被俘获在两个磁镜之间的粒子：它在两者之间来回弹跳，因此具有以“弹跳频率”进行的周期运动。这个运动的一个常量由 <span class="math inline">\(\oint mv_\parallel ds\)</span> 给出，其中 <span class="math inline">\(ds\)</span> 是沿磁力线的路径长度元（导引中心的路径长度元）。然而，由于导引中心横跨磁力线漂移，运动并非严格周期性的，运动常量因而变成绝热不变量。这称为<em>纵向不变量</em> <span class="math inline">\(J\)</span>，对两个转折点之间的半个周期定义为 <span class="math display">\[
+J = \int_a^b v_\parallel ds
+\]</span></p>
+<p>我们将证明 <span class="math inline">\(J\)</span> 在静态非均匀 B 场中保持不变；这个结果对随时间缓慢变化的 B 场也成立。</p>
+<p>在开始这个略长的证明之前，先考虑一个例子，说明 <span class="math inline">\(J\)</span> 不变定理在哪类问题中有用。如前所见，地球磁场通过磁镜效应俘获带电粒子，这些粒子缓慢地绕地球沿经度方向漂移。如果磁场完全对称，粒子最终会漂回同一条磁力线。然而，实际磁场会受到太阳风等效应的扭曲。在这种情况下，粒子还能回到同一条磁力线吗？由于粒子的能量守恒，且在转折点处等于 <span class="math inline">\(\frac{1}{2} mv_\perp^2\)</span>，μ 的不变性表明转折点处的 <span class="math inline">\(|B|\)</span> 保持不变。然而，粒子漂回同一经度时，可能发现自己位于不同高度的另一条磁力线上。如果 <span class="math inline">\(J\)</span> 守恒，这种情况就不会发生。<span class="math inline">\(J\)</span> 决定了转折点之间磁力线的长度，而任意两条磁力线在 <span class="math inline">\(|B|\)</span> 相同的点之间没有相同的长度。因此，即使磁场略不对称，粒子也会返回同一条磁力线。</p>
+<p>为了证明 <span class="math inline">\(J\)</span> 的不变性，首先考虑 <span class="math inline">\(v_\parallel \delta s\)</span> 的不变性，其中 <span class="math inline">\(\delta s\)</span> 是沿 <span class="math inline">\(\mathbf{B}\)</span> 的一段路径。由于导引中心漂移，位于 <span class="math inline">\(s\)</span> 上的粒子经过时间 <span class="math inline">\(\Delta t\)</span> 后会处于另一条磁力线 <span class="math inline">\(\delta s^\prime\)</span> 上。<span class="math inline">\(\delta s^\prime\)</span> 的长度由穿过 <span class="math inline">\(\delta s\)</span> 两个端点且垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的平面来确定。<span class="math inline">\(\delta s\)</span> 的长度显然与曲率半径成正比： <span class="math display">\[
+\frac{\delta s}{R_c} = \frac{\delta s^\prime}{R_c^\prime}
+\]</span> 因此 <span class="math display">\[
+\frac{\delta s^\prime - \delta s}{\Delta t \delta s} = \frac{R_c^\prime - R_c}{\Delta t R_c}
+\]</span></p>
+<p><span class="math inline">\(\mathbf{v}_{gc}\)</span> 的“径向”分量恰好是 <span class="math display">\[
+\mathbf{v}_{gc}\cdot \frac{\mathbf{R}_c}{R_c} = \frac{R_c^\prime - R_c}{\Delta t}
+\]</span></p>
+<p>弯曲真空场中的导引中心漂移为 <span class="math display">\[
+\mathbf{v}_{gc} = \mathbf{v}_c + \mathbf{v}_{\nabla B} = \pm \frac{1}{2}v_\perp r_L\frac{\mathbf{B}\times\nabla B}{B^2} + \frac{mv_\parallel^2}{q}\frac{\mathbf{R}_c \times\mathbf{B}}{R_c^2 B^2}
+\]</span></p>
+<p>曲率漂移在 <span class="math inline">\(\mathbf{R}_c\)</span> 方向上没有分量。利用上述三个方程，得到</p>
+<p><span class="math display">\[
+\frac{1}{\delta s}\frac{\mathrm{d}}{\mathrm{d}t}\delta s = \mathbf{v}_{gs} \cdot \frac{\mathbf{R}_c}{R_c^2} = \frac{1}{2}\frac{m}{q}\frac{v_\perp^2}{B^3}(\mathbf{B}\times\nabla B)\cdot\frac{\mathbf{R}_c}{R_c^2}
+\]</span></p>
+<p>这是粒子所见的 <span class="math inline">\(\delta s\)</span> 变化率。现在必须求出粒子所见的 <span class="math inline">\(v_\parallel\)</span> 变化率。平行和垂直能量定义为</p>
+<p><span class="math display">\[
+W \equiv \frac{1}{2}mv_\parallel^2 + \frac{1}{2}mv_\parallel^2 = \frac{1}{2}mv_\parallel^2 + \mu B \equiv W_\parallel + W_\perp
+\]</span></p>
+<p>因此 <span class="math inline">\(v_\parallel\)</span> 可写为 <span class="math display">\[
+v_\parallel = \left[ \frac{2}{m}(W - \mu B) \right]^{1/2}
+\]</span></p>
+<p>这里 W 和 μ 是常数，只有 B 变化。因此， <span class="math display">\[
+\frac{\dot{v}_\parallel}{v_\parallel} = -\frac{1}{2}\frac{\mu\dot{B}}{W - \mu B} = -\frac{1}{2}\frac{\mu \dot{B}}{W_\parallel} = -\frac{\mu\dot{B}}{mv_\parallel^2}
+\]</span></p>
+<p>由于假定 B 是静态的，<span class="math inline">\(\dot{B}\)</span> 不为零仅仅是因为导引中心的运动： <span class="math display">\[
+\dot{B} = \frac{\mathrm{d}B}{\mathrm{d}\mathbf{r}}\cdot\frac{\mathrm{d}\mathbf{r}}{\mathrm{d}t} = \mathbf{v}_{gc}\cdot\nabla B = \frac{mv_\parallel^2}{q}\frac{\mathbf{R}_c \times\mathbf{B}}{R_c^2 B^2} \cdot\nabla B
+\]</span></p>
+<p>现在得到 <span class="math display">\[
+\frac{\dot{v}_\parallel}{v_\parallel} = -\frac{\mu}{q}\frac{(\mathbf{R}_c\times\mathbf{B})\cdot\nabla B}{R_c^2 B^2} = -\frac{1}{2}\frac{m}{q}\frac{v_\perp^2}{B} \frac{(\mathbf{R}_c\times\mathbf{B})\cdot\nabla B}{R_c^2 B^2}
+\]</span></p>
+<p><span class="math inline">\(v_\parallel \delta s\)</span> 的相对变化率为 <span class="math display">\[
+\frac{1}{v_\parallel \delta s}\frac{\mathrm{d}}{\mathrm{d}t}(v_\parallel \delta s) = \frac{1}{\delta s}\frac{\mathrm{d}\delta s}{\mathrm{d}t} + \frac{1}{v_\parallel}\frac{\mathrm{d}v_\parallel}{\mathrm{d}t}
+\]</span></p>
+<p>由前面的推导可知，这两项相互抵消，因此 <span class="math display">\[
+v_\parallel \delta s = \text{常数}
+\]</span></p>
+<p>但这并不完全等同于说 <span class="math inline">\(J\)</span> 是常数。在转折点之间对 <span class="math inline">\(v_\parallel \delta s\)</span> 积分时，<span class="math inline">\(\delta s^\prime\)</span> 上的转折点可能与垂直平面的交点不重合。然而，由这种差异引起的 <span class="math inline">\(J\)</span> 误差可以忽略，因为在转折点附近 <span class="math inline">\(v_\parallel\)</span> 接近零。因此，我们证明了 <span class="math display">\[
+J = \int_a^b v_\parallel ds = \text{常数}
+\]</span></p>
+<p>一种称为<em>渡越时间磁泵浦</em>的等离子体加热方案提供了 <span class="math inline">\(J\)</span> 不变性被破坏的例子。假设对磁镜系统的线圈施加振荡电流，使磁镜以接近弹跳频率的频率交替靠近和远离。具有适当弹跳频率的粒子总会看到一个正在靠近的磁镜，因而获得 <span class="math inline">\(v_\parallel\)</span>。在这种情况下 <span class="math inline">\(J\)</span> 不守恒，因为 <span class="math inline">\(\mathbf{B}\)</span> 变化的时间尺度相对于弹跳时间并不长。</p>
+</section>
+<section id="第三绝热不变量" class="level3" data-number="7.8.6">
+<h3 data-number="7.8.6" class="anchored" data-anchor-id="第三绝热不变量"><span class="header-section-number">7.8.6</span> 第三绝热不变量</h3>
+<p>再次考虑地球偶极场的情况，可以看到导引中心绕地球的缓慢漂移构成第三种周期运动。与之相关的绝热不变量是漂移面所包围的总磁通量 <span class="math inline">\(\Phi\)</span>： <span id="eq-magnetic_flux"><span class="math display">\[
+\Phi = \int\mathbf{B}\cdot \mathrm{d}\mathbf{S}
+\tag{7.47}\]</span></span></p>
+<p>几乎可以显然看出，随着 <span class="math inline">\(\mathbf{B}\)</span> 变化，粒子将保持在某个曲面上，使其所包围的磁力线总数保持不变。不变量 <span class="math inline">\(\Phi\)</span> 的应用很少，因为 <span class="math inline">\(\mathbf{B}\)</span> 的大多数涨落发生的时间尺度比漂移周期短。作为 <span class="math inline">\(\Phi\)</span> 不变性被破坏的例子，可以举出近期关于电离层中超低频磁流体力学波激发的一些研究。这些波的周期很长，与粒子绕地球漂移的时间相当。因此，粒子每绕行一周都可能在相同相位遇到波。如果相位合适，粒子的漂移能量可以转化为波能量，从而激发波。</p>
+<p>对于地球辐射带中 L 壳层 4 上一个 1 MeV 电子／离子，以下是一些值得记住的时间尺度，来自 Solène Lejosne 的<a href="https://solenelejosne.com/bounce/">计算器</a>：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">类型</th>
+<th style="text-align: center;">回旋周期</th>
+<th style="text-align: center;">弹跳周期</th>
+<th style="text-align: center;">漂移周期<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1 MeV 电子</td>
+<td style="text-align: center;">0.22 ms</td>
+<td style="text-align: center;">0.22 s</td>
+<td style="text-align: center;">16 mins</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1 MeV 离子</td>
+<td style="text-align: center;">135 ms</td>
+<td style="text-align: center;">5.5 s</td>
+<td style="text-align: center;">11 mins</td>
+</tr>
+</tbody>
+</table>
+<p>在辐射带研究中，通常考虑一个与磁通量成反比的量： <span id="eq-Lstar"><span class="math display">\[
+L^\ast = \frac{2\pi M}{|\phi|R_E} = \frac{2\pi B_{eq}R_E^2}{|\phi|}
+\tag{7.48}\]</span></span> 其中 <span class="math inline">\(M\)</span> 是地球偶极场的磁矩，<span class="math inline">\(R_E\)</span> 是地球半径，<span class="math inline">\(B_{eq}\)</span> 是地球赤道表面的磁场强度。第三不变量的这种表示称为 <span class="math inline">\(L^\ast\)</span>，或 Roederer 的 <span class="math inline">\(L\)</span> 参数：如果将地磁场中的所有非偶极扰动绝热地关闭，只留下偶极场，那么粒子所在的赤道点的径向距离就是该参数（Roederer, 1970）。应当注意，在非偶极场中，<span class="math inline">\(L^\ast\)</span> _不_代表空间坐标，而是稳定俘获粒子的一个性质（Roederer and Lejosne, 2018）。也就是说，在没有加速或损失过程时，<span class="math inline">\(L^\ast\)</span> 定义了一个相空间密度恒定的曲面。如果粒子在漂移过程中遇到辐射带系统的边界（即磁层顶或大气层），导致它从系统中损失，那么该粒子没有 <span class="math inline">\(L^\ast\)</span> 值。此时称粒子处于漂移损失锥中。</p>
+<p>因此，<span class="math inline">\(L\)</span> 和 <span class="math inline">\(L^\ast\)</span> 参数在偶极场中相同，但在非偶极场中不同。通常 <span class="math inline">\(L\)</span> 与粒子通量一起使用，而 <span class="math inline">\(L^\ast\)</span> 更适合相空间密度。 非偶极场中一个有趣的现象是_漂移壳分裂_，它被提出作为导致磁层中压力各向异性的机制之一（<a href="magnetosphere.html" class="quarto-xref"><span>章节 23</span></a>）。</p>
+</section>
+</section>
+<section id="sec-ring-current" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="sec-ring-current"><span class="header-section-number">7.9</span> 环电流</h2>
+<p>单粒子运动的一个典型应用是研究环电流。除了磁层中带电粒子的最低阶运动（即回旋与平行漂移的组合）之外，让我们考察更高阶的修正。对于不随时间变化的场和弱电场，这些修正由 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移、磁场梯度漂移和曲率漂移组合而成： <span class="math display">\[
+\mathbf{v}_{1\perp} = \frac{\mathbf{E}\times\mathbf{B}}{B^2} + \frac{\mu}{m\Omega}\hat{b}\times\nabla B + \frac{v_\parallel^2}{\Omega}\hat{b}\times(\hat{b}\cdot\nabla)\hat{b}
+\]</span></p>
+<p>忽略 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移，因为这种运动只引起磁层内等离子体的对流，不产生电流。相比之下，磁场梯度漂移和曲率漂移伴有净电流。在该电流不会显著改变背景磁场的极限下（即 <span class="math inline">\(\nabla\times\mathbf{B} \simeq \mathbf{0}\)</span>），地球磁层当然属于这种情况，我们可以写出 <span class="math display">\[
+(\mathbf{B}\cdot\nabla)\,\mathbf{B} =-\mathbf{B}\times(\nabla\times \mathbf{B})\simeq \frac{\nabla_\perp B}{B}
+\]</span></p>
+<p>由此可以将高阶漂移合并为 <span class="math display">\[
+\mathbf{v}_{1\perp} = \frac{(v_\perp^{~2}/2+v_\parallel^{~2})}{{\Omega}\,B}\, \mathbf{B}\times\nabla B
+\]</span></p>
+<p>对于偶极场 <a href="math.html#eq-dipole_spherical" class="quarto-xref">式&nbsp;<span>3.14</span></a>，上式给出 <span id="eq-high_order_drifts"><span class="math display">\[
+\mathbf{v}_{1\perp} \simeq -\mathrm{sgn}({\Omega})\,\frac{6\,\mathcal{E} L^2}{eB_E R_E}(1-B/2B_m)\frac{\cos^5\vartheta(1+\sin^2\vartheta)}{(1+3\sin^2\vartheta)^2}\,\hat{\varphi}
+\tag{7.49}\]</span></span> 其中 <span class="math inline">\(\mathcal{E}\)</span> 是粒子的能量，<span class="math inline">\(B_E\)</span> 是地球表面的赤道磁场强度，<span class="math inline">\(B_m\)</span> 是镜点处的磁场强度。 注意漂移沿方位角方向。正漂移速度对应向东运动，负速度对应向西运动。显然，除了回旋运动和沿磁力线的周期弹跳运动之外，磁层中被俘获的带电粒子还会缓慢绕地球进动。离子向西漂移，电子向东漂移，从而形成绕地球流动的向西净电流。这种电流称为_环电流_。</p>
+<p>尽管环电流引起的地球磁场扰动很小，仍然可以被探测到。事实上，环电流会使赤道区域的地球磁场略有减弱。这种减弱的幅度可以很好地衡量范艾伦辐射带中所含带电粒子的数量（<a href="radiationbelt.html" class="quarto-xref"><span>章节 25</span></a>）。在所谓地磁暴的发展过程中，带电粒子从外磁层注入范艾伦辐射带，使环电流急剧增强，并使地球赤道磁场相应减弱。这些粒子最终从磁层沉降到高纬度地区的高层大气中，引发强烈的极光活动、严重的电磁通信干扰，在极端情况下还会破坏电网。环电流引起的地球磁场减弱由所谓的 <em>Dst</em> 指数衡量，该指数基于四个低纬度观测站记录的地磁场向北水平分量的逐小时平均值；这四个观测站位于檀香山（夏威夷）、圣胡安（波多黎各）、赫马努斯（南非）和柿冈（日本）。Dst 指数降低 600 nT 对应于地球赤道磁场减弱 <span class="math inline">\(2\%\)</span>。</p>
+<p>根据 <a href="#eq-high_order_drifts" class="quarto-xref">式&nbsp;<span>7.49</span></a>，磁层中带电粒子的进动漂移速度随纬度增加而迅速减小（即大部分环电流集中在赤道平面内）。由于粒子绕地球完整旋转一周通常会完成许多次弹跳，适合对 <a href="#eq-high_order_drifts" class="quarto-xref">式&nbsp;<span>7.49</span></a> 在一个弹跳周期上取平均，以得到_平均_漂移速度。这种平均只能通过数值方法完成。最终结果可用下式很好地近似： <span id="eq-drift_ring_current"><span class="math display">\[
+\langle v_d\rangle \simeq \frac{6\,\mathcal{E}\,L^2}{e\,B_E\,R_E} \,(0.35 + 0.15\,\sin\alpha_\mathrm{eq})
+\tag{7.50}\]</span></span></p>
+<p>平均漂移周期（即绕地球完整旋转一周所需的时间）为 <span class="math display">\[
+\langle \tau_d\rangle = \frac{2\pi\,L\,R_E}{\langle v_d\rangle}\simeq\frac{\pi e B_E R_E^2}{3\,\mathcal{E}\,L}\,(0.35 + 0.15\,\sin\alpha_\mathrm{eq})^{-1}
+\]</span></p>
+<p>因此，质子和电子的漂移周期为 <span class="math display">\[
+\langle \tau_d\rangle_p=\langle \tau_d\rangle_e \simeq \frac{1.05}{\mathcal{E}(\text{MeV})L}\,(1+0.43\,\sin\alpha_\mathrm{eq})^{-1}\,\,\,\text{小时}
+\]</span></p>
+<p>注意，MeV 能量的电子和离子绕地球进动的速度大致相同，只是方向相反，因为 <a href="#eq-drift_ring_current" class="quarto-xref">式&nbsp;<span>7.50</span></a> 中没有显式的质量依赖。绕行一周通常需要 <span class="math inline">\(\sim 20\)</span> 分钟。与弹跳周期一样，漂移周期对赤道俯仰角 <span class="math inline">\(\alpha_\mathrm{eq}\)</span> 的依赖很弱。略显矛盾的是，在更远的 <span class="math inline">\(L\)</span> 壳层上漂移周期更短。当然，只有当内磁层在约一小时的时间尺度上保持平静时，粒子才有机会绕地球完整旋转一周，而这种情况远非总会发生。</p>
+<p>注意，由于电子的静质量为 <span class="math inline">\(0.511\,\mathrm{MeV}/c^2\)</span>，上述大多数公式应用于 MeV 能量电子时需要相对论修正。不过，质子没有这个问题，其静质量能量为 <span class="math inline">\(0.938\,\mathrm{GeV}/c^2\)</span>。</p>
+<p>现有理论认为，相对于区域 I 电流处于较低纬度的区域 II 电流与环电流密切相关，更准确地说，与夜侧的部分环电流（亚暴电流楔？）密切相关。环电流由超热电子和离子产生，而非由热粒子部分产生，因此需要特别注意高能尾部分布；仅能分辨热部分的模型可能不包含这一分布。</p>
+</section>
+<section id="粒子加速" class="level2" data-number="7.10">
+<h2 data-number="7.10" class="anchored" data-anchor-id="粒子加速"><span class="header-section-number">7.10</span> 粒子加速</h2>
+<p>所有粒子加速本质上都来自电场做功。 经典理论考虑绝热机制；与湍流或波–粒相互作用等非绝热机制在后面加入。检验绝热假设是否有效的一个判据为 <span class="math display">\[
+\kappa = \sqrt{R_C / R_L} &gt; \kappa_\mathrm{set}
+\]</span> 其中 <span class="math inline">\(R_C\)</span> 是曲率半径，<span class="math inline">\(R_L\)</span> 是粒子的回旋半径。如果 <span class="math inline">\(\kappa\)</span> 很大，意味着变化的磁场结构的特征长度相对于回旋运动尺度很大。实际中通常取 <span class="math inline">\(\kappa_\mathrm{set} \simeq 3\)</span>。</p>
+<p>绝热加速有三种基本机制：</p>
+<ul>
+<li><p>_感应加速_是指磁场强度随时间缓慢增大的情况（相对于一个回旋周期而言缓慢，即绝热假设），因此 <span class="math inline">\(\mu\)</span> 保持不变，但由于存在电场（与随时间变化的磁场相关），粒子动能并不恒定。于是，由于 <span class="math inline">\(\mu\)</span> 不变，垂直能量增大。检验感应加速的一个简单模型是根据磁场变化确定能量变化。</p></li>
+<li><p><em>费米加速_是带电粒子沿正在弛豫的弯曲磁力线流动和漂移时经历的加速。它发生在粒子被反复反射时，通常由磁镜引起。<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> 费米加速是第二绝热不变量守恒的结果，当磁通管长度减小时会加速粒子。磁尾中另一种费米加速以“反射”的形式出现，类似于经典系统中一个球在两面相向运动的墙之间反弹并获得能量。费米加速有两种类型：<em>一阶费米加速</em>（在激波中）和_二阶费米加速</em>（在运动的磁化气体云环境中）<span class="citation" data-cites="axford1977acceleration">(<a href="#ref-axford1977acceleration" role="doc-biblioref">Axford 等 1977年</a>)</span>。一阶费米加速涉及粒子与激波等运动磁结构迎面碰撞并获得能量，每次碰撞的能量增益与激波速度成正比。二阶费米加速涉及粒子被运动的磁化云随机散射并获得能量，每次碰撞的能量增益与云速度的平方成正比，因此效率低于一阶加速。在两种情况下，为使机制有效，环境都必须是无碰撞的，并且预先存在中等能量的粒子。这是因为费米加速只适用于能量高于热能的粒子，而与周围粒子频繁碰撞会造成严重的能量损失（加热），从而无法发生加速。详见 <a href="https://en.wikipedia.org/wiki/Fermi_acceleration">wiki</a> 和 <span class="citation" data-cites="fermi1949origin">(<a href="#ref-fermi1949origin" role="doc-biblioref">Fermi 1949年</a>)</span>。</p></li>
+<li><p><em>局域电场</em> <span class="math inline">\(E_\parallel\)</span>（平行于磁场）直接加速粒子。研究发现，偶极化锋面等结构中平行电场的直接加速小于观测误差。</p></li>
+</ul>
+<p>需要指出加速和加热之间的区别。当考虑单个粒子的运动时，不存在温度这样的概念，因此也不存在加热。 然而，一群粒子的加速可以使速度分布扩展，从而提高温度。 实际中，人们对高能尾部使用“加速”一词，对热粒子群使用“加热”一词。</p>
+<p>在激波情况下，有以下几种加速类型：</p>
+<ul>
+<li><p><em>扩散激波加速</em>（DSA）。DSA 实际上被认为是费米加速的一个子类，具体来说是一阶费米加速。DSA 中的“扩散”指粒子被磁湍流散射，从而能够反复穿越激波锋面。</p></li>
+<li><p><em>激波漂移加速</em>（SDA）。激波过渡区内的梯度可能引起激波漂移加速：离子沿激波锋面运动，多次回旋穿过跃升区，之后进入下游或逃逸到上游区域。这种漂移既垂直于磁场，也垂直于激波法线。粒子沿激波锋面漂移时从电场获得能量；该电场可以由等离子体的突然压缩产生。</p></li>
+<li><p><em>激波冲浪加速</em>（SSA）。当带电粒子被“俘获”在激波锋面的电势中时，会发生 SSA。粒子被磁场反复反射穿过激波锋面，实际上是在激波上“冲浪”。粒子在每次反射过程中从电场获得能量。</p></li>
+<li><p><em>随机激波漂移加速</em>（SSDA）。SSDA 在一般 SDA 理论中引入随机过程：被加速的电子受到激波过渡层中哨声波的俯仰角散射，使电子能够更长时间地经历 SDA 过程，因而获得更多能量。</p></li>
+</ul>
+<p>SDA 和 SSA 都是粒子预加速的重要机制，即它们可以将粒子注入 DSA 等进一步加速过程。DSA 是产生高能宇宙线的主要机制。 俯仰角分布（PAD）是区分感应加速和费米加速的重要工具。 由于感应加速作用于垂直运动的粒子，它产生在 <span class="math inline">\(90^\circ\)</span> 附近达到峰值的俯仰角分布，有时称为“饼状分布”。 另一方面，费米加速作用于平行运动的粒子，因此产生沿磁场和反磁场方向的分布，称为“雪茄状分布”。</p>
+<p>在绝热假设和导引中心近似下，粒子能量 <span class="math inline">\(\mathcal{E}\)</span> 的演化可写为（<span class="citation" data-cites="northrop1963adiabatic">Northrop (<a href="#ref-northrop1963adiabatic" role="doc-biblioref">1963年</a>)</span>, <span class="citation" data-cites="dahlin2014mechanisms">Dahlin 等 (<a href="#ref-dahlin2014mechanisms" role="doc-biblioref">2014年</a>)</span>） <span id="eq-particle_energization_nonrelativistic1"><span class="math display">\[
+\frac{\mathrm{d}\mathcal{E}}{dt} = \frac{\mu}{\gamma} \frac{\partial B}{\partial t} + q (\mathbf{v}_\parallel + \mathbf{v}_c + \mathbf{v}_g)\cdot \mathbf{E}
+\tag{7.51}\]</span></span> 其中 <span class="math inline">\(\mu=m \gamma^2 v_\perp^2/(2B)\)</span> 是磁矩，<span class="math inline">\(\gamma\)</span> 是相对论洛伦兹因子，<span class="math inline">\(\mathbf{v}_c\)</span> 和 <span class="math inline">\(\mathbf{v}_g\)</span> 分别是曲率和梯度漂移速度： <span class="math display">\[
+\mathbf{v}_c = \frac{v_\parallel^2 \mathbf{b}}{\Omega_{c}} \times \pmb{\kappa}
+\]</span> <span class="math display">\[
+\mathbf{v}_g = \frac{v_\perp^2 \mathbf{b}}{2\Omega_{c}} \times \frac{\nabla B}{B}
+\]</span></p>
+<p><span class="math inline">\(\Omega_{c} = eB/(\gamma m c)\)</span> 是回旋频率，<span class="math inline">\(\pmb{\kappa} = \mathbf{b}\cdot\nabla\mathbf{b}\)</span> 是曲率。<a href="#eq-particle_energization_nonrelativistic1" class="quarto-xref">式&nbsp;<span>7.51</span></a> 可等价地写为 <span id="eq-particle_energization_nonrelativistic2"><span class="math display">\[
+\frac{\mathrm{d}\mathcal{E}}{dt} = qE_\parallel v_\parallel + \frac{\mu}{\gamma}\left( \frac{\partial B}{\partial t} + \mathbf{u}_E \cdot\nabla B \right) + \gamma m v_\parallel^2 (\mathbf{u}_E \cdot \pmb{\kappa})
+\tag{7.52}\]</span></span></p>
+<p><a href="#eq-particle_energization_nonrelativistic2" class="quarto-xref">式&nbsp;<span>7.52</span></a> 用 ExB 漂移描述加速过程：粒子向更强的 B 场或 B 曲率方向漂移时得到加速。 第一项是平行电场引起的加速。第二项对应于 <span class="math inline">\(\mu\)</span> 守恒导致的垂直加热或冷却。 第三项驱动平行加速，来自一阶费米机制。 例如，重联 X 线下游新近重联的磁力线因张力（<span class="math inline">\(\sim B^2\pmb{\kappa}\)</span>）而加速并“拉直”。 从这条运动磁力线反射的粒子会受到一次费米“踢动”，从而获得能量。 被俘获在细长磁岛中的粒子，其两端由于这些张力而收缩，粒子从磁岛两端反射时会反复获得能量。 更一般地，任何从这条运动的弯曲磁力线反射的粒子都会获得能量。</p>
+<p>如果对 <a href="#eq-particle_energization_nonrelativistic2" class="quarto-xref">式&nbsp;<span>7.52</span></a> 中相空间里的所有粒子积分，粒子总能量的变化可写为（非相对论情况） <span id="eq-particle_energization_total"><span class="math display">\[
+\frac{\mathrm{d}\mathcal{E_\mathrm{tot}}}{dt} = E_\parallel J_\parallel + \frac{p_\perp}{B}\left( \frac{\partial B}{\partial t} + \mathbf{u}_E \cdot\nabla B \right) + \left(p_\parallel + m n u_\parallel^2 \right)\mathbf{u}_E \cdot \pmb{\kappa}
+\tag{7.53}\]</span></span> 右侧各项分别是平行电场加速、感应加速和费米加速。根据 <a href="#eq-particle_energization_nonrelativistic1" class="quarto-xref">式&nbsp;<span>7.51</span></a> 右侧的漂移项，还可以加入其他项，例如下面所示的极化漂移。</p>
+<p>粒子加速是磁重联和激波的重要结果。 在磁重联过程中，能量从磁场迅速转化给粒子，表现为流动、整体“热”加热和高能“非热”尾部。 <span class="citation" data-cites="ji2022magnetic">(<a href="#ref-ji2022magnetic" role="doc-biblioref">Ji 等 2022年</a>)</span> 描述了目前对非相对论和相对论情况下磁重联期间电子加速的认识。 第一性原理数值模拟表明，在低 <span class="math inline">\(\beta\)</span>、具有中等强度导引磁场（垂直于重联平面）的系统中，幂律非热粒子群更为常见，并且与简化的二维计算相比，三维情况下的加速效率更高。 人们已研究了多种加速机制。 在没有导引场的 X 线附近的局域扩散区中，粒子可能变得非磁化，在沿所谓的 <em>Speiser</em> 轨道或_游荡轨道_运动时容易被重联电场直接加速。 近期实验室中已有证据表明，在使用激光驱动电容线圈的低 <span class="math inline">\(\beta\)</span> 磁驱动重联过程中，这种机制正在加速电子。 数值证据还表明，在三维情况下，当粒子变得非磁化并从等离子体团逃逸时，被这种机制加速的粒子携带了相当一部分耗散的磁能。</p>
+<p>在更大尺度上，当粒子保持磁化时，三种基本粒子加速过程在无碰撞重联中占主导地位。 非相对论极限下的能量增长率近似由下式给出： <span id="eq-particle_energization_nonrelativistic3"><span class="math display">\[
+\frac{\mathrm{d}\mathcal{E}}{dt} = qE_\parallel v_\parallel + \mu\frac{\mathrm{d}B}{\mathrm{d}t} + q\mathbf{E}\cdot\mathbf{u}_c + \frac{1}{2}m\frac{\mathrm{d}}{\mathrm{d}t}|\mathbf{u}_E|^2
+\tag{7.54}\]</span></span> 其中 <span class="math inline">\(\mathcal{E}\)</span> 是粒子能量，<span class="math inline">\(\mathbf{u}_E\)</span> 是 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移速度，<span class="math inline">\(\frac{\mathrm{d}}{\mathrm{d}t}=\frac{\partial}{\partial t} + \mathbf{u}_E\cdot\nabla\)</span>，<span class="math inline">\(E_\parallel\)</span> 是平行电场，<span class="math inline">\(v_\parallel\)</span> 是经漂移修正的导引中心平行速度。 对于缓慢变化的场，<span class="math inline">\(\mathbf{u}_c\)</span> 是粒子的曲率漂移，可化为 <span class="math inline">\(\mathbf{u}_c \sim(mv_\parallel^2/qB)(\hat{b}\times\pmb{\kappa})\)</span>，其中 <span class="math inline">\(\pmb{\kappa}=\hat{b}\cdot\nabla\hat{b}\)</span> 是磁场曲率，<span class="math inline">\(\hat{b}\)</span> 是沿 <span class="math inline">\(\mathbf{B}\)</span> 方向的单位矢量。 右侧各项分别表示由平行电场、感应加热、费米加速和极化漂移引起的能量增益。 前三种机制示意于 <a href="#fig-particle-acceleration-reconnection" class="quarto-xref">图&nbsp;<span>7.4</span></a>。极化漂移对较低能量的离子尤其重要，这一项描述大尺度重联流出射流中的动能增益。 虽然 <a href="#eq-particle_energization_nonrelativistic3" class="quarto-xref">式&nbsp;<span>7.54</span></a> 在非相对论极限下有效，但在与天体物理系统有关的更极端相对论情况下，粒子增能也是由相同的基本加速机制造成的。</p>
+<div id="fig-particle-acceleration-reconnection" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-particle-acceleration-reconnection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://media.springernature.com/lw685/springer-static/image/art%3A10.1038%2Fs42254-021-00419-x/MediaObjects/42254_2021_419_Fig5_HTML.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-particle-acceleration-reconnection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;7.4: 粒子加速机制示意图。重联电场沿 <span class="math inline">\(y\)</span> 方向。 重联电场加速发生在 X 线附近，与 Speiser 轨道有关；平行电场加速发生在分界面附近，分界面是上游（重联前）和下游（重联后）区域之间的边界。当 X 线附近的粒子与平行电场相互作用时，离子（电子）沿电场方向（反方向）加速，直接加速项 <span class="math inline">\(qE_\parallel v_\parallel\)</span>（<a href="#eq-particle_energization_nonrelativistic3" class="quarto-xref">式&nbsp;<span>7.54</span></a> 右侧第一项）为正。当粒子流入流出区中磁场更强的区域时，会发生感应加速。在这个轨迹示例中，粒子因 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 运动沿 z 正方向移动，<span class="math inline">\(\nabla B\)</span> 也沿 z 正方向。因此，<a href="#eq-particle_energization_nonrelativistic3" class="quarto-xref">式&nbsp;<span>7.54</span></a> 的第二项为正。费米加速发生在磁力线曲率大的区域。在本例中，等离子体团沿 <span class="math inline">\(z\)</span> 方向伸长，因此磁力线在 <span class="math inline">\(x = 0\)</span> 处曲率最大。在等离子体团内部，由于较大的曲率漂移，粒子沿 <span class="math inline">\(y\)</span> 方向获得较大的速度踢动，并从重联电场获得显著能量（<span class="math inline">\(q\mathbf{E}\cdot\mathbf{u}_c &gt; 0\)</span>）。在流出区，俘获粒子每次经过 <span class="math inline">\(x = 0\)</span> 处的高曲率区域时都会获得能量。di 是离子惯性长度。图 5 出自 <span class="citation" data-cites="ji2022magnetic">(<a href="#ref-ji2022magnetic" role="doc-biblioref">Ji 等 2022年</a>)</span>
+</figcaption>
+</figure>
+</div>
+<p>当粒子由磁力线曲率引起的漂移与重联电场同向时，粒子获得能量；这是费米加热的一种形式。费米加速可能解决加热模型面临的两个主要难题。首先，当存在许多磁岛或等离子体团时，它可以在很大的体积内发挥作用；在存在三维遍历磁力线时，电子可以到达这些结构。已有若干磁岛或等离子体团附近高能电子的空间观测。其次，费米过程自然产生幂律，因为经历费米加速的粒子获得能量的速率与其能量成正比，<span class="math inline">\(\delta\mathcal{E}\propto \mathcal{E}\)</span>。在非相对论极限下，费米加速造成的绝热粒子增能与磁化粒子的其他加热机制一起，导出磁通管内粒子分布 <span class="math inline">\(f(v_\parallel, v_\perp)\)</span> 的类 Parker 输运方程，其中包括随时间变化的等离子体密度 <span class="math inline">\(n\)</span> 和磁场 <span class="math inline">\(\mathbf{B}\)</span>： <span id="eq-parker_transport"><span class="math display">\[
+\frac{\partial f}{\partial t} + \frac{\dot{B}}{B}v_\perp^2\frac{\partial f}{\partial v_\perp^2} + \left( \frac{\dot{n}}{n} - \frac{\dot{B}}{B} \right)v_\parallel\frac{\partial f}{\partial v_\parallel} = \frac{D\{ f \}}{\tau_\text{diff}} - \frac{f}{\tau_\text{esc}} + \frac{f_\text{inj}}{\tau_\text{inj}}
+\tag{7.55}\]</span></span> 其中 <span class="math inline">\(\frac{D\{ f \}}{\tau_\text{diff}}\)</span> 包含俯仰角散射或能量散射等扩散过程，<span class="math inline">\(\tau_\text{esc}\)</span> 是粒子逃离重联区域的典型时间，<span class="math inline">\(f_\text{inj}/\tau_\text{inj}\)</span> 是新注入粒子的源项。在某些假设下，这个输运方程会产生幂律解，不过在存在显著导引磁场分量时，费米过程产生幂律非热尾部的效率会大幅降低。在某些假设下，可以使用 MHD 模拟得到的速度场和磁场求解 Parker 方程，以预测粒子加速，但这种方法不包括自洽反馈。</p>
+</section>
+<section id="测试粒子模型" class="level2" data-number="7.11">
+<h2 data-number="7.11" class="anchored" data-anchor-id="测试粒子模型"><span class="header-section-number">7.11</span> 测试粒子模型</h2>
+<p>测试粒子方法不是自洽的，因为我们只描述场对粒子的作用，而不描述粒子对场的反作用。这将偏微分方程简化为更容易求解的常微分方程。尽管如此，我们仍利用测试粒子的轨迹推断系统的近似动力学性质。你会看到许多利用测试粒子运动导出的漂移来理解更复杂情况的例子，特别是在稳定性分析方面。</p>
+<p>测试粒子建模有四种方法：</p>
+<ol type="1">
+<li><p>轨迹采样。它求解单个粒子的轨迹，但选择样本可能并不简单。</p></li>
+<li><p>正向蒙特卡洛。在已知 <span class="math inline">\(f\)</span> 的源区注入粒子，并追踪它们直到到达感兴趣的区域。这与 PIC 类似，只是场不是自洽的。</p></li>
+<li><p><em>正向刘维尔方法</em>。</p></li>
+<li><p><em>反向刘维尔方法</em>。它也利用关于 <span class="math inline">\(f\)</span> 的刘维尔定理，但既不在 <span class="math inline">\(\mathbf{x}\)</span> 空间也不在 <span class="math inline">\(\mathbf{v}\)</span> 空间采样，因而没有统计误差。该过程从选取空间中给定的一点 <span class="math inline">\(\mathbf{x}\)</span> 开始……</p></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-axford1977acceleration" class="csl-entry" role="listitem">
+Axford, WI, E Leer, 和 G Skadron. 1977年. <span>《The acceleration of cosmic rays by shock waves》</span>. <em>International cosmic ray conference</em> 11. <a href="https://doi.org/10.1007/978-3-662-25523-0">https://doi.org/10.1007/978-3-662-25523-0</a>.
+</div>
+<div id="ref-dahlin2014mechanisms" class="csl-entry" role="listitem">
+Dahlin, JT, JF Drake, 和 M Swisdak. 2014年. <span>《The mechanisms of electron heating and acceleration during magnetic reconnection》</span>. <em>Physics of Plasmas</em> 21 (9). <a href="https://doi.org/10.1063/1.4894484">https://doi.org/10.1063/1.4894484</a>.
+</div>
+<div id="ref-fermi1949origin" class="csl-entry" role="listitem">
+Fermi, Enrico. 1949年. <span>《On the origin of the cosmic radiation》</span>. <em>Physical review</em> 75 (8): 1169. <a href="https://doi.org/10.1103/PhysRev.75.1169">https://doi.org/10.1103/PhysRev.75.1169</a>.
+</div>
+<div id="ref-ji2022magnetic" class="csl-entry" role="listitem">
+Ji, Hantao, William Daughton, Jonathan Jara-Almonte, Ari Le, Adam Stanier, 和 Jongsoo Yoo. 2022年. <span>《Magnetic reconnection in the era of exascale computing and multiscale experiments》</span>. <em>Nature Reviews Physics</em> 4 (4): 263～82. <a href="https://doi.org/10.1038/s42254-021-00419-x">https://doi.org/10.1038/s42254-021-00419-x</a>.
+</div>
+<div id="ref-northrop1963adiabatic" class="csl-entry" role="listitem">
+Northrop, Theodore G. 1963年. <span>《Adiabatic charged-particle motion》</span>. <em>Reviews of Geophysics</em> 1 (3): 283～304. <a href="https://doi.org/10.1029/RG001i003p00283">https://doi.org/10.1029/RG001i003p00283</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>将 <span class="math inline">\(\mathbf{B}\)</span> 的每个分量写出即可检验最后一个等式。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>我在这里有些迷惑。这里的逻辑可能是先假设解中有一个额外的稳定漂移，因此令 <span class="math inline">\(\ddot{v}_y = 0\)</span>？查阅 Y.Y 的笔记。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>这个不变量之所以带有“绝热”之名，是因为历史上保罗·埃伦费斯特首先在热力学的可逆绝热过程中对其进行了系统研究。后来“可逆”一词被省略，它便被称为“绝热不变量”，尽管这一结论适用于缓慢变化的一般系统，而这些系统可能与热力学毫无关系。这与量子力学也有深刻联系。在中文中，更加合理的翻译是“浸渐不变量”，而非“绝热不变量”。<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>注意，对于同一 L 壳层上具有相同能量的粒子，电子的漂移比离子慢！<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>磁镜结构俘获电子，为费米加速过程提供更多时间和空间。有观测证据表明，强烈的电子加速可能与磁镜模的有利出现有关。磁通绳合并也可能有利于费米加速，以及扩散区附近由重联电场引起的直接加速。<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/unit.html" class="pagination-link" aria-label="单位换算">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/fluid.html" class="pagination-link" aria-label="作为流体的等离子体">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/single.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

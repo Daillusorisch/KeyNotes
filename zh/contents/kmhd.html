@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>15&nbsp; 动理学磁流体力学 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/gyrokinetics.html" rel="next">
+<link href="../contents/reconnection.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/kmhd.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#sec-firehose" id="toc-sec-firehose" class="nav-link active" data-scroll-target="#sec-firehose"><span class="header-section-number">15.1</span> 消防水管不稳定性：线性理论</a></li>
+  <li><a href="#sec-mirror" id="toc-sec-mirror" class="nav-link" data-scroll-target="#sec-mirror"><span class="header-section-number">15.2</span> 镜像不稳定性：线性理论</a>
+  <ul class="collapse">
+  <li><a href="#与慢模的比较" id="toc-与慢模的比较" class="nav-link" data-scroll-target="#与慢模的比较"><span class="header-section-number">15.2.1</span> 与慢模的比较</a></li>
+  </ul></li>
+  <li><a href="#压强各向异性的起源" id="toc-压强各向异性的起源" class="nav-link" data-scroll-target="#压强各向异性的起源"><span class="header-section-number">15.3</span> 压强各向异性的起源</a></li>
+  <li><a href="#备注" id="toc-备注" class="nav-link" data-scroll-target="#备注"><span class="header-section-number">15.4</span> 备注</a>
+  <ul class="collapse">
+  <li><a href="#备注-i" id="toc-备注-i" class="nav-link" data-scroll-target="#备注-i"><span class="header-section-number">15.4.1</span> 备注 I</a></li>
+  <li><a href="#备注-ii" id="toc-备注-ii" class="nav-link" data-scroll-target="#备注-ii"><span class="header-section-number">15.4.2</span> 备注 II</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/kmhd.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-kmhd" class="quarto-section-identifier"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>本文取材于 Alexander Schekochihin 教授的手写讲义。理论物理学家喜欢 CGS 单位制，但我在此倾向于使用 SI 单位制。笔记后面的部分可能混用单位，因此请注意。</p>
+<p>首先，我们说明对于磁化、弱碰撞等离子体（<span class="math inline">\(\nu_\text{colli} \ll \Omega_s\)</span>，<span class="math inline">\(r_L\ll \lambda_\text{mfp}\)</span>，其中 <span class="math inline">\(\lambda_\text{mfp}\)</span> 是平均自由程），低频（<span class="math inline">\(\omega \ll \Omega_s\)</span>）、长波长（<span class="math inline">\(kr_L\ll 1\)</span>）动力学如何由一组与熟悉的 MHD 方程十分相似的方程决定。我们稍后会看到，它们与 MHD 的不同之处会深刻影响动力学 — 实际上，我们尚未完全理解这对高-<span class="math inline">\(\beta\)</span> 等离子体的全部影响。因此，这也是理论等离子体天体物理学的前沿课题之一。</p>
+<p>从第一性原理出发。我们感兴趣的任何等离子体都由 Vlasov-Maxwell-Landau 方程组描述： <span id="eq-kmhd_boltzmann"><span class="math display">\[
+\frac{\partial f_s}{\partial t} + \mathbf{v}\cdot\nabla f_s + \frac{q_s}{m_s}\Big[\mathbf{E} + \mathbf{v}\times\mathbf{B} \Big]\frac{\partial f_s}{\partial\mathbf{v}} = C(f_s)
+\tag{15.1}\]</span></span></p>
+<p>根据我们的假设，Maxwell 方程可以简化。 <span class="math display">\[
+\nabla\cdot\mathbf{E} = \epsilon_0 \sum_s q_s n_s,\, n_s=\int \mathrm{d}\mathbf{v}f_s
+\]</span></p>
+<p>当 <span class="math inline">\(k^2\lambda_{De}\ll 1\)</span> 时，<span class="math inline">\(\nabla\cdot\mathbf{E}\)</span> 很小，这直接给出准中性条件。</p>
+<p><span class="math display">\[
+\nabla\cdot\mathbf{B} = 0
+\]</span></p>
+<p><span class="math display">\[
+\frac{\partial\mathbf{B}}{\partial t} = -\nabla\times\mathbf{E}
+\]</span></p>
+<p><span class="math display">\[
+\nabla\times\mathbf{B} = \mu_0\mathbf{j} + \cancel{\epsilon_0\mu_0 \frac{\partial\mathbf{E}}{\partial t}},\, \mathbf{j} = \sum_s n_s q_s \mathbf{u}_s, \mathbf{u}_s = \frac{1}{n_s}\int \mathrm{d}\mathbf{v}\mathbf{v} f_s
+\]</span></p>
+<p>对于低频波和非相对论运动，由于 <span class="math inline">\(\omega\ll kc\)</span>，位移电流可以忽略。</p>
+<p>直观上，我们倾向于把等离子体看作具有密度 <span class="math inline">\(n_s\)</span>、速度 <span class="math inline">\(\mathbf{u}_s\)</span>，以及可能的压强、温度等量的流体（或由若干粒子组分构成的多流体）。这源于我们对碰撞气体（<span class="math inline">\(\nu\gg \omega\)</span>）的经验：它们处于局域 Maxwell 平衡： <span class="math display">\[
+f_s = \frac{n_s}{(\pi v_{\text{th},s}^2)^{3/2}}e^{-\frac{(\mathbf{v}-\mathbf{v}_s)^2}{v_{\text{th},s}^2}},\, v_{\text{th},s} = \sqrt{\frac{2k_B T_s}{m_s}}
+\]</span> 其中 <span class="math inline">\(n_s, \mathbf{u}_s\)</span> 和 <span class="math inline">\(T_s\)</span> 由流体方程支配。</p>
+<p>为了将等离子体视为流体，我们把粒子运动分成两部分： <span class="math display">\[
+\mathbf{v} = \mathbf{u}_s(t,\mathbf{r}) + \mathbf{w}
+\]</span> 其中 <span class="math inline">\(\mathbf{u}_s\)</span> 表示组分 <span class="math inline">\(s\)</span> 的平均速度（类流体描述），<span class="math inline">\(\mathbf{w}\)</span> 表示“无规”速度或内部运动（动理学描述）。这相当于变量变换 <span class="math display">\[
+(t,\mathbf{r},\mathbf{v}) \rightarrow (t,\mathbf{r},\mathbf{w}),\quad\mathbf{w} = \mathbf{v} - \mathbf{u}_s(t,\mathbf{r})
+\]</span> 在此变换下，新基底中的导数写为 <span id="eq-kmhd_change_of_var"><span class="math display">\[
+\begin{aligned}
+\frac{\partial}{\partial t}&amp;\rightarrow \frac{\partial}{\partial t} - \frac{\partial\mathbf{u}_s}{\partial t}\cdot\frac{\partial}{\partial\mathbf{w}} \\
+\nabla&amp;\rightarrow \nabla-(\nabla\mathbf{u}_s)\cdot\frac{\partial}{\partial\mathbf{w}} \\
+\frac{\partial}{\partial\mathbf{v}}&amp;\rightarrow \frac{\partial}{\partial\mathbf{w}}
+\end{aligned}
+\tag{15.2}\]</span></span></p>
+<p>这可以利用链式法则和下列关系推导： <span class="math display">\[
+\begin{aligned}
+t^\prime &amp;= t \\
+\mathbf{r}^\prime &amp;= \mathbf{r} \\
+\mathbf{w} &amp;= \mathbf{v} - \mathbf{u}_s(t,\mathbf{r})
+\end{aligned}
+\]</span></p>
+<p>注意这三个变量相互独立，对于任意量 <span class="math inline">\(f\)</span>，有 <span class="math display">\[
+\begin{aligned}
+\frac{\partial f}{\partial t} &amp;= \frac{\partial f}{\partial t^\prime}\cdot\frac{\partial t^\prime}{\partial t} + \frac{\partial f}{\partial \mathbf{r}^\prime}\cdot\frac{\partial\mathbf{r}^\prime}{\partial t} + \frac{\partial f}{\partial\mathbf{w}}\cdot\frac{\partial\mathbf{w}}{\partial t} \\
+&amp;= \frac{\partial f}{\partial t} - \frac{\partial\mathbf{u}_s}{\partial t}\cdot\frac{\mathbf{\partial f}}{\partial \mathbf{w}}
+\end{aligned}
+\]</span></p>
+<p>类似地可以推导 <a href="#eq-kmhd_change_of_var" class="quarto-xref">式&nbsp;<span>15.2</span></a> 中的另外两个关系。于是 Boltzmann 方程变为 <span id="eq-boltzmann_change_of_var"><span class="math display">\[
+\Big( \frac{\partial}{\partial t} + \mathbf{u}_s\cdot\nabla\Big)f_s + (\mathbf{w}\cdot\nabla)f_s + \Big(\frac{q_s}{m_s}\mathbf{w}\times\mathbf{B} +\mathbf{a}_s -\mathbf{w}\cdot\nabla\mathbf{u}_s )\cdot\frac{\partial f_s}{\partial\mathbf{w}} = C(f_s)
+\tag{15.3}\]</span></span> 其中 <span class="math display">\[
+\mathbf{a}_s = \frac{q_s}{m_s}\Big(\mathbf{E} + \mathbf{u}_s\times\mathbf{B} \Big) - \frac{\mathrm{d}\mathbf{u}_s}{\mathrm{d}t}
+\]</span> 由定义，现在恒有 <span class="math inline">\(\int \mathrm{d}\mathbf{w}\mathbf{w}f_s = 0\)</span>。接下来对 <a href="#eq-boltzmann_change_of_var" class="quarto-xref">式&nbsp;<span>15.3</span></a> 求各阶矩。零阶矩（<span class="math inline">\(\int \mathrm{d}\mathbf{w}\)</span>）给出 <span class="math display">\[
+\begin{aligned}
+\int \frac{df_s}{\mathrm{d}t} \mathrm{d}\mathbf{w} + \int (\mathbf{w}\cdot\nabla)f_s \mathrm{d}\mathbf{w} + \int \Big[... \Big]\cdot\frac{\partial f_s}{\partial\mathbf{w}} \mathrm{d}\mathbf{w} = 0 \\
+\frac{\mathrm{d}}{\mathrm{d}t}\int f_s \mathrm{d}\mathbf{w} + \cancel{\nabla\cdot\int \mathbf{w}f_s \mathrm{d}\mathbf{w}} - \int (\mathbf{w}\cdot\nabla\mathbf{u}_s)\cdot\frac{\partial f_s}{\partial\mathbf{w}} \mathrm{d}\mathbf{w} = 0 \\
+\frac{dn_s}{\mathrm{d}t} + \int f_s \frac{\partial}{\partial\mathbf{w}}\big(\mathbf{w}\cdot\nabla\mathbf{u}_s \big)\mathrm{d}\mathbf{w} = 0 \\
+\frac{dn_s}{\mathrm{d}t} + \int f_s \frac{\partial}{\partial w_j}\big(w_i \frac{\partial}{\partial x_i}u_{sj} \big)dw_j = 0 \\
+\frac{dn_s}{\mathrm{d}t} + \int f_s \delta_{ij}\frac{\partial}{\partial x_i}u_{sj}dw_j + \int f_s  w_i \cancel{\frac{\partial^2 u_{sj}}{\partial x_i \partial w_j}}dw_j = 0 \\
+\frac{dn_s}{\mathrm{d}t} + \int f_s \frac{\partial}{\partial x_i}u_{si}dw_i = 0 \\
+\frac{dn_s}{\mathrm{d}t} + \nabla\cdot\mathbf{u}_s\int f_s \mathrm{d}\mathbf{w} = 0 \\
+\frac{dn_s}{\mathrm{d}t} + (\nabla\cdot\mathbf{u}_s)n_s = 0
+\end{aligned}
+\]</span> 或 <span id="eq-kmhd_continuity"><span class="math display">\[
+\frac{\partial n_s}{\partial t} + \nabla\cdot(n_s\mathbf{u}_s) = 0
+\tag{15.4}\]</span></span></p>
+<p>一阶矩（<span class="math inline">\(\int \mathrm{d}\mathbf{w}m_s\mathbf{w}\)</span>）给出 <span class="math display">\[
+\nabla\cdot\int \mathrm{d}\mathbf{w}m_s\mathbf{w} \mathbf{w}f_s - m_sn_s\mathbf{a}_s = \int \mathrm{d}\mathbf{w}m_s\mathbf{w}C(f_s) \equiv \mathbf{R}_s
+\]</span> 其中 <span class="math inline">\(\int \mathrm{d}\mathbf{w}m_s\mathbf{w} \mathbf{w}f_s = \mathbf{P}_s\)</span> 是压强张量，<span class="math inline">\(\mathbf{R}_s\)</span> 是碰撞摩擦力。展开 <span class="math inline">\(\mathbf{a}_s\)</span>，得到每个组分 <span class="math inline">\(s\)</span> 的动量方程 <span id="eq-kmhd_momentum_species"><span class="math display">\[
+m_sn_s\frac{\mathrm{d}\mathbf{u}_s}{\mathrm{d}t} = -\nabla\cdot\mathbf{P}_s + q_s n_s(\mathbf{E} +\mathbf{u}_s\times\mathbf{B}) + \mathbf{R}_s
+\tag{15.5}\]</span></span></p>
+<p>对所有组分求和， <span class="math display">\[
+\begin{aligned}
+\sum_s m_sn_s\frac{\mathrm{d}\mathbf{u}_s}{\mathrm{d}t} = -\nabla\cdot\sum_s\mathbf{P}_s + \cancel{\sum_s q_s n_s\mathbf{E}} + \sum_s q_s n_s\mathbf{u}_s\times\mathbf{B} + \cancel{\sum_s\mathbf{R}_s} \\
+\rho\frac{\mathrm{d}\mathbf{u}}{\mathrm{d}t} = -\nabla\cdot\mathbf{P} + \mathbf{j}\times\mathbf{B} \\
+\rho\frac{\mathrm{d}\mathbf{u}}{\mathrm{d}t} = -\nabla\cdot\mathbf{P} + \mu_0^{-1}(\nabla\times\mathbf{B})\times\mathbf{B} \\
+\rho\frac{\mathrm{d}\mathbf{u}}{\mathrm{d}t} = -\nabla\cdot\Big[\mathbf{P} + \frac{B^2}{2\mu_0}\mathbf{I} - \mathbf{B}\mathbf{B}\Big]
+\end{aligned}
+\]</span></p>
+<p>值得强调的是，<span class="math inline">\(\mathrm{d}/\mathrm{d}t = \partial/\partial t + \mathbf{u}\cdot\nabla\)</span>。后面我们将看到记号 <span class="math inline">\(D/Dt\)</span>，用以提醒我们其中涉及 <span class="math inline">\(\mathbf{w}\)</span>。</p>
+<p>我们还需要一个磁场方程，即法拉第定律： <span class="math display">\[
+\frac{\partial\mathbf{B}}{\partial t} = -\nabla\times\mathbf{E}
+\]</span></p>
+<p>由 <a href="#eq-kmhd_momentum_species" class="quarto-xref">式&nbsp;<span>15.5</span></a>， <span class="math display">\[
+\mathbf{E} = -\mathbf{u}_s\times\mathbf{B} + \frac{\nabla\cdot\mathbf{P}_s}{q_sn_s} - \frac{\mathbf{R}_s}{q_sn_s} + \frac{m_s}{q_s}\frac{\mathrm{d}\mathbf{u}_s}{\mathrm{d}t}
+\]</span></p>
+<p>根据以下论证：</p>
+<ul>
+<li><span class="math inline">\(\nabla\cdot\mathbf{P}_s/(q_sn_s)\)</span> 很小，因为 <span class="math inline">\(kr_s/M_A \ll 1\)</span>（长波 + 不可压缩等离子体???）；</li>
+<li><span class="math inline">\(\mathbf{R}_s/(q_sn_s)\)</span> 很小，因为 <span class="math inline">\(\nu_s/\Omega_s\ll 1\)</span>；</li>
+<li><span class="math inline">\((m_s/q_s) \mathrm{d}\mathbf{u}_s/\mathrm{d}t\)</span> 很小，因为 <span class="math inline">\(\omega/\Omega_s\ll 1\)</span>。</li>
+</ul>
+<p>得到最简单的欧姆定律，进而得到 <span class="math inline">\(\mathbf{u}_s = \mathbf{E}\times\mathbf{B}/B^2 = \mathbf{u}_\perp\)</span>，即所有组分的垂直速度分量相同。然后由法拉第定律得到感应方程： <span id="eq-kmhd_induction"><span class="math display">\[
+\frac{\partial\mathbf{B}}{\partial t} = \nabla\times(\mathbf{u}\times\mathbf{B})
+\tag{15.6}\]</span></span> 或 <span id="eq-kmhd_induction2"><span class="math display">\[
+\frac{\mathrm{d}\mathbf{B}}{\mathrm{d}t} = \mathbf{B}\cdot\nabla\mathbf{u} - \mathbf{B}\nabla\cdot\mathbf{u}
+\tag{15.7}\]</span></span></p>
+<p>除了压强张量之外，迄今得到的三个方程与 MHD 非常相似。显然，动理学的奥妙都藏在 <span class="math inline">\(\mathbf{P}\)</span> 中。</p>
+<p>回到 <a href="#eq-boltzmann_change_of_var" class="quarto-xref">式&nbsp;<span>15.3</span></a>，关键是注意到 <span class="math display">\[
+\frac{q_s}{m_s}\mathbf{w}\times\mathbf{B}\cdot\frac{\partial f_s}{\partial\mathbf{w}} = -\Omega_s\Big( \frac{\partial f_s}{\partial\mathbf{\theta}}\Big)_{w_\perp,w_\parallel}
+\]</span> 其中 <span class="math inline">\(\theta\)</span> 是垂直平面内的回旋角。通过变换到柱坐标可以证明这一点： <span class="math display">\[
+\mathbf{w} = (w_\perp\cos\theta, w_\perp\sin\theta, w_\parallel)
+\]</span> 作变量变换： <span id="eq-kmhd_cylindrical_vspace"><span class="math display">\[
+\begin{aligned}
+\frac{\partial f_s}{\partial \theta} &amp;= \frac{\partial f_s}{\partial w_{\perp 1}}\frac{\partial w_{\perp 1}}{\partial \theta} + \frac{\partial f_s}{\partial w_{\perp 1}}\frac{\partial w_{\perp 1}}{\partial \theta} + \frac{\partial f_s}{\partial w_{\parallel}}\cancel{\frac{\partial w_{\parallel}}{\partial \theta}} \\
+&amp;= \frac{\partial f_s}{\partial w_{\perp 1}}\frac{\partial w_\perp \cos\theta}{\partial \theta} + \frac{\partial f_s}{\partial w_{\perp 2}}\frac{\partial w_\perp \sin\theta}{\partial \theta} \\
+&amp;= -\frac{\partial f_s}{\partial w_{\perp 1}}w_\perp \sin\theta + \frac{\partial f_s}{\partial w_{\perp 2}}w_\perp \cos\theta \\
+&amp;= -w_{\perp 2}\frac{\partial f_s}{\partial w_{\perp 1}} + w_{\perp 1}\frac{\partial f_s}{\partial w_{\perp 2}} \\
+&amp;= \mathbf{w}\times\hat{b}\cdot\frac{\partial f_s}{\partial \mathbf{w}}
+\end{aligned}
+\tag{15.8}\]</span></span></p>
+<p>这就是为什么说 <a href="#eq-kmhd_boltzmann" class="quarto-xref">式&nbsp;<span>15.1</span></a> 中的第三项表示速度空间中的旋转，更确切地说，是垂直速度平面中的旋转。</p>
+<p>对 <a href="#eq-boltzmann_change_of_var" class="quarto-xref">式&nbsp;<span>15.3</span></a> 采用最低阶近似， <span id="eq-kmhd_kinetic"><span class="math display">\[
+\Omega_s\Big( \frac{\partial f_s}{\partial\mathbf{\theta}}\Big)_{w_\perp,w_\parallel} = \underbrace{\frac{\mathrm{d} f_s}{\mathrm{d}t}}_{\substack{\omega/\Omega_s\ll 1 \\ kr_su_s/v_{th,s}\ll 1}} + \underbrace{\mathbf{w}\cdot\nabla f_s}_{kr_s\ll 1} + (\underbrace{\mathbf{a}_s}_{kr_s\ll 1} - \underbrace{\mathbf{w}\cdot\nabla\mathbf{u}_s}_{kr_sM_A\ll 1})\cdot\frac{\partial f_s}{\partial \mathbf{w}} - \underbrace{C(f_s)}_{\nu_s\ll\Omega_s} = 0
+\tag{15.9}\]</span></span> 这实质上告诉我们 <span class="math inline">\(f_s=f_s(w_\perp,w_\parallel,\theta) = f_s(w_\perp,w_\parallel)\)</span> 具有回旋对称性。用 <span class="math inline">\(&lt;&gt;\)</span> 表示对一个回旋周期的平均： <span class="math display">\[
+\left&lt; A \right&gt; = \int_0^{2\pi} A \mathrm{d}\theta
+\]</span></p>
+<p>我们可以利用回旋对称性简化压强张量： <span class="math display">\[
+\begin{aligned}
+\mathbf{P}_s &amp;= \int \mathrm{d}\mathbf{w}m_s\left&lt; \mathbf{w}\mathbf{w} \right&gt;f_s(\mathbf{r},w_\perp,w_\parallel,t) \\
+&amp;= \int \mathrm{d}\mathbf{w}m_s \big[\frac{w_\perp^2}{2}(\mathbf{I} - \hat{b}\hat{b}) + w_\parallel^2\hat{b}\hat{b} \big] f_s(\mathbf{r},w_\perp,w_\parallel,t) \\
+&amp;= (\mathbf{I} - \hat{b}\hat{b})\int \mathrm{d}\mathbf{w}\frac{m_sw_\perp^2}{2}f_s + \hat{b}\hat{b}\int \mathrm{d}\mathbf{w}m_sw_\parallel^2 f_s \\
+&amp;= \begin{pmatrix} p_{\perp s} &amp; 0 &amp; 0 \\ 0 &amp; p_{\perp s} &amp; 0 \\ 0 &amp; 0 &amp; p_{\parallel s} \end{pmatrix}
+\end{aligned}
+\]</span> 其中 <span class="math display">\[
+\begin{aligned}
+p_\perp &amp;= \int \mathrm{d}\mathbf{w}\frac{m_sw_\perp^2}{2}f_s \\
+p_\parallel &amp;= \int \mathrm{d}\mathbf{w}m_sw_\parallel^2 f_s
+\end{aligned}
+\]</span></p>
+<p><a href="#eq-kmhd_momentum_species" class="quarto-xref">式&nbsp;<span>15.5</span></a> 变为 <span id="eq-kmhd_momentum_species_gyrotropic"><span class="math display">\[
+\rho\frac{\mathrm{d}\mathbf{u}}{\mathrm{d}t} = -\nabla\Big( \underbrace{p_\perp + \frac{B^2}{2\mu_0}}_{\text{总标量压力}} \Big) + \nabla\cdot\Big[ \hat{b}\hat{b}\big( \underbrace{p_\perp - p_\parallel}_{\text{压力各向异性应力}} + \underbrace{\frac{B^2}{\mu_0}}_{\text{Maxwell 应力}} \big) \Big]
+\tag{15.10}\]</span></span></p>
+<p>压强各向异性应力是相对于通常 MHD 的关键新特征。当 <span class="math inline">\(p_\perp - p_\parallel \gtrsim B^2/\mu_0\)</span>，即 <span class="math inline">\((p_\perp - p_\parallel)/p \gtrsim 2/\beta\)</span> 时，它应当重要。因此，它更可能在高-<span class="math inline">\(\beta\)</span> 等离子体中发挥作用。</p>
+<p>总结目前的结果：为了求出等离子体中的运动和磁场，求解 <a href="#eq-kmhd_momentum_species_gyrotropic" class="quarto-xref">式&nbsp;<span>15.10</span></a> 得到 <span class="math inline">\(\mathbf{u}\)</span>，并求解 <a href="#eq-kmhd_induction" class="quarto-xref">式&nbsp;<span>15.6</span></a> 得到 <span class="math inline">\(\mathbf{B}\)</span>，其中 <span class="math display">\[
+\begin{aligned}
+\rho &amp;= \sum_s m_s \int \mathrm{d}\mathbf{w}f_s \\
+p_\perp &amp;= \sum_s \int \mathrm{d}\mathbf{w}\frac{m_sw_\perp^2}{2}f_s \\
+p_\parallel &amp;= \sum_s \int \mathrm{d}\mathbf{w}m_sw_\parallel^2 f_s
+\end{aligned}
+\]</span></p>
+<p>我们仍需要动理学方程来计算 <span class="math inline">\(f_s\)</span> — 需要对该方程作一定约化，才能求得最低阶、回旋对称的 <span class="math inline">\(f_s(w_\perp, w_\parallel)\)</span>。为了尽快说明其意义，可以暂时推迟这一步，首先推导一些不需要 <span class="math inline">\(f_s\)</span> 方程的结果，即 <a href="#sec-firehose" class="quarto-xref"><span>小节 15.1</span></a> 中的消防水管不稳定性。对于镜像模，我们从动理学方程 <a href="#eq-kmhd_kinetic" class="quarto-xref">式&nbsp;<span>15.9</span></a> 继续推导更高阶结果。我们已经知道，最低阶近似给出回旋对称分布。</p>
+<p>在一阶近似下， <span class="math display">\[
+\Omega_s\Big( \frac{\partial f_s^1}{\partial\theta} \Big)_{w_\perp, w_\parallel} = \frac{\mathrm{d} f_s^0}{\mathrm{d}t} + \mathbf{w}\cdot\nabla f_s^0 + ( \mathbf{a}_s -\mathbf{w}\cdot\nabla\mathbf{u}_s )\cdot\frac{\partial f_s^0}{\partial\mathbf{w}} - C(f_s^0)
+\]</span></p>
+<p>对 <span class="math inline">\(\theta\)</span> 积分可以消去左侧，因此得到 <span class="math display">\[
+\left&lt; \frac{\mathrm{d} f_s}{\mathrm{d}t} + \mathbf{w}\cdot\nabla f_s + (\mathbf{a}_s - \mathbf{w}\cdot\nabla\mathbf{u}_s)\cdot\frac{\partial f_s}{\partial\mathbf{w}} - C(f_s) \right&gt; = 0
+\]</span> 其中 <span class="math inline">\(f_s = f_s(w_\perp,w_\parallel)\)</span>。为了进行这一平均，将变量从 <span class="math inline">\((t,\mathbf{r},\mathbf{w}) \rightarrow(t,\mathbf{r},w_\perp,w_\parallel,\theta)\)</span> 变换。利用 <span class="math display">\[
+\begin{aligned}
+w_\parallel &amp;= \mathbf{w}\cdot\hat{b}(t,\mathbf{r}) \\
+w_\perp &amp;= |\mathbf{w} - w_\parallel\hat{b}|
+\end{aligned}
+\]</span> 再经过一些代数运算（??? 查阅在线笔记。），得到 <span id="eq-kmhd_boltzmann_1storder"><span class="math display">\[
+\frac{D f_s}{Dt} + \frac{1}{B}\frac{D B}{Dt}\frac{w_\perp}{2}\frac{\partial f_s}{\partial w_\perp} + \Big( \frac{q_s}{m_s}E_\parallel - \frac{D\mathbf{u}_s}{Dt}\cdot\hat{b} - \frac{w_\perp^2}{2}\frac{\nabla_\parallel B}{B} \Big)\frac{\partial f_s}{\partial w_\parallel} = C(f_s)
+\tag{15.11}\]</span></span> 其中 <span class="math display">\[
+D/Dt = \mathrm{d}/\mathrm{d}t + w_\parallel \hat{b}\cdot\nabla = \partial/\partial t + \mathbf{u}_s\cdot\nabla + w_\parallel \hat{b}\cdot\nabla
+\]</span></p>
+<p>这并不十分直观，也许用另一组“更有物理意义”的变量来写这个方程更好。令 <span class="math display">\[
+f_s(w_\perp, w_\parallel) = F_s(\mu, \epsilon)
+\]</span> 其中 <span class="math inline">\(\mu = m_sw_\perp^2/2B\)</span> 是回旋粒子的磁矩，<span class="math inline">\(\epsilon=m_sw^2/2 = m_s(w_\perp^2+w_\parallel^2)/2\)</span>。由于 <span class="math inline">\(\omega\ll\Omega_s\)</span> 时 <span class="math inline">\(\mu\)</span> 守恒，<span class="math inline">\(F_s\)</span> 满足（???） <span id="eq-kmhd_kinetic_1storder"><span class="math display">\[
+\frac{D F_s}{Dt} + \Big[ m_sw_\parallel\Big( \frac{q_s}{m_s}E_\parallel - \frac{D\mathbf{u}_s}{Dt}\cdot\hat{b} \Big) +\mu\frac{\mathrm{d}B}{\mathrm{d}t} \Big]\frac{\partial F_s}{\partial\epsilon} = C(F_s)
+\tag{15.12}\]</span></span></p>
+<ul>
+<li>第一项是导引中心坐标中的对流导数。</li>
+<li>第二项是平行电场造成的加速，其中 <span class="math inline">\(E_\parallel\)</span> 由条件 <span class="math inline">\(\sum_s q_s n_s = 0\)</span> 确定。</li>
+<li>第三项考虑了 <span class="math inline">\(\epsilon\)</span> 不包含整体速度这一事实。</li>
+<li>第四项是由 <span class="math inline">\(\mu\)</span> 守恒导致的 <em>电子感应加速</em>（betatron acceleration）：</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\epsilon &amp;= \mu B + \frac{m_sw_\parallel^2}{2} \\
+\dot{\epsilon} &amp;= \mu \dot{B}\,(w_\parallel\text{ 为常数？？？})
+\end{aligned}
+\]</span></p>
+<p>电子感应加速是指磁场强度随时间缓慢增加（相对于回旋周期），使 <span class="math inline">\(\mu\)</span> 保持不变，但由于存在与时变磁场相关的电场，粒子动能并不守恒的情况。此时，由于 <span class="math inline">\(\mu\)</span> 不变，垂直能量增加。如我们即将在 <a href="#sec-mirror" class="quarto-xref"><span>小节 15.2</span></a> 中看到的，这是解释镜像模的关键。</p>
+<section id="sec-firehose" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="sec-firehose"><span class="header-section-number">15.1</span> 消防水管不稳定性：线性理论</h2>
+<p>假设我们已经得到某个（尚未完整推导的）平衡态的“宏观”解。考虑此解的低频、短波长扰动（<span class="math inline">\(\omega\ll u/l, kl \gg 1\)</span>），并寻找形式为 <span class="math inline">\(\mathbf{X} +\delta\mathbf{X}\)</span> 的解，其中无穷小扰动 <span class="math inline">\(\propto e^{i(\mathbf{k}\cdot\mathbf{r}-\omega t)}\)</span>。注意速度 <span class="math inline">\(\mathbf{u}\)</span> 被视为扰动项（背景速度只是漂移）。</p>
+<p>由 <a href="#eq-kmhd_induction" class="quarto-xref">式&nbsp;<span>15.6</span></a> <span id="eq-kmhd_induction_perturb"><span class="math display">\[
+\begin{aligned}
+-\omega\delta\mathbf{B} &amp;= \mathbf{B}\cdot\mathbf{k}\delta\mathbf{u} - \mathbf{B}\mathbf{k}\cdot\delta\mathbf{u} \\
+&amp;= B(k_\parallel\delta\mathbf{u}_\perp - \hat{b}\mathbf{k}_\perp\cdot\delta\mathbf{u}_\perp)
+\end{aligned}
+\tag{15.13}\]</span></span></p>
+<p>将 <a href="math.html#eq-perturb_k_bhat" class="quarto-xref">式&nbsp;<span>3.19</span></a> 代入 <a href="#eq-kmhd_momentum_species_gyrotropic" class="quarto-xref">式&nbsp;<span>15.10</span></a>，得到 <span id="eq-kmhd_momentum_perturb"><span class="math display">\[
+\begin{aligned}
+-\omega\rho\delta\mathbf{u} &amp;= -\mathbf{k}\Big(\delta p_\perp + \frac{B\delta B}{\mu_0}\Big) + \mathbf{k}\cdot\Big[ \Big(\delta\hat{b}\hat{b} + \hat{b}\delta\hat{b}\Big)\Big( p_\perp - p_\parallel + \frac{B^2}{\mu_0} \Big) +\hat{b}\hat{b}\Big( \delta p_\perp - \delta p_\parallel + \frac{2B\delta B}{\mu_0} \Big) \Big] \\
+&amp;= -\mathbf{k}_\perp \Big(\delta p_\perp + \frac{B\delta B}{\mu_0}\Big) - \hat{b}k_\parallel \Big[ \delta p_\parallel + (p_\perp - p_\parallel)\frac{\delta B}{B} \Big] + \delta\hat{b} k_\parallel \Big( p_\perp - p_\parallel + \frac{B^2}{\mu_0} \Big)
+\end{aligned}
+\tag{15.14}\]</span></span></p>
+<p><span class="math inline">\(\delta\hat{b}\)</span> 包含两部分：阿尔芬分量 <span class="math inline">\(\delta\mathbf{B}_\perp/B\)</span> 和压缩分量 <span class="math inline">\(\delta\mathbf{B}_\parallel/B\)</span>。由 <a href="#eq-kmhd_induction_perturb" class="quarto-xref">式&nbsp;<span>15.13</span></a>，<span class="math inline">\(\hat{b}\)</span> 的阿尔芬扰动可写为 <span class="math display">\[
+\delta\hat{b} = \frac{\delta\mathbf{B}_\perp}{B} = -\frac{k_\parallel}{\omega}\delta\mathbf{u}_\perp
+\]</span></p>
+<p>与 <span class="math inline">\(\mathbf{k}_\perp\)</span> 取叉积，从 <a href="#eq-kmhd_momentum_perturb" class="quarto-xref">式&nbsp;<span>15.14</span></a> 中分离出阿尔芬响应： <span class="math display">\[
+\begin{aligned}
+-\omega\rho \mathbf{k}_\perp \times\delta\mathbf{u}_\perp = k_\parallel\Big(p_\perp - p_\parallel +\frac{B^2}{\mu_0} \Big) \mathbf{k}_\perp\times\delta\hat{b} \\
+\omega\rho \mathbf{k}_\perp \times\delta\mathbf{u}_\perp = k_\parallel\Big(p_\perp - p_\parallel +\frac{B^2}{\mu_0} \Big) \mathbf{k}_\perp\times\frac{k_\parallel}{\omega}\delta\mathbf{u}_\perp \\
+\omega^2 = k_\parallel^2 \Big( \frac{B^2}{\mu_0 \rho} + \frac{p_\perp - p_\parallel}{\rho} \Big) = k_\parallel^2 v_{th\parallel}^2 \Big( \frac{p_\perp - p_\parallel}{p_\parallel} + \frac{2}{\beta_\parallel} \Big)
+\end{aligned}
+\]</span></p>
+<p>令 <span class="math inline">\(A = (p_\perp - p_\parallel)/p_\parallel\)</span>。如果 <span class="math inline">\(A&lt;-2/\beta_\parallel\)</span>，系统将不稳定，即 <span id="eq-kmhd_firehose_criterion"><span class="math display">\[
+p_\perp - p_\parallel &gt; 2 p_B
+\tag{15.15}\]</span></span> 这给出增长率 <span id="eq-kmhd_firehose_growth_rate"><span class="math display">\[
+\gamma = k_\parallel v_{th\parallel}\sqrt{\bigg\lvert A+\frac{2}{\beta_\parallel}\bigg\rvert}
+\tag{15.16}\]</span></span></p>
+<p>因此，负的 <span class="math inline">\(A\)</span>（<span class="math inline">\(p_\parallel &gt; p_\perp\)</span>）在局部削弱张力，即减慢阿尔芬波，并使弯曲磁力线在能量上更容易。当 <span class="math inline">\(A&lt;-2/\beta_\parallel\)</span> 时，磁力线失去弹性，出现消防水管不稳定性。</p>
+<div id="fig-firehose" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-firehose-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/instability_firehose.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-firehose-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;15.1: 沿磁通管，<span class="math inline">\(p_\parallel\)</span> 是致不稳定的力，曲率力是稳定力。
+</figcaption>
+</figure>
+</div>
+<p>要点：</p>
+<ul>
+<li><p><span class="math inline">\(p_\parallel &gt; p_\perp\)</span> 导致不稳定性并不奇怪：这是非平衡状态，因此是自由能的来源。</p></li>
+<li><p><span class="math inline">\(\gamma\propto k_\parallel\)</span> 导致紫外灾变：在 KMHD 的适用范围内（<span class="math inline">\(\omega\ll\Omega_i, kr_i\ll 1\)</span>），无法得到 <span class="math inline">\(\gamma\)</span> 达到峰值时的波数。计入有限拉莫尔半径得到（Oxford MNRAS 405, 291? 这些表达式正确吗？） <span class="math display">\[
+\begin{aligned}
+\gamma_{\text{peak}}\sim \bigg\lvert A + \frac{2}{\beta_\parallel} \bigg\rvert \Omega_i \\
+k_{\parallel\text{peak}}r_i\sim \bigg\lvert A + \frac{2}{\beta_\parallel} \bigg\rvert^{1/2}
+\end{aligned}
+\]</span> 因此该不稳定性在微观尺度上非常快（<span class="math inline">\(\gamma \propto \Omega_i\)</span>，强磁场下很大）。任何具有 <span class="math inline">\(p_\parallel &gt; p_\perp\)</span> 的高-<span class="math inline">\(\beta\)</span> 宏观解都会立即发散。之后发生什么取决于消防水管不稳定性的非线性饱和。Justin Kasper 在 2002 年发现消防水管稳定性边界约束了大多数观测到的太阳风状态，这是一个转折性时刻；Hellinger 在 2006 年继续了这项研究。Bale 在 2009 年表明，边界处的涨落水平升高。</p></li>
+</ul>
+<p>添加关于消防水管稳定区域的图！</p>
+</section>
+<section id="sec-mirror" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="sec-mirror"><span class="header-section-number">15.2</span> 镜像不稳定性：线性理论</h2>
+<p>回到 <a href="#eq-kmhd_induction_perturb" class="quarto-xref">式&nbsp;<span>15.13</span></a> 和 <a href="#eq-kmhd_momentum_perturb" class="quarto-xref">式&nbsp;<span>15.14</span></a>，研究除阿尔芬扰动外还有哪些扰动以及它们何时稳定。我们已经考察了阿尔芬扰动 <span class="math inline">\(\delta\hat{b}=\delta \mathbf{B}_\perp/B\)</span>。现在考虑 <span id="eq-kmhd_B_perturb"><span class="math display">\[
+\frac{\delta B}{B} = \frac{\delta B_\parallel}{B}
+\tag{15.17}\]</span></span></p>
+<p>由 <a href="#eq-kmhd_induction_perturb" class="quarto-xref">式&nbsp;<span>15.13</span></a>，垂直压缩使 B 增大： <span class="math display">\[
+\omega\frac{\delta B}{B} = \mathbf{k}_\perp\cdot\delta\mathbf{u}_\perp
+\]</span></p>
+<p>对 <a href="#eq-kmhd_momentum_perturb" class="quarto-xref">式&nbsp;<span>15.14</span></a> 取 <span class="math inline">\(\mathbf{k}_\perp\cdot\)</span>： <span id="eq-kmhd_momentum_perturb_perp"><span class="math display">\[
+\omega\rho\mathbf{k}_\perp\cdot\delta\mathbf{u}_\perp = \rho\omega^2 \frac{\delta B}{B} = k_\perp^2\Big( \delta p_\perp + \frac{B\delta B}{\mu_0} \Big) + k_\parallel^2\Big( p_\perp - p_\parallel + \frac{B^2}{\mu_0} \Big) \frac{\delta B}{B}
+\tag{15.18}\]</span></span></p>
+<p>注意这里的 <span class="math inline">\(p_\perp\)</span> 项：我们需要动理学理论来计算它！所幸已有 <a href="#eq-kmhd_kinetic_1storder" class="quarto-xref">式&nbsp;<span>15.12</span></a> 可用于计算 <span class="math display">\[
+\delta p_\perp = \int \mathrm{d}\mathbf{w}\frac{m_sw_\perp^2}{2}\delta f_s(w_\perp, w_\parallel)
+\]</span></p>
+<p>可通过计算 <span class="math inline">\(F_s(\mu,\epsilon)\)</span> 并变换回 <span class="math inline">\(w_\perp,w_\parallel\)</span> 得到 <span class="math inline">\(\delta f_s(w_\perp, w_\parallel)\)</span>。</p>
+<p>这里有个微妙之处：我们展开分布函数所围绕的宏观平衡态是 <span class="math display">\[
+F_{0s}(\mu,\epsilon) = f_{0s}(w_\perp,w_\parallel) = f_{0s}\Big( \sqrt{\frac{2B_0\mu}{m_s}},\sqrt{\frac{2(\epsilon-\mu B_0)}{m_s}} \Big)
+\]</span> 其中包含未扰动磁场 <span class="math inline">\(B_0\)</span>。<span class="math inline">\(F_0\)</span> 中的 <span class="math inline">\(\mu\)</span> 包含 <span class="math inline">\(B_0+\delta B\)</span>，变换到 <span class="math inline">\(w_\perp,w_\parallel\)</span> 时必须考虑这一点。现在对所有量施加扰动： <span class="math display">\[
+\begin{aligned}
+F_s(\mu,\epsilon) &amp;= F_{0s}(\mu,\epsilon) + \delta F_s \\
+&amp;= f_{0s}(w_\perp,w_\parallel) + \delta f_s \\
+&amp;= f_{0s}\Big( \sqrt{\frac{2\mu(B_0+\delta B)}{m_s}},\sqrt{\frac{2[\epsilon-\mu(B_0+\delta B)]}{m_s}} \Big) + \delta f_s \\
+&amp;= f_{0s}\Big( \sqrt{\frac{2\mu B_0}{m_s}}\sqrt{1+\frac{\delta B}{B_0}},\sqrt{\frac{2(\epsilon-\mu B_0)}{m_s}}\sqrt{1-\frac{m_s\mu\delta B}{(\epsilon-\mu B_0)}} \Big) + \delta f_s \\
+&amp;\approx f_{0s}\Big( \sqrt{\frac{2\mu B_0}{m_s}},\sqrt{\frac{2(\epsilon-\mu B_0)}{m_s}} \Big) + \frac{2\mu}{m_s}\delta B\Big(\frac{\partial f_{0s}}{\partial w_\perp^2}-\frac{\partial f_{0s}}{\partial w_\parallel^2} \Big) + \delta f_s
+\end{aligned}
+\]</span></p>
+<p>因此 <span class="math display">\[
+\delta f_s = \delta F_s - w_\perp^2\frac{\delta B}{B}\Big(\frac{\partial f_{0s}}{\partial w_\perp^2}-\frac{\partial f_{0s}}{\partial w_\parallel^2} \Big)
+\]</span></p>
+<p>如果 <span class="math inline">\(f_{0s}\)</span> 是双 Maxwell 分布， <span class="math display">\[
+f_{0s} = \frac{n_s}{\pi^{3/2}v_{\text{th}\perp s}^2 v_{\text{th}\parallel s}}\exp\Big(-\frac{w_\perp^2}{v_{\text{th}\perp s}^2}-\frac{w_\parallel^2}{v_{\text{th}\parallel s}^2}\Big)
+\]</span> 则可进一步写为 <span class="math display">\[
+\delta f_s = \delta F_s + w_\perp^2\frac{\delta B}{B}\Big(\frac{1}{v_{\text{th}\perp s}^2} - \frac{1}{v_{\text{th}\parallel s}^2} \Big) f_{0s} = \delta F_s + w_\perp^2\frac{\delta B}{B}\frac{m_sn_s}{2}\Big(\frac{1}{p_{\perp s}} - \frac{1}{p_{\parallel s}} \Big) f_{0s}
+\]</span></p>
+<p>可以通过分部积分消去偏导数： <span class="math display">\[
+\begin{aligned}
+\int \mathrm{d}\mathbf{w}\frac{\partial f_{0s}}{\partial w_\parallel^2} &amp;= \int_0^{2\pi}\mathrm{d}\theta \int dw_\perp\int \frac{1}{2w_\parallel}\frac{\partial f_{0s}}{\partial w_\parallel}dw_\parallel \\
+&amp;= \int_0^{2\pi}\mathrm{d}\theta \int dw_\perp\int\frac{1}{2w_\parallel}\mathrm{d} f_{0s} \\
+&amp;= \int_0^{2\pi}\mathrm{d}\theta \int dw_\perp\Big[\cancel{\frac{f_{0s}}{2w_\parallel}\bigg\rvert_{-\infty}^{\infty}} - \int f_{0s}\mathrm{d}\frac{1}{2w_\parallel}\Big] \\
+&amp;= \int_0^{2\pi}\mathrm{d}\theta \int dw_\perp\int\frac{1}{2w_\parallel^2}f_{0s}dw_\parallel \\
+&amp;= \int \mathrm{d}\mathbf{w} \frac{1}{2w_\parallel^2}f_{0s} \\
+\int \mathrm{d}\mathbf{w}w_\perp w_\perp^4\frac{\partial f_{0s}}{\partial w_\perp^2} &amp;= 2\pi\int dw_\parallel \Big[ \cancel{\frac{1}{2}w_\perp^4f_{0s}\bigg\rvert_{-\infty}^{+\infty}} - \frac{1}{2}\int f_{0s}dw_\perp^4 \Big] \\
+&amp;= -2\pi\int dw_\parallel 2w_\perp^2 f_{0s}w_\perp dw_\perp \\
+&amp;= -2 \int \mathrm{d}\mathbf{w} w_\perp^2 f_{0s}
+\end{aligned}
+\]</span></p>
+<p>于是得到 <span id="eq-kmhd_pperp_perturb"><span class="math display">\[
+\begin{aligned}
+\delta p_{\perp s} &amp;= \int \mathrm{d}\mathbf{w}\frac{m_s w_\perp^2}{2}\delta f_s \\
+&amp;= \int \mathrm{d}\mathbf{w}\frac{m_s w_\perp^2}{2}\delta F_s - \int \mathrm{d}\mathbf{w}\frac{m_s w_\perp^4}{2}\Big(\frac{\partial f_{0s}}{\partial w_\perp^2}-\frac{\partial f_{0s}}{\partial w_\parallel^2} \Big)\frac{\delta B}{B} \\
+&amp;= \int \mathrm{d}\mathbf{w}\frac{m_s w_\perp^2}{2}\delta F_s - \int_0^{2\pi}\mathrm{d}\theta \int dw_\perp w_\perp \int \mathrm{d} w_\parallel \frac{m_s w_\perp^4}{2}\Big(\frac{\partial f_{0s}}{\partial w_\perp^2}-\frac{\partial f_{0s}}{\partial w_\parallel^2} \Big)\frac{\delta B}{B} \\
+&amp;= \int \mathrm{d}\mathbf{w}\frac{m_s w_\perp^2}{2}\delta F_s + 2\int \mathrm{d}\mathbf{w}\frac{m_s w_\perp^2}{2}\delta f_{0s}\frac{\delta B}{B} + \int \mathrm{d}\mathbf{w}\frac{2(\frac{1}{2}m_sw_\perp^2)^2}{m_sw_\parallel^2}f_{0s}\frac{\delta B}{B} \\
+&amp;= \int \mathrm{d}\mathbf{w}\frac{m_s w_\perp^2}{2}\delta F_s + \frac{\delta B}{B}\Big( 2p_{\perp s} - \frac{2 p_{\perp s}^2}{p_{\parallel s}} \alpha_s )
+\end{aligned}
+\tag{15.19}\]</span></span> 如果 <span class="math inline">\(f_{0s}\)</span> 不是双 Maxwell 分布，则 <span class="math inline">\(\alpha_s\)</span> 是量级为 1 的系数。</p>
+<p>忽略碰撞，对 <a href="#eq-kmhd_kinetic_1storder" class="quarto-xref">式&nbsp;<span>15.12</span></a> 线性化并作 Fourier 变换（<span class="math inline">\(\mathbf{u}_s=0\)</span>），即可得到 <span class="math inline">\(\delta F_s\)</span>： <span class="math display">\[
+\begin{aligned}
+-i(\omega - k_\parallel w_\parallel)\delta F_s = - \Big[ m_sw_\parallel\Big( \frac{q_s}{m_s}E_\parallel - i(\omega-k_\parallel w_\parallel) \delta u_{\parallel s}\Big) -i\omega\mu\delta B \Big]\frac{\partial F_{0s}}{\partial \epsilon} \\
+\delta F_s = -i\frac{w_\parallel q_s E_\parallel}{\omega-k_\parallel w_\parallel}\frac{\partial F_{0s}}{\partial \epsilon} - \delta u_{\parallel s}m_sw_\parallel\frac{\partial F_{0s}}{\partial\epsilon} - \frac{\omega}{\omega-k_\parallel w_\parallel}\mu\delta B\frac{\partial F_{0s}}{\partial\epsilon}
+\end{aligned}
+\]</span></p>
+<p>当 <span class="math inline">\(\beta\gg 1\)</span> 时第一项可以忽略（??? 完整计算见另一份笔记！）；否则可由条件 <span class="math inline">\(\sum_s q_s n_s = 0\)</span> 得到 <span class="math inline">\(E_\parallel\)</span>。可以证明第二项等价于 <span class="math inline">\(\delta u_{\parallel s}\partial f_{0s}/\partial w_\parallel\)</span>： <span class="math display">\[
+\begin{aligned}
+\frac{\partial f_{0s}}{\partial w_\parallel} &amp;= \frac{\partial f_{0s}}{\partial \epsilon}\frac{\partial \epsilon}{\partial w_\parallel} + \frac{\partial f_{0s}}{\partial\mu}\cancel{\frac{\partial \mu}{\partial w_\parallel}} \\
+&amp;= \frac{\partial F_{0s}}{\partial\epsilon}m_s w_\parallel
+\end{aligned}
+\]</span> 因此它对 <span class="math inline">\(\delta p_\perp\)</span> 没有贡献，因为其积分为 0。</p>
+<p>第三项可写为 <span class="math display">\[
+\frac{\omega}{\omega-k_\parallel w_\parallel}\mu\delta B\frac{\partial F_{0s}}{\partial\epsilon} = \frac{\omega}{\omega-k_\parallel w_\parallel}\frac{m_sw_\perp^2}{2}\frac{\delta B}{B}\frac{1}{w_\parallel}\frac{\partial f_{0s}}{\partial w_\parallel} = \frac{\omega}{\omega-k_\parallel w_\parallel} m_sw_\perp^2\frac{\delta B}{B}\frac{\partial f_{0s}}{\partial w_\parallel^2}
+\]</span></p>
+<p>因此，<span class="math inline">\(\delta F_s\)</span> 的“相关”部分为 <span class="math display">\[
+\delta F_s = -\frac{\omega}{\omega-k_\parallel w_\parallel} m_sw_\perp^2\frac{\delta B}{B}\frac{\partial f_{0s}}{\partial w_\parallel^2}
+\]</span> 它对 <span class="math inline">\(\delta p_{\perp s}\)</span> 的贡献为 <span class="math display">\[
+\int \mathrm{d}\mathbf{w}\frac{m_sw_\perp^2}{2}\delta F_s = \frac{\delta B}{B}\frac{\omega}{|k_\parallel|}\int\frac{dw_\parallel}{w_\parallel - \frac{\omega}{|k_\parallel|}} \Big[ \frac{\partial}{\partial w_\parallel^2}\int \mathrm{d}\mathbf{w}_\perp \frac{m_s^2w_\perp^4}{2} f_{0s} \Big]
+\]</span></p>
+<p>这里使用 <span class="math inline">\(|k_\parallel|\)</span>，因为若 <span class="math inline">\(k_\parallel &lt;0\)</span>，可以变换变量 <span class="math inline">\(w_\parallel \rightarrow -w_\parallel\)</span>。这里涉及朗道积分：在复平面上沿实轴和上半平面的大半圆积分，唯独在极点下方绕过一个小半圆时，可用留数定理 <a href="math.html#eq-residual_thm" class="quarto-xref">式&nbsp;<span>3.11</span></a> 计算（添加图片！）： <span class="math display">\[
+\frac{1}{w_\parallel - \frac{\omega}{|k_\parallel|}} = P\frac{1}{w_\parallel - \frac{\omega}{|k_\parallel|}} + i\pi\delta\Big(w_\parallel - \frac{\omega}{|k_\parallel|} \Big)
+\]</span> 因此 <span class="math display">\[
+\begin{aligned}
+\int \mathrm{d}\mathbf{w}\frac{m_sw_\perp^2}{2}\delta F_s &amp;= \frac{\delta B}{B}\Big[ \cancel{\frac{\omega}{|k_\parallel|}P\int\frac{dw_\parallel}{w_\parallel - \frac{\omega}{|k_\parallel|}} \big[ ... \big]} + i\pi\frac{\omega}{|k_\parallel|}\big[ ... \big]_{w_\parallel}=\omega/|k_\parallel| \Big]
+\end{aligned}
+\]</span></p>
+<p>假设 <span class="math inline">\(\omega\ll k_\parallel v_{\text{th}s\parallel}\)</span> 时第一项很小；第二项必须保留，因为它是导致不稳定性的最低阶虚部。</p>
+<p>对于双 Maxwell 分布， <span class="math display">\[
+\Big[ \frac{\partial}{\partial w_\parallel^2}\int \mathrm{d}\mathbf{w}_\perp\frac{m_s^2w_\perp^4}{2}f_{0s} \Big]_{w_\parallel=\omega/|k_\parallel|} = -\frac{2p_{\perp s}^2}{p_{\parallel s}}\frac{e^{-\frac{\omega^2}{k_\parallel^2 v_{\text{th}\parallel s}^2}}}{\sqrt{\pi}v_{\text{th}\parallel s}}
+\]</span></p>
+<p>指数项近似为 1。如果不是双 Maxwell 分布，则需要乘以系数 <span class="math inline">\(\alpha_s \sim 1\)</span>。</p>
+<p><a href="#eq-kmhd_pperp_perturb" class="quarto-xref">式&nbsp;<span>15.19</span></a> 变为 <span class="math display">\[
+\delta p_{\perp s} = \frac{\delta B}{B}\Big[ 2p_{\perp s} - \frac{2p_{\perp s}^2}{p_{\parallel s}}\Big( \alpha_s + i\sqrt{\pi}\frac{\omega}{|k_\parallel|v_{\text{th}\parallel s}}\sigma_s \Big) \Big]
+\]</span></p>
+<p>将其代入 <a href="#eq-kmhd_momentum_perturb_perp" class="quarto-xref">式&nbsp;<span>15.18</span></a>： <span class="math display">\[
+\rho \omega^2 = k_\perp^2\frac{B^2}{\mu_0}\Big[ \sum_s(1 - \frac{p_{\perp s}}{p_{\parallel s}}\alpha_s)\beta_{\perp s} - i\sum_s \sigma_s\frac{p_{\perp s}}{p_{\parallel s}}\beta_{\perp s}\sqrt{\pi}\frac{\omega}{|k_\parallel| v_{\text{th} \parallel s}} + 1 \Big] + k_\parallel^2 \frac{B^2}{\mu_0}\Big[ \sum_s\frac{\beta_{\perp s}}{2}\big( 1 - \frac{p_{\parallel s}}{p_{\perp s}} \big) + 1 \Big]
+\]</span></p>
+<p>由于 <span class="math inline">\(\omega\ll k_\parallel v_{\text{th}\parallel s}\)</span>，左侧可以忽略。由于 <span class="math inline">\(v_{\text{th}\parallel e} \gg v_{\text{th}\parallel i}\)</span>，分母中的电子热速度 <span class="math inline">\(v_{\text{th}\parallel e}\)</span> 的贡献可以忽略。增长率 <span class="math inline">\(\gamma\)</span> 是 <span class="math inline">\(\omega\)</span> 的虚部。整理上式： <span id="eq-kmhd_mirror_dispersion"><span class="math display">\[
+\sigma_i\frac{p_{\perp i}}{p_{\parallel i}}\beta_{\perp i}\sqrt{\pi}\frac{\gamma}{|k_\parallel|v_{\text{th}\parallel i}} = \sum_s \Big(\frac{p_\perp s}{p_\parallel s}\alpha_s - 1 \Big)\beta_{\perp s} - 1 -\frac{k_\parallel^2}{k_\perp^2}\Big[ \sum_s\frac{\beta_{\perp s}}{2}\big( 1-\frac{p_{\parallel s}}{p_{\perp s}}\big) + 1 \Big]
+\tag{15.20}\]</span></span> 其中 <span class="math inline">\(\Lambda\equiv \frac{k_\parallel^2}{k_\perp^2}\sum_s \Big(\frac{p_\perp s}{p_\parallel s}\alpha_s - 1 \Big)\beta_{\perp s} - 1\)</span>，如果它为正则触发不稳定性： <span class="math display">\[
+\sum_s \Big(\frac{p_\perp s}{p_\parallel s}\alpha_s - 1 \Big)\beta_{\perp s} &gt; 1
+\]</span></p>
+<p>考察其来源可以看出，这相当于 <span class="math inline">\(\delta p_\perp\)</span> 改变磁压强力，使其由正变负： <span class="math display">\[
+\delta p_\perp + \frac{B\delta B}{\mu_0} = \frac{B\delta B}{\mu_0}\Big[ \underbrace{1}_{\text{磁压}} - \underbrace{\sum_s\Big( \frac{p_{\perp s}}{p_{\parallel s}}\alpha_s - 1 \Big)\beta_{\perp s}}_{\substack{\text{非共振} \\ \text{粒子压力}}} + \underbrace{...}_{\substack{\text{共振粒子} \\ \text{压力}}} \Big]
+\]</span></p>
+<p>因此，从根本上说，压强各向异性使压缩或稀疏磁场变得更容易 — 当压强的符号翻转、产生压缩和稀疏在能量上有利时，系统便不稳定。（添加图片！）色散关系 <a href="#eq-kmhd_mirror_dispersion" class="quarto-xref">式&nbsp;<span>15.20</span></a> 基本上表述了磁压、非共振粒子压强 <span class="math inline">\(\delta p_\perp\)</span> 和共振粒子压强 <span class="math inline">\(\propto\gamma\)</span> 之间的压强平衡；后者来自 <a href="#eq-kmhd_kinetic_1storder" class="quarto-xref">式&nbsp;<span>15.12</span></a> 中的 <em>电子感应加速</em> <span class="math inline">\(\mu \mathrm{d}B/\mathrm{d}t\)</span>。（另见 <span class="citation" data-cites="southwood1993mirror">Southwood 和 Kivelson (<a href="#ref-southwood1993mirror" role="doc-biblioref">1993年</a>)</span> 的式 21）</p>
+<p>电子感应加速项描述稳定情况下发生的过程。当磁压阻碍 <span class="math inline">\(\delta B\)</span> 扰动（例如波谷）的形成时，为了补偿它，必须有 <span class="math inline">\(\gamma&lt;0\)</span>，能量从 <span class="math inline">\(\delta B\)</span> 转移到共振粒子，而这些粒子由镜力加速。相应的 <span class="math inline">\(\delta B\)</span> 衰减就是著名的 <em>Barnes 阻尼</em>。<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p><span class="citation" data-cites="southwood1993mirror">Southwood 和 Kivelson (<a href="#ref-southwood1993mirror" role="doc-biblioref">1993年</a>)</span> 对其中的物理过程进行了更多讨论。他们指出，尽管该不稳定性是共振的，共振粒子所起的作用却不同寻常。不稳定性源于等离子体主体与磁场之间的压强失衡。要发生这一过程，主体（非共振）压强响应必须与磁压反相，如同低频下磁矩和粒子能量守恒时那样。然而，共振粒子产生的压强扰动与磁场压强变化同相。由此推论，与非共振粒子不同，共振粒子的能量会随着不稳定性发展而改变。 大多数共振不稳定性的线性增长率与共振粒子数成正比。然而，对于镜像不稳定性，增长率与共振粒子数（及其压强贡献）成反比。这一反常结果的原因是：平行速度较小的粒子越少，平衡非共振分布产生的压强失衡所需的增长率就越高。</p>
+<p>最后注意，对给定的 <span class="math inline">\(k_\perp\)</span>，由 <a href="#eq-kmhd_mirror_dispersion" class="quarto-xref">式&nbsp;<span>15.20</span></a>（添加图片！）得到 <span class="math display">\[
+\frac{\partial\gamma}{\partial k_\parallel}\bigg\rvert_{k_\perp} \propto \Lambda - \frac{k_\parallel^2}{k_\perp^2}\Big[\sum_s\frac{\beta_{\perp s}}{2}\Big(1-\frac{p_\parallel s}{p_\perp s} \Big) + 1 \Big]
+\]</span></p>
+<p>当右侧趋于 0 时达到最大增长率，这等价于 <span class="math inline">\(\frac{2}{3}\Lambda\)</span>，因此最大增长率为 <span class="math display">\[
+\gamma_{\text{max}} = \frac{|k_\parallel|v_{\text{th}\parallel i}}{\sqrt{\pi}}\frac{2}{3}\Lambda \frac{p_{\parallel i}}{p_{\perp i}}\frac{1}{\sigma_i\beta_{\perp i}}
+\]</span></p>
+<p>我们假设 <span class="math inline">\(\gamma\ll k_\parallel v_{\text{th}\parallel s}\)</span>；如果满足下式，这确实成立： <span class="math display">\[
+\Lambda\frac{1}{\beta_{\perp i}} = \big(\sum_s A_s \beta_{\perp s} - 1 \big)\frac{1}{\beta_{\perp i}}\ll 1
+\]</span> 因此我们的近似是自洽的。</p>
+<p>如果接近边际不稳定状态， <span class="math display">\[
+\frac{k_\parallel}{k_\perp}\sim\sqrt{\Lambda}\ll 1
+\]</span> 因此镜像模在阈值附近高度倾斜。</p>
+<p>另一个重要问题是，由于 <span class="math inline">\(\gamma\propto k_\parallel\)</span>，我们再次遇到紫外灾变。镜像模是一种快速的微观尺度不稳定性，其峰值增长率位于 KMHD 适用范围之外。计入有限拉莫尔半径得到（Hellinger 2007 PoP 14, 082105?） <span class="math display">\[
+\gamma_{\text{peak}}\sim\Big(A-\frac{1}{\beta}\Big)^2\beta\Omega_i,\quad k_{\text{peak}}r_i\sim\Big( A-\frac{1}{\beta}\Big)\beta
+\]</span></p>
+<p>因此，任何具有 <span class="math inline">\(p_\perp&gt;p_\parallel\)</span> 的高-<span class="math inline">\(\beta\)</span> KMHD 宏观解都会发散，就像 <span class="math inline">\(p_\parallel &gt; p_\perp\)</span> 的情况一样；之后的演化同样取决于镜像不稳定性如何饱和。注意，由于 <span class="math inline">\(A_e\ll A_i\)</span>（?），这里忽略了 <span class="math inline">\(A_e\)</span>。镜像不稳定性的条件为 <span class="math display">\[
+\begin{aligned}
+\frac{p_{\perp i}}{p_{\parallel i}} - 1 &gt; \frac{1}{\beta_{\perp i}} = \frac{1}{\beta_{\parallel i}}\frac{p_{\parallel i}}{p_{\perp i}} \\
+\frac{p_{\perp i}}{p_{\parallel i}}\Big( \frac{p_{\perp i}}{p_{\parallel i}}-1\Big) &gt; \frac{1}{\beta_{\parallel i}}
+\end{aligned}
+\]</span></p>
+<p><a href="#fig-instability-mirror-firehose" class="quarto-xref">图&nbsp;<span>15.2</span></a> 展示了 Wind 航天器的观测结果。太阳风似乎确实保持在这些边界之内。（添加参考文献！）</p>
+<div id="fig-instability-mirror-firehose" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-instability-mirror-firehose-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/instability_mirror_firehose_solarwind.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-instability-mirror-firehose-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;15.2: Wind 航天器收集的太阳风观测数据（<span class="math inline">\(\sim 1e6\)</span>）。曲线分别表示镜像和消防水管不稳定性的阈值。
+</figcaption>
+</figure>
+</div>
+<section id="与慢模的比较" class="level3" data-number="15.2.1">
+<h3 data-number="15.2.1" class="anchored" data-anchor-id="与慢模的比较"><span class="header-section-number">15.2.1</span> 与慢模的比较</h3>
+<ul>
+<li>驱动机制
+<ul>
+<li>镜像模：主要由高 beta 等离子体中的压强各向异性（<span class="math inline">\(T_\perp/T_\parallel &gt; 1\)</span>）驱动。</li>
+<li>MHD 慢模：由低至中等 beta 等离子体中的压强梯度和磁力线曲率驱动。</li>
+</ul></li>
+<li>传播特征
+<ul>
+<li>镜像模：主要沿背景磁场平行传播，但可以有较小的垂直分量。在流体极限下它是不传播的模（零频率），但动理学效应可使其具有有限频率。</li>
+<li>MHD 慢模：相对于磁场倾斜传播，具有平行和垂直分量。它是具有有限频率的传播模。</li>
+</ul></li>
+<li>等离子体条件
+<ul>
+<li>镜像模：通常见于高 beta（<span class="math inline">\(\gtrsim 1\)</span>）等离子体，如地球磁鞘和太阳风。</li>
+<li>MHD 慢模：更常见于磁压占主导的低至中等 beta（<span class="math inline">\(\ll 1\)</span>）等离子体，如太阳日冕和地球磁层。</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="压强各向异性的起源" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="压强各向异性的起源"><span class="header-section-number">15.3</span> 压强各向异性的起源</h2>
+<p>到目前为止我们看到，任何具有 <span class="math inline">\(p_\perp\neq p_\parallel\)</span> 的高-<span class="math inline">\(\beta\)</span> 宏观 KMHD 解（更准确地说，<span class="math inline">\(|p_\perp - p_\parallel|/p \gtrsim 1/\beta\)</span>）都会对消防水管或镜像不稳定性发生剧烈不稳定 — 这两者都是快速微观尺度模，会产生 KMHD 范围之外的涨落（顺便说，也超出了回旋动理学的范围 — 太接近回旋频率，<span class="math inline">\(k_\parallel/k_\perp\)</span> 不够小，<span class="math inline">\(\delta\mathbf{B}/B\)</span> 也不够小）。对于碰撞不足以使其完全成为流体的高-<span class="math inline">\(\beta\)</span> 等离子体（即 <span class="math inline">\(\nu\ll\Omega_s\)</span>），这应当让我们多么担忧 KMHD 的适用性？</p>
+<p>答案是，<em>非常担忧</em>！低频、弱碰撞动力学的一个关键性质是粒子的磁矩 <span class="math inline">\(\mu=m_sw_\perp^2/2B\)</span> 守恒。组分 <span class="math inline">\(s\)</span> 的粒子平均磁矩 <span class="math inline">\(\mu\)</span> 为 <span class="math display">\[
+&lt;\mu&gt;_w = \frac{1}{n_s}\int \mathrm{d}\mathbf{w}\mu f_s = \frac{p_{\perp s}}{n_s B} = \text{const.}
+\]</span></p>
+<p>为了定性讨论，暂且假设 <span class="math inline">\(n_s=\text{const}\)</span>（不可压缩等离子体，<span class="math inline">\(\beta\gg 1\)</span>）。那么上述守恒关系表明，在一个流体元的局部（<span class="math inline">\(\mathbf{w}\)</span> 是无规速度），每当 <span class="math inline">\(\mathbf{B}\)</span> 改变时，<span class="math inline">\(p_{\perp s}\)</span> 必须按比例改变（但 <span class="math inline">\(p_{\parallel s}\)</span> 不必）。因此我们预期（?） <span id="eq-kmhd_pressure_change"><span class="math display">\[
+\frac{1}{p_{\perp s}}\frac{\mathrm{d} p_{\perp s}}{\mathrm{d}t}\sim\underbrace{\frac{1}{B}\frac{\mathrm{d}B}{\mathrm{d}t}}_{\mu\text{ 守恒}} - \underbrace{\nu_s\frac{p_{\perp s}-p_{\parallel s}}{p_{\perp s}}}_{\substack{\text{碰撞引起的压力} \\ \text{各向异性弛豫}}}
+\tag{15.21}\]</span></span></p>
+<p>值得提醒的是，<span class="math inline">\(\mathrm{d}/\mathrm{d}t\)</span> 位于 <span class="math inline">\(\mathbf{u}_s\)</span> 参考系中。 令右侧的两个效应平衡， <span id="eq-kmhd_pressure_balance"><span class="math display">\[
+\Delta_s = \frac{p_{\perp s} - p_{\parallel s}}{p_{\perp s}} \sim\frac{1}{\nu_s}\frac{1}{B}\frac{\mathrm{d}B}{\mathrm{d}t}
+\tag{15.22}\]</span></span></p>
+<p>这个表达式仅在 <span class="math inline">\(\Delta_s\ll 1\)</span>，即 <span class="math inline">\(\nu_s\gg \frac{1}{B}\frac{\mathrm{d}B}{\mathrm{d}t}\)</span> 时有效；否则，随着 B 改变，<span class="math inline">\(\Delta_s\)</span> 会随时间增长。因此</p>
+<ul>
+<li>B 在局部增大 <span class="math inline">\(\rightarrow \Delta_s &gt;0 \rightarrow\)</span> 镜像不稳定性</li>
+<li>B 在局部减小 <span class="math inline">\(\rightarrow \Delta_s &lt;0 \rightarrow\)</span> 消防水管不稳定性</li>
+</ul>
+<p>由于几乎所有大尺度动力学都涉及 <span class="math inline">\(\mathbf{B}\)</span> 的局部变化，这意味着高-<span class="math inline">\(\beta\)</span> 区域中几乎任何 KMHD 宏观解都不稳定。一个很好的例子是发电机问题：当磁场被湍流随机拉伸时，（在 MHD 中）磁能指数增长（最终形成我们观测到的饱和磁场），在局部会发现这类结构：（添加图片！）</p>
+<p>一般而言，为了理解长期演化，我们需要某种平均场理论来描述微观尺度不稳定性对动力学的大尺度影响。据推测，这会保持各向异性，使不稳定性处于边际状态（?）（太阳风测量结果似乎确实证实了这一点 — 见 Bale 等，2009）。</p>
+<p>这可能通过两种方式发生 — 消防水管和镜像涨落可能散射粒子，提高有效碰撞率并（?）控制压强各向异性： <span class="math display">\[
+-\frac{2}{\beta}\lesssim \frac{p_\perp - p_\parallel}{p}\lesssim \frac{1}{\beta}
+\]</span></p>
+<p>它们也可能抑制 B 的变化，这是控制 <span class="math inline">\(\Delta\)</span> 的另一种方式。关于哪种机制对动力学重要，参见 MNRAS 440, 3226 (2014) 中对这两种机制可能后果的推测性综述。</p>
+<ul>
+<li>非线性消防水管不稳定性：Rosin 等，MNRAS 413，2011</li>
+<li>非线性镜像不稳定性：Rincon 等，MNRAS 447，2015</li>
+<li>PIC 模拟：Kunz 等，PRL，2014</li>
+</ul>
+</section>
+<section id="备注" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="备注"><span class="header-section-number">15.4</span> 备注</h2>
+<section id="备注-i" class="level3" data-number="15.4.1">
+<h3 data-number="15.4.1" class="anchored" data-anchor-id="备注-i"><span class="header-section-number">15.4.1</span> 备注 I</h3>
+<p>如果假设不可压缩，磁感应方程 <a href="#eq-kmhd_induction2" class="quarto-xref">式&nbsp;<span>15.7</span></a> 变为 <span class="math display">\[
+\begin{aligned}
+\frac{\mathrm{d}\mathbf{B}}{\mathrm{d}t} = \mathbf{B}\cdot\nabla\mathbf{u} \\
+\frac{1}{B}\frac{\mathrm{d}B}{\mathrm{d}t} = \hat{b}\hat{b}:\nabla\mathbf{u}
+\end{aligned}
+\]</span></p>
+<p>然后，由 <a href="#eq-kmhd_pressure_balance" class="quarto-xref">式&nbsp;<span>15.22</span></a>， <span class="math display">\[
+p_{\perp s} - p_{\parallel s}\sim\frac{p_s}{\nu_c}\hat{b}\hat{b}:\nabla\mathbf{u}
+\]</span> 其中 <span class="math inline">\(p_s/\nu_c\)</span> 是平行动力黏度。将其代回 <a href="#eq-kmhd_momentum_species_gyrotropic" class="quarto-xref">式&nbsp;<span>15.10</span></a>，得到最低阶 ??? MHD 方程。因此，从大尺度角度看，压强各向异性是黏性应力 — 但得到的方程是不适定的（通过具有 <span class="math inline">\(\gamma\propto k_\parallel\)</span> 的不稳定性发散）。</p>
+</section>
+<section id="备注-ii" class="level3" data-number="15.4.2">
+<h3 data-number="15.4.2" class="anchored" data-anchor-id="备注-ii"><span class="header-section-number">15.4.2</span> 备注 II</h3>
+<p>更严格地说，可以通过“CGL 方程”，即 <span class="math inline">\(p_{\perp s}\)</span> 和 <span class="math inline">\(p_{\parallel s}\)</span> 的演化方程，得到 <a href="#eq-kmhd_pressure_change" class="quarto-xref">式&nbsp;<span>15.21</span></a>。即对 <a href="#eq-kmhd_boltzmann_1storder" class="quarto-xref">式&nbsp;<span>15.11</span></a> 取 <span class="math inline">\(\int \mathrm{d}\mathbf{w}\frac{m_sw_\perp^2}{2}\)</span>： <span id="eq-kmhd_cgl_perp"><span class="math display">\[
+p_{\perp s}\frac{\mathrm{d}}{\mathrm{d}t}\ln\frac{p_{\perp s}}{n_s B} = -\nabla\cdot(q_{\perp s}\hat{b}) - q_{\perp s}\nabla\cdot\hat{b} - \nu_s(p_{\perp s} - p_{\parallel s})
+\tag{15.23}\]</span></span></p>
+<p><span class="math inline">\(\int \mathrm{d}\mathbf{w}m_sw_\parallel^2\)</span> <a href="#eq-kmhd_boltzmann_1storder" class="quarto-xref">式&nbsp;<span>15.11</span></a>: <span id="eq-kmhd_cgl_par"><span class="math display">\[
+p_{\parallel s}\frac{\mathrm{d}}{\mathrm{d}t}\ln\frac{p_{\parallel s}B^2}{n_s^3} = -\nabla\cdot(q_{\parallel s}\hat{b}) + 2q_{\perp s}\nabla\cdot\hat{b} - 2\nu_s (p_{\parallel s} - p_{\perp s})
+\tag{15.24}\]</span></span></p>
+<p>左侧表示 <span class="math inline">\(J=\oint dl w_\parallel\)</span> 守恒，即“弹跳不变量”。这里的新特征是热通量： <span class="math display">\[
+\begin{aligned}
+q_{\perp s} = \int \mathrm{d}\mathbf{w}\frac{m_sw_\perp^2}{2}w_\parallel f_s \\
+q_{\parallel s} = \int \mathrm{d}\mathbf{w}m_sw_\parallel^3 f_s
+\end{aligned}
+\]</span></p>
+<p>之所以出现热通量，是因为粒子可以流入和流出流体元，从而影响其中 <span class="math inline">\(&lt;\mu&gt;_w\)</span> 和 <span class="math inline">\(&lt;J^2&gt;_w\)</span> 是否守恒。</p>
+<p>最后，由 <a href="#eq-kmhd_cgl_perp" class="quarto-xref">式&nbsp;<span>15.23</span></a> 和 <a href="#eq-kmhd_cgl_par" class="quarto-xref">式&nbsp;<span>15.24</span></a>， <span class="math display">\[
+\begin{aligned}
+\frac{\mathrm{d}}{\mathrm{d}t}(p_{\perp s} - p_{\parallel s}) &amp;= (p_{\perp s} + 2p_{\parallel s})\frac{1}{B}\frac{\mathrm{d}B}{\mathrm{d}t} + (p_{\perp s} - 3p_{\parallel s})\frac{1}{n_s}\frac{dn_s}{\mathrm{d}t} \\
+&amp;-\nabla\cdot[(q_{\perp s}-q_{\parallel s})\hat{b}] - 3q_{\perp s}\nabla\cdot\hat{b} - 3\nu_s(p_{\perp s} - p_{\parallel s})
+\end{aligned}
+\]</span></p>
+<p>???</p>
+<p><span class="math display">\[
+\begin{aligned}
+\Delta_s &amp;= \frac{p_{\perp s}-p_{\parallel s}}{p_s} \\
+&amp;\approx \frac{1}{\nu_s}\Big\{ \frac{1}{B}\frac{\mathrm{d}B}{\mathrm{d}t} - \frac{2}{3}\frac{1}{n_s}\frac{dn_s}{\mathrm{d}t} - \frac{\nabla\cdot[((q_{\perp s} - q_{\parallel s})\hat{b})] + 3q_{\perp s}\nabla\cdot\hat{b}}{3p_s} \Big\}
+\end{aligned}
+\]</span></p>
+<p>通常这里显著的是电子热通量。因此热通量也可以导致各向异性，包含温度梯度的 KMHD 宏观解也会在微观尺度上变得不稳定！</p>
+<p>结果就是，我们既不能在大尺度上改变 B，也不能压缩或稀疏等离子体，还不能有温度梯度，否则就必须处理一切发散的问题并需要新的方程。慢慢享受吧！</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-southwood1993mirror" class="csl-entry" role="listitem">
+Southwood, David J, 和 Margaret G Kivelson. 1993年. <span>《Mirror instability: 1. Physical mechanism of linear instability》</span>. <em>Journal of Geophysical Research: Space Physics</em> 98 (A6): 9181～87. <a href="https://doi.org/10.1029/92JA02837">https://doi.org/10.1029/92JA02837</a>.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>“镜场”的朗道阻尼，Barnes 1966；在 Stix 的书中也称为渡越时间阻尼。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/reconnection.html" class="pagination-link" aria-label="磁重联">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/gyrokinetics.html" class="pagination-link" aria-label="回旋动理学">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/kmhd.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

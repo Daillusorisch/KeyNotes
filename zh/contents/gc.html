@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>27&nbsp; 导引中心 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/cr.html" rel="next">
+<link href="../contents/aurora.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/gc.html"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#简要版本" id="toc-简要版本" class="nav-link active" data-scroll-target="#简要版本"><span class="header-section-number">27.1</span> 简要版本</a>
+  <ul class="collapse">
+  <li><a href="#基本概念和变量" id="toc-基本概念和变量" class="nav-link" data-scroll-target="#基本概念和变量"><span class="header-section-number">27.1.1</span> 基本概念和变量</a></li>
+  <li><a href="#有效场" id="toc-有效场" class="nav-link" data-scroll-target="#有效场"><span class="header-section-number">27.1.2</span> 有效场</a></li>
+  <li><a href="#哈密顿量" id="toc-哈密顿量" class="nav-link" data-scroll-target="#哈密顿量"><span class="header-section-number">27.1.3</span> 哈密顿量</a></li>
+  <li><a href="#运动方程" id="toc-运动方程" class="nav-link" data-scroll-target="#运动方程"><span class="header-section-number">27.1.4</span> 运动方程</a></li>
+  <li><a href="#数值实现指南" id="toc-数值实现指南" class="nav-link" data-scroll-target="#数值实现指南"><span class="header-section-number">27.1.5</span> 数值实现指南</a></li>
+  <li><a href="#从完整相空间转换到导引中心" id="toc-从完整相空间转换到导引中心" class="nav-link" data-scroll-target="#从完整相空间转换到导引中心"><span class="header-section-number">27.1.6</span> 从完整相空间转换到导引中心</a></li>
+  <li><a href="#从导引中心转换到完整相空间" id="toc-从导引中心转换到完整相空间" class="nav-link" data-scroll-target="#从导引中心转换到完整相空间"><span class="header-section-number">27.1.7</span> 从导引中心转换到完整相空间</a></li>
+  </ul></li>
+  <li><a href="#经典导引中心理论" id="toc-经典导引中心理论" class="nav-link" data-scroll-target="#经典导引中心理论"><span class="header-section-number">27.2</span> 经典导引中心理论</a>
+  <ul class="collapse">
+  <li><a href="#张量形式的洛伦兹方程" id="toc-张量形式的洛伦兹方程" class="nav-link" data-scroll-target="#张量形式的洛伦兹方程"><span class="header-section-number">27.2.1</span> 张量形式的洛伦兹方程</a></li>
+  <li><a href="#基本假设" id="toc-基本假设" class="nav-link" data-scroll-target="#基本假设"><span class="header-section-number">27.2.2</span> 基本假设</a></li>
+  <li><a href="#导引中心方程的推导" id="toc-导引中心方程的推导" class="nav-link" data-scroll-target="#导引中心方程的推导"><span class="header-section-number">27.2.3</span> 导引中心方程的推导</a></li>
+  <li><a href="#gca-运动方程的一阶解" id="toc-gca-运动方程的一阶解" class="nav-link" data-scroll-target="#gca-运动方程的一阶解"><span class="header-section-number">27.2.4</span> GCA 运动方程的一阶解</a></li>
+  <li><a href="#递归解" id="toc-递归解" class="nav-link" data-scroll-target="#递归解"><span class="header-section-number">27.2.5</span> 递归解</a></li>
+  <li><a href="#能量守恒" id="toc-能量守恒" class="nav-link" data-scroll-target="#能量守恒"><span class="header-section-number">27.2.6</span> 能量守恒</a></li>
+  </ul></li>
+  <li><a href="#有效性与高阶修正" id="toc-有效性与高阶修正" class="nav-link" data-scroll-target="#有效性与高阶修正"><span class="header-section-number">27.3</span> 有效性与高阶修正</a>
+  <ul class="collapse">
+  <li><a href="#数值实现" id="toc-数值实现" class="nav-link" data-scroll-target="#数值实现"><span class="header-section-number">27.3.1</span> 数值实现</a></li>
+  <li><a href="#非相对论情况" id="toc-非相对论情况" class="nav-link" data-scroll-target="#非相对论情况"><span class="header-section-number">27.3.2</span> 非相对论情况</a></li>
+  </ul></li>
+  <li><a href="#导引中心运动的哈密顿理论" id="toc-导引中心运动的哈密顿理论" class="nav-link" data-scroll-target="#导引中心运动的哈密顿理论"><span class="header-section-number">27.4</span> 导引中心运动的哈密顿理论</a>
+  <ul class="collapse">
+  <li><a href="#非正则哈密顿导引中心理论" id="toc-非正则哈密顿导引中心理论" class="nav-link" data-scroll-target="#非正则哈密顿导引中心理论"><span class="header-section-number">27.4.1</span> 非正则哈密顿导引中心理论</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/gc.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-GC" class="quarto-section-identifier"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>导引中心近似（GCA）是一种理论框架：它将快速的回旋运动与粒子导引中心（GC）的较慢漂移分离，从而简化带电粒子在电磁场中的复杂运动。</p>
+<p>质量为 <span class="math inline">\(m\)</span>、电荷为 <span class="math inline">\(e\)</span> 的带电粒子，其运动所遵循的基本方程为 <span class="math display">\[
+\frac{\mathrm{d}\mathbf{u}}{\mathrm{d}t} = \frac{e}{mc}\left( c\mathbf{E} + \mathbf{v}\times\mathbf{B} \right)
+\]</span> 其中 <span class="math inline">\(\mathbf{u}=\gamma\mathbf{v}\)</span> 表示粒子的四速度，<span class="math inline">\(\mathbf{v}\)</span> 为粒子速度，<span class="math inline">\(c\)</span> 为光速，<span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 分别为电场和磁场矢量。</p>
+<p>在导引中心近似中，粒子的轨道运动与其瞬时回旋中心分离。这消除了与粒子回旋有关的约束，使系统地采用较大的时间步长成为可能，从而显著节约计算时间。导引中心（GC）方程是在场缓慢变化的极限下得到的。这将其适用范围限制于拉莫尔半径相对于整体电磁场尺度可以忽略、且回旋频率足够大以使绝热不变量成立的情况。因此，GCA 最适用于电子等荷质比较大的粒子。</p>
+<section id="简要版本" class="level2" data-number="27.1">
+<h2 data-number="27.1" class="anchored" data-anchor-id="简要版本"><span class="header-section-number">27.1</span> 简要版本</h2>
+<section id="基本概念和变量" class="level3" data-number="27.1.1">
+<h3 data-number="27.1.1" class="anchored" data-anchor-id="基本概念和变量"><span class="header-section-number">27.1.1</span> 基本概念和变量</h3>
+<p><strong>状态变量</strong>：不求解完整的六维相空间 <span class="math inline">\((\mathbf{x}, \mathbf{v})\)</span>，而是求解简化后的四维导引中心状态：</p>
+<ul>
+<li><span class="math inline">\(\mathbf{X}\)</span>：导引中心的空间位置。</li>
+<li><span class="math inline">\(p_{\parallel} = m \gamma v_{\parallel}\)</span>：平行于磁场的相对论动量，其中 <span class="math inline">\(\gamma\)</span> 是洛伦兹因子。</li>
+</ul>
+<p>粒子的位置 <span class="math inline">\(\mathbf{r}\)</span> 分解为导引中心位置 <span class="math inline">\(\mathbf{R}(t)\)</span> 和回旋矢量 <span class="math inline">\(\boldsymbol{\rho}\)</span>： <span class="math display">\[
+\mathbf{r} = \mathbf{R}(t) + \boldsymbol{\rho}(\mathbf{R}, t, \psi)
+\]</span> 其中 <span class="math inline">\(\psi\)</span> 为回旋相位。当场变化的特征尺度 <span class="math inline">\(L\)</span> 远大于拉莫尔半径 <span class="math inline">\(\rho\)</span>（<span class="math inline">\(L \gg \rho\)</span>），且时间变化相对于回旋周期而言足够缓慢时，该近似成立。</p>
+<p><strong>参数（运动常量）</strong>：</p>
+<ul>
+<li><span class="math inline">\(\mu\)</span>：磁矩（绝热不变量）。 <span class="math display">\[
+\mu = \frac{p_{\perp}^2}{2mB}
+\]</span> 在 GCA 中，<span class="math inline">\(\mu\)</span> 为常量。它由初始条件计算一次，并在模拟过程中作为参数。</li>
+</ul>
+</section>
+<section id="有效场" class="level3" data-number="27.1.2">
+<h3 data-number="27.1.2" class="anchored" data-anchor-id="有效场"><span class="header-section-number">27.1.2</span> 有效场</h3>
+<p>现代 GCA 方程可以使用“有效”电磁场 <span class="math inline">\(\mathbf{B}^*\)</span> 和 <span class="math inline">\(\mathbf{E}^*\)</span> 简洁地写出。这些有效场对通常的场进行了修正，从而自然地考虑漂移。</p>
+<p>定义：</p>
+<ul>
+<li><span class="math inline">\(\mathbf{B}(\mathbf{X})\)</span> 和 <span class="math inline">\(\mathbf{E}(\mathbf{X})\)</span>：导引中心位置处通常的电磁场。</li>
+<li><span class="math inline">\(\mathbf{b} = \mathbf{B}/|\mathbf{B}|\)</span>：沿磁力线方向的单位矢量。</li>
+<li><span class="math inline">\(q\)</span>：粒子电荷。</li>
+</ul>
+<p><strong>计算有效磁场 <span class="math inline">\(\mathbf{B}^*\)</span></strong></p>
+<p>这一项包含驱动曲率漂移的磁力线几何信息（<span class="math inline">\(\mathbf{b}\)</span> 的旋度）。 <span class="math display">\[
+\mathbf{B}^* = \mathbf{B} + \frac{c p_{\parallel}}{q} \nabla \times \mathbf{b}
+\]</span></p>
+<p><strong>计算有效电场 <span class="math inline">\(\mathbf{E}^*\)</span></strong></p>
+<p>在许多实现中，直接使用哈密顿量的梯度更方便，但形式上有： <span class="math display">\[
+\mathbf{E}^* = \mathbf{E} - \frac{1}{q} \nabla ( \mu B )
+\]</span></p>
+</section>
+<section id="哈密顿量" class="level3" data-number="27.1.3">
+<h3 data-number="27.1.3" class="anchored" data-anchor-id="哈密顿量"><span class="header-section-number">27.1.3</span> 哈密顿量</h3>
+<p>对于相对论粒子，哈密顿量 <span class="math inline">\(H\)</span> 表示总能量。 <span class="math display">\[
+H(\mathbf{X}, p_{\parallel}, \mu, t) = \sqrt{m^2 c^4 + p_{\parallel}^2 c^2 + 2 m \mu B(\mathbf{X}) c^2} + q \Phi(\mathbf{X})
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\Phi\)</span>：电标势（若 <span class="math inline">\(\mathbf{E} = -\nabla \Phi\)</span>）。</li>
+<li>注意：如果只有 <span class="math inline">\(\mathbf{E}\)</span> 而没有 <span class="math inline">\(\Phi\)</span>，则在运动方程中直接使用力项 <span class="math inline">\(q E_{\parallel}\)</span>。</li>
+</ul>
+</section>
+<section id="运动方程" class="level3" data-number="27.1.4">
+<h3 data-number="27.1.4" class="anchored" data-anchor-id="运动方程"><span class="header-section-number">27.1.4</span> 运动方程</h3>
+<p>以下是需要数值求解的最终表达式，它们描述导引中心位置 <span class="math inline">\(\mathbf{X}\)</span> 和平行动量 <span class="math inline">\(p_{\parallel}\)</span> 随时间的演化。</p>
+<p>位置方程（<span class="math inline">\(\dot{\mathbf{X}}\)</span>）： <span class="math display">\[
+\frac{d\mathbf{X}}{dt} = \frac{1}{B^*_{\parallel}} \left[ \frac{p_{\parallel}}{m \gamma} \mathbf{B}^* + c \mathbf{E}^* \times \mathbf{b} \right]
+\]</span></p>
+<ul>
+<li>第一项（<span class="math inline">\(\propto \mathbf{B}^\ast\)</span>）：表示沿磁力线的运动以及曲率漂移（隐含于 <span class="math inline">\(\mathbf{B}^\ast\)</span> 中）。</li>
+<li>第二项（<span class="math inline">\(\propto \mathbf{E}^\ast \times \mathbf{b}\)</span>）：表示 <span class="math inline">\(\mathbf{E} \times \mathbf{B}\)</span> 漂移和 <span class="math inline">\(\nabla B\)</span> 漂移（后者通过 <span class="math inline">\(\mu \nabla B\)</span> 项隐含于 <span class="math inline">\(\mathbf{E}^\ast\)</span> 中）。</li>
+<li>分母：<span class="math inline">\(B^\ast_{\parallel} = \mathbf{b} \cdot \mathbf{B}^\ast \approx B\)</span>。这是一个归一化因子，其值基本等于 <span class="math inline">\(B\)</span>，但经过修正以保证相空间体积守恒。</li>
+</ul>
+<p>平行动量方程（<span class="math inline">\(\dot{p}_{\parallel}\)</span>）： <span class="math display">\[
+\frac{dp_{\parallel}}{dt} = \frac{q}{B^\ast_{\parallel}} \mathbf{B}^* \cdot \mathbf{E}^\ast
+\]</span></p>
+<p>它可简化为通常的平行力方程： <span class="math display">\[
+\dot{p}_{\parallel} \approx q E_{\parallel} - \frac{\mu}{\gamma} \nabla_{\parallel} B
+\]</span></p>
+</section>
+<section id="数值实现指南" class="level3" data-number="27.1.5">
+<h3 data-number="27.1.5" class="anchored" data-anchor-id="数值实现指南"><span class="header-section-number">27.1.5</span> 数值实现指南</h3>
+<p>要在代码中实现上述方程，可按照以下循环操作：</p>
+<ul>
+<li>A. 初始化
+<ol type="1">
+<li>从粒子位置 <span class="math inline">\(\mathbf{x}\)</span> 和速度 <span class="math inline">\(\mathbf{v}\)</span> 开始。</li>
+<li>计算局部 <span class="math inline">\(\mathbf{B}(\mathbf{x})\)</span> 和 <span class="math inline">\(\mathbf{b}\)</span>。</li>
+<li>分解速度：<span class="math inline">\(\mathbf{v} = v_{\parallel} \mathbf{b} + \mathbf{v}_{\perp}\)</span>。</li>
+<li>计算 <span class="math inline">\(\mu = \frac{m \gamma^2 v_{\perp}^2}{2 B}\)</span>（相对论磁矩）。</li>
+<li>初始化状态矢量 <span class="math inline">\(\mathbf{Y} = [\mathbf{X}, p_{\parallel}]\)</span>。</li>
+</ol></li>
+<li>B. 时间推进循环：对于每个时间步 <span class="math inline">\(t \to t + \Delta t\)</span>：
+<ol type="1">
+<li>插值场：在当前 <span class="math inline">\(\mathbf{X}\)</span> 处取得 <span class="math inline">\(\mathbf{B}, \mathbf{E}, \nabla \mathbf{B}\)</span>。</li>
+<li>计算梯度：需要 <span class="math inline">\(\nabla \times \mathbf{b}\)</span> 和 <span class="math inline">\(\nabla B\)</span>。</li>
+</ol>
+<ul>
+<li>若磁场模型已知，可以通过数值或解析方法计算 <span class="math inline">\(\nabla \times \mathbf{b}\)</span>。</li>
+</ul>
+<ol start="3" type="1">
+<li>构造有效场：</li>
+</ol>
+<ul>
+<li><span class="math inline">\(\mathbf{B}^* = \mathbf{B} + \frac{c p_{\parallel}}{q} (\nabla \times \mathbf{b})\)</span></li>
+<li><span class="math inline">\(B^*_{\parallel} = \mathbf{b} \cdot \mathbf{B}^*\)</span></li>
+</ul>
+<ol start="4" type="1">
+<li>计算导数（方程右端）：</li>
+</ol>
+<ul>
+<li><span class="math inline">\(\gamma = \sqrt{1 + \frac{p_{\parallel}^2 + 2m\mu B}{m^2 c^2}}\)</span></li>
+<li><span class="math inline">\(\dot{\mathbf{X}} = \frac{1}{B^*_{\parallel}} \left( \frac{p_{\parallel}}{m \gamma} \mathbf{B}^* + \frac{c}{q} (q\mathbf{E} - \mu \nabla B) \times \mathbf{b} \right)\)</span></li>
+<li><span class="math inline">\(\dot{p}_{\parallel} = \frac{q}{B^*_{\parallel}} \mathbf{B}^* \cdot \left( \mathbf{E} - \frac{\mu}{q} \nabla B \right)\)</span></li>
+</ul>
+<ol start="5" type="1">
+<li>推进：更新 <span class="math inline">\(\mathbf{X}\)</span> 和 <span class="math inline">\(p_{\parallel}\)</span>。</li>
+</ol></li>
+<li>C. 约束与检查
+<ul>
+<li>时间步长：由于不需要分辨回旋周期，GCA 允许采用比完整轨道代码大得多的时间步长。不过，仍须分辨梯度长度尺度。一个常见约束是确保粒子每步穿过的网格（或特征长度）不超过一个。</li>
+<li>有效性：检查 <span class="math inline">\(E_{\perp} &lt; B\)</span>，并确认回旋半径相对于场的梯度尺度较小（<span class="math inline">\(R_L \ll L_B\)</span>）。</li>
+</ul></li>
+</ul>
+</section>
+<section id="从完整相空间转换到导引中心" class="level3" data-number="27.1.6">
+<h3 data-number="27.1.6" class="anchored" data-anchor-id="从完整相空间转换到导引中心"><span class="header-section-number">27.1.6</span> 从完整相空间转换到导引中心</h3>
+<p>从六维粒子状态 <span class="math inline">\((\mathbf{x}, \mathbf{v})\)</span> 转换到约化的导引中心（GC）状态 <span class="math inline">\((\mathbf{X}, v_{\parallel}, \mu)\)</span> 是一个满射（多个粒子状态映射到同一个 GC 状态）。</p>
+<p>为了使这种转换保持一致——尤其是在可能来回切换的混合代码中——匹配两种描述中的运动常量（如能量）至关重要。下面是逐步转换过程：</p>
+<ol type="1">
+<li>计算导引中心位置（<span class="math inline">\(\mathbf{X}\)</span>）</li>
+</ol>
+<p>导引中心位于粒子回旋的中心。需要在粒子当前位置 <span class="math inline">\(\mathbf{x}\)</span> 计算拉莫尔半径矢量并将其减去。</p>
+<ul>
+<li>计算局部场：取得 <span class="math inline">\(\mathbf{B}(\mathbf{x})\)</span> 和单位矢量 <span class="math inline">\(\mathbf{b}(\mathbf{x}) = \mathbf{B}(\mathbf{x}) / |\mathbf{B}(\mathbf{x})|\)</span>。</li>
+<li>计算位移： <span class="math display">\[
+\mathbf{X} \approx \mathbf{x} + \frac{m}{q B(\mathbf{x})} \mathbf{v} \times \mathbf{b}(\mathbf{x})
+\]</span>
+<ul>
+<li>该方程在拉莫尔半径的一阶精度下有效。</li>
+<li>建议在笛卡尔坐标中计算这一位移，以避免奇点。</li>
+</ul></li>
+</ul>
+<ol start="2" type="1">
+<li>在新位置更新场</li>
+</ol>
+<p>得到导引中心位置 <span class="math inline">\(\mathbf{X}\)</span> 的估计值后，必须在此新位置计算电磁场 <span class="math inline">\(\mathbf{B}(\mathbf{X})\)</span>、<span class="math inline">\(\mathbf{E}(\mathbf{X})\)</span> 和势 <span class="math inline">\(\Phi(\mathbf{X})\)</span>。</p>
+<ol start="3" type="1">
+<li>计算平行速度（<span class="math inline">\(v_{\parallel}\)</span>）</li>
+</ol>
+<p>平行速度相对于导引中心 <span class="math inline">\(\mathbf{X}\)</span> 处的磁场定义，而不是相对于粒子位置 <span class="math inline">\(\mathbf{x}\)</span> 处的磁场定义。</p>
+<ul>
+<li>标准投影： <span class="math display">\[
+v_{\parallel} = \mathbf{v} \cdot \mathbf{b}(\mathbf{X})
+\]</span></li>
+<li>能量／动量匹配（高精度）：为了获得更高精度，特别是确保在切换过程中粒子的环向动量 <span class="math inline">\(P_{\phi}\)</span> 守恒（在轴对称系统中），可根据动量守恒方程计算 <span class="math inline">\(v_{\parallel}\)</span>： <span class="math display">\[
+v_{\parallel} \approx \frac{1}{B(\mathbf{X})} \left( \mathbf{v} \cdot \mathbf{B}(\mathbf{X}) + \dots \text{高阶项} \right)
+\]</span></li>
+</ul>
+<p>对于大多数标准实现，简单投影 <span class="math inline">\(\mathbf{v} \cdot \mathbf{b}(\mathbf{X})\)</span> 已经足够。</p>
+<ol start="4" type="1">
+<li>计算磁矩（<span class="math inline">\(\mu\)</span>）</li>
+</ol>
+<p>磁矩是绝热不变量。计算 <span class="math inline">\(\mu\)</span> 时确保粒子总能量 <span class="math inline">\(\mathcal{H}\)</span> 在转换过程中守恒至关重要。</p>
+<ul>
+<li>能量守恒条件： <span class="math display">\[
+\mathcal{H}_{\text{particle}} = \mathcal{H}_{\text{GC}}
+\]</span> <span class="math display">\[
+\frac{1}{2} m v^2 + q \Phi(\mathbf{x}) = \frac{1}{2} m v_{\parallel}^2 + \mu B(\mathbf{X}) + q \Phi(\mathbf{X})
+\]</span></li>
+<li><span class="math inline">\(\mu\)</span> 的公式：整理能量方程可得到切换时对 <span class="math inline">\(\mu\)</span> 最稳健的定义： <span class="math display">\[\mu = \frac{1}{B(\mathbf{X})} \left[ \frac{1}{2} m v^2 - \frac{1}{2} m v_{\parallel}^2 + q(\Phi(\mathbf{x}) - \Phi(\mathbf{X})) \right]\]</span>
+<ul>
+<li>若电势变化 <span class="math inline">\(q(\Phi(\mathbf{x}) - \Phi(\mathbf{X}))\)</span> 可以忽略（为拉莫尔半径量级），则简化为标准定义： <span class="math display">\[
+\mu \approx \frac{m v_{\perp}^2}{2 B(\mathbf{X})}
+\]</span> 其中 <span class="math inline">\(v_{\perp}^2 = v^2 - v_{\parallel}^2\)</span>。</li>
+</ul></li>
+</ul>
+<p>算法概要：</p>
+<ol type="1">
+<li>输入：粒子 <span class="math inline">\(\mathbf{x}, \mathbf{v}\)</span>。</li>
+<li>位移：<span class="math inline">\(\mathbf{X} = \mathbf{x} + \frac{m}{q B(\mathbf{x})} (\mathbf{v} \times \mathbf{b})\)</span>。</li>
+<li>投影：<span class="math inline">\(v_{\parallel} = \mathbf{v} \cdot \mathbf{b}(\mathbf{X})\)</span>。</li>
+<li>守恒：<span class="math inline">\(\mu = \frac{ \frac{1}{2}m v^2 - \frac{1}{2}m v_{\parallel}^2 }{B(\mathbf{X})}\)</span>（忽略电势差）。</li>
+<li>输出：状态 <span class="math inline">\((\mathbf{X}, v_{\parallel}, \mu)\)</span>。</li>
+</ol>
+</section>
+<section id="从导引中心转换到完整相空间" class="level3" data-number="27.1.7">
+<h3 data-number="27.1.7" class="anchored" data-anchor-id="从导引中心转换到完整相空间"><span class="header-section-number">27.1.7</span> 从导引中心转换到完整相空间</h3>
+<p>从约化的导引中心（GC）变量 <span class="math inline">\((\mathbf{X}, p_{\parallel}, \mu)\)</span> 转换回完整的六维粒子相空间 <span class="math inline">\((\mathbf{x}, \mathbf{p})\)</span> 是“一对多”映射。由于回旋相位 <span class="math inline">\(\zeta\)</span> 在 GCA 中被平均掉，必须任意选择（或随机指定）一个回旋相位角 <span class="math inline">\(\zeta \in [0, 2\pi)\)</span>，才能重建特定的粒子位置和速度。</p>
+<p>逐步重建过程如下。</p>
+<ol type="1">
+<li>在导引中心处计算局部量</li>
+</ol>
+<p>首先，在已知的导引中心位置 <span class="math inline">\(\mathbf{X}\)</span> 处计算电磁场和单位矢量。</p>
+<ul>
+<li>局部磁场：<span class="math inline">\(\mathbf{B} = \mathbf{B}(\mathbf{X})\)</span></li>
+<li>单位矢量：<span class="math inline">\(\mathbf{b} = \mathbf{B} / |\mathbf{B}|\)</span></li>
+<li>垂直动量大小：根据磁矩 <span class="math inline">\(\mu\)</span>（GCA 中的参数）计算 <span class="math inline">\(p_{\perp}\)</span>： <span class="math display">\[
+p_{\perp} = \sqrt{2 m B(\mathbf{X}) \mu}
+\]</span></li>
+<li>回旋半径大小： <span class="math display">\[
+\rho = \frac{p_{\perp}}{|q| B(\mathbf{X})}
+\]</span></li>
+</ul>
+<ol start="2" type="1">
+<li>定义垂直基</li>
+</ol>
+<p>要定义回旋方向，需要一个垂直于磁场的坐标系。构造两个单位矢量 <span class="math inline">\(\mathbf{e}_1\)</span> 和 <span class="math inline">\(\mathbf{e}_2\)</span>，使 <span class="math inline">\((\mathbf{e}_1, \mathbf{e}_2, \mathbf{b})\)</span> 构成右手正交归一基。</p>
+<p>求取 <span class="math inline">\(\mathbf{e}_1\)</span> 的一种常见数值方法为： <span class="math display">\[
+\mathbf{e}_1 = \frac{\mathbf{b} \times \hat{\mathbf{u}}}{|\mathbf{b} \times \hat{\mathbf{u}}|}
+\]</span> 其中 <span class="math inline">\(\hat{\mathbf{u}}\)</span> 是任意不与 <span class="math inline">\(\mathbf{b}\)</span> 平行的固定单位矢量，例如 <span class="math inline">\(\hat{\mathbf{x}}\)</span>。然后： <span class="math display">\[
+\mathbf{e}_2 = \mathbf{b} \times \mathbf{e}_1
+\]</span></p>
+<ol start="3" type="1">
+<li>重建粒子位置（<span class="math inline">\(\mathbf{x}\)</span>）</li>
+</ol>
+<p>粒子位置等于导引中心位置加上拉莫尔半径矢量 <span class="math inline">\(\boldsymbol{\rho}\)</span>。选择一个回旋相位 <span class="math inline">\(\zeta\)</span>（例如从均匀分布 <span class="math inline">\(U[0, 2\pi]\)</span> 中抽取）。 <span class="math display">\[
+\mathbf{x} = \mathbf{X} + \boldsymbol{\rho}
+\]</span></p>
+<p>位移矢量 <span class="math inline">\(\boldsymbol{\rho}\)</span> 为： <span class="math display">\[
+\boldsymbol{\rho} = \rho (\cos\zeta \, \mathbf{e}_1 + \sin\zeta \, \mathbf{e}_2)
+\]</span></p>
+<p>注意：在某些高精度混合方案中，会对 <span class="math inline">\(\zeta\)</span> 进行特定选择（例如使 <span class="math inline">\(\boldsymbol{\rho}\)</span> 垂直于 <span class="math inline">\(\nabla B\)</span>），以尽量减小切换模型时的能量差异；但一般重建时通常采用随机相位。</p>
+<ol start="4" type="1">
+<li>重建粒子动量（<span class="math inline">\(\mathbf{p}\)</span>）</li>
+</ol>
+<p>总动量是平行动量、垂直回旋动量和（为提高精度可选的）与 <span class="math inline">\(\mathbf{E} \times \mathbf{B}\)</span> 漂移相关的动量之和。</p>
+<p><strong>标准重建（零阶）</strong>：这一重建得到的粒子只做回旋运动和沿磁力线的运动。 <span class="math display">\[
+\mathbf{p} = p_{\parallel} \mathbf{b} + \mathbf{p}_{gyro}
+\]</span> 其中回旋动量 <span class="math inline">\(\mathbf{p}_{gyro}\)</span> 垂直于 <span class="math inline">\(\boldsymbol{\rho}\)</span>（沿圆周切向）： <span class="math display">\[
+\mathbf{p}_{gyro} = p_{\perp} (-\sin\zeta \, \mathbf{e}_1 + \cos\zeta \, \mathbf{e}_2) \times \text{sign}(q)
+\]</span></p>
+<p><strong>漂移修正的重建（一阶）</strong>：如果 GCA 模拟包含显著的 <span class="math inline">\(\mathbf{E} \times \mathbf{B}\)</span> 漂移，应在粒子速度中加入这一分量，以确保完整轨道与漂移路径吻合。 <span class="math display">\[
+\mathbf{p} \approx p_{\parallel} \mathbf{b} + \mathbf{p}_{gyro} + m \gamma \mathbf{v}_E
+\]</span> 其中 <span class="math display">\[
+\mathbf{v}_E = \frac{c \mathbf{E} \times \mathbf{b}}{B}
+\]</span></p>
+</section>
+</section>
+<section id="经典导引中心理论" class="level2" data-number="27.2">
+<h2 data-number="27.2" class="anchored" data-anchor-id="经典导引中心理论"><span class="header-section-number">27.2</span> 经典导引中心理论</h2>
+<p>这里列出经典的<em>导引中心运动方程（EOM）</em>推导中的要点。完整讨论参见 <span class="citation" data-cites="vandervoort1960relativistic">Vandervoort (<a href="#ref-vandervoort1960relativistic" role="doc-biblioref">1960年</a>)</span>。</p>
+<section id="张量形式的洛伦兹方程" class="level3" data-number="27.2.1">
+<h3 data-number="27.2.1" class="anchored" data-anchor-id="张量形式的洛伦兹方程"><span class="header-section-number">27.2.1</span> 张量形式的洛伦兹方程</h3>
+<p>为推导导引中心近似（GCA），我们使用相对论中的张量记号。带电粒子在电磁场中的运动方程可写为张量形式： <span id="eq-charged-particle-motion-general"><span class="math display">\[
+\frac{\mathrm{d}x_\mu}{\mathrm{d}\tau^2} = F_{\mu\nu} \frac{\mathrm{d}x_\nu}{\mathrm{d}\tau}
+\tag{27.1}\]</span></span> 其中 <span class="math inline">\(x_\mu\)</span> 是粒子的四维坐标，<span class="math inline">\(F_{\mu\nu}\)</span> 是电磁张量，<span class="math inline">\(\tau\)</span> 是粒子的固有时。</p>
+<p>电磁张量为 <span id="eq-em-tensor"><span class="math display">\[
+F_{\mu\nu} = \frac{e}{mc}
+\begin{pmatrix}
+0 &amp; B_z &amp; -B_y &amp; E_x \\
+-B_z &amp; 0 &amp; B_x &amp; E_y \\
+B_y &amp; -B_x &amp; 0 &amp; E_z \\
+E_x &amp; E_y &amp; E_z &amp; 0
+\end{pmatrix}
+\tag{27.2}\]</span></span></p>
+</section>
+<section id="基本假设" class="level3" data-number="27.2.2">
+<h3 data-number="27.2.2" class="anchored" data-anchor-id="基本假设"><span class="header-section-number">27.2.2</span> 基本假设</h3>
+<p>导引中心理论在以下两个基本假设下成立：</p>
+<ol type="1">
+<li>回旋半径必须远小于电磁场发生显著变化的长度尺度。</li>
+<li>在电磁场发生明显变化之前，粒子经历多次回旋（缓变场近似）。设 <span class="math inline">\(\rho\)</span> 为粒子的回旋半径（相差一个 <span class="math inline">\(\sqrt{2}\)</span> 因子），<span class="math inline">\(x_\mu\)</span> 为粒子位置，<span class="math inline">\(X_\mu\)</span> 为导引中心位置，<span class="math inline">\(\tau\)</span> 为固有时，<span class="math inline">\(F_{\mu\nu}\)</span> 为电磁场张量，则上述两个条件可以用数学形式表示为 <span id="eq-gca-condition1"><span class="math display">\[
+\rho \left| \frac{\partial F_{\mu\nu}}{\partial x_\alpha} \right| \ll \left| F_{\mu\nu} \right|
+\tag{27.3}\]</span></span> 以及 <span id="eq-gca-condition2"><span class="math display">\[
+\frac{1}{\omega} \left| \frac{\partial F_{\mu\nu}}{\partial x_\alpha} \right| \left| \frac{\mathbf{d}X_\beta}{\mathrm{d}\tau} \right| \ll \left| F_{\mu\nu} \right|
+\tag{27.4}\]</span></span> 其中 <span class="math inline">\(\omega\)</span> 为回旋频率。当上述条件成立时，我们可以将粒子轨迹分解为回旋运动和导引中心运动。</li>
+</ol>
+</section>
+<section id="导引中心方程的推导" class="level3" data-number="27.2.3">
+<h3 data-number="27.2.3" class="anchored" data-anchor-id="导引中心方程的推导"><span class="header-section-number">27.2.3</span> 导引中心方程的推导</h3>
+<p><a href="#eq-charged-particle-motion-general" class="quarto-xref">式&nbsp;<span>27.1</span></a> 的通解是与电磁张量的四个特征值 <span class="math inline">\(q=\pm i\omega\)</span> 和 <span class="math inline">\(q=\pm\lambda\)</span> 相关的两个基本解的线性组合，其中 <span id="eq-EM-eigenvalues"><span class="math display">\[
+\begin{aligned}
+\omega &amp;= \frac{e}{mc}\sqrt{\frac{1}{2}(B^2 - E^2) + \frac{1}{2}\sqrt{(B^2 - E^2)^2 + 4(\mathbf{E}\cdot\mathbf{B})^2}} \\
+\lambda &amp;= \frac{e}{mc}\sqrt{-\frac{1}{2}(B^2 - E^2) + \frac{1}{2}\sqrt{(B^2 - E^2)^2 + 4(\mathbf{E}\cdot\mathbf{B})^2}}
+\end{aligned}
+\tag{27.5}\]</span></span></p>
+<p><span class="math inline">\(\omega\)</span> 是 <span class="math inline">\(E\neq 0\)</span> 时拉莫尔频率 <span class="math inline">\(\omega_\xi = eB/(mc)\)</span> 的广义相对论形式（可以通过求 <span class="math inline">\(E\to 0\)</span> 极限验证）。<a href="#eq-charged-particle-motion-general" class="quarto-xref">式&nbsp;<span>27.1</span></a> 的通解 <span class="math inline">\(x_\mu\)</span> 为 <span id="eq-charged-particle-motion-general-sol"><span class="math display">\[
+x_\mu = \xi_\mu\rho \cos(\omega\tau) - \eta_\mu \rho \sin(\omega\tau) + \alpha_\mu \nu \cosh(\lambda\tau) + \beta_\mu \nu \sinh(\lambda\tau)
+\tag{27.6}\]</span></span></p>
+<p>注意，前两项与周期运动有关，即以回旋半径 <span class="math inline">\(\rho\)</span> 绕磁力线回旋。这里 <span class="math inline">\(\rho, \nu\)</span> 是由初始条件确定的常量，<span class="math inline">\(\xi_\mu,\eta_\mu,\alpha_\mu\)</span> 和 <span class="math inline">\(\beta_\mu\)</span> 是按下式归一化的四维单位矢量： <span id="eq-charged-particle-motion-general-sol-normalization"><span class="math display">\[
+\xi_\mu^2 = \eta_\mu^2 = 1,\quad \text{且}\quad \alpha_\mu^2 = -\beta_\mu^2 = 1
+\tag{27.7}\]</span></span></p>
+<p><span class="math inline">\(\rho = 0\)</span> 和 <span class="math inline">\(\nu = 0\)</span> 时的解必须分别成立，因此将这两种特殊情况下的 <span class="math inline">\(x_\mu\)</span> 代入 <a href="#eq-charged-particle-motion-general" class="quarto-xref">式&nbsp;<span>27.1</span></a>，可以看出 <span class="math inline">\(\xi_\mu,\eta_\mu,\alpha_\mu\)</span> 和 <span class="math inline">\(\beta_\mu\)</span> 构成闵可夫斯基空间的一组正交基。这组四维矢量的正交关系特别表明，<span class="math inline">\((\xi_mu,\eta_\mu)\)</span> 平面中的周期运动（回旋）与 <span class="math inline">\((\alpha_\mu, \beta_\mu)\)</span> 平面中的加速运动相垂直；这一关系稍后会用到。此时，速度平方不变量给出另一个有用的关系： <span id="eq-sqr-v-invariance"><span class="math display">\[
+\frac{\mathrm{d}x_\mu}{\mathrm{d}\tau}\frac{\mathrm{d}x_\mu}{\mathrm{d}\tau} = -c^2,\quad\text{由此得到}\quad \omega^2\rho^2 - \lambda^2\nu^2 = -c^2
+\tag{27.8}\]</span></span></p>
+<p>由于我们只关注出现回旋的情况，唯一需要考虑的特征值退化情况是 <span class="math inline">\(\lambda=0, \omega\neq 0\)</span>，对应 <span class="math inline">\(\mathbf{E}\cdot\mathbf{B}=0\)</span> 和 <span class="math inline">\(|\mathbf{E}|\to 0\)</span>。相应的解为 <span id="eq-associated-sol"><span class="math display">\[
+x_\mu = \xi_\mu\rho \cos(\omega\tau) - \eta_\mu \rho \sin(\omega\tau) + U_\mu \tau
+\tag{27.9}\]</span></span></p>
+<p>这里清楚地显示了拉莫尔频率为 <span class="math inline">\(\omega_\xi = \omega\)</span> 的回旋运动，以及在垂直于 <span class="math inline">\((\mathbf{E}, \mathbf{B})\)</span> 平面的平面内以速度 <span class="math inline">\(U_\mu = (\gamma c, \mathbf{U})\)</span> 进行的匀速运动（漂移）。<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 在此特殊情况下，速度平方不变量 <a href="#eq-sqr-v-invariance" class="quarto-xref">式&nbsp;<span>27.8</span></a> 变为 <span id="eq-sqr-v-invariance1"><span class="math display">\[
+\omega^2\rho^2 + U_\mu^2 = -c^2,\quad\text{或}\quad U_\mu^2 = -c^2 - \omega^2\rho^2 &lt; -c^2
+\tag{27.10}\]</span></span></p>
+<p><a href="#eq-sqr-v-invariance1" class="quarto-xref">式&nbsp;<span>27.10</span></a> 在导引中心近似（GCA）形式体系中至关重要，因为漂移运动 <span class="math inline">\(U_\mu\)</span> 是从回旋运动中分离出来的平均运动，对应导引中心（GC）本身的运动；这意味着我们刚刚得到的是粒子导引中心的能量与动量之间的关系。它与众所周知的四维速度平方公式 <span class="math inline">\({U_\mu^\prime}^2=-c^2\)</span> 非常相似，唯一的区别是多出一项 <span class="math inline">\(\omega^2\rho^2\)</span>。这提示我们可以将导引中心的运动理解为一个位于回旋中心、不做回旋运动且四维速度平方满足 <a href="#eq-sqr-v-invariance1" class="quarto-xref">式&nbsp;<span>27.10</span></a> 的粒子的运动；这与粒子的一部分动能通过 <span class="math inline">\(\omega^2\rho^2\)</span> 项储存在回旋运动中相一致。将 <span class="math inline">\(U_\mu\)</span> 的空间和时间部分分开，并重新整理 <a href="#eq-sqr-v-invariance1" class="quarto-xref">式&nbsp;<span>27.10</span></a> 中的某些项，可以得到导引中心洛伦兹因子的关系式 <span id="eq-gc-gamma"><span class="math display">\[
+\gamma_\text{GC} = \sqrt{1+\frac{|\mathbf{U}|^2}{c^2} + \frac{\omega^2\rho^2}{c^2}} = \sqrt{1+\frac{\gamma^2|\mathbf{v}|^2}{c^2} + \frac{\omega^2\rho^2}{c^2}}
+\tag{27.11}\]</span></span></p>
+<p>虽然我们只考虑了一个极限情况，但可以证明同一方程在 GCA 形式体系中普遍成立。</p>
+<p>现在我们希望在一般情况下分离出回旋运动，方法是将运动分解如下： <span id="eq-gc-separation-of-motion"><span class="math display">\[
+x_\mu = \xi_\mu x + \eta_\mu y + x_\mu^\prime + X_\mu
+\tag{27.12}\]</span></span> 其中 <span class="math inline">\(x_\mu\)</span> 是粒子的时空位置，<span class="math inline">\(X_\mu\)</span> 是导引中心的位置。我们用两个变量 <span class="math inline">\(x\)</span> 和 <span class="math inline">\(y\)</span> 描述 <span class="math inline">\((\xi, \eta)\)</span> 平面内的周期运动，而 <span class="math inline">\(x_\mu^\prime\)</span> 项描述不在同一平面内的周期运动。为更方便地描述回旋运动，我们还选取一对新变量 <span id="eq-gc-new-vars"><span class="math display">\[
+\zeta = \frac{1}{\sqrt{2}}\left( x+ iy \right)\quad\text{且}\quad \zeta^\ast = \frac{1}{\sqrt{2}}\left( x - iy \right)
+\tag{27.13}\]</span></span> 使得 <span class="math inline">\(\xi_\mu x + \eta_\mu y = \delta_\mu\zeta + \sigma_\mu\zeta^\ast\)</span>。新变量使我们能够以更方便的方式选择 <span class="math inline">\(\zeta_\mu\)</span> 和 <span class="math inline">\(\delta_\mu\)</span>，并用某个因子 <span class="math inline">\(e^{i\phi}\)</span> 表示问题的初始条件。利用 <a href="#eq-gc-new-vars" class="quarto-xref">式&nbsp;<span>27.13</span></a> 重写粒子坐标 <span id="eq-eq-gc-new-vars2"><span class="math display">\[
+x_\mu = \delta_\mu\zeta + \sigma_\mu\zeta^\ast + x_\mu^\prime + X_\mu
+\tag{27.14}\]</span></span></p>
+<p>下一步是将此表达式代入 <a href="#eq-charged-particle-motion-general" class="quarto-xref">式&nbsp;<span>27.1</span></a> 并展开二阶导数，得到一个含有八个未知量的长表达式：<span class="math inline">\(\zeta,\zeta^\ast\)</span>、<span class="math inline">\(x_\mu\)</span> 的两个分量（与 <span class="math inline">\((\sigma, \delta)\)</span> 平面有关的条件确定另外两个）以及 <span class="math inline">\(X_\mu\)</span> 的四个分量。</p>
+<p><a href="#eq-gca-condition2" class="quarto-xref">式&nbsp;<span>27.4</span></a> 中表达的 GCA 条件隐含一个小参数 <span class="math inline">\(\epsilon =|u/\omega L|\ll 1\)</span>，其中 u 是典型粒子四维速度，L 是电磁场 <span class="math inline">\(F_{\mu\nu}\)</span> 的变化量与 <span class="math inline">\(F_{\mu\nu}\)</span> 本身相当时的特征长度（缓变场近似）。这使我们能够围绕 <span class="math inline">\(X_\mu\)</span>（导引中心坐标）进行泰勒展开，近似表示 <span class="math inline">\(F_{\mu\nu}(x_\mu)\)</span>（粒子坐标处的场） <span class="math display">\[
+\begin{aligned}
+F_{\mu\nu}(x_\mu) =&amp; F_{\mu\nu}(X_\mu) \\
+&amp;+ \frac{\partial F_{\mu\nu}}{\partial x_\xi}(\delta_\xi \zeta + \sigma_\xi \zeta^\ast) \\
+&amp;+ \frac{1}{2} \frac{\partial^2 F_{\mu\nu}}{\partial x_\xi\partial x_\pi}\left[ \delta_\xi\delta_\pi \zeta^2 + \sigma_\xi\sigma_\pi {\zeta^\ast}^2 + (\sigma_\xi \delta_\pi + \sigma_\pi \delta_\xi)|\zeta|^2 \right] \\
+&amp;+ \frac{\partial F_{\mu\nu}}{\partial x_\xi} x_\xi^\prime + ...
+\end{aligned}
+\]</span></p>
+<p>现在应使用新坐标将 <span class="math inline">\(F_{\mu\nu}(x_\mu)\)</span> 代入 <a href="#eq-charged-particle-motion-general" class="quarto-xref">式&nbsp;<span>27.1</span></a>，得到一个相当长的方程，其中所有量均在导引中心位置 <span class="math inline">\(X_\mu\)</span> 处计算并保留到二阶，然后将所有二阶项归并到右侧，记为 <span class="math inline">\(G_\mu\)</span> <span id="eq-gc-expansion"><span class="math display">\[
+\begin{aligned}
+&amp;\delta_\mu\frac{\mathrm{d}^2\zeta}{\mathrm{d}\tau^2} + \sigma_\mu\frac{\mathrm{d}^2\zeta^\ast}{\mathrm{d}\tau^2}+\left( i\omega\delta_\mu + 2\frac{\mathrm{d}\zeta}{\mathrm{d}\tau} \right)\frac{\mathrm{d}\zeta}{\mathrm{d}\tau} \\
+&amp;+\left( -i\omega\sigma_\mu + 2\frac{\mathrm{d}\sigma_\mu}{\mathrm{d}\tau} \right) \frac{\mathrm{d}\zeta^\ast}{\mathrm{d}\tau} + \frac{\mathrm{d}^2\delta_\mu}{\mathrm{d}\tau^2}\zeta + \frac{\mathrm{d}^2\sigma_\mu}{\mathrm{d}\tau^2}\zeta^\ast \\
+&amp;- \frac{\partial F_{\mu\nu}}{\partial x_\xi}\left( \delta_\xi \zeta + \sigma_\xi \zeta^\ast \right)\frac{\mathrm{d}X_\nu}{\mathrm{d}\tau} - F_{\mu\nu}\left( \frac{\mathrm{d}\delta_\nu}{\mathrm{d}\tau}\zeta + \frac{\mathrm{d}\sigma_\nu}{\mathrm{d}\tau}\zeta^\ast \right) \\
+&amp;- \frac{\partial F_{\mu\nu}}{\partial x_\xi}\left( \delta_\xi \zeta + \sigma_\xi \zeta^\ast \right) \left( \delta_\nu\frac{\mathrm{d}\zeta}{\mathrm{d}\tau} + \sigma_\nu\frac{\mathrm{d}\zeta^\ast}{\mathrm{d}\tau} \right) \\
+&amp;+ \left( \frac{\mathrm{d}^2 X_\nu}{\mathrm{d}\tau^2} - F_{\mu\nu}\frac{\mathrm{d}X_\mu}{\mathrm{d}\tau} \right) + \left( \frac{d^2 x_\mu^\prime}{\mathrm{d}\tau^2} - F_{\mu\nu}\frac{\mathrm{d}x_\nu^\prime}{\mathrm{d}\tau} \right) = G_\mu
+\end{aligned}
+\tag{27.15}\]</span></span></p>
+<p>为继续推导，需要 <span class="math inline">\(\zeta\)</span> 的表达式，但由于推导相当长，这里不再明确推导。基本思路是使用新四维矢量 <span class="math inline">\(\sigma_\mu\)</span> 和 <span class="math inline">\(\delta_\mu\)</span> 的正交关系，以及张量形式麦克斯韦方程中电磁张量的反对称性，然后假设已经找到 <span class="math inline">\(X_\mu\)</span> 的解。考虑到 <span class="math inline">\(x_\mu\)</span> 在 GCA 中是一阶项，忽略二阶量，并将与 <span class="math inline">\(\zeta\)</span> 无关的项写为数值 <span class="math inline">\(P\)</span>，则 <a href="#eq-gc-expansion" class="quarto-xref">式&nbsp;<span>27.15</span></a> 变为 <span id="eq-gc-expansion2"><span class="math display">\[
+\frac{\mathrm{d}^2\zeta}{\mathrm{d}\tau^2} + i\Omega\frac{\mathrm{d}\zeta}{\mathrm{d}\tau} + \frac{i}{2}\frac{\mathrm{d}\Omega}{\mathrm{d}\tau}\zeta + \Omega a \zeta + P = 0
+\tag{27.16}\]</span></span> 其中 <span class="math inline">\(\Omega a \zeta\)</span> 包含所有关于 <span class="math inline">\(\zeta\)</span> 的线性项。因此，类比量子力学中的 _Wentzel–Kramers–Brillouin（WKB）_近似，相应的解 <span class="math inline">\(\zeta\)</span> 为 <span id="eq-gc-wkb"><span class="math display">\[
+\zeta = \rho_0 \sqrt{\frac{\omega_0}{\Omega}}\exp\left[ -i\left( \Phi + \int_{\tau_0}^\tau \sigma_1 \mathrm{d}\tau \right) \right]
+\tag{27.17}\]</span></span> 其零阶形式中， <span id="eq-gc-wkb2"><span class="math display">\[
+\Omega = \omega - 2i\sigma_\mu \frac{\mathrm{d}\delta_\mu}{\mathrm{d}\tau},\quad \Phi = \int_{\tau_0}^{\tau}\Omega\mathrm{d}\tau - \phi,\quad\text{且}\quad \sigma = a - \frac{a^2}{\Omega}
+\tag{27.18}\]</span></span> 下标 0、1 表示上面定义的量所对应的近似阶数。</p>
+<p>既然现在已知 <span class="math inline">\(\zeta\)</span> 的表达式，就可以写出 <span class="math inline">\(X_\mu\)</span> 的一阶运动方程。为此，我们要求 <a href="#eq-gc-expansion" class="quarto-xref">式&nbsp;<span>27.15</span></a> 左侧包含 <span class="math inline">\(X_\mu\)</span> 一阶和二阶导数的项与其余非振荡项相平衡，即 <span id="eq-gc-balance"><span class="math display">\[
+\frac{\mathrm{d}^2 X_\mu}{\mathrm{d}\tau^2} - F_{\mu\nu}\frac{\mathrm{d}X_\nu}{\mathrm{d}\tau} = \frac{\partial F_{\mu\nu}}{\partial x_\xi}\left( \delta_\xi \sigma_\nu \frac{\mathrm{d}\zeta^\ast}{\mathrm{d}\tau} + \delta_\nu \sigma_\xi \frac{\mathrm{d}\zeta}{\mathrm{d}\tau} \right)
+\tag{27.19}\]</span></span></p>
+<p>得到解 <a href="#eq-gc-wkb" class="quarto-xref">式&nbsp;<span>27.17</span></a> 后，再次利用 <span class="math inline">\(\delta_\mu\)</span> 和 <span class="math inline">\(\sigma_\mu\)</span> 的正交关系以及张量形式的麦克斯韦方程，可以写出导引中心的运动方程 <span id="eq-gc-eom"><span class="math display">\[
+\frac{\mathrm{d}^2 X_\mu}{\mathrm{d}\tau^2} - F_{\mu\nu}\frac{\mathrm{d}X_\nu}{\mathrm{d}\tau} + \rho_0^2 \omega_0\frac{\partial\omega}{\partial x_\mu} = 0
+\tag{27.20}\]</span></span> 其中 <span class="math inline">\(\omega\)</span>（<a href="#eq-EM-eigenvalues" class="quarto-xref">式&nbsp;<span>27.5</span></a>）是广义拉莫尔频率，<span class="math inline">\(\rho_0^2 \omega_0 = \mu_0 = mc\gamma^2 v_\perp^2 / 2eB\)</span> 是粒子磁矩 <span class="math inline">\(\mu\)</span> 的零阶近似（相差一个常数因子），而 <span class="math inline">\(\omega_0 = eB/(mc)\)</span> 表示 <span class="math inline">\(E\ll B\)</span> 时拉莫尔频率的最低阶近似。</p>
+<p>更准确地说，磁矩仅应在以 <span class="math inline">\(\mathbf{v}_E\)</span> 运动的参考系中视为常数，因为在该特定情况下 <span class="math inline">\(\mathbf{E} = 0\)</span>。事实上，形式分析（<span class="citation" data-cites="northrop1960stability">Northrop 和 Teller (<a href="#ref-northrop1960stability" role="doc-biblioref">1960年</a>)</span>）表明，一般参考系中相应的运动常量实际上是按小参数 <span class="math inline">\(\epsilon=u/(\omega_0 L)\)</span> 展开的渐近级数，其形式为 <span class="math inline">\(\mu = (e/c)\left[ \mu_0 + \epsilon \mu_1 + \epsilon^2 \mu_2 + ... \right]\)</span>，因此 <span class="math inline">\(\mu_0\)</span> 不是常数，仍可以按照绝热理论变化。尽管如此，大量数值测试证实，假设 <span class="math inline">\(\mathrm{d}\mu_0 / \mathrm{d}t \approx 0\)</span> 引入的误差至多与导引中心形式体系引入的误差同阶，这是因为缓变场条件阻止了磁矩发生显著变化。因此，可以放心地假设 <span class="math inline">\(\mu \approx (e/c)\mu_0\)</span> 不变。</p>
+</section>
+<section id="gca-运动方程的一阶解" class="level3" data-number="27.2.4">
+<h3 data-number="27.2.4" class="anchored" data-anchor-id="gca-运动方程的一阶解"><span class="header-section-number">27.2.4</span> GCA 运动方程的一阶解</h3>
+<p>尽管导引中心运动方程 <a href="#eq-gc-eom" class="quarto-xref">式&nbsp;<span>27.20</span></a> 看似简单，在近交叉电磁场条件下，将它写成显式包含导引中心速度的形式更为方便： <span id="eq-nearly-cross-em"><span class="math display">\[
+\frac{\mathbf{E}_\parallel \cdot\mathbf{B}}{B^2 - E_\perp^2} \ll 1
+\tag{27.21}\]</span></span> 其中下标 <span class="math inline">\(\parallel\)</span> 和 <span class="math inline">\(\perp\)</span> 表示电场相对于磁场单位矢量 <span class="math inline">\(\hat{b}\)</span> 的平行和垂直分量。可以证明，<a href="#eq-nearly-cross-em" class="quarto-xref">式&nbsp;<span>27.21</span></a> 允许将电磁张量场 <span class="math inline">\(F_{\mu\nu}\)</span> 分解为仅由 <span class="math inline">\(\mathbf{E}_\perp\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 构成的部分 <span class="math inline">\(F_{\mu\ni}^{(0)}\)</span>，以及依赖于 <span class="math inline">\(\mathbf{E}_\parallel\)</span> 的修正项 <span class="math inline">\(F_{\mu\nu}^{(1)}\)</span>。形式分析得出结论：导引中心四维速度 <span class="math inline">\(U_\mu \equiv \mathrm{d}X_\mu/\mathrm{d}\tau\)</span> 可以分解为零阶贡献 <span class="math inline">\(\mathrm{U}^{(0)}\)</span>（包含漂移速度 <span class="math inline">\(\mathbf{v}_E = c\mathbf{E}_\perp \times\mathbf{B}/B^2\)</span> 和平行于磁力线的速度分量 <span class="math inline">\(v_\parallel \hat{b}\)</span>）以及一阶修正 <span class="math inline">\(\mathbf{U}^{(1)}\)</span>，得到 <span id="eq-four-velocity-decomposition"><span class="math display">\[
+U_\mu = (\gamma c, \mathbf{U}) \simeq (\gamma c, \gamma v_\parallel \hat{b} + \gamma \mathbf{v}_E + \mathbf{U}^{(1)})
+\tag{27.22}\]</span></span> 其中 <span class="math inline">\(\gamma\)</span> 是粒子的洛伦兹因子，<span class="math inline">\(\gamma = (1- v^2/c^2)^{-1/2}\)</span>。可以如下面所示利用递归方法从 <a href="#eq-gc-eom" class="quarto-xref">式&nbsp;<span>27.20</span></a> 导出 <span class="math inline">\(\mathbf{U}^{(1)}\)</span> 的方程，同时从空间分量得到导引中心四维速度平行分量 <span class="math inline">\(\gamma v_\parallel\)</span> 的同阶方程。由此得到（一阶）GCA 常微分方程（ODE）组 <span id="eq-gc-eom-1st-sol"><span class="math display">\[
+\begin{aligned}
+\frac{\mathrm{d}\mathbf{X}}{\mathrm{d}t} &amp;= \mathbf{v}_E + v_\parallel \hat{b} + \frac{\gamma_E^2}{B}\hat{b}\times\left[ \frac{mc\gamma}{e}\left( v_\parallel\mathcal{L}(\hat{b}) + \mathcal{L}(\mathbf{v}_E) \right) + \mathcal{M}\left( \frac{B}{\gamma_E} \right) + \frac{v_\parallel E_\parallel}{c}\mathbf{v}_E \right] \\
+\frac{\mathrm{d}(\gamma v_\parallel)}{\mathrm{d}t} &amp;= \frac{e}{m}E_\parallel - \gamma\hat{b}\cdot\mathcal{L}(\mathbf{v}_E) - \frac{\mu}{\gamma m}\hat{b}\cdot\nabla\left(\frac{B}{\gamma_E}\right)
+\end{aligned}
+\tag{27.23}\]</span></span> 其中 <span class="math inline">\(\mathrm{d}\mathbf{X}/\mathrm{d}t = \mathbf{U}^{(1)}/\gamma\)</span> 表示导引中心的速度，<span class="math inline">\(e/m\)</span> 是粒子的荷质比，且 <span class="math inline">\(\mu_0 = c\mu/e\)</span>。算符 <span class="math inline">\(\mathcal{L}\)</span> 和 <span class="math inline">\(\mathcal{M}\)</span> 定义为 <span id="eq-gc-eom-1st-operator"><span class="math display">\[
+\begin{aligned}
+\mathcal{L}(x) &amp;= \frac{\partial\mathbf{x}}{\partial t} + v_\parallel(\hat{b}\cdot\nabla)\mathbf{x} + (\mathbf{v}_E\cdot\nabla)\mathbf{x} \\
+\mathcal{M}(x) &amp;= \frac{\mu}{e\gamma}\left[ \frac{\mathbf{v}_E}{c}\frac{\partial x}{\partial t} + c\nabla x \right]
+\end{aligned}
+\tag{27.24}\]</span></span> 其中 <span class="math inline">\(\gamma_E = (1 - E_\perp^2/B^2)^{-1/2}\)</span> 是与漂移速度 <span class="math inline">\(\mathbf{v}_E\)</span> 相关的洛伦兹因子。</p>
+<p>在 GCA <a href="#eq-gc-eom-1st-sol" class="quarto-xref">式&nbsp;<span>27.23</span></a> 中，垂直于磁场的运动信息丢失，实际随时间演化的粒子速度分量只有 <span class="math inline">\(u_\parallel\)</span>，因为磁矩 <span class="math inline">\(\mu_0\approx c\mu/e\)</span> 现在被视为运动常量。<a href="#eq-gc-eom-1st-sol" class="quarto-xref">式&nbsp;<span>27.23</span></a> 右侧的每一项都对应一种特定的漂移运动。第一项表示 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 垂直漂移，第二项描述粒子沿磁场方向的运动。方括号中的前两项 <span class="math inline">\(\mathcal{L}(\hat{b})\)</span> 和 <span class="math inline">\(\mathcal{L}(\mathbf{v}_E)\)</span> 分别描述磁场曲率漂移和极化漂移<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>。下一项是 <span class="math inline">\(\nabla-B\)</span> 漂移，而最后一项表示沿 <span class="math inline">\(\hat{b}\times\mathbf{v}_E\)</span> 方向的相对论漂移。</p>
+<p>当 <span class="math inline">\(B\to 0\)</span>（磁零点）或 <span class="math inline">\(E_\perp \ge B\)</span> 时，即近交叉电磁场条件 <a href="#eq-nearly-cross-em" class="quarto-xref">式&nbsp;<span>27.21</span></a> 被违反时，<a href="#eq-gc-eom-1st-sol" class="quarto-xref">式&nbsp;<span>27.23</span></a> 失效。第一种情况容易在电流片内部出现，而第二种只可能出现在非理想 MHD 区域。违反任一条件都会使 GCA 失效，并可能导致严重的数值误差。</p>
+</section>
+<section id="递归解" class="level3" data-number="27.2.5">
+<h3 data-number="27.2.5" class="anchored" data-anchor-id="递归解"><span class="header-section-number">27.2.5</span> 递归解</h3>
+<p>在 <a href="#eq-nearly-cross-em" class="quarto-xref">式&nbsp;<span>27.21</span></a> 条件下可以找到 <a href="#eq-gc-eom" class="quarto-xref">式&nbsp;<span>27.20</span></a> 的显式解，这引入了一个新的小参数 <span class="math inline">\(\lambda / \omega \ll 1\)</span>。</p>
+</section>
+<section id="能量守恒" class="level3" data-number="27.2.6">
+<h3 data-number="27.2.6" class="anchored" data-anchor-id="能量守恒"><span class="header-section-number">27.2.6</span> 能量守恒</h3>
+<p><a href="#eq-gc-eom" class="quarto-xref">式&nbsp;<span>27.20</span></a> 的时间分量给出粒子能量随时间变化的演化常微分方程，即 <span id="eq-gc-eom-time"><span class="math display">\[
+\frac{\mathrm{d}\gamma c^2}{\mathrm{d}t} = \frac{e}{m}\frac{\mathrm{d}\mathbf{X}}{\mathrm{d}t}\cdot\mathbf{E} + \frac{\mu}{m}\frac{\partial}{\partial t}\left( \frac{B}{\gamma_E} \right)
+\tag{27.25}\]</span></span></p>
+<p>在与时间无关的情况下，<a href="#eq-gc-eom-time" class="quarto-xref">式&nbsp;<span>27.25</span></a> 清楚地表明，当导引中心速度垂直于电场时，不会发生加速，粒子能量守恒。然而，在数值计算中并不通过求解 <a href="#eq-gc-eom-time" class="quarto-xref">式&nbsp;<span>27.25</span></a> 获得洛伦兹因子 <span class="math inline">\(\gamma\)</span>，因为除非采用较小时间步长，否则右侧的大数值容易在格式的截断误差水平上违反 <span class="math inline">\(\gamma\ge 1\)</span> 条件。实际中，在一阶近似下，粒子速度可分解为平行分量 <span class="math inline">\(v_\parallel\)</span>、漂移分量 <span class="math inline">\(v_E\)</span> 和回旋分量 <span class="math inline">\(v_\perp\)</span>，由此得到归一化条件 <span id="eq-gc-eom-normalization-1st"><span class="math display">\[
+\gamma^2( c^2 - v_\parallel^2 - v_\perp^2 - v_E^2) = c^2
+\tag{27.26}\]</span></span></p>
+<p>根据磁矩和拉莫尔频率的定义 <span class="math inline">\(\mu_0 = mc\gamma^2 v_\perp^2/(2eB) = \gamma^2 v_\perp^2/(2\omega_0)\)</span>，计算粒子洛伦兹因子为 <span id="eq-gc-eom-lorentz"><span class="math display">\[
+\gamma = \sqrt{\frac{c^2 + \gamma^2 v_\parallel^2 + 2\mu_0 \omega_0}{c^2 - v_E^2}}
+\tag{27.27}\]</span></span></p>
+<p>常用数值求解器以 <a href="#eq-gc-eom-lorentz" class="quarto-xref">式&nbsp;<span>27.27</span></a> 代替 <a href="#eq-gc-eom-time" class="quarto-xref">式&nbsp;<span>27.25</span></a> 来获得洛伦兹因子。</p>
+</section>
+</section>
+<section id="有效性与高阶修正" class="level2" data-number="27.3">
+<h2 data-number="27.3" class="anchored" data-anchor-id="有效性与高阶修正"><span class="header-section-number">27.3</span> 有效性与高阶修正</h2>
+<p>标准导引中心近似是对拉莫尔半径 <span class="math inline">\(\rho_L\)</span> 的一阶展开。其有效性取决于磁场在一个回旋半径范围内的变化足够小。严格判据需要分析场导数张量： <span class="math display">\[
+\frac{\sqrt{\lambda_{max}} \rho_\perp}{B} \ll 1
+\]</span> 其中 <span class="math inline">\(\lambda_{max}\)</span> 是包含场线梯度、曲率和剪切的张量的最大特征值。</p>
+<p>当场变化剧烈时（例如在磁场急剧反转或电流片附近），一阶近似失效。可能需要高阶修正（例如 Baños 漂移），它会增加与磁场平行旋度成正比的项： <span class="math display">\[
+\langle \dot{z} \rangle - \langle v_\parallel \rangle \approx \frac{\mu B}{m \omega_0} \hat{b} \cdot (\nabla \times \hat{b})
+\]</span> 这一修正解释了场线剪切导致的粒子平均速度与导引中心速度之间的差异。</p>
+<section id="数值实现" class="level3" data-number="27.3.1">
+<h3 data-number="27.3.1" class="anchored" data-anchor-id="数值实现"><span class="header-section-number">27.3.1</span> 数值实现</h3>
+<p>GCA <a href="#eq-gc-eom-1st-sol" class="quarto-xref">式&nbsp;<span>27.23</span></a> 包含一组四个常微分方程，未知量为 <span class="math inline">\((\mathbf{X}, u_\parallel)\)</span>。需要在网格上计算的项为</p>
+<ul>
+<li><span class="math inline">\(\mathbf{B}\)</span></li>
+<li><span class="math inline">\(c\mathbf{E}\)</span></li>
+<li><span class="math inline">\((\hat{b}\cdot\nabla)\hat{b}\)</span></li>
+<li><span class="math inline">\((\hat{b}\cdot\nabla)\mathbf{v}_E\)</span></li>
+<li><span class="math inline">\((\mathbf{v}_E\cdot\nabla)\mathbf{v}_E\)</span></li>
+<li><span class="math inline">\((\mathbf{v}_E\cdot\nabla)\hat{b}\)</span></li>
+<li><span class="math inline">\(\nabla(B/\gamma_E)\)</span></li>
+</ul>
+<p><span class="citation" data-cites="mignone2023guiding">Mignone 等 (<a href="#ref-mignone2023guiding" role="doc-biblioref">2023年</a>)</span> 报道了 GCA 在 PLUTO MHD 模型中的实现。</p>
+</section>
+<section id="非相对论情况" class="level3" data-number="27.3.2">
+<h3 data-number="27.3.2" class="anchored" data-anchor-id="非相对论情况"><span class="header-section-number">27.3.2</span> 非相对论情况</h3>
+<p>在非相对论情况下，<span class="math inline">\(\gamma = 1\)</span>，因此不需要求解 <a href="#eq-gc-eom-lorentz" class="quarto-xref">式&nbsp;<span>27.27</span></a>。<a href="#eq-gc-eom-1st-sol" class="quarto-xref">式&nbsp;<span>27.23</span></a> 可以简化为 <span id="eq-gc-eom-1st-sol-nonrelativistic"><span class="math display">\[
+\begin{aligned}
+\frac{\mathrm{d}\mathbf{X}}{\mathrm{d}t} &amp;=  \\
+\frac{\mathrm{d}(v_\parallel)}{\mathrm{d}t} &amp;=
+\end{aligned}
+\tag{27.28}\]</span></span></p>
+</section>
+</section>
+<section id="导引中心运动的哈密顿理论" class="level2" data-number="27.4">
+<h2 data-number="27.4" class="anchored" data-anchor-id="导引中心运动的哈密顿理论"><span class="header-section-number">27.4</span> 导引中心运动的哈密顿理论</h2>
+<p>以下遵循 <span class="citation" data-cites="cary2009hamiltonian">Cary 和 Brizard (<a href="#ref-cary2009hamiltonian" role="doc-biblioref">2009年</a>)</span> 的综述。</p>
+<p>导引中心运动的正则和非正则哈密顿表述相较于非哈密顿表述有所改进：哈密顿表述具有诺特定理（因此不变量由对称性导出），并保持庞加莱不变量（从而防止导引中心动力学模拟中出现虚假吸引子）。对于与时间无关的场，哈密顿导引中心理论保证存在能量守恒定律，而非哈密顿导引中心理论并不一定如此。使用相空间拉格朗日方法有助于这一理论的发展，因为无需预先变换到物理意义较弱的正则坐标，例如磁通坐标。</p>
+<section id="非正则哈密顿导引中心理论" class="level3" data-number="27.4.1">
+<h3 data-number="27.4.1" class="anchored" data-anchor-id="非正则哈密顿导引中心理论"><span class="header-section-number">27.4.1</span> 非正则哈密顿导引中心理论</h3>
+<p>导引中心相空间由以下变量组成</p>
+<ul>
+<li><p>导引中心位置 <span class="math inline">\(\mathbf{X}\)</span>，本质上是螺旋线的中心；</p></li>
+<li><p>导引中心平行速度变量 <span class="math inline">\(u\equiv \hat{b}\cdot\dot{\mathbf{X}}\)</span>；</p></li>
+<li><p>（最低阶）磁矩， <span id="eq-magnetic-moment-lowest-order-gc"><span class="math display">\[
+\mu \equiv \frac{m |\mathbf{w}|^2}{2B(\mathbf{X}, t)}
+\tag{27.29}\]</span></span> 其中 <span class="math inline">\(\mathbf{w} = \mathbf{v}_\perp - \mathbf{v}_E\)</span> 是在以 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移速度 <span class="math inline">\(\mathbf{v}_E\equiv c\mathbf{E}\times\hat{b}/B\)</span> 运动的局部参考系中的垂直速度。</p></li>
+<li><p>以及可忽略的回旋相位 <span class="math inline">\(\zeta\)</span>，它给出粒子在绕导引中心的圆周上的位置。</p></li>
+</ul>
+<p>由于描述相空间的参数仍有六个，进行导引中心变换 <span class="math inline">\((\mathbf{x},\mathbf{v}) \to (\mathbf{X},u,\mu,\zeta)\)</span> 不会丢失信息。为了简化记号，当需要使用与回旋运动有关的作用量—角坐标 <span class="math inline">\(J,\zeta\)</span> 时，我们有时用回旋作用量变量 <span class="math inline">\(J \equiv mc/e\mu\)</span> 代替磁矩 <span class="math inline">\(\mu\)</span>。</p>
+<p>这些变量的运动方程由导引中心相空间拉格朗日量给出， <span id="eq-gc-lagrangian"><span class="math display">\[
+\mathcal{L}_\text{gc}(\mathbf{X},u,\mu,\zeta;t) = \left[ \frac{e}{c}\mathbf{A}(\mathbf{X},t) + mu\hat{b}(\mathbf{X},t) \right]\cdot\dot{\mathbf{X}} + J\dot{\zeta} - H_\text{gc}
+\tag{27.30}\]</span></span> 其中导引中心哈密顿量为 <span id="eq-gc-hamiltonian"><span class="math display">\[
+H_\text{gc}(\mathbf{X},u,\mu;t) = \frac{m}{2}u^2 + \mu B(\mathbf{X},t) + e\phi(\mathbf{X},t) - \frac{m}{2}\left| \mathbf{v}_E \right|^2
+\tag{27.31}\]</span></span></p>
+<p>这里写出自变量是为了强调，例如磁场强度 <span class="math inline">\(B(\mathbf{X},t)\)</span> 是在导引中心位置 <span class="math inline">\(\mathbf{X}\)</span> 而非粒子位置 <span class="math inline">\(\mathbf{x}\)</span> 处计算的。在这里及下文中，可通过将引力项 <span class="math inline">\(m\Phi_G\)</span> 加到静电势能 <span class="math inline">\(e\Phi\)</span> 上来得到引力场的影响。此外，从现在起省略「相空间」这一修饰语，因为下文中的导引中心拉格朗日量始终是相空间拉格朗日量。</p>
+<p>导引中心拉格朗日量 <a href="#eq-gc-lagrangian" class="quarto-xref">式&nbsp;<span>27.30</span></a> 不仅来自回旋相位平均，还来自从物理（粒子）变量 <span class="math inline">\((\mathbf{x},\mathbf{v})\)</span> 到导引中心变量 <span class="math inline">\((\mathbf{X},u,\mu,\zeta)\)</span> 的变换。 物理位置 <span class="math inline">\(\mathbf{x}\)</span> 与导引中心位置 <span class="math inline">\(\mathbf{X}\)</span> 的关系为 <span id="eq-gc-relation"><span class="math display">\[
+\mathbf{x} \equiv \mathbf{X} + \pmb{\rho}
+\tag{27.32}\]</span></span> 其中 <span class="math inline">\(\pmb{\rho}\)</span> 表示在以 <span class="math inline">\(\mathbf{v}_E\)</span> 漂移的参考系中的回旋半径位移矢量。这里只需指出，位移矢量 <span class="math inline">\(\pmb{\rho}\equiv \tilde{\pmb{\rho}} + \bar{\pmb{\rho}}\)</span> 包含显式依赖回旋相位的一部分（以波浪号表示）和与回旋相位无关的一部分（以上横线表示）。下文将说明，后一部分 <span id="eq-gc-gyroradius-bar"><span class="math display">\[
+\bar{\pmb{\rho}} = \frac{\hat{b}}{\Omega}\times\mathbf{v}_E = \frac{c\mathbf{E}_\perp}{\Omega B}
+\tag{27.33}\]</span></span> 表示导引中心极化位移（Kaufman，Phys. Fluids，1986）。……</p>
+<p>我们的导引中心拉格朗日量 <a href="#eq-gc-lagrangian" class="quarto-xref">式&nbsp;<span>27.30</span></a> 采用一种标度排序，其中标势 <span class="math inline">\(\Phi\)</span> 比粒子动能低一阶，这与以前对导引中心运动哈密顿理论的推导不同。在这一排序中，电漂移 <span class="math inline">\(\mathbf{v}_E\)</span> 与垂直速度 <span class="math inline">\(\mathbf{w}\)</span> 同阶，这与某些非哈密顿计算相同（<span class="citation" data-cites="northrop1963adiabatic">Northrop (<a href="#ref-northrop1963adiabatic" role="doc-biblioref">1963年</a>)</span>）。我们将看到，这种排序使我们能够在与曲率漂移和 <span class="math inline">\(\nabla B\)</span> 漂移相同的阶次得到极化漂移，尽管它在理论中的表现形式不同。不过，为保持一致性，平行电场 <span class="math inline">\(E_\parallel = \mathbf{E}\cdot\hat{b}\)</span> 必须比垂直场 <span class="math inline">\(\mathbf{E}_\perp\)</span> 小一阶（<a href="#eq-nearly-cross-em" class="quarto-xref">式&nbsp;<span>27.21</span></a>）。</p>
+<p>变量 <span class="math inline">\((J,\zeta)\)</span> 在导引中心拉格朗日量 <a href="#eq-gc-lagrangian" class="quarto-xref">式&nbsp;<span>27.30</span></a> 的辛部分以正则形式 <span class="math inline">\(J\dot{\zeta}\)</span> 出现，而导引中心哈密顿量 <span class="math inline">\(H_\text{gc}\)</span> 仅依赖于 <span class="math inline">\(J\)</span>（或 <span class="math inline">\(\mu\)</span>）。<span class="math inline">\((J,\zeta)\)</span> 的哈密顿方程为 <span id="eq-gc-hamilton-J-zeta"><span class="math display">\[
+\begin{aligned}
+\dot{J} &amp;= -\frac{\partial H_\text{gc}}{\partial \zeta} \equiv 0 \\
+\dot{\zeta} &amp;= \frac{\partial H_\text{gc}}{\partial J} \equiv \Omega
+\end{aligned}
+\tag{27.34}\]</span></span></p>
+<p><a href="#eq-gc-hamilton-J-zeta" class="quarto-xref">式&nbsp;<span>27.34</span></a> 表明，导引中心运动方程守恒回旋作用量（或磁矩）。这也可以由诺特定理得出，因为回旋相位 <span class="math inline">\(\zeta\)</span> 是可忽略坐标，即导引中心拉格朗日量 <a href="#eq-gc-lagrangian" class="quarto-xref">式&nbsp;<span>27.30</span></a> 中只出现它的时间导数。</p>
+<p>如果只关心导引中心的运动而不关心回旋相位的演化，可以从导引中心拉格朗日量中去掉关于 <span class="math inline">\(\dot{\zeta}\)</span> 的线性项，因为它不影响其他变量 <span class="math inline">\(\mathbf{X}\)</span> 和 <span class="math inline">\(u\)</span> 的运动方程。在 <span class="math inline">\(\mathbf{X}\)</span> 和 <span class="math inline">\(u\)</span> 的演化方程中，绝热不变量 <span class="math inline">\(\mu\)</span>（或 <span class="math inline">\(J\)</span>）确实出现，但仅作为导引中心动力学参数。</p>
+<p>对导引中心拉格朗日量 <a href="#eq-gc-lagrangian" class="quarto-xref">式&nbsp;<span>27.30</span></a> 关于变量 <span class="math inline">\(u\)</span> 变分，得到欧拉—拉格朗日方程 <span class="math display">\[
+0 = \frac{\partial\mathcal{L}}{\partial u} = m\hat{b}\cdot\dot{\mathbf{X}} - \frac{\partial H_\text{gc}}{\partial u}
+\]</span> 由此得到 <span id="eq-gc-euler-lagrange1"><span class="math display">\[
+u \equiv \hat{b}\cdot\dot{\mathbf{X}}
+\tag{27.35}\]</span></span></p>
+<p>因此，导引中心拉格朗日量 <a href="#eq-gc-lagrangian" class="quarto-xref">式&nbsp;<span>27.30</span></a> 表明，<span class="math inline">\(u\)</span> 是导引中心沿该处磁场方向的速度。</p>
+<p>最后，对拉格朗日量 <a href="#eq-gc-lagrangian" class="quarto-xref">式&nbsp;<span>27.30</span></a> 关于导引中心位置 <span class="math inline">\(\mathbf{X}\)</span> 变分，得到欧拉—拉格朗日方程 <span id="eq-gc-euler-lagrange2"><span class="math display">\[
+\begin{aligned}
+m\dot{u}\hat{b} =&amp; e\mathbf{E} - \mu\nabla B + \frac{m}{2}\nabla |\mathbf{v}_E|^2 - mu\frac{\partial\hat{b}}{\partial t} \\
+&amp; + \dot{\mathbf{X}}\times\left( \frac{e}{c}\mathbf{B}+mu\nabla\times\hat{b} \right) \\
+\equiv&amp; e\left( \mathbf{E}^\ast + \frac{1}{c}\dot{\mathbf{X}}\times\mathbf{B}^\ast \right)
+\end{aligned}
+\tag{27.36}\]</span></span> 其中_有效_电磁场 <span id="eq-gc-effective-em"><span class="math display">\[
+\mathbf{E}^\ast \equiv -\nabla\Phi^\ast - \frac{1}{c}\frac{\partial\mathbf{A}^\ast}{\partial t}\quad\text{且}\quad \mathbf{B}^\ast \equiv\nabla\times\mathbf{A}^\ast
+\tag{27.37}\]</span></span> 由有效电磁势定义 <span id="eq-gc-effective-em-potentials"><span class="math display">\[
+\begin{aligned}
+e\Phi^\ast &amp;\equiv e\Phi + \mu B -\frac{m}{2}|\mathbf{v}_E|^2 \\
+\mathbf{A}^\ast &amp;\equiv \mathbf{A} + \frac{mc}{e}u\hat{b}
+\end{aligned}
+\tag{27.38}\]</span></span></p>
+<p>导引中心正则动量现在可简单地表示为 <span class="math inline">\(e\mathbf{A}^\ast /c\)</span>，导引中心哈密顿量为 <span class="math inline">\(e\Phi^\ast + mu^2/2\)</span>。</p>
+<p>将 <a href="#eq-gc-euler-lagrange2" class="quarto-xref">式&nbsp;<span>27.36</span></a> 与有效磁场 <span class="math inline">\(\mathbf{B}^\ast\)</span> 作标量积，得到变量 <span class="math inline">\(u\)</span> 的变化率 <span id="eq-gc-u-time-derivative"><span class="math display">\[
+\dot{u} = -\frac{\mathbf{B}^\ast}{m B_\parallel^\ast}\cdot\left( \nabla H_\text{gc} + \frac{e}{c}\frac{\partial\mathbf{A}^\ast}{\partial t} \right) \equiv \frac{e}{m}\frac{\mathbf{B}^\ast}{B_\parallel^\ast}\cdot\mathbf{E}^\ast
+\tag{27.39}\]</span></span> 其中 <span class="math inline">\(B_\parallel^\ast = \hat{b}\cdot\mathbf{B}^\ast\)</span> 是平行方向的有效磁场。</p>
+<p>时间导数 <a href="#eq-gc-u-time-derivative" class="quarto-xref">式&nbsp;<span>27.39</span></a> 中包含相对于主导项而言（在回旋半径上）更高阶的项，通常只保留主导项。然而，能量守恒需要这些高阶项。</p>
+<p>导引中心速度 <span class="math inline">\(\dot{\mathbf{X}}\)</span> 来自 <a href="#eq-gc-euler-lagrange2" class="quarto-xref">式&nbsp;<span>27.36</span></a> 与 <span class="math inline">\(\hat{b}\)</span> 的矢量积，利用 <a href="#eq-gc-euler-lagrange1" class="quarto-xref">式&nbsp;<span>27.35</span></a> 可得 <span id="eq-gc-X-time-derivative"><span class="math display">\[
+\begin{aligned}
+\dot{\mathbf{X}} &amp;= \frac{\mathbf{B}^\ast}{m B_\parallel^\ast}\frac{\partial H_\text{gc}}{\partial u} + \frac{c\hat{b}}{eB_\parallel^\ast}\times\left( \nabla H_\text{gc} + \frac{e}{c}\frac{\partial\mathbf{A}^\ast}{\partial t} \right) \\
+&amp;= u\frac{\mathbf{B}^\ast}{B_\parallel^\ast} + \mathbf{E}^\ast\times\frac{c\hat{b}}{B_\parallel^\ast}
+\end{aligned}
+\tag{27.40}\]</span></span></p>
+<p>如果将有效场 <a href="#eq-gc-effective-em" class="quarto-xref">式&nbsp;<span>27.37</span></a> 替换为标准场 <span class="math inline">\((\mathbf{E},\mathbf{B})\)</span>，那么 <a href="#eq-gc-u-time-derivative" class="quarto-xref">式&nbsp;<span>27.39</span></a> 和 <a href="#eq-gc-X-time-derivative" class="quarto-xref">式&nbsp;<span>27.40</span></a> 就是粒子在方向笔直且恒定的电磁场中的运动方程。</p>
+<p>利用导引中心运动方程 <a href="#eq-gc-u-time-derivative" class="quarto-xref">式&nbsp;<span>27.39</span></a> 和 <a href="#eq-gc-X-time-derivative" class="quarto-xref">式&nbsp;<span>27.40</span></a>，可以导出导引中心能量方程 <span id="eq-gc-energy-time-derivative"><span class="math display">\[
+\frac{\mathrm{d}H_\text{gc}}{\mathrm{d}t} = \frac{\partial H_\text{gc}}{\partial t} + \dot{\mathbf{X}}\cdot\nabla H_\text{gc} + \dot{u}\frac{\partial H_\text{gc}}{\partial u} = e\frac{\partial\Phi^\ast}{\partial t} -\frac{e}{c}\frac{\partial\mathbf{A}^\ast}{\partial t}\cdot\dot{\mathbf{X}}
+\tag{27.41}\]</span></span> 这意味着，对于与时间无关的场，导引中心能量 <span class="math inline">\(E_\text{gc}\equiv mu^2/2+e\Phi^\ast\)</span> 是运动常量。</p>
+<p>这里必须对极化漂移作一项重要说明：导引中心速度 <a href="#eq-gc-X-time-derivative" class="quarto-xref">式&nbsp;<span>27.40</span></a> 中没有极化漂移。然而，这种漂移对于得到低频等离子体的介电响应至关重要。它出现在变换 <a href="#eq-gc-relation" class="quarto-xref">式&nbsp;<span>27.32</span></a> 本身中，即对该关系求导得到 <span id="eq-gc-relation-time-derivative"><span class="math display">\[
+\dot{\mathbf{x}} = \dot{\mathbf{X}} + \dot{\tilde{\pmb{\rho}}} + \mathbf{v}_\text{pol}
+\tag{27.42}\]</span></span> 其中 <span id="eq-gc-polarization-v"><span class="math display">\[
+\mathbf{v}_\text{pol} \equiv \frac{\mathrm{d}\bar{\pmb{\rho}}}{\mathrm{d}t}
+\tag{27.43}\]</span></span> 表示极化漂移，而 <span class="math inline">\(\dot{\tilde{\pmb{\rho}}}=\dot{\zeta}\partial \tilde{\pmb{\rho}}/\partial \zeta + ...\)</span> 由在回旋周期时间尺度上振荡的项组成。极化漂移是一个纯导数，因此总可以积分。特别地，这意味着_即使在湍流场中，极化漂移也不会导致扩散_。这一点很重要，因为导引中心与平均位置（通过舍去 <a href="#eq-gc-relation" class="quarto-xref">式&nbsp;<span>27.32</span></a> 中第二个振荡项得到）之间的差是极化，即极化漂移的积分。这个差必须保持很小，否则假设粒子始终靠近 <span class="math inline">\(\mathbf{X}\)</span> 的理论就会失效。</p>
+<p>通过选择 <span class="math inline">\(\bar{\pmb{\rho}}\equiv 0\)</span> 而不是 <a href="#eq-gc-gyroradius-bar" class="quarto-xref">式&nbsp;<span>27.33</span></a>，可以导出另一组导引中心运动方程，其中极化漂移显式出现在导引中心速度 <span class="math inline">\(\dot{\mathbf{X}}\)</span> 中。</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-cary2009hamiltonian" class="csl-entry" role="listitem">
+Cary, John R, 和 Alain J Brizard. 2009年. <span>《Hamiltonian theory of guiding-center motion》</span>. <em>Reviews of modern physics</em> 81 (2): 693. <a href="https://doi.org/10.1103/RevModPhys.81.693">https://doi.org/10.1103/RevModPhys.81.693</a>.
+</div>
+<div id="ref-mignone2023guiding" class="csl-entry" role="listitem">
+Mignone, Andrea, H Haudemand, 和 E Puzzoni. 2023年. <span>《A guiding center implementation for relativistic particle dynamics in the PLUTO code》</span>. <em>Computer Physics Communications</em> 285: 108625. <a href="https://doi.org/10.1016/j.cpc.2022.108625">https://doi.org/10.1016/j.cpc.2022.108625</a>.
+</div>
+<div id="ref-northrop1963adiabatic" class="csl-entry" role="listitem">
+Northrop, Theodore G. 1963年. <span>《Adiabatic charged-particle motion》</span>. <em>Reviews of Geophysics</em> 1 (3): 283～304. <a href="https://doi.org/10.1029/RG001i003p00283">https://doi.org/10.1029/RG001i003p00283</a>.
+</div>
+<div id="ref-northrop1960stability" class="csl-entry" role="listitem">
+Northrop, Theodore G, 和 Edward Teller. 1960年. <span>《Stability of the adiabatic motion of charged particles in the earth’s field》</span>. <em>Physical Review</em> 117 (1): 215. <a href="https://doi.org/10.1103/PhysRev.117.215">https://doi.org/10.1103/PhysRev.117.215</a>.
+</div>
+<div id="ref-vandervoort1960relativistic" class="csl-entry" role="listitem">
+Vandervoort, Peter O. 1960年. <span>《The relativistic motion of a charged particle in an inhomogeneous electromagnetic field》</span>. <em>Annals of Physics</em> 10 (3): 401～53. <a href="https://doi.org/10.1016/0003-4916(60)90004-X">https://doi.org/10.1016/0003-4916(60)90004-X</a>.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>为验证这一点，只需将 <span class="math inline">\(x_\mu\)</span> 和 <span class="math inline">\(U_\mu\)</span> 分别代入 <a href="#eq-charged-particle-motion-general" class="quarto-xref">式&nbsp;<span>27.1</span></a> 的左侧和右侧，即可得到 <span class="math inline">\(F_{\mu\nu} U_\nu = 0\)</span>，然后将该方程的指标明确写出。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>注意，<span class="math inline">\(\mathcal{L}()\)</span> 算符是拉格朗日导数 <span class="math inline">\(\mathrm{d}/\mathrm{d}t\)</span>。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/aurora.html" class="pagination-link" aria-label="极光">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/cr.html" class="pagination-link" aria-label="宇宙射线">
+        <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/gc.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>20&nbsp; 几何 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/solarwind.html" rel="next">
+<link href="../contents/turbulence.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/geometry.html"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#局部坐标系" id="toc-局部坐标系" class="nav-link active" data-scroll-target="#局部坐标系"><span class="header-section-number">20.1</span> 局部坐标系</a>
+  <ul class="collapse">
+  <li><a href="#维数" id="toc-维数" class="nav-link" data-scroll-target="#维数"><span class="header-section-number">20.1.1</span> 维数</a></li>
+  </ul></li>
+  <li><a href="#重联识别" id="toc-重联识别" class="nav-link" data-scroll-target="#重联识别"><span class="header-section-number">20.2</span> 重联识别</a>
+  <ul class="collapse">
+  <li><a href="#二维" id="toc-二维" class="nav-link" data-scroll-target="#二维"><span class="header-section-number">20.2.1</span> 二维</a></li>
+  <li><a href="#三维" id="toc-三维" class="nav-link" data-scroll-target="#三维"><span class="header-section-number">20.2.2</span> 三维</a></li>
+  <li><a href="#临界点" id="toc-临界点" class="nav-link" data-scroll-target="#临界点"><span class="header-section-number">20.2.3</span> 临界点</a></li>
+  <li><a href="#分离线" id="toc-分离线" class="nav-link" data-scroll-target="#分离线"><span class="header-section-number">20.2.4</span> 分离线</a></li>
+  </ul></li>
+  <li><a href="#螺度" id="toc-螺度" class="nav-link" data-scroll-target="#螺度"><span class="header-section-number">20.3</span> 螺度</a></li>
+  <li><a href="#磁螺度" id="toc-磁螺度" class="nav-link" data-scroll-target="#磁螺度"><span class="header-section-number">20.4</span> 磁螺度</a></li>
+  <li><a href="#sec-cross_helicity" id="toc-sec-cross_helicity" class="nav-link" data-scroll-target="#sec-cross_helicity"><span class="header-section-number">20.5</span> 交叉螺度</a></li>
+  <li><a href="#磁通绳识别" id="toc-磁通绳识别" class="nav-link" data-scroll-target="#磁通绳识别"><span class="header-section-number">20.6</span> 磁通绳识别</a></li>
+  <li><a href="#磁层顶识别" id="toc-磁层顶识别" class="nav-link" data-scroll-target="#磁层顶识别"><span class="header-section-number">20.7</span> 磁层顶识别</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/geometry.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-geometry" class="quarto-section-identifier"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>本章介绍等离子体物理中与拓扑相关的概念，包括磁绳、结、边界和零点。通常，由于手头工具不同，观测研究者和建模研究者对拓扑的看法也不同：观测者利用探测器获得随时间和空间变化的测量数据，而建模者在给定分辨率下拥有完整的时空信息。观测者能够用如此有限的数据推断出等离子体结构的总体图景，总是令我惊叹。将观测经验融入物理研究，以及运用物理知识诊断数值模拟，是我们研究几何的主要目标。</p>
+<p>一般而言，处理几何问题有两类方法：基于物理的方法和统计方法（经典统计与机器学习）。结合这两类方法或许能够相辅相成，取得最佳结果。</p>
+<section id="局部坐标系" class="level2" data-number="20.1">
+<h2 data-number="20.1" class="anchored" data-anchor-id="局部坐标系"><span class="header-section-number">20.1</span> 局部坐标系</h2>
+<p>定义磁场的雅可比矩阵 <span class="math inline">\(\overleftrightarrow{G} = \nabla\mathbf{B}\)</span>。</p>
+<ul>
+<li><p>最小方向导数（MDD）法：在 MDD 方法中，局部正交坐标方向可以由 <span class="math inline">\(\overleftrightarrow{G}^\intercal\overleftrightarrow{G}\)</span> 的特征向量得到。</p></li>
+<li><p>最小梯度分析（MGA）：在 MGA 中，局部正交坐标方向可以由 <span class="math inline">\(\overleftrightarrow{G}\overleftrightarrow{G}^\intercal\)</span> 的特征向量得到。</p></li>
+</ul>
+<p>MGA 给出一组与最小方差分析（<a href="https://henry2004y.github.io/VisAnaJulia/dev/man/analysis/#Minimum-Variance-Analysis-1">MVA</a>）所得基向量类似的基向量：最大特征值对应的特征向量沿最大变化的向量方向（记为 <span class="math inline">\(\hat{L}_\mathrm{MGA}\)</span>），第二个对应中等变化（<span class="math inline">\(\hat{M}_\mathrm{MGA}\)</span>），第三个对应最小变化（<span class="math inline">\(\hat{N}_\mathrm{MGA}\)</span>）。MDD 给出的基向量中，最大特征值对应的特征向量表示产生最大 <span class="math inline">\(\mathbf{B}\)</span> 变化的位移方向（在 Harris 电流片中为穿过电流片的方向；<span class="math inline">\(\hat{L}_\mathrm{MDD}\)</span>）；较小特征值的情况类似（分别为 <span class="math inline">\(\hat{M}_\mathrm{MDD}\)</span> 和 <span class="math inline">\(\hat{N}_\mathrm{MDD}\)</span>）。这两个特征系统具有相同的特征值，但特征向量不同，不一定彼此平行。这里要注意，对于一维结构，两个特征系统都只有一个明确定义的特征向量；对于一维电流片结构，不同基底中明确定义的特征向量相互正交，如 图~<span class="math inline">\(\ref{fig:shirepro}\)</span> 所示。</p>
+<div id="fig-mva-mdd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mva-mdd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/MVA_MDD.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mva-mdd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;20.1: 一维电流片中，a）MVA（MGA）和 b）MDD 的特征向量 <span class="math inline">\(\vec{n}_\mathrm{max},\vec{n}_\mathrm{mid},\vec{n}_\mathrm{min}\)</span>，分别对应最大、中间和最小特征值。
+</figcaption>
+</figure>
+</div>
+<section id="维数" class="level3" data-number="20.1.1">
+<h3 data-number="20.1.1" class="anchored" data-anchor-id="维数"><span class="header-section-number">20.1.1</span> 维数</h3>
+<p>MDD 提供了一种根据矩阵 <span class="math inline">\(\overleftrightarrow{G}\overleftrightarrow{G}^\intercal\)</span> 的特征值定义结构局部维数的方法。描述磁场一维、二维或三维程度的度量 <span class="math inline">\(D_1\)</span>、<span class="math inline">\(D_2\)</span>、<span class="math inline">\(D_3\)</span> 由 MDD 矩阵 <span class="math inline">\(\overleftrightarrow{G}\overleftrightarrow{G}^\intercal\)</span> 的特征值 <span class="math inline">\(\lambda_i\)</span>（<span class="math inline">\(i=1,2,3\)</span>，按降序排列）的平方根之比得到。</p>
+<p><span class="math inline">\(D_1\)</span>、<span class="math inline">\(D_2\)</span>、<span class="math inline">\(D_3\)</span> 的一种定义如下： <span class="math display">\[
+\begin{aligned}
+   D_1 &amp;= \frac{\sqrt{\lambda_1}-\sqrt{\lambda_2}}{\sqrt{\lambda_1}}\\
+   D_2 &amp;= \frac{\sqrt{\lambda_2}-\sqrt{\lambda_3}}{\sqrt{\lambda_1}}\\
+   D_3 &amp;= \frac{\sqrt{\lambda_3}}{\sqrt{\lambda_1}}.
+\end{aligned}
+\]</span> 这些量定义在 [0,1] 范围内，且其和为一。当 <span class="math inline">\(D_1 \approx 1\)</span> 时，磁场结构主要是一维的，例如具有 <span class="math inline">\(\mathbf{B} \approx \mathbf{B}(z)\)</span> 的电流片，其中 <span class="math inline">\(z\)</span> 方向垂直于电流片。相应地，当 <span class="math inline">\(D_2 \approx 1\)</span> 时，结构主要是两个坐标的函数，以此类推。这些度量使我们能够定量判断对中性线进行局部二维处理是否有充分依据。</p>
+<p>如果特征值没有明显分离，从 MGA 和 MDD 得到的方向便存在歧义 <span class="citation" data-cites="shi2019">(<a href="#ref-shi2019" role="doc-biblioref">Shi 等 2019年</a>)</span>。例如，对于维数为 1 的电流片，MGA 得到沿磁场方向（在电流片上下方），而 MDD 得到电流片的法向；另外两个方向则不确定。<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>常见的代表性结构：</p>
+<ul>
+<li>一维：电流片</li>
+<li>二维：等离子体团、磁通绳</li>
+<li>三维：罕见<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
+</ul>
+</section>
+</section>
+<section id="重联识别" class="level2" data-number="20.2">
+<h2 data-number="20.2" class="anchored" data-anchor-id="重联识别"><span class="header-section-number">20.2</span> 重联识别</h2>
+<p>这里分别给出 X 点构型和 O 点构型的解析场。</p>
+<div id="fig-x-o-points" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-x-o-points-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/x_o_point.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-x-o-points-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;20.2: （a）O 点和（b）X 点的例子。
+</figcaption>
+</figure>
+</div>
+<section id="二维" class="level3" data-number="20.2.1">
+<h3 data-number="20.2.1" class="anchored" data-anchor-id="二维"><span class="header-section-number">20.2.1</span> 二维</h3>
+<p>识别二维重联位置很容易。假设平面外方向为 y，且 <span class="math inline">\(B_y = \mathrm{const}\)</span>。无散条件给出 <span class="math display">\[
+\frac{\partial B_x}{\partial x} + \frac{\partial B_z}{\partial z} = 0
+\]</span></p>
+<p>在 X-Z 平面中，可以定义磁通函数 <span class="math display">\[
+\psi = \int B_x dz = - \int B_z dx
+\]</span> 于是 <span class="math display">\[
+\mathbf{B} = B_x\hat{x} + B_z\hat{z} = \hat{y}\times\nabla\psi
+\]</span></p>
+<p>零点就是磁通函数的简单鞍点和极值点。</p>
+<div id="fig-mva-mdd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mva-mdd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/MVA_MDD.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mva-mdd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;20.3: 在定义良好的局部坐标系中对中性点的分类。在 <span class="math inline">\(B_L=0\)</span> 的平面及该平面中满足 <span class="math inline">\(B_N = 0\)</span> 的子集上，O 点满足 <span class="math inline">\(\partial B_N/\partial L &lt; 0\)</span>，X 点满足 <span class="math inline">\(\partial B_N/\partial L &gt; 0\)</span>。注意，此分类假设坐标系为右手系。
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="三维" class="level3" data-number="20.2.2">
+<h3 data-number="20.2.2" class="anchored" data-anchor-id="三维"><span class="header-section-number">20.2.2</span> 三维</h3>
+<p>识别三维重联位置并不容易。</p>
+<p>实现 Lapenta 的方法。</p>
+<p>四场交汇（FFJ）方法由 Laitinen 等于 2006 年提出。它在稳态重联情形下表现尚可，但在情况剧烈变化时则不然。</p>
+</section>
+<section id="临界点" class="level3" data-number="20.2.3">
+<h3 data-number="20.2.3" class="anchored" data-anchor-id="临界点"><span class="header-section-number">20.2.3</span> 临界点</h3>
+<p>让我们讨论拓扑定义的问题（参照 Kenneth Rohde Christiansen 和 Aard Keimpema）。临界点是向量为零的点（即 <span class="math inline">\(\mathbf{v}=0\)</span>）。更严格地说，临界点是雅可比矩阵或向量梯度 <span class="math inline">\(\nabla\mathbf{v}\)</span> 非奇异（即没有零特征值）的驻点。临界点有 6 种不同类型，以附近切曲线的行为为特征。可以通过搜索流场中的所有网格单元来找到这些临界点的位置。临界点只出现在向量的所有分量都经过零值的单元中。为了找到临界点的确切位置，需要进行插值。</p>
+<p>然后可以通过考察雅可比矩阵的特征值对其分类。二维向量 <span class="math inline">\((u,v)\)</span> 的雅可比矩阵为 <span id="eq-Jacobian-2d"><span class="math display">\[
+\frac{\partial(u,v)}{\partial(x,y)}\Bigg\rvert_{x_0, y_0} =
+\begin{pmatrix}
+\partial_x u &amp; \partial_y u \\ \partial_x v &amp; \partial_y v
+\end{pmatrix}\Bigg\rvert_{x_0, y_0}
+\tag{20.1}\]</span></span></p>
+<p>如 <a href="#fig-critical-pts-2d" class="quarto-xref">图&nbsp;<span>20.4</span></a> 所示，这 6 种类型根据特征值实部和虚部的符号分类。特征值的实部产生吸引（若 <span class="math inline">\(RE &lt; 0\)</span>）或排斥（若 <span class="math inline">\(RE &gt; 0\)</span>）。特征值的虚部使矢量场绕临界点旋转。当特征值为纯虚数时，临界点周围的矢量场完全呈旋转状。</p>
+<div id="fig-critical-pts-2d" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-critical-pts-2d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/critical_points_2d.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-critical-pts-2d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;20.4: 临界点分类，其中 Re1/Re2 是第一／第二个特征值的实部，Im1/Im2 是第一／第二个特征值的虚部。
+</figcaption>
+</figure>
+</div>
+<p>最重要的临界点是_鞍点_，在这里，一个方向上的吸引与另一个方向上的排斥并存。正如下一节所示，鞍点的重要性在于临界点附近的切曲线决定了流动的全局结构。</p>
+<p>如果一个临界点没有实部为零的特征值，就称它为_双曲_临界点。双曲临界点在结构上是稳定的，即小扰动不会改变其拓扑。</p>
+<p>除了临界点，还有所谓的附着／脱离节点。这些点位于物体壁面上，是切曲线终止或开始的地方。</p>
+<p>在三维中，最常见（即非退化）的临界点类型是源、汇、排斥鞍点和吸引鞍点，如 <a href="#fig-critical-pts-3d" class="quarto-xref">图&nbsp;<span>20.5</span></a> 所示（<span class="citation" data-cites="bujack2021open">(<a href="#ref-bujack2021open" role="doc-biblioref">Bujack 等 2021年</a>)</span>）。根据是否存在虚部非零的特征值，这些类型中的每一种都可能在某个平面内表现出旋转图样，由此产生图中所示的八种情况。一个二维分离面和两条一维分离线从鞍点出发或终止于鞍点（如果二维分离面从鞍点出发，则一维分离线终止于鞍点，反之亦然）。分离线或分离面接近鞍点的方向由 <span class="math inline">\(\nabla v\)</span> 的特征向量给出。一维分离线的计算方法是：沿 <span class="math inline">\(\nabla v\)</span> 中对应符号只出现一次的特征值的特征向量方向，在距鞍点一个用户定义的小偏移处放置两个种子点。随后按上述方式积分这些种子点的轨迹。二维分离面的计算方法是：在对应符号出现两次的特征值的 ∇v 特征向量所张成的平面内，在距鞍点一个用户定义的小偏移处放置八个种子点。这些种子点是积分出一个曲面——分离面——的基础。</p>
+<div id="fig-critical-pts-3d" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-critical-pts-3d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/critical_points_3d.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-critical-pts-3d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;20.5: 不同类型的非退化三维临界点：流线以红／蓝色分别表示向前／向后积分，并在同号特征值所在平面内使用线积分卷积可视化。这里下标 <span class="math inline">\(i\)</span> 表示所有 <span class="math inline">\(i \in (1, 2, 3)\)</span>，特征值的顺序无关紧要。
+</figcaption>
+</figure>
+</div>
+<p>最重要的输入参数包括分离线或分离面的种子点距鞍点的距离，以及传递给流线和流面积分器的参数，例如步长和最大步数。</p>
+</section>
+<section id="分离线" class="level3" data-number="20.2.4">
+<h3 data-number="20.2.4" class="anchored" data-anchor-id="分离线"><span class="header-section-number">20.2.4</span> 分离线</h3>
+<p>在科学可视化中，我们处理定义在网格离散点集上的矢量场，并在单元内进行线性或多线性插值。由于分段线性或多线性函数满足 Lipschitz 连续性，流线总是唯一存在的。</p>
+<p>流场骨架是一幅包含流场临界点和连接它们的所谓积分曲线的图。积分曲线可以理解为测试粒子在离临界点无穷近处释放后所经过的路径。通过添加例如箭头，可以显示积分曲线的方向，从而给出流动的全局图像。在拓扑学语境中，骨架称为<a href="https://en.wikipedia.org/wiki/Separatrix_(mathematics)">分离线</a>。分离线是其极限集（？）或整体行为（？）不同于邻近解的解。分离线包括临界点、周期轨道和鞍点的不变流形。</p>
+<p>实际中，分离线通过以下步骤构造：</p>
+<ul>
+<li>在每个单元中解析地检测临界点</li>
+<li>根据其雅可比矩阵的特征值对其分类</li>
+<li>沿鞍点特征向量的方向，在距鞍点稍有偏移的位置设置分离线种子点</li>
+</ul>
+<div id="fig-separatrices-2d" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-separatrices-2d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/separatries_identification.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-separatrices-2d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;20.6: 二维分离线的识别。
+</figcaption>
+</figure>
+</div>
+<p>在三维中，除了线，还可能有分离面。</p>
+</section>
+</section>
+<section id="螺度" class="level2" data-number="20.3">
+<h2 data-number="20.3" class="anchored" data-anchor-id="螺度"><span class="header-section-number">20.3</span> 螺度</h2>
+<p>在流体动力学中，螺度在适当条件下是流动欧拉方程的一个不变量，其拓扑解释是衡量流动中涡线的_链接程度_和_成结程度_（Moffatt 1969）。</p>
+<p>设 <span class="math inline">\(\mathbf{u}(x,t)\)</span> 为速度场，<span class="math inline">\(\nabla\times\mathbf{u}\)</span> 为对应的涡度场。在以下三个条件下，涡线随流动输运（或“冻结”在流动中）：</p>
+<ol type="1">
+<li>流体无黏性；</li>
+<li>流动不可压缩（<span class="math inline">\(\nabla\cdot\mathbf{u}=0\)</span>），或者流动可压缩但压力 <span class="math inline">\(p\)</span> 与密度 <span class="math inline">\(\rho\)</span> 之间满足正压关系 <span class="math inline">\(p=p(\rho)\)</span>；</li>
+<li>作用在流体上的所有体力都是保守力。在这些条件下，任何满足 <span class="math inline">\(n\cdot(\nabla\times\mathbf{u})=0\)</span> 的闭曲面 <span class="math inline">\(S\)</span> 都像涡度一样随流动输运。</li>
+</ol>
+<p>设 <span class="math inline">\(V\)</span> 为这样一个曲面内部的体积，则 <span class="math inline">\(V\)</span> 中的螺度定义为 <span id="eq-helicity"><span class="math display">\[
+H=\int_{{V}}{\mathbf{u}}\cdot\left(\nabla\times\mathbf{u}\right)\,dV
+\tag{20.2}\]</span></span></p>
+<p>对于无界流体中的局域涡度分布，<span class="math inline">\(V\)</span> 可以取为整个空间，此时 <span class="math inline">\(H\)</span> 是流动的总螺度。正如 Kelvin 勋爵（1868）所认识到的，<span class="math inline">\(H\)</span> 的不变性恰恰源于涡线冻结在流动中，因此其链接和／或成结程度守恒。螺度是一个赝标量：当参考系从右手系变为左手系时，它会改变符号；它可以看作流动的旋向（或手性）的度量。螺度是欧拉方程四个已知积分不变量之一；另外三个是能量、动量和角动量。</p>
+<p>螺度的不变性为拓扑流体动力学和 MHD 这一领域提供了重要基石，该领域研究流动的全局性质及其拓扑特征。</p>
+</section>
+<section id="磁螺度" class="level2" data-number="20.4">
+<h2 data-number="20.4" class="anchored" data-anchor-id="磁螺度"><span class="header-section-number">20.4</span> 磁螺度</h2>
+<p>定义在三维空间某一区域上的光滑矢量场的螺度，是衡量场线相互环绕和缠绕程度的标准量。对于磁螺度，这个“矢量场”就是磁场。它将拓扑学中的<a href="https://en.wikipedia.org/wiki/Linking_number">链接数</a>概念推广到描述磁场所需的微分量。与电磁学中的许多量一样，用来描述磁力线的磁螺度与用来描述流体流线的流体力学螺度密切相关。</p>
+<p>如果磁力线沿着一根扭绞绳索的各股线分布，这种构型就具有非零磁螺度；左手绳索的值为负，右手绳索的值为正。</p>
+<p>形式上， <span id="eq-magnetic_helicity"><span class="math display">\[
+H=\int\mathbf{A}\cdot\mathbf{B}\mathrm{d}\mathbf{r}^3
+\tag{20.3}\]</span></span> 其中</p>
+<ul>
+<li><span class="math inline">\(H\)</span> 是整个磁场的螺度</li>
+<li><span class="math inline">\(\mathbf{B}\)</span> 是磁场强度</li>
+<li><span class="math inline">\(\mathbf{A}\)</span> 是 <span class="math inline">\(\mathbf{B}\)</span> 的矢势，且 <span class="math inline">\(\mathbf{B}=\nabla\times\mathbf{A}\)</span></li>
+</ul>
+<p>在 SI 单位制中，磁螺度的单位是 <span class="math inline">\(\text{Wb}^2\)</span>；在高斯单位制中，其单位是 <span class="math inline">\(\text{Mx}^2\)</span>。注意，由于规范自由度，不应将 <span class="math inline">\(\mathbf{A}\cdot\mathbf{B}\)</span> 视为“螺度密度”。</p>
+<p>它是电磁场中的守恒量，即使磁重联耗散能量时也是如此 <span class="citation" data-cites="woltjer1958theorem">(<a href="#ref-woltjer1958theorem" role="doc-biblioref">Woltjer 1958年</a>)</span>。这一概念在太阳动力学和发电机理论中很有用。磁重联和拓扑变化期间，螺度近似守恒。螺度可以被注入日冕等系统。当积累过多时，最终会通过日冕物质抛射被排出。理想 MHD 中的简单证明可在维基百科上找到。</p>
+<p>磁螺度是一个依赖规范的量，因为可以通过向 <span class="math inline">\(\mathbf{A}\)</span> 添加梯度来重新定义它（规范变换）： <span class="math display">\[
+\mathbf{A}^\prime = \mathbf{A} + \nabla\phi
+\]</span></p>
+<p>然而，对于完全导电边界或没有净磁通量的周期系统，磁螺度是规范不变的。对于边界面上磁通量非零的体积，已经定义了规范不变的相对螺度。如果磁场是湍流的且非均匀性较弱，可以根据场线链接的密度定义磁螺度密度及其相应通量。</p>
+<p>磁场的拓扑性质可以用磁螺度解释。一组磁通管的总螺度来自磁通管之间的链接（互螺度）以及每根磁通管的内部磁结构（自螺度）。重联改变磁通管的拓扑和磁连接关系。这也可以看作自螺度和互螺度的重新分配。如果总磁螺度近似守恒，就可以对自螺度和互螺度的变化给出定量限制。这可以解释为磁通管链接的变化（由重联导致）以及重联后磁通管中存在的扭转量。[Wright &amp; Berger, 1989]</p>
+<p>简单例子：</p>
+<ol type="1">
+<li>一条没有扭转的闭合磁通环具有 <span class="math inline">\(H=0\)</span>。</li>
+<li>一根磁通量为 <span class="math inline">\(\phi\)</span>、自身扭转 <span class="math inline">\(T\)</span> 圈的磁通绳具有螺度 <span class="math inline">\(H = T\phi^2\)</span>。</li>
+<li>两条相互链接但没有扭转、磁通量分别为 <span class="math inline">\(\phi_1\)</span> 和 <span class="math inline">\(\phi_2\)</span> 的磁通环具有 <span class="math inline">\(H=\pm2\phi_1\phi_2\)</span>，其符号取决于链接方向。</li>
+</ol>
+<p>经过推广，可以给出螺度的规范不变定义。[Berger &amp; Field (1984)] 将相对磁螺度定义为 <span id="eq-relative_magnetic_helicity"><span class="math display">\[
+H = \int_V \mathbf{A}\cdot\mathbf{B} - \mathbf{A}_0\cdot\mathbf{B}_0 dV
+\tag{20.4}\]</span></span> 其中 <span class="math inline">\(\mathbf{B}_0=\nabla\times\mathbf{A}_0\)</span> 是 <span class="math inline">\(V\)</span> 内部的势场，在 <span class="math inline">\(V\)</span> 外部与该磁场相同（另见 Finn &amp; Antonsen 1985）。</p>
+<p>在环形实验室实验中，自然会考虑由导电壁面边界包围的体积，这些边界与闭合磁通面重合（即壁面上的磁场平行于边界）。</p>
+<p>磁螺度的时间演化由下式给出： <span class="math display">\[
+\frac{\mathrm{d}H}{\mathrm{d}t} = -2c\int_V \mathbf{E}\cdot\mathbf{B}dV + 2c\int_S \mathbf{A}_p\times\mathbf{E}\cdot \mathrm{d}\mathbf{S}
+\]</span> 其中，在 <span class="math inline">\(S\)</span> 上选取 <span class="math inline">\(\nabla\times\mathbf{A}_p=0\)</span> 和 <span class="math inline">\(\mathbf{A}_p\cdot \mathrm{d}\mathbf{S}=0\)</span>。第一项表示 <span class="math inline">\(E_\parallel\neq 0\)</span> 时的螺度耗散，在理想 MHD 中始终为零。第二项表示进出系统的螺度通量，例如，从太阳光球层浮现的磁通对应于向日冕注入螺度。</p>
+</section>
+<section id="sec-cross_helicity" class="level2" data-number="20.5">
+<h2 data-number="20.5" class="anchored" data-anchor-id="sec-cross_helicity"><span class="header-section-number">20.5</span> 交叉螺度</h2>
+<p>交叉螺度衡量相互作用的波之间的不平衡，这在 MHD 湍流中很重要（<a href="turbulence.html#sec-turbulence_cross_helicity" class="quarto-xref"><span>小节 19.2.9</span></a>）。其表达式为 <span id="eq-cross_helicity"><span class="math display">\[
+H_C = \int_V \mathbf{v}\cdot\mathbf{B} dV
+\tag{20.5}\]</span></span></p>
+<p>在理想 MHD 中，<span class="math inline">\(H_C\)</span> 的变化率为 <span class="math display">\[
+\frac{\mathrm{d}H_C}{\mathrm{d}t} = -\oint_S \mathrm{d}\mathbf{S}\cdot \Big[ \Big(\frac{1}{2}v^2 + \frac{\gamma}{\gamma-1} \frac{p}{\rho}\Big)\mathbf{B} - \mathbf{v}\times(\mathbf{v}\times\mathbf{B}) \Big]
+\]</span></p>
+<p>当边界 <span class="math inline">\(S\)</span> 上满足 <span class="math inline">\(\mathrm{d}\mathbf{S}\cdot\mathbf{B} = d\mathbf{S}\cdot\mathbf{V}=0\)</span>，或者边界条件为周期性时，该式为零。当这一积分为零时，交叉螺度是理想 MHD 不变量。</p>
+<p>从观测角度看，交叉螺度有离散化形式。如果想了解更多，可以查阅相关资料。</p>
+</section>
+<section id="磁通绳识别" class="level2" data-number="20.6">
+<h2 data-number="20.6" class="anchored" data-anchor-id="磁通绳识别"><span class="header-section-number">20.6</span> 磁通绳识别</h2>
+<p>利用湍流参数寻找磁通绳 <span class="citation" data-cites="zhao2020identification">(<a href="#ref-zhao2020identification" role="doc-biblioref"><span class="nocase">Zhao 等</span> 2020年</a>)</span>： <span class="math display">\[
+\begin{aligned}
+\sigma_r &amp;&lt; -0.5 \\
+|\sigma_c| &amp;&lt; 0.4 \\
+|\sigma_m| &amp;&gt; 0.7
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(\sigma_m\)</span> 是_归一化约化磁螺度_，用于衡量 <span class="math inline">\(\mathbf{B}\)</span> 的旋转。严格来说，磁螺度取决于磁场拓扑的空间性质，因此无法直接由单颗航天器的测量数据计算。然而，Matthaeus 等（1982）描述了一种磁螺度的约化形式，可以基于磁功率谱利用单颗航天器的测量数据进行估计。归一化约化磁螺度可估计为 <span id="eq-reduced_magnetic_helicity"><span class="math display">\[
+\sigma_m(\nu, t) = \frac{2\Im[W_T^\ast(\nu, t)\cdot W_N(\nu, t)]}{|W_R(\nu, t)|^2 + |W_T(\nu, t)|^2 + |W_N(\nu, t)|^2}
+\tag{20.6}\]</span></span> 其中 <span class="math inline">\(\nu\)</span> 是与小波函数及径向—切向—法向（RTN）坐标系中所测磁场的采样周期相关的频率。谱 <span class="math inline">\(W_R(\nu, t)\)</span>、<span class="math inline">\(W_T(\nu, t)\)</span> 和 <span class="math inline">\(W_N(\nu, t)\)</span> 分别是 <span class="math inline">\(\mathbf{B}_{1R}\)</span>、<span class="math inline">\(\mathbf{B}_{1T}\)</span> 和 <span class="math inline">\(\mathbf{B}_{1N}\)</span> 时间序列的小波变换；<span class="math inline">\(W_T^\ast(\nu,t)\)</span> 是 <span class="math inline">\(W_T(\nu,t)\)</span> 的共轭。从所得磁螺度 <span class="math inline">\(\sigma_m\)</span> 的频谱图中，可以确定特定尺度下底层涨落的大小和旋向（手性）。<span class="math inline">\(\sigma_m\)</span> 的正值对应右手手性，负值对应左手手性。</p>
+</section>
+<section id="磁层顶识别" class="level2" data-number="20.7">
+<h2 data-number="20.7" class="anchored" data-anchor-id="磁层顶识别"><span class="header-section-number">20.7</span> 磁层顶识别</h2>
+<p>根据压力平衡论证，令 <span class="math inline">\(\beta^\ast = (p_\text{th}+p_\text{dyn})/p_B\)</span>，可以得到一个简单判据： <span class="math display">\[
+\beta^\ast\simeq 1
+\]</span></p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bujack2021open" class="csl-entry" role="listitem">
+Bujack, Roxana, Karen Tsai, Steven K Morley, 和 Etienne Bresciani. 2021年. <span>《Open source vector field topology》</span>. <em>SoftwareX</em> 15: 100787. <a href="https://doi.org/10.1016/j.softx.2021.100787">https://doi.org/10.1016/j.softx.2021.100787</a>.
+</div>
+<div id="ref-shi2019" class="csl-entry" role="listitem">
+Shi, Q. Q., A. M. Tian, S. C. Bai, 等. 2019年. <span>《Dimensionality, <span>Coordinate System</span> and <span>Reference Frame</span> for <span>Analysis</span> of <span>In-Situ Space Plasma</span> and <span>Field Data</span>》</span>. <em>Space Science Reviews</em> 215 (4): 35. <a href="https://doi.org/10.1007/s11214-019-0601-2">https://doi.org/10.1007/s11214-019-0601-2</a>.
+</div>
+<div id="ref-woltjer1958theorem" class="csl-entry" role="listitem">
+Woltjer, Lodewijk. 1958年. <span>《A theorem on force-free magnetic fields》</span>. <em>Proceedings of the National Academy of Sciences</em> 44 (6): 489～91. <a href="https://doi.org/10.1073/pnas.44.6.489">https://doi.org/10.1073/pnas.44.6.489</a>.
+</div>
+<div id="ref-zhao2020identification" class="csl-entry" role="listitem">
+<span class="nocase">Zhao, L-L, GP Zank, L Adhikari, 等</span>. 2020年. <span>《Identification of magnetic flux ropes from Parker Solar Probe observations during the first encounter》</span>. <em>The Astrophysical Journal Supplement Series</em> 246 (2): 26. <a href="https://doi.org/10.3847/1538-4365/ab4ff1">https://doi.org/10.3847/1538-4365/ab4ff1</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>我还没有仔细思考 Markku 在这里的说法。在他提出的方法中，取自 MDD 和 MGA 的两个 L 方向被用来构造局部坐标系。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>文献中很少提及三维结构。Markku 也发现它们在 Vlasiator 模拟中很少见。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/turbulence.html" class="pagination-link" aria-label="湍流">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/solarwind.html" class="pagination-link" aria-label="太阳风">
+        <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/geometry.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

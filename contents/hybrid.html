@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>31&nbsp; Hybrid Methods – Key Notes in Plasma Physics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/dispersion.html" rel="next">
+<link href="../contents/pic.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/hybrid.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Hybrid Methods</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Key Notes in Plasma Physics</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">About</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Math</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Theoretical Mechanics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Relativity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unit Conversion</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Single-Particle Motions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Plasmas as Fluid</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Diffusion and Resisvity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Waves</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">EMHD</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Kinetic Theory</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Stability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Reconnection</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Kinetic MHD</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Gyrokinetics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Field Line Resonance</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonlinear Effects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Turbulence</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Geometry</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Solar Wind</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Shock</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Magnetosphere</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Ionosphere</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Radiation Belt</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Aurora</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Guiding Center</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Cosmic Ray</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Boundary Conditions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Particle-in-Cell</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Hybrid Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Dispersion Relation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Ray Tracing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Tests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Inductance</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Capacitance</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#classical-hybrid-model" id="toc-classical-hybrid-model" class="nav-link active" data-scroll-target="#classical-hybrid-model"><span class="header-section-number">31.1</span> Classical Hybrid Model</a>
+  <ul class="collapse">
+  <li><a href="#pros-and-cons" id="toc-pros-and-cons" class="nav-link" data-scroll-target="#pros-and-cons"><span class="header-section-number">31.1.1</span> Pros and Cons</a></li>
+  <li><a href="#role-of-electrons" id="toc-role-of-electrons" class="nav-link" data-scroll-target="#role-of-electrons"><span class="header-section-number">31.1.2</span> Role of Electrons</a></li>
+  <li><a href="#minimum-resolution-limit" id="toc-minimum-resolution-limit" class="nav-link" data-scroll-target="#minimum-resolution-limit"><span class="header-section-number">31.1.3</span> Minimum Resolution Limit</a></li>
+  </ul></li>
+  <li><a href="#low-density-treatment" id="toc-low-density-treatment" class="nav-link" data-scroll-target="#low-density-treatment"><span class="header-section-number">31.2</span> Low Density Treatment</a></li>
+  <li><a href="#sec-finite_e_mass" id="toc-sec-finite_e_mass" class="nav-link" data-scroll-target="#sec-finite_e_mass"><span class="header-section-number">31.3</span> Finite Electron Inertia</a></li>
+  <li><a href="#comparison-with-hall-mhd" id="toc-comparison-with-hall-mhd" class="nav-link" data-scroll-target="#comparison-with-hall-mhd"><span class="header-section-number">31.4</span> Comparison with Hall MHD</a></li>
+  <li><a href="#normalization" id="toc-normalization" class="nav-link" data-scroll-target="#normalization"><span class="header-section-number">31.5</span> Normalization</a></li>
+  <li><a href="#numerical-stability" id="toc-numerical-stability" class="nav-link" data-scroll-target="#numerical-stability"><span class="header-section-number">31.6</span> Numerical Stability</a>
+  <ul class="collapse">
+  <li><a href="#finite-grid-instability" id="toc-finite-grid-instability" class="nav-link" data-scroll-target="#finite-grid-instability"><span class="header-section-number">31.6.1</span> Finite Grid Instability</a></li>
+  </ul></li>
+  <li><a href="#boundary-conditions" id="toc-boundary-conditions" class="nav-link" data-scroll-target="#boundary-conditions"><span class="header-section-number">31.7</span> Boundary Conditions</a>
+  <ul class="collapse">
+  <li><a href="#open-boundary-conditions" id="toc-open-boundary-conditions" class="nav-link" data-scroll-target="#open-boundary-conditions"><span class="header-section-number">31.7.1</span> Open Boundary Conditions</a></li>
+  <li><a href="#magnetosphere-inner-boundary-conditions" id="toc-magnetosphere-inner-boundary-conditions" class="nav-link" data-scroll-target="#magnetosphere-inner-boundary-conditions"><span class="header-section-number">31.7.2</span> Magnetosphere Inner Boundary Conditions</a></li>
+  </ul></li>
+  <li><a href="#tests" id="toc-tests" class="nav-link" data-scroll-target="#tests"><span class="header-section-number">31.8</span> Tests</a>
+  <ul class="collapse">
+  <li><a href="#proton-cyclotron-anisotropy-instability" id="toc-proton-cyclotron-anisotropy-instability" class="nav-link" data-scroll-target="#proton-cyclotron-anisotropy-instability"><span class="header-section-number">31.8.1</span> Proton Cyclotron Anisotropy Instability</a></li>
+  <li><a href="#landau-damped-ion-acoustic-wave" id="toc-landau-damped-ion-acoustic-wave" class="nav-link" data-scroll-target="#landau-damped-ion-acoustic-wave"><span class="header-section-number">31.8.2</span> Landau Damped Ion Acoustic Wave</a></li>
+  <li><a href="#magnetic-reconnection-island-coalescence" id="toc-magnetic-reconnection-island-coalescence" class="nav-link" data-scroll-target="#magnetic-reconnection-island-coalescence"><span class="header-section-number">31.8.3</span> Magnetic Reconnection Island Coalescence</a></li>
+  <li><a href="#collisionless-shock" id="toc-collisionless-shock" class="nav-link" data-scroll-target="#collisionless-shock"><span class="header-section-number">31.8.4</span> Collisionless Shock</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/contents/hybrid.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-hybrid" class="quarto-section-identifier"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Hybrid Methods</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>The hybrid model is valid for low-frequency physics with <span class="math inline">\(\omega\sim\Omega_i\)</span> and <span class="math inline">\(kr_{Li}\sim 1\)</span> (wavelength <span class="math inline">\(\lambda\sim 6r_{Li}\)</span>), where <span class="math inline">\(\omega\)</span> is the wave frequency, <span class="math inline">\(k\)</span> is the wave number, <span class="math inline">\(\Omega_i\)</span> is the ion gyrofrequency, and <span class="math inline">\(r_{Li}\)</span> is the ion Larmor radius. For this range of wave frequency and wavelength, the ion kinetic physics in the near-Earth instabilities are resolved with grid sizes <span class="math inline">\(\sim r_{Li}\)</span> or ion inertial length <span class="math inline">\(d_i\)</span>. The finite ion gyroradius effects are resolved with particle time steps <span class="math inline">\(\Delta t\)</span> much smaller than the gyroperiod.</p>
+<p>A typical time step in a global hybrid magnetosphere model is <span class="math inline">\(0.05\,\Omega_0^{-1}\)</span>, where <span class="math inline">\(\Omega_0\)</span> is the upstream (solar wind) ion gyrofrequency. For IMF <span class="math inline">\(B_0\sim10\,\text{nT}\)</span>, <span class="math inline">\(\Omega_0 \sim 1\,\text{rad/s}\)</span>, which corresponds to <span class="math inline">\(f_0\sim 1/2\pi\,\text{s}^{-1}\)</span>. Based on in-situ observations, the typical ion inertial length in the tail is <span class="math inline">\(\sim 0.2\,\text{R}_\text{E}\)</span>, but smaller near the dayside magnetopause. Therefore usually discrete grid size <span class="math inline">\(\Delta x = 0.1\,d_i\)</span> is barely enough to resolve tail ion kinetic dynamics but not dayside kinetic structures.</p>
+<section id="classical-hybrid-model" class="level2" data-number="31.1">
+<h2 data-number="31.1" class="anchored" data-anchor-id="classical-hybrid-model"><span class="header-section-number">31.1</span> Classical Hybrid Model</h2>
+<p>Define the electric charge density <span class="math inline">\(\rho\)</span> and current density <span class="math inline">\(\mathbf{J}\)</span> as <span class="math display">\[
+\rho = \sum_s q_s n_s - en_e
+\]</span></p>
+<p><span class="math display">\[
+\mathbf{J} = \sum_s q_s n_s \mathbf{u}_s - e n_e \mathbf{u}_e
+\]</span> where <span class="math inline">\(q_s, n_s, \mathbf{U}_s\)</span> are the charge, number density and bulk velocity of ion species s calculated by taking moments of the distribution function <span class="math display">\[
+n_s = \int \mathrm{d}^3 v f_s(\mathbf{r}_s,\mathbf{v}_s,t)
+\]</span> <span class="math display">\[
+\mathbf{u}_s = \frac{1}{n_s}\int \mathrm{d}^3 v \mathbf{v}_s f_s(\mathbf{r}_s,\mathbf{v}_s,t)
+\]</span> or in the corresponding discrete forms where the distribution function is represented as a group of macro-particles with a specific shape function. In this way it behaves more like a particle cloud.</p>
+<p>The crucial assumption in the hybrid model is the <em>quasi-neutrality</em>, that is, the electrons move fast enough to cancel any charge-density fluctuations and <span class="math inline">\(\rho=0\)</span> is always satisfied. By assuming quasi-neutrality, we can</p>
+<ul>
+<li>avoid solving the conservation equations for electrons</li>
+<li>avoid solving the Maxwell’s equations entirely and instead use the generalized Ohm’s law instead</li>
+</ul>
+<p>The electron density thus can be written by using ion densities <span class="math inline">\(n_e \approx n_i \equiv \sum_s q_s n_s /e\)</span>. In addition, the electron bulk velocity may also be eliminated using Ampère’s law <span id="eq-hybrid_ampere"><span class="math display">\[
+\mathbf{J} = \mu_0^{-1}\nabla\times\mathbf{B}
+\tag{31.1}\]</span></span> and the relation <span id="eq-hybrid_Je"><span class="math display">\[
+\mathbf{u}_e = \mathbf{u}_i - \mathbf{J}/n_e e
+\tag{31.2}\]</span></span></p>
+<p>The basic equations used in the conventional PIC hybrid model first has a particle pusher for individual ions <span class="math display">\[
+\frac{\mathrm{d}\mathbf{x}_j}{\mathrm{d}t} = \mathbf{v}_j
+\]</span></p>
+<p><span class="math display">\[
+\frac{\mathrm{d}\mathbf{v}_j}{\mathrm{d}t} = \frac{q_j}{m_j}\big( \mathbf{E} + \mathbf{v}_j \times \mathbf{B} \big)
+\]</span> where the subscript <span class="math inline">\(j\)</span> and <span class="math inline">\(e\)</span> indicate the indices for individual ions and the electron fluid and other notations are standard. The lowercase velocities are velocities for each macro-particle.</p>
+<p>Alternatively, if we rely on a Vlasov system, we directly solve for the distribution function <span class="math inline">\(f(\mathbf{r}_s, \mathbf{v}_s, t)\)</span> from the Vlasov equation <span class="math display">\[
+\frac{\partial f_s}{\partial t} + \mathbf{v}_s\frac{\partial f_s}{\partial \mathbf{r}_s} + \mathbf{a}_s\cdot \frac{\partial f_s}{\partial \mathbf{v}_s} = 0
+\]</span> where <span class="math display">\[
+\mathbf{a}_s = \frac{q_s}{m_s}(\mathbf{E}+\mathbf{v}_s\times\mathbf{B})
+\]</span></p>
+<p>The generalized Ohm’s law is used to determine the time evolution of the electric field, derived from the electron momentum equation assuming <span class="math inline">\(m_e \rightarrow 0\)</span>, <span id="eq-hybrid_ohm"><span class="math display">\[
+\mathbf{E} = - \mathbf{u}_i \times \mathbf{B} + \frac{1}{\mu_0 n_e e}(\nabla\times\mathbf{B})\times\mathbf{B} - \frac{1}{n_e e}\nabla\cdot\overleftrightarrow{P}_e + \mathbf{R}_{ei}
+\tag{31.3}\]</span></span> where the current in the Hall term has already been replaced by the curvature of B. Note that the density has been written with electron number density, instead of ion density, to avoid the confusion for multiple ion species under the quasi-neutrality condition. The last term <span class="math inline">\(\mathbf{R}_{ei}\)</span> can either represent collision/physical resistivity, or artificial resistivity/numerical diffusion. For electromagnetic problems, it can include resistive and hyper-resistive terms of the form <span class="math display">\[
+\mathbf{R}_{ei} = \eta \mathbf{J} + \eta_H\nabla^2\mathbf{J}
+\]</span> where the resistivity <span class="math inline">\(\eta\)</span> may be thought of as accounting in a simple way for electron-ion collisions, and the hyper-resistivity <span class="math inline">\(\eta_H\)</span> may represent an electron viscosity and helps with numerical stability by damping grid-scale oscillations. In addition, <span class="math inline">\(\mathbf{R}_{ei}\)</span> can also include contributions from explicit friction or other momentum exchange terms in the particle collision models.</p>
+<p>The magnetic fields evolve according to Faraday’s law <span class="math display">\[
+\frac{\partial \mathbf{B}}{\partial t} = -\nabla\times\mathbf{E}
+\]</span></p>
+<p>The Hall term supports Whistler waves, which usually place the strongest limit on the time step in hybrid PIC codes. The Courant–Friedrichs–Lewy (CFL) condition for Whistler waves on the time step is typically <span class="math inline">\(\Omega_{ci}\Delta t &lt; (\Delta x/ d_i)^2/\pi\)</span>. Updating the magnetic field including the Hall term turns out to be a stiff problem, thus requires smaller time step sub-cycling in many practical cases. This is most useful when the grid resolution is very fine with <span class="math inline">\(\Delta x\ll d_i\)</span>.</p>
+<p>Finally, by determining the electron pressure tensor by using an appropriate equation of state, the evolution of the system can be followed in time. For example, let <span class="math inline">\(\overleftrightarrow{P}_e = P_e \overleftrightarrow{I}\)</span> where <span class="math inline">\(P_e\)</span> is the isotropic scalar electron pressure. In the simplest form <span class="math display">\[
+P_e = n_e k_B T_e
+\]</span> where <span class="math inline">\(n_e \approx n_i\)</span> and <span class="math inline">\(T_e=T_i\)</span>. Note however in a plasma electron pressure is usually higher than ion temperature, so this is a very crude assumption. Another commonly used assumption is an adiabatic process <span class="math display">\[
+P_e = n_e^\gamma k_B T_e = n_0(n/n_0)^\gamma k_B T_{e0}
+\]</span> where <span class="math inline">\(\gamma=5/3\)</span> is the adiabatic index for a monatomic ideal gas.</p>
+<p>For more complicated systems with gradients in the initial conditions, a separate electron energy evolution equation is required. This takes the form <span id="eq-hybrid_pe_evolution"><span class="math display">\[
+\frac{\partial P_e}{\partial t} = -\gamma \nabla\cdot(P_e \mathbf{u}_e) + (\gamma-1)\mathbf{u}_e\cdot\nabla P_e + (\gamma-1)(-\nabla\cdot\mathbf{Q}_e + H_{ei})
+\tag{31.4}\]</span></span> where the electron bulk velocity is inferred from <a href="#eq-hybrid_Je" class="quarto-xref">Equation&nbsp;<span>31.2</span></a>, with the current from <a href="#eq-hybrid_ampere" class="quarto-xref">Equation&nbsp;<span>31.1</span></a>. If used in place of a simple equation of state, <a href="#eq-hybrid_pe_evolution" class="quarto-xref">Equation&nbsp;<span>31.4</span></a> is integrated in time within the same numerical loop as the magnetic field evolution. For many problems, the electron heat flux may be modeled with a heat conductivity <span class="math inline">\(\kappa\)</span> as <span class="math display">\[
+\mathbf{Q_e} = -\kappa \nabla T_e
+\]</span> where <span class="math inline">\(\kappa = \kappa_e + \kappa_0\)</span>, <span class="math inline">\(\kappa_e\)</span> is given by a physical model and may depend on the local plasma conditions, and <span class="math inline">\(\kappa_0\)</span> is a small (<span class="math inline">\(\kappa_0\sim 0.01 - 0.1 \kappa_e\)</span> for models with a physical heat conductivity, or <span class="math inline">\(\kappa_0\sim 0.01 n_0 d_i V_A\)</span> for magnetized simulations) constant numerical diffusion coefficient set separately for convenience that helps maintain numerical stability. Models for electron and ion energy exchange may be included through the term <span class="math inline">\(H_{ei}\)</span>, which can be captured by adding energy lost in each cell by ions in collisions models back to the local electron fluid cell. (???)</p>
+<p>It is of course possible to incorporate the full electron pressure tensor effects to handle specially reconnection physics better.</p>
+<p>A more complete review is given by <span class="citation" data-cites="winske2023hybrid">(<a href="#ref-winske2023hybrid" role="doc-biblioref">Winske et al. 2023</a>)</span> for the hybrid-kinetic model assuming massless electrons. The essential problem in all hybrid algorithms is how to calculate the electric field at the next time step.</p>
+<section id="pros-and-cons" class="level3" data-number="31.1.1">
+<h3 data-number="31.1.1" class="anchored" data-anchor-id="pros-and-cons"><span class="header-section-number">31.1.1</span> Pros and Cons</h3>
+<p>Strengths:</p>
+<ul>
+<li>No approximations to ion physics.</li>
+<li>Valid for <span class="math inline">\(\omega/\Omega_i \sim kr_i \sim 1\)</span>.</li>
+<li>No issues for high-<span class="math inline">\(\beta\)</span> regimes.</li>
+<li>Simple implementation of particle push that can be readily optimized.</li>
+<li>Removes stiffest electron scales. Neglecting the electron kinetic scales typically reduces the computing cost and memory requirements by a factor of <span class="math inline">\(\sqrt{m_i/m_e}\)</span> (compared to what is used in full-PIC) for each spatial dimension and the time step may usually be increased by a similar factor.</li>
+</ul>
+<p>Limitations:</p>
+<ul>
+<li>Need to resolve ion gyrofrequency.</li>
+<li>Stiff EMHD whistler waves <span class="math inline">\(\Delta t_{CFL}\sim \Delta x^2\)</span>.</li>
+<li>No electron Landau damping.</li>
+<li>Explicit time-stepping schemes can be complex.</li>
+<li>No existing method conserves momentum or energy.</li>
+</ul>
+</section>
+<section id="role-of-electrons" class="level3" data-number="31.1.2">
+<h3 data-number="31.1.2" class="anchored" data-anchor-id="role-of-electrons"><span class="header-section-number">31.1.2</span> Role of Electrons</h3>
+<p>The interpretation of “massless” electrons is tricky. If we think of the full particle model, and take the asymptotic behavior when <span class="math inline">\(m_e\to 0\)</span>, this does not explicitly lead to the hybrid equations. The reason is that</p>
+<ol type="1">
+<li>The hybrid model completely eliminates the electron inertia term from the equations of motion. <em>This is not just an approximation of small mass; it fundamentally changes the way electrons respond to fields</em>.</li>
+<li>Hybrid models often (though not always) assume quasi-neutrality, where the electron and ion densities are nearly equal. This is a separate assumption from massless electrons.</li>
+<li>The way the electric and magnetic fields are calculated differs between the two models. The hybrid model typically solves for the electric field directly from a combination of the generalized Ohm’s law and Faraday’s law, whereas the full particle model would solve Maxwell’s equations fully. Again, combined with point 1, the way electrons respond to fields is completely different in the two models.</li>
+</ol>
+</section>
+<section id="minimum-resolution-limit" class="level3" data-number="31.1.3">
+<h3 data-number="31.1.3" class="anchored" data-anchor-id="minimum-resolution-limit"><span class="header-section-number">31.1.3</span> Minimum Resolution Limit</h3>
+<p>Interestingly, hybrid models set a lower bound on the simulation cell size <span class="math inline">\(\Delta L\)</span> (often <span class="math inline">\(\Delta L \gtrsim 10 \delta_e\)</span>) primarily to ensure the physical consistency of the “massless electron” approximation and to maintain numerical stability. In standard hybrid plasma models (kinetic ions, massless fluid electrons), resolving the electron inertial length <span class="math inline">\(\delta_e\)</span> can lead to the violation of the model’s fundamental assumptions and impose severe constraints on the time step.</p>
+<section id="validity-of-the-hybrid-approximation" class="level4" data-number="31.1.3.1">
+<h4 data-number="31.1.3.1" class="anchored" data-anchor-id="validity-of-the-hybrid-approximation"><span class="header-section-number">31.1.3.1</span> Validity of the Hybrid Approximation</h4>
+<p>The standard hybrid model assumes that electrons are a massless charge-neutralizing fluid (<span class="math inline">\(m_e \to 0\)</span>). This approximation physically implies that the electron response is instantaneous compared to the ion timescales and that the frequencies of interest are well below the electron gyrofrequency, <span class="math inline">\(\Omega_{ce}\)</span>.</p>
+<p>However, the inclusion of the Hall term in the generalized Ohm’s law introduces the whistler mode into the system. The dispersion relation for whistler waves at short wavelengths is dispersive, meaning the frequency <span class="math inline">\(\omega\)</span> scales with the square of the wavenumber <span class="math inline">\(k\)</span>: <span class="math display">\[
+\omega \propto k^2
+\]</span></p>
+<p>Specifically, as the spatial scale approaches the electron inertial length (<span class="math inline">\(k \sim 1/\delta_e\)</span>), the whistler frequency approaches the electron gyrofrequency (<span class="math inline">\(\omega \rightarrow \Omega_{ce}\)</span>).</p>
+<p>If the simulation grid is fine enough to resolve <span class="math inline">\(\delta_e\)</span> (i.e., <span class="math inline">\(\Delta L \sim \delta_e\)</span>), the grid is capable of supporting waves with frequencies near <span class="math inline">\(\Omega_{ce}\)</span>. This creates a contradiction: - The model derives its equations assuming <span class="math inline">\(\omega \ll \Omega_{ce}\)</span> (massless fluid limit). - The grid resolution allows modes where <span class="math inline">\(\omega \sim \Omega_{ce}\)</span>.</p>
+<p>By enforcing <span class="math inline">\(\Delta L \gg \delta_e\)</span>, you effectively filter out these high-frequency modes. This ensures the simulation remains in the low-frequency regime where the hybrid fluid-electron equations are physically valid.</p>
+</section>
+<section id="whistler-catastrophe" class="level4" data-number="31.1.3.2">
+<h4 data-number="31.1.3.2" class="anchored" data-anchor-id="whistler-catastrophe"><span class="header-section-number">31.1.3.2</span> Whistler Catastrophe</h4>
+<p>From a numerical standpoint, the quadratic dispersion of the whistler mode (<span class="math inline">\(\omega \propto k^2\)</span>) imposes a strict Courant–Friedrichs–Lewy (CFL) condition on explicit time-stepping schemes. The maximum stable time step <span class="math inline">\(\Delta t\)</span> scales with the square of the grid spacing: <span class="math display">\[
+\Delta t \propto \Delta L^2
+\]</span> If you decrease <span class="math inline">\(\Delta L\)</span> to resolve the very small scale <span class="math inline">\(\delta_e\)</span>, the maximum allowed <span class="math inline">\(\Delta t\)</span> becomes vanishingly small. This makes the simulation computationally prohibitive.</p>
+<p>Since the physics at the scale of <span class="math inline">\(\delta_e\)</span> (electron inertia, electron finite Larmor radius) is not correctly modeled by the massless fluid approximation anyway, resolving this scale provides no physical benefit while incurring a massive computational cost.</p>
+</section>
+<section id="numerical-heating-and-stability" class="level4" data-number="31.1.3.3">
+<h4 data-number="31.1.3.3" class="anchored" data-anchor-id="numerical-heating-and-stability"><span class="header-section-number">31.1.3.3</span> Numerical Heating and Stability</h4>
+<p>In Particle-in-Cell (PIC) based methods, there is often numerical noise associated with the finite number of particles. In a hybrid code, if the grid resolves the scales where the electrons theoretically have inertia (but the model ignores it), the Hall term can couple grid-scale noise to high-frequency whistler modes.</p>
+<p>Without the physical damping mechanisms that would exist in a full kinetic electron model (like electron Landau damping), these unphysical high-frequency modes can grow or accumulate energy at the grid scale. This can lead to numerical instability or artificial heating of the ions. Keeping the grid coarse (<span class="math inline">\(\Delta L \gg \delta_e\)</span>) acts as a low-pass filter that suppresses this noise.</p>
+</section>
+</section>
+</section>
+<section id="low-density-treatment" class="level2" data-number="31.2">
+<h2 data-number="31.2" class="anchored" data-anchor-id="low-density-treatment"><span class="header-section-number">31.2</span> Low Density Treatment</h2>
+<p>Because the hybrid model includes terms proportional to <span class="math inline">\(1/n_e\)</span>, a modification is necessary for low-density and vacuum regions. The simplest method is to apply a density lower limit <span class="math inline">\(n_f\)</span> in the field solver, so that the density used to advance the fields is <span class="math inline">\(n_e = \max(n_e, n_f)\)</span>. Typical values used for the density floor are <span class="math inline">\(n_f/n_0 \sim 0.01 - 0.05\)</span>, where <span class="math inline">\(n_0\)</span> is a reference background density. The reference density <span class="math inline">\(n_0\)</span> is typically the value used to define the ion skin depth <span class="math inline">\(d_i=V_A/\omega_{ci}\)</span>.</p>
+<p><span class="citation" data-cites="amano2014robust">(<a href="#ref-amano2014robust" role="doc-biblioref">Amano et al. 2014</a>)</span> suggests another way to solve for the electric field <span class="math display">\[
+(\omega_{pe}^2 - c^2\nabla^2)\mathbf{E} = \frac{e}{m_e}\big( \mathbf{J}_e \times\mathbf{B} - \nabla\cdot\overleftrightarrow{P}_e \big) + (\mathbf{V}_e\cdot\nabla)\mathbf{J}_e + \eta\mathbf{J}
+\]</span> which can be reduced to the Laplace equation in near-vacuum region, presenting no numerical difficulty.</p>
+<p>Besides, the electron velocity is redefined <span class="math display">\[
+\mathbf{V}_e = \frac{\mathbf{J}_e}{\text{max}(\rho_e, \rho_{e,min})}
+\]</span> where the minimum density <span class="math inline">\(\rho_{e,min}\)</span> is an artificially set value.</p>
+<p>In a hybrid system, the maximum phase velocity is the electron Alfvén speed, which goes to infinity when <span class="math inline">\(m_e \approx 0\)</span>. However, when doing calculations we only have ion Alfvén speed <span class="math display">\[
+v_{p,max} \simeq \frac{1}{2}\frac{B}{\sqrt{\mu_0 n_e m_e}} = \frac{1}{2}V_{A,i} \sqrt{\frac{m_i}{m_e}}
+\]</span></p>
+<p>To keep the maximum phase velocity always below the CFL condition, one may use a modified electron mass ratio <span class="math inline">\(m_e^\prime\)</span> defined as <span class="math display">\[
+\frac{m_e^\prime}{m_i}=\text{max}\Big( \frac{m_e}{m_i}, V_A^2\big( \frac{\Delta t}{2\alpha \Delta x} \big)^2 \Big)
+\]</span> instead of the physical electron mass <span class="math inline">\(m_e\)</span>. Here <span class="math inline">\(V_A\)</span> is the Alfvén speed calculated from the local density and magnetic field, and <span class="math inline">\(\alpha\)</span> is the maximum allowed Courant number (<span class="math inline">\(\le 0.5\)</span>).</p>
+</section>
+<section id="sec-finite_e_mass" class="level2" data-number="31.3">
+<h2 data-number="31.3" class="anchored" data-anchor-id="sec-finite_e_mass"><span class="header-section-number">31.3</span> Finite Electron Inertia</h2>
+<p>The conventional hybrid simulation model dealing with kinetic ions and a massless charge-neutralizing electron fluid is known to be susceptible to numerical instability due to divergence of the whistler-mode wave dispersion, as well as division-by-density operation in regions of low density. The Alfvén wave at short wavelength comparable to ion inertia length has dispersion due to the decoupling between ion and electron dynamics. There thus appears the whistler mode whose frequency diverges as <span class="math inline">\(\omega \propto k^2\)</span>. This means that the maximum phase velocity in the system increases rapidly without bound, implying numerical difficulty. The division-by-density issue originates from <a href="#eq-hybrid_Je" class="quarto-xref">Equation&nbsp;<span>31.2</span></a> and appears in the Hall and electron pressure gradient terms. Consequently, a pure vacuum region is not allowed to exist in the simulation domain unless some ad hoc technique is used.</p>
+<p>On the other hand, this can be restated as hybrid simulations with massless charge-neutralizing electrons are unrealistic if whistlers are involved. Either people use full particle models, or try to incoporate finite electron mass into the conventional hybrid model.</p>
+<p>The finite electron inertia correction is proposed to solve the whistler-mode wave dispersion issue. The conventional way to include a finite electron inertia correction into the hybrid model is to introduce the following so-called generalized electromagnetic field <span class="math inline">\(\widehat{\mathbf{E}}, \widehat{\mathbf{B}}\)</span>, defined as <span class="math display">\[
+\widehat{\mathbf{E}} = \mathbf{E} - \frac{\partial}{\partial t}\big( \frac{c}{\omega_{pe}^2}\nabla\times\mathbf{B} \big)
+\]</span></p>
+<p><span class="math display">\[
+\widehat{\mathbf{B}} = \mathbf{B} + \nabla\times\big( \frac{c^2}{\omega_{pe}^2}\nabla\times\mathbf{B} \big)
+\]</span> in which the terms proportional to <span class="math inline">\(\nabla\times\mathbf{B}\)</span> represent electron inertia correction.</p>
+<p>From the equation of motion for the electron fluid, it may be shown that <span class="math display">\[
+\widehat{\mathbf{E}} = - \mathbf{V}_i \times \mathbf{B} + \frac{1}{n_i e}(\nabla\times\mathbf{B})\times\mathbf{B} - \frac{1}{n_i e}\nabla\cdot\overleftrightarrow{P}_e - \frac{m_e}{e}(\mathbf{V}_e\cdot\nabla)\mathbf{V}_e
+\]</span> which is similar to the generalized Ohm’s law but now with the last term which also represents the correction. <span class="math inline">\(\mathbf{V}_e\)</span> is obtain from <a href="#eq-hybrid_Je" class="quarto-xref">Equation&nbsp;<span>31.2</span></a>.</p>
+<p>Given the generalized electric field <span class="math inline">\(\widehat{\mathbf{E}}\)</span>, one can advance the generalized magnetic field <span class="math inline">\(\widehat{\mathbf{B}}\)</span> by using Faraday’s law, which can be easily checked to satisfy <span class="math display">\[
+\frac{\partial \widehat{\mathbf{B}}}{\partial t} = -\nabla\times\widehat{\mathbf{E}}
+\]</span></p>
+<p>Further simplifications are commonly adopted; for example, the electric field correction term and electron-scale spatial variation of density are often ignored. In this case, the magnetic field may be recovered by solving the equation <span class="math display">\[
+\widehat{\mathbf{B}} = \big( 1 - \frac{c^2}{\omega_{pe}^2}\nabla^2 \big)\mathbf{B}
+\]</span> and <span class="math inline">\(\widehat{\mathbf{E}} = \mathbf{E}\)</span> is assumed. The nice feature with this approach is that the correction can be implemented as a post process to the each integration step of a standard procedure.</p>
+</section>
+<section id="comparison-with-hall-mhd" class="level2" data-number="31.4">
+<h2 data-number="31.4" class="anchored" data-anchor-id="comparison-with-hall-mhd"><span class="header-section-number">31.4</span> Comparison with Hall MHD</h2>
+<p>The zeroth and first moments of the ion Vlasov equation are <span class="math display">\[
+\begin{aligned}
+\frac{\partial n}{\partial t} + \nabla\cdot(n\mathbf{u}_i) = 0 \\
+\frac{\partial mn\mathbf{u}_i}{\partial t} + \nabla\cdot\Big[ mn\mathbf{u}_i\mathbf{u}_i - \frac{\mathbf{B}\mathbf{B}}{\mu_0} + \frac{B^2}{2\mu_0}\mathbf{I} + \overleftrightarrow{P} \Big] = 0
+\end{aligned}
+\]</span></p>
+<p>The difference between Hall MHD and hybrid model is the treatment of the pressure tensor term. For Hall MHD with constant <span class="math inline">\(T_{i0}/T_{e0}\)</span>, <span class="math display">\[
+\overleftrightarrow{P} = p_e(1 + T_{i0}/T_{e0})\mathbf{I}
+\]</span></p>
+<p>For hybrid models, <span class="math display">\[
+\overleftrightarrow{P} = p_e\mathbf{I} + \int m_i f_i \mathbf{w}\mathbf{w}\mathrm{d}\mathbf{w}
+\]</span></p>
+<p>Thus Hall-MHD is a “cold-ion” model in the sense that it does not include ion finite Larmor radius (FLR) or other kinetic effects from warm distribution functions.</p>
+</section>
+<section id="normalization" class="level2" data-number="31.5">
+<h2 data-number="31.5" class="anchored" data-anchor-id="normalization"><span class="header-section-number">31.5</span> Normalization</h2>
+<p>There are five basic quantities in the hybrid model (length, mass, time, current density, and number density???) and three physical constants (<span class="math inline">\(\mu_0,q,m\)</span>). If we add temperature, then correspondingly <span class="math inline">\(k_B\)</span> would appear. Usually even though the particle mass is a constant, we treat it as a parameter to represent a proton system or electron system or other particle system. Thus we need three (<span class="math inline">\(5-2\)</span>) independent reference quantities for the normalized units in a hybrid model. For instance, We can take a magnetic field scale <span class="math inline">\(B_0\)</span>, number density scale <span class="math inline">\(n_0\)</span>, and mass scale <span class="math inline">\(m_0\)</span>. The general variable transformation from the original units to normalized units is <span class="math display">\[
+\chi = \chi_0\tilde{\chi}
+\]</span> where <span class="math inline">\(\tilde{\chi}\)</span> denote the variable in the normalized units and the scale <span class="math inline">\(\chi_0\)</span> shall be in the original units (e.g.&nbsp;SI).</p>
+<p>Typically we use the inverse of gyrofrequency for the time scale <span class="math display">\[
+t_0 = \Omega_{c0}^{-1} = \frac{m_0}{e B_0}
+\]</span></p>
+<p>and Alfvén speed for the velocity scale <span class="math display">\[
+v_0 = v_A = \frac{B_0}{\sqrt{\mu_0 n_0 m_0}}
+\]</span></p>
+<p>Then the length scale is taken to be the ion skin-depth, or inertial length <span class="math display">\[
+L_0 = d_i = \frac{c}{\Omega_{c0}} = \sqrt{\frac{m_0}{\mu_0 e^2 n_0}}
+\]</span></p>
+<p>A common trick we can use to speed up the simulation is to artificially increase the ion mass such that the length scale is increased <span class="math inline">\(\propto \sqrt{m_0}\)</span>. For example, in many global hybrid Earth magnetosphere models, <span class="math inline">\(d_i\)</span> in the upstream solar wind is artificially increased to <span class="math inline">\(0.1\,\text{R}_E\)</span> (by increasing the ion mass), which is 6.8 times the realistic <span class="math inline">\(d_i=0.015\,\text{R}_E\)</span> for <span class="math inline">\(n_{sw}=6\,\text{amu/cc}\)</span>. If our grid resolution is <span class="math inline">\(0.05\,\text{R}_E\approx 300\,\text{km}\)</span> (which is common as of 2020s), we will have about 10 points per ion-scale wave, which is enough to resolve the ion-scale kinetics.</p>
+<p>However, a consequence of this scaling due to computational limitation must be emphasized. The reference Alfvén speed <span class="math display">\[
+V_{A0} = d_{i0}\Omega_{i0}
+\]</span></p>
+<p>will also be larger than reality since we artificialy increase <span class="math inline">\(d_{i0}\)</span> but not <span class="math inline">\(\Omega_{i0}\)</span>.</p>
+<p>Note the difference between gyrofrequency and frequency, which differs by a factor of <span class="math inline">\(2\pi\)</span>: <span class="math display">\[
+\omega = 2\pi f
+\]</span></p>
+<p>I once made a mistake in dealing with a code that uses SI units. You may wonder how come the ion inertial length is defined by speed of light divided by the plasma ion frequency in the unit of <span class="math inline">\([\text{rad}/\text{s}]\)</span>, and time scale in the unit of <span class="math inline">\(\Omega_i^{-1}\)</span> which is <span class="math inline">\([\text{s}/\text{rad}]\)</span>. In practice, we do not include <span class="math inline">\(2\pi\)</span> in neither of them!</p>
+<p>The pressure scale can be equivalently derived from the magnetic pressure or dynamic pressure <span class="math display">\[
+P_0 = \frac{B_0^2}{\mu_0} = \rho_0 v_0^2
+\]</span> Note the drop of the factor of 2 here: it is then kept in the dimensionless equations, e.g.&nbsp;<span class="math inline">\(p_B^\prime = {B^\prime}^2/2\)</span>.</p>
+<p>The temperature scale is then <span class="math display">\[
+T_0 = \frac{p_0}{n_0 k_B} = \frac{B_0^2}{2\mu_0 k_B n_0}
+\]</span></p>
+<p>Note the factor of 2 appeared in the pressure and temperature scales: this is to make the derivations consistent. The unit conversions are summarized in <a href="#tbl-hybrid-unit-conversion" class="quarto-xref">Table&nbsp;<span>31.1</span></a>.</p>
+<div id="tbl-hybrid-unit-conversion" class="quarto-layout-panel anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-hybrid-unit-conversion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;31.1: hybrid model unit conversion.
+</figcaption>
+<div aria-describedby="tbl-hybrid-unit-conversion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<table class="caption-top table">
+<caption>Example basic quantities in the hybrid model</caption>
+<colgroup>
+<col style="width: 35%">
+<col style="width: 22%">
+<col style="width: 26%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Basic variable</th>
+<th style="text-align: left;">Notation</th>
+<th style="text-align: left;">Definition</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Magnetic field</td>
+<td style="text-align: left;"><span class="math inline">\(B_0\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(B_0=B_\mathrm{ref}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1\times10^{-8}\,\mathrm{T}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number density</td>
+<td style="text-align: left;"><span class="math inline">\(n_0\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(n_0=n_\mathrm{ref}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1\times10^{6}\,\mathrm{m}^{-3}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mass</td>
+<td style="text-align: left;"><span class="math inline">\(m_0\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(m_0=m_i\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.67\times10^{-27}\,\mathrm{kg}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<table class="caption-top table">
+<caption>Example derived quantities in the hybrid model</caption>
+<colgroup>
+<col style="width: 34%">
+<col style="width: 28%">
+<col style="width: 23%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Derived variable</th>
+<th style="text-align: left;">Notation</th>
+<th style="text-align: left;">Definition</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Length</td>
+<td style="text-align: left;"><span class="math inline">\(l_0\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(l_0=\sqrt{m_0/(\mu_0 e^2 n_0)}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(2.28\times10^5\,\mathrm{m}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Velocity</td>
+<td style="text-align: left;"><span class="math inline">\(v_0\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(v_0=B_0/\sqrt{\mu_0m_in_0}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(2.18\times10^5\,\mathrm{m}\cdot\mathrm{s}^{-1}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Time</td>
+<td style="text-align: left;"><span class="math inline">\(t_0\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(t_0=m_i/(e*B_0)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.04\,\mathrm{s}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mass density</td>
+<td style="text-align: left;"><span class="math inline">\(\rho_0\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\rho_0=n_0/m_i\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.67\times10^{-21}\,\mathrm{m}^{-3}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pressure</td>
+<td style="text-align: left;"><span class="math inline">\(p_0\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(p_0=\rho_0v_0^2\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(7.96\times10^{-11}\,\mathrm{N}\cdot\mathrm{m}^{-2}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Temperature</td>
+<td style="text-align: left;"><span class="math inline">\(T_0\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(T_0=p_0*m_i/(k_B\,\rho_0)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(5.76\times10^6\,\mathrm{K}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</figure>
+</div>
+</section>
+<section id="numerical-stability" class="level2" data-number="31.6">
+<h2 data-number="31.6" class="anchored" data-anchor-id="numerical-stability"><span class="header-section-number">31.6</span> Numerical Stability</h2>
+<p>Nonlinear numerical simulations typically need some dissipation for stability. This is achieved either via:</p>
+<ol type="1">
+<li>Explicit terms in equations (“physical dissipation”).</li>
+<li>Upwinding of advective terms (implicit dissipation via discretization)</li>
+</ol>
+<p>Hybrid models usually follow 1) by adding dissipation in Ohm’s law: <span class="math display">\[
+\mathbf{E} = \underbrace{\mathbf{E}^\ast}_{\text{frictionless }\mathbf{E}} + \underbrace{\eta\mathbf{j}}_{\text{resistivity}} - \underbrace{\eta_H \nabla^2\mathbf{j}}_{\text{hyper-resistivity}}
+\]</span></p>
+<p>The reason that we need hyper-resistivity is because the Hall term is badly behaved (stiff?). Slide 33 Stainer??? The hyper-resistivity term has a similar form of an electron collisional viscosity <span class="math inline">\(\eta_H\nabla^2\mathbf{u}_e\)</span>. But the coefficient is too large for space, sometimes argued as “anomalous viscosity”.</p>
+<p>Extra care shall be taken for conservation when including the frictional terms. For momentum conservation, we should use <span class="math inline">\(\mathbf{E}^\ast\)</span> for the macro-particle pusher or Vlasov solver, and only use <span class="math inline">\(\mathbf{E}\)</span> for updating <span class="math inline">\(\mathbf{B}\)</span>. For energy conservation, it requires a separate electron pressure equation with frictional heating <span class="math inline">\(H_e = \eta j^2 + \eta_H \nabla \mathbf{j}:\nabla\mathbf{j}\)</span> and heat flux <span class="math inline">\(\mathbf{q}_e\)</span>: <span class="math display">\[
+(\gamma-1)^{-1}\Big[\frac{\partial p_e}{\partial t} + \nabla\cdot(\mathbf{u}_e p_e) \Big] + p_e\nabla\cdot\mathbf{u}_e = H_e - \nabla\cdot\mathbf{q}_e
+\]</span></p>
+<section id="finite-grid-instability" class="level3" data-number="31.6.1">
+<h3 data-number="31.6.1" class="anchored" data-anchor-id="finite-grid-instability"><span class="header-section-number">31.6.1</span> Finite Grid Instability</h3>
+<p>Imagine a scenario where cold ion beams move through uniform spatial mesh. It was shown by <span class="citation" data-cites="rambo1995finite">(<a href="#ref-rambo1995finite" role="doc-biblioref">Rambo 1995</a>)</span> that non-conservative (explicit) schemes are unstable for Ti /Te &lt;&lt; 1 regardless of spatial resolution. The precise threshold in <span class="math inline">\(T_i /T_e\)</span> and beam velocity depends on shape-function for macroparticles. This instability causes unstable (exponential) heating of ions until some saturation value and also violates momentum conservation. Implict momentum and energy conserving schemes are stable w.r.t. these instabilities.</p>
+</section>
+</section>
+<section id="boundary-conditions" class="level2" data-number="31.7">
+<h2 data-number="31.7" class="anchored" data-anchor-id="boundary-conditions"><span class="header-section-number">31.7</span> Boundary Conditions</h2>
+<section id="open-boundary-conditions" class="level3" data-number="31.7.1">
+<h3 data-number="31.7.1" class="anchored" data-anchor-id="open-boundary-conditions"><span class="header-section-number">31.7.1</span> Open Boundary Conditions</h3>
+<p>Open boundary conditions allow plasma and magnetic flux to flow into or out of the simulation domain. Ion particles are absorbed at the open boundaries, and new particles are injected if necessary. The injected particle flux is sampled from a drifting multi-Maxwellian velocity distribution that matches specified densities, velocities, and pressure moments at the boundary.</p>
+<p>The magnetic field is formally split into two components <span class="math inline">\(\mathbf{B} = \mathbf{B}_0 + \mathbf{B}_1\)</span>, with a fixed external field <span class="math inline">\(\mathbf{B}_0\)</span> and a time-varying component <span class="math inline">\(\mathbf{B}1\)</span>. The external field is a vacuum field (<span class="math inline">\(\nabla\times\mathbf{B}_0 = 0\)</span>) generated by a system of currents outside the plasma. Examples are the interplanetary magnetic field and planetary dipole field in a global magnetosphere simulation, or the confinement fields generated by external coils in a magnetic mirror device. The particles are advanced in the total magnetic field <span class="math inline">\(\mathbf{B}\)</span>, In the field solver, only <span class="math inline">\(\mathbf{B}_1\)</span> is advanced in time, and <span class="math inline">\(\mathbf{B}_0\)</span> may be dropped when computing the plasma current density in the Hall term from <span class="math inline">\(\mu_0\mathbf{J}=\nabla\times\mathbf{B}=\nabla\times\mathbf{B}_1\)</span>. The advantage of splitting <span class="math inline">\(\mathbf{B}\)</span> in this manner is that for the open boundary conditions, <span class="math inline">\(\mathbf{B}_0\)</span> is left fixed in the boundary ghost cells. Otherwise, the external field may change over time by diffusing at the boundaries. For the open boundary condition on the time-varying component of <span class="math inline">\(\mathbf{B}\)</span>, the field <span class="math inline">\(\mathbf{B}_1\)</span> in each ghost cell is set equal to the value of its neighbor within the simulation domain.</p>
+<p>The electric field is handled differently. The electric field in ghost cells along an open boundary is advanced in time along with the electric field within the bulk cells. But when computing the electric field from the Ohm’s law <a href="#eq-hybrid_ohm" class="quarto-xref">Equation&nbsp;<span>31.3</span></a> in the a ghost cell, it is assumed that there are no gradients in either <span class="math inline">\(\mathbf{B}\)</span> or the plasma moments (<span class="math inline">\(n\)</span> and <span class="math inline">\(\mathbf{u}_i\)</span>) normal to the boundary. The plasma moments, like the magnetic field, within the ghost cell are set equal to their neighboring values. So, for example, an open boundary in the <span class="math inline">\(x\)</span> direction may have pressure gradient fields <span class="math inline">\(E_y\)</span> and <span class="math inline">\(E_z\)</span> from <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> gradients in <span class="math inline">\(P_e\)</span>, but there is no pressure gradient-driven component <span class="math inline">\(E_x\)</span>. Crucially, for an open <span class="math inline">\(x\)</span> boundary, gradients in <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> (but not <span class="math inline">\(x\)</span>) are retained in the Hall term <span class="math inline">\(\propto(\nabla\times\mathbf{B})\times\mathbf{B}\)</span>. This treatment of the electric field at open boundaries significantly enhances numerical stability. Nevertheless, it is often necessary to also include a buffer region several cells wide with an enhanced hyper-resistivity <span class="math inline">\(η_H\)</span> to dissipate residual oscillations.</p>
+</section>
+<section id="magnetosphere-inner-boundary-conditions" class="level3" data-number="31.7.2">
+<h3 data-number="31.7.2" class="anchored" data-anchor-id="magnetosphere-inner-boundary-conditions"><span class="header-section-number">31.7.2</span> Magnetosphere Inner Boundary Conditions</h3>
+<p>Inner boundary condition is often the most tricky part in magnetopshere modeling. In Angeo3D [Lin+ 2014], the inner magnetosphere (<span class="math inline">\(r&lt;6\,\text{R}_\text{E}\)</span>) is assumed to be dominated by a cold, incompressible ion fluid, which coexists with particle ions. The number density of the cold ion fluid is assumed to be <span class="math display">\[
+n_f = \frac{n_\text{eq}}{r^3}[1-\tanh(r-6.5)]
+\]</span> where <span class="math inline">\(r\)</span> is in the unit of <span class="math inline">\(\text{R}_\text{E}\)</span>, and <span class="math inline">\(n_\text{eq}=1000\,\text{cm}^{-3}\)</span>.</p>
+<p>The inclusion of the cold ion fluid in the inner magnetosphere simplifies the conditions for the fluid-dominant low-altitude, inner boundary. Ion particles are set to be reflected at the magnetospheric inner boundary (e.g.&nbsp;<span class="math inline">\(r=3.5\,\text{R}_\text{E}\)</span>). This simple reflection of the ion parallel velocity <span class="math inline">\(\mathbf{v}_{i\parallel}\)</span> means that loss cone effects are omitted. For a particle distribution with an isotropic pitch angle distribution in a dipole field, the particles in a full loss cone are only 0.3% of the total, which is reasonably neglected. <span class="math inline">\(\mathbf{B}\)</span> is assumed to maintain the dipole field values at the inner boundary. The ionospheric conditions (1000 km altitude) are incorporated into the hybrid code, as in global MHD models <span class="citation" data-cites="raeder1995">(<a href="#ref-raeder1995" role="doc-biblioref">Raeder et al. 1995</a>)</span>. See <a href="ionosphere.html#sec-MI_coupling" class="quarto-xref"><span>Section 24.3</span></a>.</p>
+</section>
+</section>
+<section id="tests" class="level2" data-number="31.8">
+<h2 data-number="31.8" class="anchored" data-anchor-id="tests"><span class="header-section-number">31.8</span> Tests</h2>
+<section id="proton-cyclotron-anisotropy-instability" class="level3" data-number="31.8.1">
+<h3 data-number="31.8.1" class="anchored" data-anchor-id="proton-cyclotron-anisotropy-instability"><span class="header-section-number">31.8.1</span> Proton Cyclotron Anisotropy Instability</h3>
+<p>This is an electromagnetic and multi-ion verification test. We have an 1D-3V electromagnetic instability driven by <span class="math inline">\(p_{i\perp}/p_{i\parallel} &gt; 1\)</span>. Maximum growth happens at <span class="math inline">\(\mathbf{k}\times\mathbf{B}=0\)</span> with a finite real frequency. The instability threshold is <span class="math display">\[
+\frac{P_\perp}{P_\parallel} - 1 \approx \frac{S}{\beta_\parallel^{0.4}}
+\]</span> with <span class="math inline">\(S\sim 1\)</span> <span class="citation" data-cites="gary1993theory">(<a href="#ref-gary1993theory" role="doc-biblioref">Gary 1993</a>)</span>.</p>
+<p>Both <span class="math inline">\(\mathbf{k}\)</span> and <span class="math inline">\(\mathbf{B}_0\)</span> are parallel to the x-axis. For the initial perturbation, we choose <span class="math inline">\(k_x \Delta x = 0.065\)</span>. We set an 1D simulation with 64 cells, <span class="math inline">\(\Delta t \Omega_{ci} = 0.01\)</span>, dissipation=0. The nominal simulation parameters are: <span class="math display">\[
+\beta_\parallel = 1, \frac{T_\perp}{T_\parallel} = 3, \frac{L_x}{d_i} = 10.5, \frac{T_e}{T_\parallel} = 1, \gamma = \frac{5}{3}
+\]</span></p>
+<div id="fig-vpic-pcai" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vpic-pcai-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/EMIC_hybrid_vpic.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vpic-pcai-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31.1: PCAI results from a VPIC hybrid simulation.
+</figcaption>
+</figure>
+</div>
+<p>PCAI results:</p>
+<ul>
+<li>Transverse velocity and magnetic field components grow from noise (left-hand Alfvén waves).</li>
+<li>Agree with linear theory for these parameters (<span class="math inline">\(\gamma/\Omega_{ci} =0.162\)</span>).</li>
+<li>Pressure anisotropy decreases via wave-particle interaction until saturation.</li>
+</ul>
+<p>When we add a 20% density fraction of a minor species of alpha particles (<span class="math inline">\(\text{He}^{2+}\)</span>), the growth rate is found to be smaller. <span class="math display">\[
+Z_\alpha = 2, M_\alpha = 4, \frac{T_{\alpha\parallel}}{T_{p\parallel}} = 2, \frac{T_{\alpha\perp}}{T_{\alpha\parallel}} = \frac{T_{p\perp}}{T_{p\parallel}} = 3, \frac{N_\alpha}{N_p} = 0.2, Z_\alpha N_\alpha + Z_p N_p = 1
+\]</span></p>
+<div id="fig-vpic-cai-growth" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vpic-cai-growth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/EMIC_growth_hybrid_vpic.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vpic-cai-growth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31.2: L2-norm of the transverse ion bulk momentum perturbation <span class="math inline">\(||n_i u_{iy}||\)</span> for the Proton Cyclotron Anisotropy Instability. Shown are results from a pure hydrogen plasma (green) with theoretical growth rate from linear theory (red), and for a plasma with a 20% ion composition of alpha particles (blue) with theoretical growth rate (black).
+</figcaption>
+</figure>
+</div>
+<p>The growth rates across a range of <span class="math inline">\(\beta\)</span> and anisotropy can be computed and compared with a linear dispersion solver, e.g.&nbsp;<a href="https://github.com/dtold/HYDROS">HYDROS</a>.</p>
+</section>
+<section id="landau-damped-ion-acoustic-wave" class="level3" data-number="31.8.2">
+<h3 data-number="31.8.2" class="anchored" data-anchor-id="landau-damped-ion-acoustic-wave"><span class="header-section-number">31.8.2</span> Landau Damped Ion Acoustic Wave</h3>
+<p>The fundamental electrostatic mode in the hybrid-PIC model is the ion acoustic wave. This is also driven by pressure perturbations. In fluid models (e.g.&nbsp;Hall MHD), this wave is undamped. However, in the hybrid-PIC, Landau resonance damps the wave and locally flattens ion VDF, which is analogous to electron Landau damping of Langmuir oscillations.</p>
+<p>The dispersion relation is <span class="math display">\[
+\frac{dZ(\zeta)}{\mathrm{d}\zeta} = 2\frac{T_i}{T_e},\quad \zeta\equiv \frac{\omega-i\gamma}{kv_{\text{th},i}}
+\]</span></p>
+<div id="fig-vpic-ldiaw" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vpic-ldiaw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/Ion_acoustic_wave_hybrid_vpic.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vpic-ldiaw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31.3: Growth rate from a VPIC hybrid simulation.
+</figcaption>
+</figure>
+</div>
+<p>The nominal simulation parameters are: <span class="math display">\[
+T_i = 1/3,\, \gamma=5/3,\, c_s = \sqrt{\gamma T_e/m_i} = 1,\, k_x = \pi/8,\, \delta n = 2\times 10^{-2}
+\]</span></p>
+<p>Results for nominal parameters</p>
+<ul>
+<li>Damping rate: <span class="math inline">\(\gamma = -0.0932\)</span>.</li>
+<li>Initial perturbation damps to noise floor. Noise can be reduced by:
+<ol type="1">
+<li>Use more particles/cell (noise <span class="math inline">\(\sim 1/\sqrt(N_p)\)</span>).</li>
+<li>Binomial smoothing/higher order shape functions.</li>
+<li>Using low-discrepancy quasi-Random numbers to seed particles (noise <span class="math inline">\(\sim 1/N_p\)</span>).</li>
+<li>Most efficient: Delta-F (See <a href="pic.html#sec-delta_f" class="quarto-xref"><span>Section 30.5</span></a>).</li>
+</ol></li>
+</ul>
+</section>
+<section id="magnetic-reconnection-island-coalescence" class="level3" data-number="31.8.3">
+<h3 data-number="31.8.3" class="anchored" data-anchor-id="magnetic-reconnection-island-coalescence"><span class="header-section-number">31.8.3</span> Magnetic Reconnection Island Coalescence</h3>
+<p>Magnetic islands are 2D versions of flux-ropes. Here we set a self-driven reconnection problem of coupling of ideal island motion to micro-scale reconnection physics. Ion kinetic effects are crucial in reconnection studies.</p>
+<p>Unstable Fadeev island equilibrium: the magnetic field <span class="math inline">\(\mathbf{B}\)</span> is given by <span class="math inline">\(\nabla\times\mathbf{A}\)</span>, where in this setup we only need <span class="math display">\[
+A_y = -\lambda B_0 \ln[\text{cosh}(z/\lambda) + \epsilon\cos(z/\lambda)]
+\]</span> and the density is given by <span class="math display">\[
+n = n_0(1-\epsilon^2)/[\text{cosh}(z/\lambda) + \epsilon\cos(z/\lambda)]^2 + n_b
+\]</span></p>
+<p>The pressure balance gives <span class="math display">\[
+\beta = \frac{2\mu_0 n_0 k_B (T_{i0}+ T_{e0})}{B_0^2} = 1
+\]</span></p>
+<p>The nominal simulation parameters are: <span class="math display">\[
+\lambda = 5d_i,\, \epsilon = 0.4,\, n_b = 0.2n_0,\, T_i/T_e = 1,\, \eta = 10^{-3},\, \eta_H = 5\times10^{-3},\, \gamma = 1
+\]</span> and for the numerical parameters, we have a 2D space with <span class="math inline">\(256\times128\)</span> cells, 50 particles/cell, <span class="math inline">\(\Delta t\Omega_{ci} = 0.005\)</span>.</p>
+<div id="fig-vpic-reconnection2d" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vpic-reconnection2d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/magnetic_islands_hybrid_vpic.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vpic-reconnection2d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31.4: Magnetic island coalescence from a VPIC hybrid simulation.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="collisionless-shock" class="level3" data-number="31.8.4">
+<h3 data-number="31.8.4" class="anchored" data-anchor-id="collisionless-shock"><span class="header-section-number">31.8.4</span> Collisionless Shock</h3>
+<p>This is a 2D magnetospheric shock problem, with a <span class="math inline">\(M_A = 11.4\)</span> shock injected from the right (open) boundary and a reflecting left boundary to drive the collisionless shock.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-amano2014robust" class="csl-entry" role="listitem">
+Amano, Takanobu, Katsuaki Higashimori, and Keisuke Shirakawa. 2014. <span>“A Robust Method for Handling Low Density Regions in Hybrid Simulations for Collisionless Plasmas.”</span> <em>Journal of Computational Physics</em> 275: 197–212. <a href="https://doi.org/10.1016/j.jcp.2014.06.048">https://doi.org/10.1016/j.jcp.2014.06.048</a>.
+</div>
+<div id="ref-gary1993theory" class="csl-entry" role="listitem">
+Gary, S Peter. 1993. <em>Theory of Space Plasma Microinstabilities</em>. Cambridge university press.
+</div>
+<div id="ref-raeder1995" class="csl-entry" role="listitem">
+Raeder, J, RJ Walker, and M Ashour-Abdalla. 1995. <span>“The Structure of the Distant Geomagnetic Tail During Long Periods of Northward IMF.”</span> <em>Geophysical Research Letters</em> 22 (4): 349–52. <a href="https://doi.org/10.1029/94GL03380">https://doi.org/10.1029/94GL03380</a>.
+</div>
+<div id="ref-rambo1995finite" class="csl-entry" role="listitem">
+Rambo, PW. 1995. <span>“Finite-Grid Instability in Quasineutral Hybrid Simulations.”</span> <em>Journal of Computational Physics</em> 118 (1): 152–58. <a href="https://doi.org/10.1006/jcph.1995.1086">https://doi.org/10.1006/jcph.1995.1086</a>.
+</div>
+<div id="ref-winske2023hybrid" class="csl-entry" role="listitem">
+Winske, Dan, Homa Karimabadi, Ari Yitzchak Le, Nojan Nick Omidi, Vadim Roytershteyn, and Adam John Stanier. 2023. <span>“Hybrid-Kinetic Approach: Massless Electrons.”</span> In <em>Space and Astrophysical Plasma Simulation: Methods, Algorithms, and Applications</em>. Springer. <a href="https://doi.org/10.1007/978-3-031-11870-8_3">https://doi.org/10.1007/978-3-031-11870-8_3</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/pic.html" class="pagination-link" aria-label="Particle-in-Cell">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Particle-in-Cell</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/dispersion.html" class="pagination-link" aria-label="Dispersion Relation">
+        <span class="nav-page-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Dispersion Relation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/contents/hybrid.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

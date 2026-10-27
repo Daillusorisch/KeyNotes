@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>16&nbsp; 回旋动理学 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/flr.html" rel="next">
+<link href="../contents/kmhd.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/gyrokinetics.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#简要历史回顾" id="toc-简要历史回顾" class="nav-link active" data-scroll-target="#简要历史回顾"><span class="header-section-number">16.1</span> 简要历史回顾</a></li>
+  <li><a href="#坐标变换" id="toc-坐标变换" class="nav-link" data-scroll-target="#坐标变换"><span class="header-section-number">16.2</span> 坐标变换</a></li>
+  <li><a href="#回旋动理学量级排序" id="toc-回旋动理学量级排序" class="nav-link" data-scroll-target="#回旋动理学量级排序"><span class="header-section-number">16.3</span> 回旋动理学量级排序</a>
+  <ul class="collapse">
+  <li><a href="#从动理学到回旋动理学" id="toc-从动理学到回旋动理学" class="nav-link" data-scroll-target="#从动理学到回旋动理学"><span class="header-section-number">16.3.1</span> 从动理学到回旋动理学</a></li>
+  </ul></li>
+  <li><a href="#lagrange-方法" id="toc-lagrange-方法" class="nav-link" data-scroll-target="#lagrange-方法"><span class="header-section-number">16.4</span> Lagrange 方法</a>
+  <ul class="collapse">
+  <li><a href="#线性回旋动理学" id="toc-线性回旋动理学" class="nav-link" data-scroll-target="#线性回旋动理学"><span class="header-section-number">16.4.1</span> 线性回旋动理学</a></li>
+  <li><a href="#非线性回旋动理学" id="toc-非线性回旋动理学" class="nav-link" data-scroll-target="#非线性回旋动理学"><span class="header-section-number">16.4.2</span> 非线性回旋动理学</a></li>
+  </ul></li>
+  <li><a href="#应用" id="toc-应用" class="nav-link" data-scroll-target="#应用"><span class="header-section-number">16.5</span> 应用</a></li>
+  <li><a href="#局限性" id="toc-局限性" class="nav-link" data-scroll-target="#局限性"><span class="header-section-number">16.6</span> 局限性</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/gyrokinetics.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-gyrokinetics" class="quarto-section-identifier"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>本文取材于马克斯·普朗克等离子体物理研究所 Frank Jenko 的幻灯片。</p>
+<p>回旋动理学是在精细得多的层次上描述等离子体的理论。如果动理学效应（例如有限拉莫尔半径、朗道阻尼、磁俘获等）发挥作用，MHD 就不再适用，必须采用动理学描述。</p>
+<p>我们再次从 Vlasov-Maxwell 方程出发。在 <span class="math inline">\(\omega\ll\Omega\)</span> 的假设下去除快速回旋运动，能够大幅提高计算速度。因此可以将带电环这一基本单元看作准粒子：它由回旋中心坐标描述，并能保留动理学效应。</p>
+<section id="简要历史回顾" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="简要历史回顾"><span class="header-section-number">16.1</span> 简要历史回顾</h2>
+<p>“回旋动理学”一词于 20 世纪 60 年代末出现在文献中，最初由 Rutherford、Frieman、Taylor 和 Hastie 提出。其目的是为研究一般磁场构型中的线性动理学漂移波提供适当的形式体系，其中包括有限拉莫尔半径效应。1982 年，Friemann 和 Liu Chen 给出了第一组关于扰动分布函数 <span class="math inline">\(\delta f\)</span> 的非线性方程，并引入了回旋动理学的量级排序。回旋动理学理论基于 Hamilton 方法，即从 Lagrange 描述出发，通过变换坐标系消除回旋角依赖性，以描述运动方程。</p>
+</section>
+<section id="坐标变换" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="坐标变换"><span class="header-section-number">16.2</span> 坐标变换</h2>
+<p>我们进行以下坐标变换，从带电粒子的相空间（<span class="math inline">\(\mathbf{x},\mathbf{v}\)</span>）变换到相应的导引中心相空间（<span class="math inline">\(\mathbf{X},\mathbf{V}\)</span>），其中：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{X} = \mathbf{X}_\perp + X_\parallel \mathbf{b}_0,\quad \mathbf{X}_\perp = \mathbf{x}_\perp + \mathbf{r}_L,\quad \mathbf{r}_L = \mathbf{v}\times\mathbf{b}_0 / \Omega_c
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\mathbf{V} = [\epsilon=v^2/2, \mu=v_\perp^2/2B_0, \sigma=\text{sgn}(v_\parallel)]
+\]</span></p>
+<p>这里，<span class="math inline">\(\mathbf{b}_0 = \mathbf{B}_0/B_0\)</span>，<span class="math inline">\(\mathbf{r}_L\)</span> 是回旋半径矢量，<span class="math inline">\(v_\parallel=\mathbf{v}\cdot\mathbf{b}_0\)</span>，<span class="math inline">\(\mu\)</span> 是磁矩绝热不变量；假设不存在平衡静电势，<span class="math inline">\(\epsilon\)</span> 是平衡运动常数。</p>
+<p>在导引中心相空间中，带电粒子动力学自然分为快速回旋运动和缓慢的导引中心运动。随后可以应用回旋动理学量级排序，系统地将快速回旋运动平均掉（即回旋相位平均），得到按小参数 <span class="math inline">\(\epsilon\)</span> 衡量渐近占主导的扰动分布函数响应。导引中心相空间中的这一扰动分布函数随后可以 <em>逆变换</em> 回带电粒子相空间，并代入场方程（即 Maxwell 方程），得到自洽的动理学描述。</p>
+<ul>
+<li>得到导引中心坐标中的 Vlasov 方程。</li>
+<li>得到导引中心坐标中的 Maxwell 方程。</li>
+</ul>
+<p>为什么使用 Maxwell 方程之前还需要额外步骤？因为 Maxwell 方程中的粒子信息（<span class="math inline">\(\rho, \mathbf{j}\)</span>）并不是在导引中心坐标中描述的。从 Vlasov 方程得到的分布必须先变换回普通坐标，然后才能进行矩积分。</p>
+<p>在导引中心坐标中，密度和电流密度可表示为</p>
+<p><span id="eq-gk_density"><span class="math display">\[
+n = \bar{N}_0 + \bar{\nabla}\cdot\Big( \frac{c\bar{N}_0}{B\Omega}\bar{\nabla}_\perp \delta\phi \Big) + \frac{\bar{N}_0\delta B_\parallel}{B} + \int \bar{F}_1d\mathbf{p}
+\tag{16.1}\]</span></span></p>
+<p><span id="eq-gk_current_density"><span class="math display">\[
+\begin{aligned}
+\mathbf{j} &amp;= -\frac{\bar{N}_0 q^2}{cm}\delta A_\parallel\hat{b} + \int\frac{q \bar{\mathbf{P}}_\parallel}{m}\hat{b}\mathrm{d}\bar{\mathbf{P}} + \frac{cq\bar{N}_0}{B}\hat{b}\times\bar{\nabla}\delta\phi + \frac{3c^2\bar{N}_0\bar{T}}{2B^2\Omega}\hat{b}\times\bar{\nabla}\bar{\nabla}_\perp^2\delta\phi \\
+&amp;+ \frac{2c\bar{N}_0 \bar{T}}{B^2}\hat{b}\times\bar{\nabla}\delta B_\parallel + \frac{\hat{b}}{B}\times\bar{\nabla}(c\bar{N}_0\bar{T}) + \hat{b}\times\bar{\nabla}\int c\bar{\mu}\bar{F}_1 \mathrm{d}\bar{\mathbf{P}}
+\end{aligned}
+\tag{16.2}\]</span></span></p>
+<p>注意</p>
+<ul>
+<li>在导引中心坐标中的 Vlasov 方程里，<span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移、梯度漂移和曲率漂移都出现了，但极化漂移没有出现。</li>
+<li>在 <a href="#eq-gk_density" class="quarto-xref">式&nbsp;<span>16.1</span></a> 中，只有极化项修正出现。根据 Hamilton 力学，所有显含时间的项在这里都没有贡献，因为它们会破坏系统的能量守恒。</li>
+</ul>
+</section>
+<section id="回旋动理学量级排序" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="回旋动理学量级排序"><span class="header-section-number">16.3</span> 回旋动理学量级排序</h2>
+<section id="从动理学到回旋动理学" class="level3" data-number="16.3.1">
+<h3 data-number="16.3.1" class="anchored" data-anchor-id="从动理学到回旋动理学"><span class="header-section-number">16.3.1</span> 从动理学到回旋动理学</h3>
+<div id="fig-kinetics2gk" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-kinetics2gk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/kinetics2gyrokinetics.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kinetics2gk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;16.1: 存在静电势涨落、磁场指向纸面内时带电粒子的轨道。
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-kinetics2gk" class="quarto-xref">图&nbsp;<span>16.1</span></a> 展示了回旋动理学近似的基本思想。强磁场指向纸面内，彩色等值线表示静电势涨落。粒子轨道由两部分组成：快速回旋运动和缓慢的 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移。在回旋动理学中，我们直接去除快速回旋运动，引入带电环作为准粒子，即从粒子坐标转到回旋中心坐标。</p>
+<div id="fig-gk-approximation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gk-approximation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/gyrokinetic_approximation.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gk-approximation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;16.2: 回旋动理学近似。
+</figcaption>
+</figure>
+</div>
+<ul>
+<li>与回旋运动时间尺度相比，时间变化缓慢：</li>
+</ul>
+<p><span class="math display">\[
+\omega/\Omega_i \ll 1
+\]</span></p>
+<ul>
+<li>空间平衡尺度远大于拉莫尔半径：</li>
+</ul>
+<p><span class="math display">\[
+r_L/L\ll 1
+\]</span></p>
+<ul>
+<li>强各向异性，即只有涨落量的垂直分量可以较大：</li>
+</ul>
+<p><span class="math display">\[
+k_\parallel/k_\perp \ll 1
+\]</span></p>
+<ul>
+<li>小振幅扰动，即扰动能量远小于热能：</li>
+</ul>
+<p><span class="math display">\[
+e\phi/k_BT_e \ll 1
+\]</span></p>
+<p>存在一个自然的小参数 <span class="math inline">\(\epsilon=r_L/L\)</span>，我们将在量级排序中使用它。在磁约束等离子体中，通常有 <span class="math inline">\(\epsilon\lesssim\mathcal{O}(10^{-2})\ll 1\)</span>。</p>
+<p><span class="math display">\[
+\frac{\omega}{\Omega}\sim\frac{r_L}{L}\sim\frac{k_\parallel}{k_\perp}\sim\frac{\delta F}{F_0}\sim\frac{\delta T}{T_0}\sim\frac{\delta n}{n_0}\sim\frac{|\delta \mathbf{B}|}{|\mathbf{B}_0|}\sim\frac{q\delta\phi}{T}\sim\epsilon
+\]</span></p>
+<p>回旋动理学通常关注低频（<span class="math inline">\(|\omega/\Omega_i|\sim\epsilon\)</span>）但短波长（<span class="math inline">\(k_\perp r_L \sim 1\)</span>）的涨落。为纳入朗道共振（???），</p>
+<p><span class="math display">\[
+k_\parallel v_\parallel\sim \omega,\quad\text{or}\quad |k_\perp r_i|\sim 1
+\]</span></p>
+<p>进一步注意，对于 <span class="math inline">\(|k_\perp r_i|\sim 1\)</span>，且等离子体离子压强与背景磁场能量密度之比 <span class="math inline">\(\beta_i \lesssim 1\)</span>：</p>
+<p><span class="math display">\[
+\beta = \frac{P_{0i}}{P_{0B}} = \frac{m_i n_i v_{\perp i}^2/2}{B_0^2/2\mu_0} = \frac{v_{\perp i}^2}{v_A^2}
+\]</span></p>
+<p><span class="math display">\[
+\bigg\lvert \frac{\omega}{k_\perp v_A} \bigg\rvert \sim \bigg\lvert \frac{\omega}{\Omega_i} \bigg\rvert \bigg\lvert \frac{1}{k_\perp r_{iL}} \bigg\rvert \beta_i^{1/2} \lesssim \epsilon
+\]</span></p>
+<p>即快波在回旋动理学量级排序中被系统地抑制。</p>
+</section>
+</section>
+<section id="lagrange-方法" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="lagrange-方法"><span class="header-section-number">16.4</span> Lagrange 方法</h2>
+<p>如果已知一个动力系统的 Lagrangian，例如非正则坐标 <span class="math inline">\((\mathbf{x},\mathbf{v})\)</span> 中的带电粒子运动：</p>
+<p><span class="math display">\[
+\begin{aligned}
+L &amp;= \Big(\frac{e}{c}\mathbf{A}(\mathbf{x},t) + m\mathbf{v}\Big)\cdot\dot{\mathbf{x}} - H(\mathbf{x},\mathbf{v}) \\
+H &amp;= \frac{m}{2}v^2 + e\phi(\mathbf{x},t)
+\end{aligned}
+\]</span></p>
+<p>其中 <span class="math inline">\(\mathbf{B} = \nabla\times\mathbf{A}\)</span>，<span class="math inline">\(\mathbf{E} = -\nabla\phi - \partial_t \mathbf{A}/c\)</span>。运动方程由 Lagrange 方程给出（我几乎把理论力学忘光了……）：</p>
+<p><span class="math display">\[
+\frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial \dot{q}_i} - \frac{\partial L}{\partial q_i} = 0,\quad i=1,...,6
+\]</span></p>
+<p>对于带电粒子，</p>
+<p><span class="math display">\[
+\frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial\dot{\mathbf{v}}} - \frac{\partial L}{\partial\mathbf{v}} = 0 ?
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\dot{\mathbf{x}} &amp;= \mathbf{v} \\
+\dot{\mathbf{v}} &amp;= \frac{e}{m}(\mathbf{E} + \mathbf{v}\times\mathbf{B})
+\end{aligned}
+\]</span></p>
+<p>在回旋动理学中，我们加入低频、各向异性、小振幅涨落：</p>
+<p><span class="math display">\[
+\frac{\omega}{\Omega_i} \sim \frac{k_\parallel}{k_\perp}\sim\frac{e\phi}{T_e} \sim \epsilon
+\]</span></p>
+<p>我们需要从粒子坐标 <span class="math inline">\((\mathbf{x},\mathbf{v})\)</span> 转换到导引中心坐标 <span class="math inline">\((\mathbf{R},v_\parallel, \mu, \varphi)\)</span>。简便方法是利用 Lie 变换构造新的 Lagrangian（???）</p>
+<p><span class="math display">\[
+\Gamma = \Big( mv_\parallel\hat{b}_0 + \frac{e}{c}\bar{\mathbf{A}}_{1\parallel}\hat{b}_0 + \frac{e}{c}\mathbf{A}_0 \Big)\cdot \mathrm{d}\mathbf{X} + \frac{mc}{e}\mu \mathrm{d}\theta - \Big( \frac{m}{2}v_\parallel^2 + \mu B_0 + \mu \bar{B}_{1\parallel} + e\bar{\phi}_1 \Big)\mathrm{d}t
+\]</span></p>
+<p>其中 <span class="math inline">\(\mu\)</span> 是磁矩，<span class="math inline">\(\theta\)</span> 是回旋角，上横线表示回旋平均操作。这给出 Euler-Lagrange 方程</p>
+<p><span id="eq-gk_euler_lagrange"><span class="math display">\[
+\begin{aligned}
+\dot{\mathbf{X}} &amp;= v_\parallel\hat{b} + \frac{B}{B_\parallel^\ast}\Big[ \frac{v_\perp}{B}\bar{\mathbf{B}}_{1\perp} + \frac{c}{B^2}\bar{\mathbf{E}}_1\times\mathbf{B} + \frac{\mu}{m\Omega}\hat{b}\times\nabla(B+\bar{B}_{1\parallel}) + \frac{v_\parallel^2}{\Omega}(\nabla\times\hat{b})_\perp \Big] \\
+\dot{v}_\parallel &amp;= \frac{\dot{\mathbf{X}}}{mv_\parallel}\cdot\big( e\bar{\mathbf{E}}_1 - \mu\nabla(B+\bar{B}_{1\parallel}) \big) \\
+\dot{\mu} &amp;= 0
+\end{aligned}
+\tag{16.3}\]</span></span></p>
+<p><a href="#eq-gk_euler_lagrange" class="quarto-xref">式&nbsp;<span>16.3</span></a> 包含了我们在 <a href="single.html" class="quarto-xref"><span>章节 7</span></a> 中见到的所有漂移。</p>
+<p>应用回旋动理学近似，一个回旋周期内经过回旋平均的有效势可用 Fourier 变换写为（???）：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\phi^{\text{eff}}(\mathbf{x},r_L) &amp;= \frac{1}{2\pi} \int_0^{2\pi}\mathrm{d}\theta \phi(\mathbf{x}+\mathbf{r}_L) \\
+&amp;= \frac{1}{(2\pi)^2}\int_{-\infty}^{\infty}\mathrm{d}\mathbf{k}e^{i\mathbf{k}\cdot\mathbf{x}}\phi(\mathbf{k})J_0(kr_L)
+\end{aligned}
+\]</span></p>
+<p>其中 <span class="math inline">\(J_0\)</span> 是零阶 Bessel 函数。</p>
+<section id="线性回旋动理学" class="level3" data-number="16.4.1">
+<h3 data-number="16.4.1" class="anchored" data-anchor-id="线性回旋动理学"><span class="header-section-number">16.4.1</span> 线性回旋动理学</h3>
+<p>我们只考虑具有各向同性 Maxwell 平衡分布函数的简单均匀等离子体。进一步假设 <span class="math inline">\(\beta\)</span>（等离子体压强与磁压之比）<span class="math inline">\(\ll 1\)</span>，使得磁压缩可以忽略，则粒子速度分布为：</p>
+<p><span class="math display">\[
+f(\mathbf{x},\mathbf{v},t) = f_M(\epsilon) + \delta f(\mathbf{x},\mathbf{v},t)
+\]</span></p>
+<p>其中 <span class="math inline">\(f_M(\epsilon)=n_0/(\pi^{3/2}v_t^3)\exp(-\epsilon/v_t^2)\)</span> 是 Maxwell 分布函数，<span class="math inline">\(v_t\)</span> 是热速度（如何理解这一点???）：</p>
+<p><span class="math display">\[
+\delta f = \frac{q}{T}f_M(\epsilon)\delta\phi + e^{-\mathbf{r}_L\cdot\nabla}\delta g
+\]</span></p>
+<p><span class="math inline">\(T=mv_t^2/2\)</span>，<span class="math inline">\(\delta g\)</span> 满足以下线性回旋动理学方程：</p>
+<p><span id="eq-gk_linear"><span class="math display">\[
+\begin{aligned}
+\Big( \frac{\partial}{\partial t}+v_\parallel\mathbf{b}_0\cdot\nabla \Big)\delta g = \frac{q}{T}f_M(\epsilon)\frac{\partial} {\partial t}\left&lt; \delta L_g \right&gt;_\alpha \\
+\delta L_g = e^{-\mathbf{r}_L\cdot\nabla}\delta L \\
+\delta L = \delta \phi - v_\parallel \delta A_\parallel/c
+\end{aligned}
+\tag{16.4}\]</span></span></p>
+<p>而 <span class="math inline">\(&lt;...&gt;_\alpha\)</span> 表示对回旋相位角 <span class="math inline">\(\alpha\)</span> 取平均。这里场变量是标势和矢势 <span class="math inline">\(\delta\phi\)</span> 和 <span class="math inline">\(\delta\mathbf{A}\)</span>，其中 <span class="math inline">\(\delta A_\parallel=\delta\mathbf{A}\cdot\mathbf{b}_0\)</span>，并采用 Coulomb 规范 <span class="math inline">\(\nabla\cdot\delta\mathbf{A}=0\)</span>。算符 <span class="math inline">\(e^{-\mathbf{r}_L\cdot\nabla}\)</span> 则表示粒子位置与导引中心位置之间的变换。</p>
+<p>相应的场方程是 Poisson 方程和平行 Ampère 定律 <span class="math inline">\(\nabla^2 \delta A_\parallel = -4\pi\delta J_\parallel/c\)</span>。在低频且 <span class="math inline">\(|k\lambda_D|^2\ll 1\)</span> 的极限下，其中 <span class="math inline">\(\lambda_D\)</span> 为 Debye 长度，Poisson 方程可近似为准中性条件 <span class="math inline">\(\sum_j n_{0j}q_j&lt;\delta f_j&gt;_v\simeq 0\)</span>。这里 <span class="math inline">\(&lt;...&gt;_v = \int \mathrm{d}\mathbf{v} (...)\)</span> 是速度空间积分，下标 <span class="math inline">\(j\)</span> 遍历各粒子组分。同时，将平行 Ampère 定律代入由 <a href="#eq-gk_linear" class="quarto-xref">式&nbsp;<span>16.4</span></a> 导出的准中性条件 <span class="math inline">\(\nabla\cdot\delta\mathbf{J}\simeq 0\)</span>，得到广义线性回旋动理学涡度方程，它常便于研究剪切／动理学阿尔芬波动力学。</p>
+<p><strong>线性动理学阿尔芬波的性质</strong></p>
+<p>（警告：非常难理解！） 对于 <span class="math inline">\(\omega,\mathbf{k}\)</span> 平面波扰动，<a href="#eq-gk_linear" class="quarto-xref">式&nbsp;<span>16.4</span></a> 给出：</p>
+<p><span class="math display">\[
+\delta g_\mathbf{k} = -\frac{q}{T}f_M J_0(k_\perp \mathbf{r}_L) \frac{\omega}{k_\parallel v_\parallel - \omega}\Big( \delta\phi - \frac{v_\parallel}{c}\delta A_\parallel \Big)_\mathbf{k}
+\]</span></p>
+<p><span class="math inline">\(J_0\)</span> 是 Bessel 函数，而 <span class="math inline">\(J_0(k_\perp \mathbf{r}_L)\)</span> 对应于坐标变换的回旋平均，即：</p>
+<p><span class="math display">\[
+&lt;\exp(-\mathbf{r}_L\cdot\nabla)&gt;_\alpha = J_0(k_\perp r_L)
+\]</span></p>
+<p>在 SAW/KAW 分析中，有时引入由 <span class="math inline">\(\mathbf{b}_0\cdot\nabla\delta\Psi = -\partial_t \delta A_\parallel/c\)</span> 定义的 <em>有效感应平行势</em> 较为方便，即：</p>
+<p><span class="math display">\[
+\delta\Psi_\mathbf{k} = \omega\delta A_{\parallel\mathbf{k}} / (ck_\parallel)
+\]</span></p>
+<p>因此，<span class="math inline">\(\delta\Psi\)</span> 产生感应平行电场；也就是说，净平行电场为：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\delta E_\parallel &amp;= -\mathbf{b}_0\cdot\nabla(\delta\phi-\delta\Psi)\quad\text{or} \\
+\delta E_{\parallel\mathbf{k}} &amp;= -ik_\parallel(\delta\phi-\delta\Psi)_\mathbf{k}
+\end{aligned}
+\]</span></p>
+<p>由准中性条件直接得到：（Chen 和 Hasegawa 1991）</p>
+<p><span id="eq-gk_linear_quasi_neutrality_derive"><span class="math display">\[
+\sum_j\Big( \frac{n_0 q^2}{T_0} \Big)_j \{ \delta\phi_\mathbf{k} + \Gamma_{0kj}[\xi_{kj}Z_{kj}\delta\phi_\mathbf{k} - (1+\xi_{kj}Z_{kj}\delta\Psi_\mathbf{k})] \} = 0
+\tag{16.5}\]</span></span></p>
+<p>这里 <span class="math inline">\(\xi_{kj}=\omega/|k_\parallel|v_{tj},Z_{kj}=Z(\xi_{kj})\)</span>，其中 <span class="math inline">\(Z\)</span> 是著名的等离子体色散函数（<a href="kinetic.html#eq-plasma_dispersion_function" class="quarto-xref">式&nbsp;<span>12.33</span></a>）；<span class="math inline">\(\Gamma_{0kj} = I_0(b_{kj})\exp(-b_{kj})\)</span>，其中 <span class="math inline">\(I_0\)</span> 是修正 Bessel 函数，<span class="math inline">\(b_{kj}=k_\perp^2 r_{Lj}/2 = k_\perp^2(T_j/m_j)/\Omega_j^2\)</span>。线性回旋动理学涡度方程则为：（Chen 和 Hasegawa 1991）</p>
+<p><span id="eq-gk_linear_vorticity"><span class="math display">\[
+i\frac{c^2}{4\pi\omega}k_\parallel^2 k_\perp^2 \delta\Psi_\mathbf{k} - i \sum_j\Big( \frac{n_0q^2}{T_0} \Big)_j (1-\Gamma_{0kj})\omega\delta\phi_\mathbf{k} = 0
+\tag{16.6}\]</span></span></p>
+<p>注意，对于 KAW，<span class="math inline">\(|k_\perp r_{Li}| \sim\mathcal{O}(1)\)</span> 且 <span class="math inline">\(|k_\perp r_{Le}|\ll 1\)</span>，因此 <span class="math inline">\(\Gamma_{0ke}\simeq 1\)</span>，于是 <a href="#eq-gk_linear_quasi_neutrality_derive" class="quarto-xref">式&nbsp;<span>16.5</span></a> 和 <a href="#eq-gk_linear_vorticity" class="quarto-xref">式&nbsp;<span>16.6</span></a> 变为</p>
+<p><span id="eq-gk_linear_par_potential"><span class="math display">\[
+\begin{aligned}
+\epsilon_{s\mathbf{k}} \delta\phi_\mathbf{k} &amp;= [1+\xi_{ke}Z_{ke}+\tau(1+\Gamma_k \xi_{ki}Z_ki)]\delta\phi_\mathbf{k} \\
+&amp;= [1+\xi_{ke}Z_{ke}+\tau\Gamma_k(1+\xi_{ki}Z_{ki})]\delta\Psi_\mathbf{k}
+\end{aligned}
+\tag{16.7}\]</span></span></p>
+<p>以及</p>
+<p><span id="eq-gk_linear_vorticity_approxi"><span class="math display">\[
+\omega^2 \delta\phi_\mathbf{k} = k_\parallel^2 v_A^2 \frac{b_k}{1-\Gamma_k}\delta\Psi_\mathbf{k}
+\tag{16.8}\]</span></span></p>
+<p>这里 <span class="math inline">\(\tau=T_{0e}/T_{0i}, b_k=b_{ki}, \Gamma_k=\Gamma_{0ki}\)</span>，而 <span class="math inline">\(\epsilon_{s\mathbf{k}}\)</span> 是慢声波（离子声波，SSW）的介电常数。</p>
+<p>如某些文献所做的那样，定义有效平行势 <span class="math inline">\(\delta\phi_{\parallel\mathbf{k}}=\delta\phi_\mathbf{k} - \delta\Psi_\mathbf{k}\)</span> 并将 <a href="#eq-gk_linear_par_potential" class="quarto-xref">式&nbsp;<span>16.7</span></a> 和 <a href="#eq-gk_linear_vorticity_approxi" class="quarto-xref">式&nbsp;<span>16.8</span></a> 改写为以下形式，也很有启发性：</p>
+<p><span id="eq-gk_linear_par_potential2"><span class="math display">\[
+\epsilon_{s\mathbf{k}} \delta\phi_{\parallel\mathbf{k}} = -\tau(1-\Gamma_k)\delta\Psi_\mathbf{k}
+\tag{16.9}\]</span></span></p>
+<p>以及</p>
+<p><span id="eq-gk_linear_vorticity_approxi2"><span class="math display">\[
+\Big[ \omega^2 - k_\parallel^2v_A^2\frac{b_k}{1-\Gamma_k} \Big] \delta\Psi_\mathbf{k} = -\omega^2\delta\phi_{\parallel\mathbf{k}}
+\tag{16.10}\]</span></span></p>
+<p><a href="#eq-gk_linear_par_potential2" class="quarto-xref">式&nbsp;<span>16.9</span></a> 和 <a href="#eq-gk_linear_vorticity_approxi2" class="quarto-xref">式&nbsp;<span>16.10</span></a> 展示了 SAW 与 SSW 通过有限的 <span class="math inline">\(|k_\perp r_{Ls}|\)</span> 项耦合。在 <span class="math inline">\(|k_\perp r_{Li}|\sim\mathcal{O}(1)\)</span> 的短波长极限下，由于有限 <span class="math inline">\(|k_\perp r_{Li}|\)</span> 和 <span class="math inline">\(|k_\perp r_{Ls}|\)</span> 效应，SAW 演化为 KAW。（???）更具体地，耦合 KAW-SSW 色散关系变为</p>
+<p><span id="eq-gk_linear_SAW_SSW"><span class="math display">\[
+\omega_\mathbf{k}^2\Big[ 1-\frac{\tau(1-\Gamma_k)}{\epsilon_{s\mathbf{k}}} \Big] = k_\parallel^2 v_A^2 \frac{b_k}{1-\Gamma_k}
+\tag{16.11}\]</span></span></p>
+<p>我们关注 KAW 分支，并为进一步简化分析，假设 <span class="math inline">\(1\gg \beta_i\sim\beta_e\gg m_e/m_i\)</span>。由 <span class="math inline">\(|\omega|\sim|k_\parallel v_A|\)</span>，得到 <span class="math inline">\(|\xi_{ki}|=|\omega/k_\parallel v_{ti}|\sim\beta_i^{-1/2}\gg 1 \gg |\xi_{ke}|\sim(m_e/m_i\beta_e)^{1/2}\)</span>，只保留最低阶 <span class="math inline">\(\mathbf{O}(1)\)</span> 项：</p>
+<p><span class="math display">\[
+\epsilon_{s\mathbf{k}} \simeq 1+\tau(1-\Gamma_k) \equiv \sigma_k
+\]</span></p>
+<p>由 <a href="#eq-gk_linear_SAW_SSW" class="quarto-xref">式&nbsp;<span>16.11</span></a>，得到</p>
+<p><span id="eq-gk_linear_SAW_SSW_approxi"><span class="math display">\[
+\omega_{\mathbf{k}}^2 \simeq k_\parallel^2 v_A^2\frac{\sigma_k b_k}{1-\Gamma_k}
+\tag{16.12}\]</span></span></p>
+<p>至于有助于在观测中识别波的波偏振，可以直接推导：</p>
+<p><span id="eq-gk_linear_polarization_perp"><span class="math display">\[
+\bigg\lvert \frac{c\delta\mathbf{E}_\perp}{\delta\mathbf{B}_\perp} \bigg\rvert = v_A \Big[ \frac{b_k}{\sigma_k(1-\Gamma_k)}\Big]^{1/2}
+\tag{16.13}\]</span></span></p>
+<p>以及</p>
+<p><span id="eq-gk_linear_polarization_par"><span class="math display">\[
+\bigg\lvert \frac{c\delta E_\parallel}{\delta\mathbf{B}_\perp} \bigg\rvert = v_A \bigg\lvert \frac{k_\parallel}{k_\perp}\tau \bigg\rvert\Big[ \frac{b_k(1-\Gamma_k)}{\sigma_k} \Big]^{1/2}
+\tag{16.14}\]</span></span></p>
+<p>为 <a href="#eq-gk_linear_SAW_SSW_approxi" class="quarto-xref">式&nbsp;<span>16.12</span></a>、<a href="#eq-gk_linear_polarization_perp" class="quarto-xref">式&nbsp;<span>16.13</span></a> 和 <a href="#eq-gk_linear_polarization_par" class="quarto-xref">式&nbsp;<span>16.14</span></a> 添加图！！！</p>
+<p><a href="#eq-gk_linear_polarization_par" class="quarto-xref">式&nbsp;<span>16.14</span></a> 表明，对于固定的 <span class="math inline">\(|k_\parallel/k_\perp|, |\delta E_\parallel/\delta\mathbf{B}_\perp|\)</span> 随 <span class="math inline">\(b_k\)</span> 增大而增大。由于波粒能量和动量交换与 <span class="math inline">\(|\delta E_\parallel|\)</span> 成正比，因此预计短波长 KAW 在带电粒子的加热、加速和输运中起关键作用。</p>
+<p>除了具有显著的 <span class="math inline">\(\delta E_\parallel\)</span>，KAW 与 SAW 不同的另一个重要性质是它具有有限的垂直于 <span class="math inline">\(\mathbf{B}_0\)</span> 的群速度 <span class="math inline">\(\mathbf{v}_{g\perp}\)</span>。假设 <span class="math inline">\(|k_\perp r_{Li}|^2\ll 1\)</span>，并令 <span class="math inline">\(\omega_A^2\equiv k_\parallel^2 v_A^2\)</span>，得到：</p>
+<p><span id="eq-gk_linear_KAW_kperp_large"><span class="math display">\[
+\omega_\mathbf{k}^2 \simeq \omega_A^2(1+k_\perp^2 \hat{r}^2)
+\tag{16.15}\]</span></span></p>
+<p>其中</p>
+<p><span id="eq-gk_linear_KAW_scale"><span class="math display">\[
+\hat{r}^2 = (3/4 + \tau)r_{Li}^2
+\tag{16.16}\]</span></span></p>
+<p>因此</p>
+<p><span id="eq-gk_linear_KAW_group"><span class="math display">\[
+\mathbf{v}_{g\perp}=\frac{\partial \omega_\mathbf{k}}{\partial \mathbf{k}_\perp}\simeq \frac{\omega_A^2}{\omega_\mathbf{k}}\hat{r}^2\mathbf{k}_\perp
+\tag{16.17}\]</span></span></p>
+<p><strong>KAW 的线性模转换</strong></p>
+<p><a href="#eq-gk_linear_KAW_kperp_large" class="quarto-xref">式&nbsp;<span>16.15</span></a> 对非均匀等离子体有重要意义。再次考虑平板等离子体，其中 <span class="math inline">\(\omega_A^2(x)\)</span> 非均匀，<span class="math inline">\(k_\perp^2 = k_x^2(x)\)</span> 是非均匀 <span class="math inline">\(x\)</span> 方向上的 WKB 波数。于是 <a href="#eq-gk_linear_KAW_kperp_large" class="quarto-xref">式&nbsp;<span>16.15</span></a> 表明，KAW 在 <span class="math inline">\(\omega_\mathbf{k}^2&gt;\omega_A^2(x)\)</span> 区域传播（<span class="math inline">\(k_x^2&gt;0\)</span>），而在 <span class="math inline">\(\omega_\mathbf{k}^2&lt;\omega_A^2(x)\)</span> 区域截止（<span class="math inline">\(k_x^2&lt;0\)</span>）。<span class="math inline">\(\mathbf{v}_{g\perp}\)</span> 有限也说明，与 SAW 不同，初始平滑扰动不仅会演化到短波长，还会向 <span class="math inline">\(\omega_A^2(x)\)</span> 较低的区域传播。这些特征如 <a href="#fig-gk-KAW-evolution" class="quarto-xref">图&nbsp;<span>16.3</span></a>(b) 所示；其中 KAW 的时空演化根据以下波动方程显式求解：（自己做！！！）</p>
+<p><span id="eq-gk_linear_KAW_governing"><span class="math display">\[
+\Big[ \hat{r}^2\frac{\partial^2}{\partial x^2} - 1 - \frac{1}{\omega_A^2(x)}\frac{\partial^2}{\partial t^2} \Big] \delta B_y(x,t) = 0
+\tag{16.18}\]</span></span></p>
+<p>在 <a href="#eq-gk_linear_KAW_kperp_large" class="quarto-xref">式&nbsp;<span>16.15</span></a> 中令 <span class="math inline">\(\omega_\mathbf{k}=i\partial/\partial t\)</span> 和 <span class="math inline">\(k_\perp=-i\partial/\partial x\)</span>，即可直接推导出 <a href="#eq-gk_linear_KAW_governing" class="quarto-xref">式&nbsp;<span>16.18</span></a>。<span class="math inline">\(\omega_A^2(x)/\omega^2 = 1/(1+x^2/L^2)\)</span> 的空间剖面如 <a href="#fig-gk-KAW-evolution" class="quarto-xref">图&nbsp;<span>16.3</span></a>(a) 所示，其中 <span class="math inline">\(L\)</span> 表示剖面长度尺度；因此假设 KAW 波包频率与 <span class="math inline">\(x=0\)</span> 处的 SAW 频率一致。<a href="#fig-gk-KAW-evolution" class="quarto-xref">图&nbsp;<span>16.3</span></a>(b) 显示了 KAW 波包沿径向非均匀方向的传播，与 <a href="#eq-gk_linear_KAW_group" class="quarto-xref">式&nbsp;<span>16.17</span></a> 一致。</p>
+<div id="fig-gk-KAW-evolution" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gk-KAW-evolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/gk_kaw_propagation.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gk-KAW-evolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;16.3: (a) <span class="math inline">\(\omega_A^2\)</span> 的空间依赖性。(b) KAW 波包沿非均匀方向的传播。
+</figcaption>
+</figure>
+</div>
+<p>有限的垂直群速度还意味着，在稳态下“奇异”共振被消除，并出现线性模转换过程（Hasegawa 和 Chen 1976，另见 <a href="flr.html" class="quarto-xref"><span>章节 17</span></a>）。更具体地，相应的波动方程为：</p>
+<p><span id="eq-gk_linear_KAW_governing2"><span class="math display">\[
+\Big[\hat{r}^2\frac{\partial^2}{\partial x^2} + \Big( \frac{\omega_0^2}{\omega_A^2(x)} - 1 \Big) \Big]\delta\hat{B}_y(x) = \delta\hat{B}_{y0}
+\tag{16.19}\]</span></span></p>
+<p>这里 <span class="math inline">\(\omega_0\)</span> 是外部驱动频率。在理想 SAW（<span class="math inline">\(\hat{r}\rightarrow 0\)</span>）极限下，<span class="math inline">\(x_0\)</span> 处存在共振奇点，其中 <span class="math inline">\(\omega_0^2 = \omega_A^2(x_0)\)</span>。注意在 <span class="math inline">\(x=x_0\)</span> 附近，<span class="math inline">\(\omega_A^2(x)\simeq \omega_0^2 + (\omega_A^2)^\prime(x_0)(x-x_0)\equiv \omega_0^2 - (\omega_0^2/L_A)(x-x_0)\)</span>，因此 <a href="#eq-gk_linear_KAW_governing2" class="quarto-xref">式&nbsp;<span>16.19</span></a> 可以近似为非齐次 Airy 方程并作解析求解。在适当边界条件下，利用 <span class="math inline">\(x=x_0\)</span> 附近有效的非齐次 Airy 方程解析解，连接远离 <span class="math inline">\(x=x_0\)</span> 共振层时有效的解，便可求解 <a href="#eq-gk_linear_KAW_governing2" class="quarto-xref">式&nbsp;<span>16.19</span></a>（Hasegawa 和 Chen 1975，1976）。远离奇异层的解为： <span id="eq-inhomogeneous_by_sol"><span class="math display">\[
+\delta\hat{B}_y(x) = \left\{
+\begin{array}{lr}
+\frac{\delta\hat{B}_{y0}}{\epsilon_A(x)} &amp; \text{当 }\omega_0^2 &lt; \omega_A^2(x) \\
+\frac{\delta\hat{B}_{y0}}{\epsilon_A(x)} - \frac{\sqrt{\pi}\delta\hat{B}_{y0}}{(\hat{r}/L_A)^{1/2}}\Big( \frac{\hat{r}^2}{\epsilon_A(x)} \Big)^{1/4}\exp\Big[ i\int_{x_0}^x \Big( \frac{\epsilon_A(x^\prime)}{\hat{r}^2} \Big)^{1/2} \mathrm{d}x^\prime +i\frac{\pi}{4} \Big] &amp; \text{当 }\omega_0^2 &gt; \omega_A^2(x)
+\end{array}
+\right.
+\tag{16.20}\]</span></span></p>
+<p>其中 <span class="math display">\[
+\epsilon_A(x) = \frac{\omega_0^2}{\omega_A^2(x)} - 1
+\]</span></p>
+<p>相应的数值解绘于 <a href="#fig-gk-KAW-MHD" class="quarto-xref">图&nbsp;<span>16.4</span></a>。（我不明白！！！）</p>
+<div id="fig-gk-KAW-MHD" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gk-KAW-MHD-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/gk_kaw_propagation.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gk-KAW-MHD-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;16.4: 理想 MHD（蓝色虚线）和 KAW（红线）解的示意图；当 <span class="math inline">\(|x-x_0|/\Delta_0\gg 1\)</span> 时，这些解与 <a href="#eq-inhomogeneous_by_sol" class="quarto-xref">式&nbsp;<span>16.20</span></a> 渐近匹配。纵坐标的归一化体现了 Airy 增幅因子。
+</figcaption>
+</figure>
+</div>
+<p>解析结果和模转换过程都呈现出两个重要特征。其一，在 <span class="math inline">\(x=x_0\)</span>（其中 <span class="math inline">\(\omega_A(x_0) = \omega_0\)</span>）处，振幅并非奇异，而是由 Airy 增幅因子 <span class="math inline">\((L_A/\hat{r})^{2/3}\)</span> 放大。这里回顾一下，<span class="math inline">\(L_A\)</span> 是 <span class="math inline">\(\omega_A\)</span> 的长度尺度，由 <a href="#eq-gk_linear_KAW_scale" class="quarto-xref">式&nbsp;<span>16.16</span></a>，<span class="math inline">\(\hat{r}\)</span> 的量级为 <span class="math inline">\(\mathcal{O}(r_{Li})\)</span>，因而 <span class="math inline">\(|L_A/\hat{r}|\gg 1\)</span>。其二，<span class="math inline">\(x=x_0\)</span> 处的奇点被 Airy 尺度长度 <span class="math inline">\(\Delta_0=(\hat{r}^2L_A)^{1/3}\)</span> 所取代。回顾 <a href="wave.html#eq-mhd_alfven_wavenumber_nonuniform" class="quarto-xref">式&nbsp;<span>10.37</span></a> 给出的 <span class="math inline">\(|k_x|\simeq |\omega_A^\prime| t\simeq (\omega/L_A)t\)</span>，于是存在由 <span class="math inline">\((\omega_0/L_A)t_0\simeq 1/\Delta_0\)</span> 给出的 KAW 形成时间尺度，即 <span class="math inline">\(\omega_0 t_0\simeq (L_A/\hat{r})^{2/3}\)</span>。例如，对于典型实验室等离子体，<span class="math inline">\(L_A/\hat{r}\simeq\mathcal{O}(10^3)\)</span>，则有 <span class="math inline">\(\omega_0 t_0\simeq\mathcal{O}(10^2)\)</span>，这说明在存在 SAW 连续谱时，预期这类等离子体中出现 KAW 是合理的。</p>
+<p>识别 KAW 的主要方法基于测量波的偏振 <span class="math inline">\(|c\delta\mathbf{E}_\perp/v_A\delta\mathbf{B}_\perp|\)</span>。可在地球内磁层的 <em>Van Allen Probes</em> 和太阳风中的 <em>Cluster</em> 卫星观测中找到相关结果。</p>
+</section>
+<section id="非线性回旋动理学" class="level3" data-number="16.4.2">
+<h3 data-number="16.4.2" class="anchored" data-anchor-id="非线性回旋动理学"><span class="header-section-number">16.4.2</span> 非线性回旋动理学</h3>
+<p>推导回旋动理学方程的思路与推导 5／10 矩方程非常相似。由于要变换到导引中心坐标，需要格外小心。对于组分 <span class="math inline">\(\alpha\)</span>， <span class="math display">\[
+\frac{\partial f_\alpha}{\partial t} + \mathbf{v}\cdot\frac{\partial f_\alpha}{\partial\mathbf{x}} + \frac{q_\alpha}{m_\alpha}\Big( \mathbf{E}+\frac{\mathbf{v}\times\mathbf{B}}{c} \Big)\cdot\frac{\partial f_\alpha}{\partial \mathbf{v}} = \sum_{\alpha^\prime} C_{\alpha\alpha^\prime}(f_\alpha, f_\alpha^\prime)
+\]</span></p>
+<p>将 <span class="math inline">\(f\)</span> 按不同阶展开： <span class="math display">\[
+f = f_0 + \delta f = f_0 + f_1 + f_2 + ...
+\]</span> 并将速度视为一阶量。为简单起见，现在忽略组分下标 <span class="math inline">\(\alpha\)</span>。分离平衡项和扰动项，得到</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\frac{\partial f_0}{\partial t} + \frac{\partial \delta f}{\partial t} \\
+&amp;+ \mathbf{v}_\perp\cdot\frac{\partial \delta f}{\partial\mathbf{x}} + \mathbf{v}_\parallel\cdot\frac{\partial \delta f}{\partial\mathbf{x}} \\
+&amp;+ \frac{q}{m}\Big( \delta\mathbf{E}+\frac{\mathbf{v}\times\mathbf{B}_0}{c} + \frac{\mathbf{v}\times\delta\mathbf{B}_0}{c} \Big)\cdot\frac{\partial f_0}{\partial \mathbf{v}} + \frac{q}{m}\Big( \delta\mathbf{E}+\frac{\mathbf{v}\times\mathbf{B}_0}{c}+\frac{\mathbf{v}\times\delta\mathbf{B}}{c} \Big)\cdot\frac{\partial \delta f}{\partial \mathbf{v}} = \\
+&amp;C(f_0, f_0) + C(f_0, \delta f) + C(\delta f, f_0) + C(\delta f, \delta f)
+\end{aligned}
+\]</span></p>
+<p>根据回旋动理学量级排序，</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial f_0}{\partial t} \sim \omega_{\text{heat}}f_0 \sim \epsilon^3\Omega f_0 \\
+\frac{\partial \delta f}{\partial t}\sim \omega\delta f\sim \epsilon^2\Omega f_0 \\
+\mathbf{v}_\perp\cdot\frac{\partial \delta f}{\partial\mathbf{x}}\sim v_{\text{th}}k_\perp\delta f\sim\epsilon\Omega f_0 \\
+\mathbf{v}_\parallel\cdot\frac{\partial \delta f}{\partial\mathbf{x}}\sim v_{\text{th}}k_\parallel\delta f\sim\epsilon^2\Omega f_0 \\
+\frac{q}{m}\nabla_\perp\delta\phi\cdot\frac{\partial f_0}{\partial \mathbf{v}}\sim \frac{q}{m}k_\perp \delta\phi\frac{f_0}{v_{\text{th}}} \sim \epsilon\Omega f_0 \\
+\frac{q}{m}\nabla_\parallel\delta\phi\cdot\frac{\partial f_0}{\partial \mathbf{v}}\sim \frac{q}{m}k_\parallel \delta\phi\frac{f_0}{v_{\text{th}}} \sim \epsilon^2\Omega f_0 \\
+\frac{q}{mc}\frac{\partial\delta\mathbf{A}}{\partial t}\cdot\frac{\partial f_0}{\partial\mathbf{v}}\sim\frac{q}{m}\omega\delta A\frac{f_0}{v_{\text{th}}}\sim \epsilon^2\Omega f_0 \\
+\frac{q}{mc}(\mathbf{v}\times\mathbf{B}_0)\cdot\frac{\partial f_0}{\partial \mathbf{v}}\sim\frac{q}{mc}v_{\text{th}}B_0 \frac{f_0}{v_{\text{th}}}\sim \Omega f_0 \\
+\frac{q}{mc}(\mathbf{v}\times\delta\mathbf{B})\cdot\frac{\partial f_0}{\partial \mathbf{v}}\sim\frac{q}{mc}v_{\text{th}}\delta B \frac{f_0}{v_{\text{th}}}\sim \epsilon\Omega f_0 \\
+\frac{q}{m}\nabla_\perp \delta\phi\cdot\frac{\partial\delta f}{\partial\mathbf{v}}\sim\frac{q}{m}k_\perp\delta\phi\frac{\delta f}{v_{\text{th}}}\sim\epsilon^2\Omega f_0 \\
+\frac{q}{m}\nabla_\parallel \delta\phi\cdot\frac{\partial\delta f}{\partial\mathbf{v}}\sim\frac{q}{m}k_\parallel\delta\phi\frac{\delta f}{v_{\text{th}}}\sim\epsilon^3\Omega f_0 \\
+\frac{q}{mc}\frac{\partial\delta\mathbf{A}}{\partial\mathbf{v}}\sim\frac{q}{m}\omega\delta A\frac{\delta f}{v_{\text{th}}}\sim \epsilon^3\Omega f_0 \\
+\frac{q}{mc}(\mathbf{v}\times\mathbf{B}_0)\cdot\frac{\partial \delta f}{\partial\mathbf{v}}\sim\frac{q}{mc}v_{\text{th}}B_0\frac{\delta f}{v_{\text{th}}}\sim\epsilon\Omega f_0 \\
+\frac{q}{mc}(\mathbf{v}\times\delta\mathbf{B})\cdot\frac{\partial \delta f}{\partial\mathbf{v}}\sim\frac{q}{mc}v_{\text{th}}\delta B\frac{\delta f}{v_{\text{th}}}\sim\epsilon^2\Omega f_0
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(\omega_{\text{heat}}\)</span> 是什么???</p>
+<p>零阶方程为</p>
+<p><span class="math display">\[
+\frac{q}{mc}(\mathbf{v}\times\mathbf{B}_0)\cdot\frac{\partial f_0}{\partial\mathbf{v}} = \Omega(\mathbf{v}_\perp\times\hat{b}_0)\cdot\frac{\partial f_0}{\partial\mathbf{v}} = 0
+\]</span></p>
+<p>如果变换到速度空间的柱坐标（<a href="kmhd.html#eq-kmhd_cylindrical_vspace" class="quarto-xref">式&nbsp;<span>15.8</span></a>），可写为</p>
+<p><span class="math display">\[
+(\mathbf{v}_\perp\times\hat{b}_0)\cdot\frac{\partial f_0}{\partial\mathbf{v}} = -\frac{\partial f_0}{\partial\theta} = 0
+\]</span></p>
+<p>这意味着平衡分布函数 <span class="math inline">\(f_0\)</span> 不依赖于回旋相位，即具有回旋对称性。</p>
+<p>一阶方程为</p>
+<p><span class="math display">\[
+\mathbf{v}_\perp\cdot\frac{\partial \delta f_1}{\partial\mathbf{x}} + \frac{q}{m}\Big( -\nabla_\perp\delta\phi+\frac{\mathbf{v}\times\delta\mathbf{B}}{c} \Big)\cdot\frac{\partial f_0}{\partial\mathbf{v}} + \frac{q}{mc}(\mathbf{v}\times\mathbf{B}_0)\cdot\frac{\partial \delta f_1}{\partial\mathbf{v}} = C(f_0, f_0)
+\]</span></p>
+<p>乘以 <span class="math inline">\((1+\ln f_0)\)</span> 并在相空间积分，得到</p>
+<p><span class="math display">\[
+\int \ln(f_0)C(f_0, f_0)\mathrm{d}\mathbf{x}\mathrm{d}\mathbf{v} = 0
+\]</span></p>
+<p>根据 Boltzmann H 定理的证明，得出：</p>
+<p><span class="math display">\[
+\begin{aligned}
+f_0 = f_{0,M}(v) = \frac{n_0}{\pi^{3/2}v_{\text{th}}^3}e^{-v^2/v_{\text{th}}^2} \\
+C(f_{0,M}, f_{0,M}) = 0 \\
+\frac{\partial f_{0,M}}{\partial\mathbf{v}} = -2f_{0,M}\frac{\mathbf{v}}{v_\text{th}^2} = -f_{0,M}m\frac{\mathbf{v}}{T}
+\end{aligned}
+\]</span></p>
+<p>平衡分布是 Maxwell 分布。因此一阶方程变为（???）</p>
+<p><span class="math display">\[
+\mathbf{v}_\perp\cdot\frac{\partial \delta f_1}{\partial\mathbf{x}} - \Omega\frac{\partial\delta f_1}{\partial\theta} = -f_{0,M}\mathbf{v}\cdot\nabla_\perp\Big(\frac{q\delta\phi}{T}\Big)
+\]</span></p>
+<p>其解是齐次解与特解的组合。对于齐次部分，</p>
+<p><span class="math display">\[
+\mathbf{v}_\perp\cdot\frac{\partial h}{\partial\mathbf{x}} - \Omega\frac{\partial h}{\partial\theta}\bigg\rvert_\mathbf{x} = 0,\, \mathbf{x} = \mathbf{X} + \mathbf{r}_L,\quad \Omega\frac{\partial h}{\partial\theta}\bigg\rvert_\mathbf{X}=0
+\]</span></p>
+<p>对于特解部分，解为</p>
+<p><span class="math display">\[
+-q\delta \phi(\mathbf{x},t)f_0(\mathbf{v})/T
+\]</span></p>
+<p>因此完整解为</p>
+<p><span class="math display">\[
+\delta f_1(\mathbf{x},\mathbf{v},t) = h(\mathbf{X},v_\parallel,v_\perp,t) - q\delta\phi(\mathbf{x},t)f_0(\mathbf{v})/T
+\]</span></p>
+<p>为了闭合，我们仍需要一个关于 <span class="math inline">\(h\)</span> 的方程。因此必须考虑二阶方程</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial\delta f_1}{\partial t}+v_\parallel\hat{b}_0\cdot\nabla\delta f_1 + \frac{q}{m}\Big( -\nabla_\perp \delta\phi + \frac{\mathbf{v}\times\delta\mathbf{B}}{c} \Big)\cdot\frac{\partial\delta f_1}{\partial\mathbf{v}} \\
+- \frac{q}{m}(\nabla_\parallel \delta\phi)\frac{\partial f_0}{\partial v_\parallel} - \frac{q}{mc}\frac{\partial\delta\mathbf{A}}{\partial t}\cdot\frac{\partial f_0}{\partial \mathbf{v}} \\
++ \mathbf{v}_\perp\cdot\nabla\delta f_2 + \frac{q}{mc}(\mathbf{v}\times\mathbf{B}_0)\cdot\frac{\partial\delta f_2}{\partial\mathbf{v}} \\
+= C(\delta f_1, f_0) + C(f_0,\delta f_1)
+\end{aligned}
+\]</span></p>
+<p>从粒子坐标变换到导引中心坐标</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial h}{\partial t} + \frac{\mathrm{d}\mathbf{X}}{\mathrm{d}t}\cdot\frac{\partial h}{\partial\mathbf{X}} + \frac{q}{m}\Big( -\nabla_\perp\delta\phi + \frac{\mathbf{v}\times\delta\mathbf{B}}{c} \Big)\cdot\frac{\partial h}{\partial\mathbf{v}} = \\
+C(h,f_0) + C(f_0, h) + \frac{q}{T}f_0\frac{\partial \chi}{\partial t} + \Omega\frac{\partial\delta f_2}{\partial\theta}\bigg\rvert_\mathbf{X}
+\end{aligned}
+\]</span></p>
+<p>其中 <span class="math inline">\(\xi\equiv\delta\phi - \mathbf{v}\cdot\delta\mathbf{A}/c\)</span>。</p>
+<p>对于任意量 <span class="math inline">\(Q\)</span>，在固定导引中心位置处的回旋相位平均为</p>
+<p><span class="math display">\[
+\left&lt; Q(\mathbf{x},\mathbf{v},t) \right&gt;_\mathbf{X} \equiv \frac{1}{2\pi}\int_0^{2\pi}Q\Big( \mathbf{X}-\frac{\mathbf{v}\times\hat{b}_0}{\Omega},\mathbf{v},t \Big)\mathrm{d}\theta
+\]</span></p>
+<p>得到</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left&lt; h(\mathbf{x},\mathbf{v},t) \right&gt;_\mathbf{X} = h \\
+\left&lt; \mathbf{v}_\perp\cdot\nabla Q \right&gt;_\mathbf{X} = -\Omega \left&lt;  \frac{\partial Q}{\partial\theta}\bigg\rvert_\mathbf{X} \right&gt;_\mathbf{X} = 0
+\end{aligned}
+\]</span></p>
+<p>于是回旋中心分布函数 <span class="math inline">\(h\)</span> 的方程为</p>
+<p><span class="math display">\[
+\frac{\partial h}{\partial t} + v_\parallel\hat{b}_0\cdot\frac{\partial h}{\partial\mathbf{X}} + \frac{c}{B_0}\Big( \hat{b}_0\times\frac{\partial\left&lt;\chi\right&gt;_\mathbf{X}}{\partial \mathbf{X}} \Big)\cdot\frac{\partial h}{\partial\mathbf{X}} = \left&lt; C(h) \right&gt;_\mathbf{X} + \frac{q}{T}f_0\frac{\partial &lt;\chi&gt;_\mathbf{X}}{\partial t}
+\]</span></p>
+<p>准中性条件 <span class="math inline">\(\sum_\alpha q_\alpha\delta n_\alpha = 0\)</span> 现在变为</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sum_\alpha\Big[ -\frac{q_\alpha^2 n_{0\alpha}}{T_{0\alpha}}\delta\phi(\mathbf{x},t) + q_\alpha\int h_\alpha\Big( \mathbf{x}+\frac{\mathbf{v}\times\hat{b}_0}{\Omega_\alpha},\mathbf{v},t \Big)\mathrm{d}\mathbf{v} \Big] = 0 \\
+\sum_\alpha\Big( -\frac{q_\alpha^2 n_{0\alpha}}{T_{0\alpha}}\delta\phi(\mathbf{x},t) + q_\alpha \int &lt;h_\alpha&gt;\mathrm{d}\mathbf{v}\Big) = 0
+\end{aligned}
+\]</span></p>
+<p>最后，我们还需要修正的 Ampère 定律：</p>
+<p><span class="math display">\[
+\nabla\times\delta\mathbf{B}(\mathbf{x},t) = \frac{4\pi}{c}\sum_\alpha q_\alpha
+\]</span></p>
+<p>现在分布函数依赖于 6 个变量，<span class="math inline">\(f = f(\mathbf{X},v_\parallel,\mu;t)\)</span>。Vlasov 方程可写为</p>
+<p><span class="math display">\[
+\frac{\partial f}{\partial t} + \dot{\mathbf{X}}\cdot\frac{\partial f}{\partial \mathbf{X}} + \dot{v_\parallel}\frac{\partial f}{\partial v_\parallel} = 0
+\]</span></p>
+<p>其中 <span class="math inline">\(\mathbf{X}\)</span> 是回旋中心位置，<span class="math inline">\(v_\parallel\)</span> 是平行速度，<span class="math inline">\(\mu\)</span> 是磁矩。相应的场方程现在为</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{n_1}{n_0} &amp;= \frac{\bar{n}_1}{n_0} - (1- |I_0^2|)\frac{e\phi_1}{T} + |eI_0I_1|\frac{B_{1\parallel}}{B} \\
+\nabla_\perp^2 A_{1\parallel} &amp;= -\frac{4\pi}{c}\sum\bar{J}_{1\parallel} \\
+\frac{B_{1\parallel}}{B} &amp;= -\sum \epsilon_\beta\Big( \frac{\bar{p}_{1\perp}}{n_0 T} + |xI_0I_1|\frac{e\phi_1}{T} + |x^2I_1^2|\frac{B_{1\parallel}}{B} \Big)
+\end{aligned}
+\]</span></p>
+<p>这些方程去除了无关的时空尺度，由六维方程变成非线性五维方程。</p>
+</section>
+</section>
+<section id="应用" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="应用"><span class="header-section-number">16.5</span> 应用</h2>
+<p>回旋动理学已成为研究等离子体湍流的标准方法。它揭示了若干新认识：</p>
+<ul>
+<li>边际稳定性和临界梯度的重要性</li>
+<li>带状流的重要性（适当的 Boltzmann 电子响应）</li>
+<li>微小的电子尺度 ETG 湍流有时可能很重要</li>
+</ul>
+<p>回旋动理学可能有助于阐明的一些正在研究的问题：</p>
+<ul>
+<li>微湍流在空间物理中的作用？</li>
+<li>跨边界层的输运</li>
+<li>快速磁重联</li>
+<li>日冕和太阳风加热</li>
+<li>MHD 湍流如何耗散能量？</li>
+<li>快粒子如何与湍流相互作用？</li>
+</ul>
+</section>
+<section id="局限性" class="level2" data-number="16.6">
+<h2 data-number="16.6" class="anchored" data-anchor-id="局限性"><span class="header-section-number">16.6</span> 局限性</h2>
+<p>回旋动理学无法解析的现象：</p>
+<ul>
+<li>回旋共振</li>
+<li>与回旋运动有关的现象</li>
+</ul>
+<p>至少回旋动理学的原始形式无法包含 EMIC 波和哨声波。</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/kmhd.html" class="pagination-link" aria-label="动理学磁流体力学">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/flr.html" class="pagination-link" aria-label="磁力线共振">
+        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/gyrokinetics.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

@@ -1,0 +1,12 @@
+.language-switch {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1000;
+  padding: .4rem .8rem;
+  border: 1px solid currentColor;
+  border-radius: .35rem;
+  background: var(--bs-body-bg, white);
+  color: var(--bs-body-color, black);
+  text-decoration: none;
+}

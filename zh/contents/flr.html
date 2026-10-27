@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>17&nbsp; 磁力线共振 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/nonlinear.html" rel="next">
+<link href="../contents/gyrokinetics.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/flr.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#历史回顾" id="toc-历史回顾" class="nav-link active" data-scroll-target="#历史回顾"><span class="header-section-number">17.1</span> 历史回顾</a></li>
+  <li><a href="#理论" id="toc-理论" class="nav-link" data-scroll-target="#理论"><span class="header-section-number">17.2</span> 理论</a>
+  <ul class="collapse">
+  <li><a href="#轴对称球坐标" id="toc-轴对称球坐标" class="nav-link" data-scroll-target="#轴对称球坐标"><span class="header-section-number">17.2.1</span> 轴对称球坐标</a></li>
+  <li><a href="#柱坐标" id="toc-柱坐标" class="nav-link" data-scroll-target="#柱坐标"><span class="header-section-number">17.2.2</span> 柱坐标</a></li>
+  <li><a href="#笛卡尔盒模型" id="toc-笛卡尔盒模型" class="nav-link" data-scroll-target="#笛卡尔盒模型"><span class="header-section-number">17.2.3</span> 笛卡尔盒模型</a></li>
+  </ul></li>
+  <li><a href="#能量分析" id="toc-能量分析" class="nav-link" data-scroll-target="#能量分析"><span class="header-section-number">17.3</span> 能量分析</a></li>
+  <li><a href="#sec-flr-nonMHD" id="toc-sec-flr-nonMHD" class="nav-link" data-scroll-target="#sec-flr-nonMHD"><span class="header-section-number">17.4</span> 非 MHD 效应</a></li>
+  <li><a href="#非线性效应" id="toc-非线性效应" class="nav-link" data-scroll-target="#非线性效应"><span class="header-section-number">17.5</span> 非线性效应</a></li>
+  <li><a href="#三维-flr" id="toc-三维-flr" class="nav-link" data-scroll-target="#三维-flr"><span class="header-section-number">17.6</span> 三维 FLR</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/flr.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-flr" class="quarto-section-identifier"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>共振模耦合是空间等离子体中的主要物理过程之一，包括磁重联和无碰撞激波中的相关过程。磁力线共振描述的是 <em>非均匀等离子体中压缩快波与剪切阿尔芬波之间的共振相互作用</em>，例如地球磁层中的相互作用。Tsutomu Tamao 于 1961 年首次概述了这种共振模耦合的概念，后来又在其关于磁流体耦合共振的奠基性论文中加以讨论（Tamao, 1965）。John Samson 等（1971）的实验研究使共振模耦合成为目前行星磁层超低频（ULF）波研究的范式。可以把磁层想象成微波炉：我们不是用微波加热食物，而是用电磁波加热地球。</p>
+<section id="历史回顾" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="历史回顾"><span class="header-section-number">17.1</span> 历史回顾</h2>
+<p>20 世纪 50 年代以前，人们没有考虑过空间中的驻波，因为当时假定那里是真空。太空时代刚刚开始，Dungey 就提出地磁场线上可以激发驻立阿尔芬波。</p>
+<ul>
+<li>地面观测显示电磁波功率具有离散频率。在磁层中，阿尔芬速度通常约为 <span class="math inline">\(\sim 1000\,\text{km/s}\)</span>，地磁脉动的典型周期为 10–600 s。因此典型波长为 <span class="math inline">\(10^4-10^6\,\text{km}\)</span>，即 <span class="math inline">\(1-100\,\text{R}_E\)</span>，与磁层本身的尺寸相当。显然均匀等离子体理论是不够的。</li>
+<li>20 世纪 50 年代，人们认识到极向模和环向模的 MHD 波可以耦合；如果把这些模看作驻波，或许可以解释离散频率。然而，由于对磁层等离子体密度的估计不准，未能取得良好的一致性。</li>
+<li>20 世纪 60 年代，[Sugiura 1961] 表明同一磁力线两端可以同时观测到波，说明波受到导引。[Nagata+ 1963] 表明共轭点处的脉动可以逐周期对应。比较相位可以推断驻波可能的谐波。[Patel 1965] 根据 Explorer 12 磁强计数据报告发现空间中的横向波和压缩波，它们与地面测量相关，证实了观测到的是同一波动。[Cummings+ 1969] 展示了持续时间长且频繁出现的波，并将其周期与极向模和环向模方程的数值结果进行了良好比较。</li>
+<li>20 世纪 70 年代，人们提出了较简单的盒模型来解释磁力线共振。驻波的概念无法解释为什么只有某些磁力线优先受到激发（其足点靠近磁纬 <span class="math inline">\(70^\circ\)</span>）。在盒模型中，离散频率被看作反映磁层顶厚度性质的源，并具有优选的 KHI 增长率。</li>
+<li>20 世纪 80 年代，人们提出腔体模型，将磁层视为腔体，从而把离散频率与本征模联系起来。</li>
+<li>1985 年代，人们在腔体思想的基础上提出波导模型，以放宽方位方向上的约束。这可以解释许多地面观测到的离散频率、大振幅 Pc5 波，但卫星测量经常看到小振幅 Pc3/4 波。与由单一本征数（<span class="math inline">\(k_z\)</span>）描述的磁力线共振不同，腔体模有三个本征数，分别对应沿磁力线（<span class="math inline">\(k_z\)</span>）、绕地球的方位方向（<span class="math inline">\(k_y\)</span>）以及磁层顶（或弓激波）与内部反射点之间的径向（<span class="math inline">\(n\)</span>）的波长数。20 世纪 90 年代有人提出，如果最低阶模的频率例如为 2 mHz，那么在大约 10 mHz 以上，高阶模将数量众多且频率非常接近，考虑到它们自身的频宽和典型频谱的频率分辨率，可能无法在数据中分辨，而会表现为连续谱。作为连续谱，它们无法激发这个较高频段（对应 Pc3/4）的离散频率。波导模型或许只与 Pc5 脉动有关？</li>
+</ul>
+<p>现在关键的问题是：观测到的 ULF 波的量子化数值从何而来 [Kivelson &amp; Southwood, 1986]？研究者借鉴电离层无线电传播、激光聚变和等离子体物理中的思想，提出了 <em>腔体</em> 和 <em>波导</em> 这两个名称。对于下一节要讨论的盒模型，如果 z 方向边界完全反射，波场必须在 z 方向具有驻波结构，允许的平行波数是量子化的（<span class="math inline">\(k_z = m\pi/c\)</span>，见 <a href="#eq-flr_xz_quantized" class="quarto-xref">式&nbsp;<span>17.19</span></a>）。如果边界具有弱吸收，平行波数是复数，但其实部仍如上所述量子化。如果在 y 方向施加周期边界条件，<span class="math inline">\(y\)</span> 方向的波数 <span class="math inline">\(k_y\)</span> 也需要量子化。</p>
+<p>另一个问题：如果这些离散频率对应沿磁力线传播的驻波，那么在足点处（即地面测量位置）振幅应该最小？为什么仍然能够在地面观测到它？</p>
+</section>
+<section id="理论" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="理论"><span class="header-section-number">17.2</span> 理论</h2>
+<p>理论从线性化冷 MHD 方程 <a href="wave.html#eq-mhd_cold_e_wave" class="quarto-xref">式&nbsp;<span>10.30</span></a> 和 <a href="wave.html#eq-mhd_cold_b_wave" class="quarto-xref">式&nbsp;<span>10.31</span></a> 出发。</p>
+<section id="轴对称球坐标" class="level3" data-number="17.2.1">
+<h3 data-number="17.2.1" class="anchored" data-anchor-id="轴对称球坐标"><span class="header-section-number">17.2.1</span> 轴对称球坐标</h3>
+<p>首先，如 <span class="citation" data-cites="radoski1966">(<a href="#ref-radoski1966" role="doc-biblioref">Radoski 和 Carovillano 1966年</a>)</span> 所做，在球坐标 <span class="math inline">\((r,\theta,\phi)\)</span> 中处理这个问题。</p>
+<p>假设背景密度只依赖于径向距离，<span class="math inline">\(\rho = \rho(r)\)</span>。在下面的分析中，扰动变量 <span class="math inline">\(\mathbf{B}_1\)</span>、<span class="math inline">\(\mathbf{E}\)</span>、<span class="math inline">\(\mathbf{j}\)</span> 和 <span class="math inline">\(\mathbf{u}\)</span> 均视为轴对称，即球坐标中的任意扰动函数均具有形式 <span class="math display">\[
+\mathbf{\delta} = \delta_r(r,\theta)\hat{r} + \delta_\theta(r,\theta)\hat{\theta} + \delta_\phi(r,\theta)\hat{\phi}
+\]</span></p>
+<p>在此对称性下，变量可分为两组独立的变量，分别称为 <em>环向</em> 和 <em>极向</em> 变量：</p>
+<ul>
+<li>环向变量</li>
+</ul>
+<p><span class="math inline">\(B_{1\phi}, E_r, E_\theta, u_\phi, j_r, j_\theta;\, \nabla\cdot\mathbf{u} = \frac{1}{r\sin\theta}\frac{\partial u_\phi}{\partial \phi}\equiv 0\)</span>（不可压缩）</p>
+<ul>
+<li>极向变量</li>
+</ul>
+<p><span class="math inline">\(B_{1r}, B_{1\theta}, E_\phi, u_r, u_\theta, j_\phi ;\, \nabla\cdot\mathbf{E} = \frac{1}{r\sin\theta}\frac{\partial E_\phi}{\partial \phi}\equiv 0\)</span></p>
+<p>这两组变量最初根据磁场扰动方向命名。可以通过 Poynting 矢量 <span class="math inline">\(\mathbf{S}\)</span> 理解这两组变量。最简单的 MHD 欧姆定律约束电场 <span class="math inline">\(\mathbf{E}\)</span> 垂直于背景磁场 <span class="math inline">\(\mathbf{B}_0\)</span>。对于环向模，<span class="math inline">\(\mathbf{E}\)</span> 位于子午面内，<span class="math inline">\(B_{1\phi}\)</span> 垂直于该平面，因此 <span class="math inline">\(\mathbf{S}\)</span> 沿磁力线方向。对于极向模，<span class="math inline">\(\mathbf{S}\)</span> 位于子午面内且平行于波矢 <span class="math inline">\(\mathbf{k}\)</span>，因为 <span class="math display">\[\mathbf{B}_1 = -i\mathbf{k}\times\mathbf{E}\Rightarrow \mathbf{S}\parallel\mathbf{E}\times\mathbf{B}_1 \parallel \mathbf{E}\times(\mathbf{k}\times\mathbf{E})=E^2\mathbf{k} - \cancel{(\mathbf{E}\cdot\mathbf{k})}\mathbf{E} \parallel \mathbf{k}
+\]</span> 对于横向电磁波（<span class="math inline">\(\mathbf{E}\perp\mathbf{k}\)</span>）。因此环向模是阿尔芬模，其色散关系为 <span class="math inline">\(\omega = V_A k \cos\theta\)</span>，<span class="math inline">\(\mathbf{S} \parallel \mathbf{B}_0\)</span>；极向模是快模，其色散关系为 <span class="math inline">\(\omega = V_A k\)</span>，<span class="math inline">\(\mathbf{S} \parallel \mathbf{k}\)</span>。</p>
+<p>澄清我早先的误解：<em>环向模并不是沿环向传播的</em>！同样，<em>极向模并不是沿极向传播的</em>。实际上，更常见的情况是快极向模沿方位方向传播，然后耦合到沿环境磁场方向传播的阿尔芬环向模，继而在地面被观测到。<span class="citation" data-cites="zong2017interaction">(<a href="#ref-zong2017interaction" role="doc-biblioref">Zong 等 2017年</a>)</span> 中的 <a href="#tbl-toroidal-poloidal-ULF" class="quarto-xref">表&nbsp;<span>17.1</span></a> 总结了环向和极向驻立 ULF 波模的性质。</p>
+<div id="tbl-toroidal-poloidal-ULF" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-toroidal-poloidal-ULF-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+表&nbsp;17.1: 环向和极向驻立 ULF 波模的性质
+</figcaption>
+<div aria-describedby="tbl-toroidal-poloidal-ULF-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 29%">
+<col style="width: 29%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">ULF 模</th>
+<th style="text-align: center;">磁场</th>
+<th style="text-align: center;">电场</th>
+<th style="text-align: center;">波数</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">环向波</td>
+<td style="text-align: center;">方位磁场 (<span class="math inline">\(B_\phi\)</span>)</td>
+<td style="text-align: center;">径向电场 (<span class="math inline">\(E_r\)</span>)</td>
+<td style="text-align: center;">小波数 m</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">极向波</td>
+<td style="text-align: center;">径向磁场 (<span class="math inline">\(B_r\)</span>)</td>
+<td style="text-align: center;">方位电场 (<span class="math inline">\(E_\phi\)</span>)</td>
+<td style="text-align: center;">大波数 m</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">压缩极向波</td>
+<td style="text-align: center;">平行磁场 (<span class="math inline">\(B_\parallel\)</span>)</td>
+<td style="text-align: center;">方位电场 (<span class="math inline">\(E_\phi\)</span>)</td>
+<td style="text-align: center;">大波数 m</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>对于轴对称极向电场 <span class="math inline">\(E_\phi \sim e^{i\omega t}\)</span>，<a href="wave.html#eq-mhd_cold_e_wave" class="quarto-xref">式&nbsp;<span>10.30</span></a> 变为（我还没有推导过这个！） <span class="math display">\[
+B_0^2[\nabla^2 - (r^2 \sin^2\theta)^{-1}] E_\phi = -\mu_0 \rho \omega^2 E_\phi
+\]</span></p>
+<p>这就是解耦的极向波方程。对于偶极场，<span class="math inline">\(B_0^2 = \frac{M^2(1+3\mu^2)}{r^6}\)</span>，其中 <span class="math inline">\(M\)</span> 是磁矩，<span class="math inline">\(\mu = \cos\theta\)</span> 是余纬。通过以下形式分离未知量，寻求 <span class="math inline">\(E_\phi\)</span> 的解： <span class="math display">\[
+E_\phi = \sum_{l=1}^{\infty} f_l(r) P_l^m(\mu)
+\]</span> 其中 <span class="math inline">\(P_l^m\)</span> 是整数指标 <span class="math inline">\(l\)</span> 和 <span class="math inline">\(m\)</span> 的缔合 Legendre 函数。你可能会问为什么采用这种形式？这是基于经验和天赋的数学假设。采用这种表示后，极向波方程变为 <span id="eq-poloidal_spherical_assump"><span class="math display">\[
+\sum_{l=1}^{\infty}[(1+3\mu^2)O_l + 2K^2] f_l P_l^m = 0
+\tag{17.1}\]</span></span> 其中 <span class="math inline">\(K^2 = \frac{\mu_0 \rho}{2}\big( \frac{\omega^2 r^2}{M^2}\big)^2\)</span>（系数可能有误），<span class="math inline">\(O_l\)</span> 是球 Bessel 算符 <span class="math display">\[
+O_l = \frac{1}{r}\frac{\partial^2}{\partial r^2}r - \frac{l(l+1)}{r^2}
+\]</span></p>
+<p>（现在几乎超出了我的掌握范围。如果想完全理解这一点，我需要回头学习物理中的数学方程！！！）Legendre 多项式的特殊性质使我们可以将波动方程的解写为 <span id="eq-poloidal_spherical_sol"><span class="math display">\[
+\sum_{s = 0,\pm 2} a_{l+s} O_{l+s} f_{l+s} + K^2 f_l = 0
+\tag{17.2}\]</span></span> 其中常系数为 <span class="math display">\[
+\begin{aligned}
+a_{l+2} &amp;= \frac{3(l+2)(l+3)}{2(2l+3)(2l+5)} \\
+a_{l} &amp;= \frac{5l(l+1)-6}{(2l-1)(2l+3)} \\
+a_{l-2} &amp;= \frac{3(l-2)(l-1)}{2(2l-3)(2l-1)}
+\end{aligned}
+\]</span></p>
+<p>由 <a href="#eq-poloidal_spherical_sol" class="quarto-xref">式&nbsp;<span>17.2</span></a> 可知，相反宇称的径向振幅不耦合。由于 <a href="#eq-poloidal_spherical_assump" class="quarto-xref">式&nbsp;<span>17.1</span></a> 中只有 <span class="math inline">\(l\ge 1\)</span>，存在两个基本的未知径向振幅：一个对应奇数 <span class="math inline">\(l\)</span>，另一个对应偶数 <span class="math inline">\(l\)</span>。</p>
+<p>假设边界完全反射，因此 <span class="math inline">\(E\)</span> 的横向分量，即 <span class="math inline">\(E_\theta\)</span> 和 <span class="math inline">\(E_\phi\)</span>，均为零。假设壁面刚性，因此 <span class="math inline">\(u_r = 0\)</span>。由控制方程，<span class="math inline">\(\mathbf{B}_1\)</span> 的法向分量也为零。</p>
+<p>按照 Radoski 的推导，环向波方程对我来说似乎太复杂了……</p>
+<div id="fig-flr-harmonics" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flr-harmonics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/FLR_toroidal_poloidal_harmonics.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flr-harmonics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;17.1: 示意图展示磁力线在频率最低的两个环向模（左）和极向模（右）中的振荡。左图中磁力线从北向南展开，磁力线东西位移时我们朝地球方向观察。右图中偶极磁力线在其子午面内位移，因此所有磁扰动均沿径向。注意，环向模的磁扰动（AD）在基频模中南北方向相反，在二次谐波中方向相同；极向模的 AH 扰动则恰好相反。
+</figcaption>
+</figure>
+</div>
+<p>根据边界条件，两个反射点之间的磁力线长度 <span class="math inline">\(l\)</span> 必须是半波长 <span class="math inline">\(\lambda\)</span> 的整数倍，这意味着 <span class="math display">\[
+n\lambda = 2l,\quad n = 1,2,3,...
+\]</span></p>
+<p>由色散关系，利用平均阿尔芬速度 <span class="math inline">\(&lt;V_A&gt;\)</span>，得到： <span class="math display">\[
+\omega_n = &lt;V_A&gt; k = &lt;V_A&gt;\frac{2\pi}{\lambda} = \frac{n\pi&lt;V_A&gt;}{l}
+\]</span></p>
+</section>
+<section id="柱坐标" class="level3" data-number="17.2.2">
+<h3 data-number="17.2.2" class="anchored" data-anchor-id="柱坐标"><span class="header-section-number">17.2.2</span> 柱坐标</h3>
+<p>在柱坐标 <span class="math inline">\((r,\phi,z)\)</span> 中，假设扰动具有 <span class="math inline">\(e^{i(m\phi - \omega t)}\)</span> 的形式，可以分离线性化方程（<span class="citation" data-cites="hughes1994">(<a href="#ref-hughes1994" role="doc-biblioref">Hughes 1994年</a>)</span> 我还没有推导过这个！）， <span id="eq-cylindrical_mhd_toroidal"><span class="math display">\[
+\Big[ \omega^2 \mu_0 \rho - \frac{1}{r}(\mathbf{B}_0\cdot\nabla)r^2(\mathbf{B}_0\cdot\nabla) \Big]\frac{u_\phi}{r} = \omega m \frac{\mathbf{B}_0\cdot\mathbf{B}_1}{r}
+\tag{17.3}\]</span></span></p>
+<p><span id="eq-cylindrical_mhd_poloidal"><span class="math display">\[
+\Big[\omega^2 \mu_0 \rho - rB^2 (\mathbf{B}_0\cdot\nabla)\frac{1}{r^2 B^2}(\mathbf{B}_0\cdot\nabla) \Big]rE_\phi = i\omega B^2 (\mathbf{B}_0\times\nabla)_\phi \Big( \frac{\mathbf{B}_0\cdot\mathbf{B}_1}{B^2} \Big)
+\tag{17.4}\]</span></span></p>
+<p><span class="math display">\[
+i\omega \mathbf{B}_0\cdot\mathbf{B}_1 = \frac{1}{r}(\mathbf{B}\times\nabla)_\phi (rE_\phi) - imB^2\frac{u_\phi}{r}
+\]</span></p>
+<p>前两个方程来自动量方程。<span class="math inline">\(\mathbf{B}_0\cdot\nabla\)</span> 是沿 <span class="math inline">\(\mathbf{B}\)</span> 方向的导数。这些波动方程由右侧依赖于 <span class="math inline">\(\mathbf{B}_0\cdot\mathbf{B}_1\)</span>（即磁扰动的压缩分量）的项耦合。第三个方程来自法拉第定律和欧姆定律，它表明 <span class="math inline">\(\mathbf{B}_0\cdot\mathbf{B}_1\)</span>、<span class="math inline">\(E_\phi\)</span> 和 <span class="math inline">\(u_\phi\)</span> 之间的关系，并使方程组闭合。由于横向色散关系只依赖于 <span class="math inline">\(k_\parallel\)</span>，很容易把 <a href="#eq-cylindrical_mhd_toroidal" class="quarto-xref">式&nbsp;<span>17.3</span></a> 和 <a href="#eq-cylindrical_mhd_poloidal" class="quarto-xref">式&nbsp;<span>17.4</span></a> 的左侧看作准横向模振荡，右侧则看作具有压缩分量的快模所引起的耦合。当 <span class="math inline">\(m\neq 0\)</span> 时，环向模在 <span class="math inline">\(\phi\)</span> 方向的相位变化会导致磁场中的压缩扰动。环向和极向振荡的偏振不再正交，因而发生耦合。</p>
+<p>如果 <span class="math inline">\(m = 0\)</span>，<a href="#eq-cylindrical_mhd_toroidal" class="quarto-xref">式&nbsp;<span>17.3</span></a> 的右侧消失。此时左侧描述一个电场完全沿径向、磁场和速度扰动沿方位方向的模。磁 L 壳解耦，各壳独立地沿方位方向振荡。这就是阿尔芬型 <em>环向</em> 模。如果 <span class="math inline">\(m\rightarrow\infty\)</span>，为了使右侧保持有限，必须有 <span class="math inline">\(\mathbf{B}_0\cdot\mathbf{B}_1\rightarrow0\)</span>，因此 <a href="#eq-cylindrical_mhd_poloidal" class="quarto-xref">式&nbsp;<span>17.4</span></a> 的右侧消失。此时 <a href="#eq-cylindrical_mhd_poloidal" class="quarto-xref">式&nbsp;<span>17.4</span></a> 描述一个 <span class="math inline">\(\mathbf{E}\)</span> 沿方位方向而 <span class="math inline">\(\mathbf{u}\)</span> 和 <span class="math inline">\(\mathbf{b}\)</span> 位于子午面内的模。这就是压缩型 <em>极向</em> 模。</p>
+</section>
+<section id="笛卡尔盒模型" class="level3" data-number="17.2.3">
+<h3 data-number="17.2.3" class="anchored" data-anchor-id="笛卡尔盒模型"><span class="header-section-number">17.2.3</span> 笛卡尔盒模型</h3>
+<p>最早的理论将冷理想 MHD 方程 <a href="wave.html#eq-mhd_cold_e_wave" class="quarto-xref">式&nbsp;<span>10.30</span></a> 或 <a href="wave.html#eq-mhd_cold_b_wave" class="quarto-xref">式&nbsp;<span>10.31</span></a> 写在球坐标或柱坐标中，不容易求解。我们将看到，磁力线共振（FLR）的本质可以在笛卡尔坐标中得到。我们将实际的日侧磁层简化为可以解析求解的模型；实际日侧磁层类似受压缩的偶极场。设想一条两个足点都连接到导电电离层的磁力线，可以将这条弯曲磁力线映射为沿 <span class="math inline">\(z\)</span> 延伸的直线。在 <span class="math inline">\(x\)</span> 方向，外边界是磁层顶，内边界是反射点（等离子体层顶或电离层）。<span class="math inline">\(y\)</span> 方向代表方位方向，因此在磁层前方它更接近 GSE/GSM 坐标中的 <span class="math inline">\(y\)</span> 方向，在两翼则更接近 <span class="math inline">\(x\)</span> 方向。如果 <span class="math inline">\(y\)</span> 方向长度有限（<span class="math inline">\(b &lt; \infty\)</span>），称为 <em>腔体</em>；如果 <span class="math inline">\(y\)</span> 方向长度无限（<span class="math inline">\(b\rightarrow \infty\)</span>），称为 <em>波导</em>。腔体和波导的名称沿用了电动力学术语。示意图见 <a href="#fig-box-mapping" class="quarto-xref">图&nbsp;<span>17.2</span></a> 和 <a href="#fig-box-config" class="quarto-xref">图&nbsp;<span>17.3</span></a>。</p>
+<div id="fig-box-mapping" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-box-mapping-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/box_model_mapping.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-box-mapping-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;17.2: 引自 Southwood 和 Kivelson 的一篇论文。
+</figcaption>
+</figure>
+</div>
+<div id="fig-box-config" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-box-config-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/box_model_config.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-box-config-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;17.3: 引自 Southwood 和 Kivelson 的一篇论文。
+</figcaption>
+</figure>
+</div>
+<p>沿 <span class="math inline">\(z\)</span> 方向，对闭合磁力线施加电离层边界条件 <span class="math inline">\(u_x = u_y = B_{1z} = 0\)</span>。由于采用理想 MHD 假设，沿磁力线的电场 <span class="math inline">\(E_z = 0\)</span>。在 <span class="math inline">\(y\)</span> 方向，或者为腔体模型施加周期边界条件，从而得到量子化波数 <span class="math inline">\(k_y\)</span>，或者采用无限边界。在 <span class="math inline">\(x\)</span> 方向，外边界 <span class="math inline">\(x_m\)</span>（磁层顶）和内边界 <span class="math inline">\(x_t\)</span>（等离子体层顶）处的巨大 <span class="math inline">\(V_A\)</span> 梯度提供了边界。我们在 <span class="math inline">\(x = x_t, x_m\)</span> 处施加反射边界条件 <span class="math inline">\(u_x = 0\)</span>。<em><span class="math inline">\(x\)</span> 方向的非均匀性意味着只能考虑 <span class="math inline">\(y\)</span> 和 <span class="math inline">\(z\)</span> 方向的 Fourier 分量</em>。因此，利用以下试探形式寻找 <span class="math inline">\(\propto \exp[i(k_y y + k_z z - \omega t)]\)</span> 的波模：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{k} &amp;= (0, k_y, k_z) \\
+\mathbf{E} &amp;= (E_x(x), E_y(x), 0) e^{i(k_y y + k_z z - \omega t)} \\
+\mathbf{B}_1 &amp;= (B_{1x}, B_{1y}, B_{1z}) e^{i(k_y y + k_z z - \omega t)} \\
+\mathbf{B}_0 &amp;= B_z \hat{z} = B\hat{z} \\
+\rho &amp;= \rho(x) \\
+\mathbf{u} &amp;= \mathbf{u}_0 + \mathbf{u}_1 = \mathbf{u}_1
+\end{aligned}
+\]</span></p>
+<p>线性化动量方程 <a href="wave.html#eq-mhd_cold" class="quarto-xref">式&nbsp;<span>10.29</span></a> 给出</p>
+<p><span class="math display">\[
+\begin{aligned}
+\rho\Big(\frac{\partial\mathbf{u}}{\partial t} + \cancel{\mathbf{u}\cdot\nabla\mathbf{u}}\Big) &amp;= \mathbf{j}\times\mathbf{B} \\
+\rho\frac{\partial\mathbf{u}}{\partial t} &amp;= \frac{1}{\mu_0}(\nabla\times\mathbf{B})\times\mathbf{B}
+\end{aligned}
+\]</span></p>
+<p>分离相互垂直的 <span class="math inline">\(x\)</span> 和 <span class="math inline">\(y\)</span> 方向并作平面波分解，</p>
+<p><span class="math display">\[
+\begin{aligned}
+-i\omega\rho\mu_0 u_x &amp;= (\nabla\times\mathbf{B}_1)_y B_z - (\nabla\times\mathbf{B}_1)_z \cancel{B_y} \\
+&amp;= \Big(\frac{\partial B_{1x}}{\partial z} - \frac{\partial B_{1z}}{\partial x}\Big) B \\
+&amp;= -\frac{\partial}{\partial x}\Big( B B_{1z} \Big) + i k_z B B_{1x}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+-i\omega\rho\mu_0 u_y &amp;= (\nabla\times\mathbf{B}_1)_z \cancel{B_x} - (\nabla\times\mathbf{B}_1)_x B_z \\
+&amp;= \Big(\frac{\partial B_{1y}}{\partial z} - \frac{\partial B_{1z}}{\partial y}\Big) B \\
+&amp;= k_z B B_{1y} - k_y B B_{1z}
+\end{aligned}
+\]</span></p>
+<p>由广义欧姆定律的最简单形式 <span class="math inline">\(\mathbf{E} = -\mathbf{u}_1 \times\mathbf{B}_0\)</span>，</p>
+<p><span class="math display">\[
+\begin{aligned}
+E_x &amp;= - u_y B \\
+E_y &amp;= - u_x B
+\end{aligned}
+\]</span></p>
+<p>代入线性化动量方程，得到</p>
+<p><span id="eq-flr_momentum"><span class="math display">\[
+\begin{aligned}
+-i \omega \rho \mu_0 \frac{E_y}{B} &amp;= -\frac{\partial}{\partial x}\Big( B B_{1z} \Big) + i k_z B B_{1x} \\
+\omega \rho \mu_0 \frac{E_x}{B} &amp;= - k_y B B_{1z} + k_z B B_{1y}
+\end{aligned}
+\tag{17.5}\]</span></span></p>
+<p>由线性化法拉第定律 <span class="math inline">\(\nabla\times\mathbf{E} = -\dot{\mathbf{B}_1}\)</span>，</p>
+<p><span class="math display">\[
+\begin{aligned}
+-\frac{\partial E_y}{\partial z} &amp;= -\dot{B_{1x}} \\
+\frac{\partial E_x}{\partial z} &amp;= -\dot{B_{1y}} \\
+\frac{\partial E_y}{\partial x} - \frac{\partial E_x}{\partial y} &amp;= -\dot{B_{1z}}
+\end{aligned}
+\]</span></p>
+<p><span id="eq-flr_faraday_linear"><span class="math display">\[
+\begin{aligned}
+B_{1x} &amp;= \frac{1}{\omega}(- k_z E_y) \\
+B_{1y} &amp;= \frac{1}{\omega}(k_z E_x) \\
+B_{1z} &amp;= \frac{1}{\omega}\Big(-i\frac{\partial E_y}{\partial x} - k_y E_x\Big)
+\end{aligned}
+\tag{17.6}\]</span></span></p>
+<p>将 <a href="#eq-flr_faraday_linear" class="quarto-xref">式&nbsp;<span>17.6</span></a> 代入 <a href="#eq-flr_momentum" class="quarto-xref">式&nbsp;<span>17.5</span></a>，得到</p>
+<p><span class="math display">\[
+\begin{aligned}
+-i \omega \rho \mu_0 \frac{E_y}{B} = -\frac{\partial}{\partial x}\Big[ B  \frac{1}{\omega}\Big(-i\frac{\partial E_y}{\partial x} - k_y E_x\Big) \Big] + i k_z B \frac{-k_z}{\omega} E_y \\
+-i \big( \omega^2 \rho \mu_0 / B^2 - k_z^2 \big)E_y = k_y \frac{\partial E_x}{\partial x} - i \frac{\partial^2 E_y}{\partial x^2}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+-i \omega \rho \mu_0 \frac{E_x}{B} = k_z B \frac{k_z}{\omega} E_x - k_y B \frac{1}{\omega}\Big(-i\frac{\partial E_y}{\partial x} - k_y E_x\Big) \\
+\big( \omega^2 \rho \mu_0 / B^2 - k_y^2 - k_z^2 \big)E_x + i k_y\frac{\partial E_y}{\partial x} = 0
+\end{aligned}
+\]</span></p>
+<p>令 <span class="math inline">\(R^2 = \mu_0 \rho(x) \omega^2 / B^2 = \omega^2/V_A(x)^2\)</span>，得到</p>
+<p><span id="eq-flr_ex_ey"><span class="math display">\[
+\begin{aligned}
+-i (R^2 - k_z^2)E_y = k_y \frac{\partial E_x}{\partial x} - i \frac{\partial^2 E_y}{\partial x^2} \\
+(R^2 - k_y^2 -k_z^2)E_x + i k_y\frac{\partial E_y}{\partial x} = 0
+\end{aligned}
+\tag{17.7}\]</span></span></p>
+<p>从 <a href="#eq-flr_ex_ey" class="quarto-xref">式&nbsp;<span>17.7</span></a> 中消去 <span class="math inline">\(E_x\)</span>，得到</p>
+<p><span id="eq-flr_wave_ey"><span class="math display">\[
+\frac{\partial^2}{\partial x^2}E_y - k_y^2 \frac{\partial}{\partial x}R^2(x)\frac{1}{(R^2 - k_z^2)(R^2 - k_z^2 - k_y^2)}\frac{\partial E_y}{\partial x} + (R^2 - k_z^2 - k_y^2)E_y = 0
+\tag{17.8}\]</span></span></p>
+<p>由 <a href="#eq-flr_ex_ey" class="quarto-xref">式&nbsp;<span>17.7</span></a> 可以得到关于偏振的一个非常重要的观察结果 <span class="citation" data-cites="southwood1974some">(<a href="#ref-southwood1974some" role="doc-biblioref">Southwood 1974年</a>)</span>： <span id="eq-flr_polarization"><span class="math display">\[
+\frac{E_x}{E_y} = -\frac{ik_y}{R^2-k_y^2-k_z^2}\frac{\partial E_y}{\partial x}\frac{1}{E_y}
+\tag{17.9}\]</span></span></p>
+<p>我们熟悉的快 MHD 波在 <em>非均匀等离子体中不再是线偏振的</em>！右侧的关键是它依赖于 <span class="math inline">\(k_y\)</span> 和 <span class="math inline">\(\partial E_y/\partial x\)</span> 的符号。对于沿相反方向传播的快波（即方位方向上向东和向西），随着 <span class="math inline">\(k_y\)</span> 在地方正午两侧变号，偏振旋向（右旋、左旋）也会改变。恰在满足 <span class="math inline">\(R^2 - k_z^2 - k_y^2 = 0\)</span> 的共振点，得到线偏振阿尔芬波。<span class="math inline">\(\partial E_y/\partial x\)</span> 在共振点两侧变号，因此在不同 L 壳（或磁纬）处的地面观测还会发现另一次偏振变化。</p>
+<div id="fig-flr-polarization" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flr-polarization-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/FLR_ground_Pc5_1974.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flr-polarization-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;17.4: 高纬度观测到的 Pc5 波振幅和偏振旋向随纬度及磁地方时的变化。（据 [Samson +, 1974]。）
+</figcaption>
+</figure>
+</div>
+<p><a href="#eq-flr_wave_ey" class="quarto-xref">式&nbsp;<span>17.8</span></a> 也可以写成磁场压缩分量 <span class="math inline">\(B_{1z}\)</span> 的二阶微分方程（见 <a href="math.html#eq-perturb_b" class="quarto-xref">式&nbsp;<span>3.17</span></a>），如 <span class="citation" data-cites="kivelson1985resonant">(<a href="#ref-kivelson1985resonant" role="doc-biblioref">Kivelson 和 Southwood 1985年</a>)</span> 在提出腔体模概念时所做： <span class="math display">\[
+\frac{\partial^2 B_{1z}}{\partial x^2} - \frac{ \frac{\partial R^2}{\partial x}}{R^2 - k_z^2}\frac{\partial B_{1z}}{\partial x} + ( R^2 - k_y^2 - k_z^2 ) B_{1z} = 0
+\]</span> 或者等价地， <span id="eq-flr_wave_bz"><span class="math display">\[
+\frac{\partial^2 B_{1z}}{\partial x^2} - \frac{\omega^2 \partial V_A^{-2}/\partial x}{\omega^2/V_A^2 - k_z^2}\frac{\partial B_{1z}}{\partial x} + \Big( \frac{\omega^2}{V_A^2} - k_y^2 - k_z^2 \Big) B_{1z} = 0
+\tag{17.10}\]</span></span></p>
+<p>先对 <a href="#eq-flr_wave_ey" class="quarto-xref">式&nbsp;<span>17.8</span></a> 建立一些直观认识（遵循 <span class="citation" data-cites="glassmeier1999">(<a href="#ref-glassmeier1999" role="doc-biblioref">Glassmeier 等 1999年</a>)</span>，但注意原论文中存在符号错误和错误方程！）。该方程第二项的分母中出现了强奇异性，大体如 Tamao（1965）最先描述的那样。可能有以下解。如果 <span class="math inline">\(R^2 - k_z^2 - k_y^2 &gt; 0\)</span>，由此得出 <span class="math inline">\(R^2 - k_z^2 &gt; 0\)</span>，则不出现奇点。假设 <span class="math inline">\(k_y \approx 0\)</span>，上式简化为 <span class="math display">\[
+\frac{\partial^2}{\partial x^2}E_y + (R^2 - k_z^2)E_y = 0
+\]</span></p>
+<p>对于线性密度剖面，即 <span class="math inline">\(R^2 = \alpha_0^2 + \alpha^2 x\)</span>，通过 <span class="math inline">\(R^2 = k_z^2\)</span> 定义转折点 <span class="math inline">\(x_t\)</span>，并作变换 <span class="math inline">\(s = \alpha^{2/3}(x-x_t)&gt;0\)</span>， <span class="math display">\[
+\begin{aligned}
+\frac{\partial E_y}{\partial x} &amp;= \frac{\partial E_y}{\partial(\alpha^{-2/3}s+x_t)} = \alpha^{2/3}\frac{\partial E_y}{\partial s} \\
+\frac{\partial^2 E_y}{\partial x^2} &amp;=  \alpha^{4/3}\frac{\partial^2 E_y}{\partial s^2}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\frac{\partial^2 E_y}{\partial s^2} + sE_y = 0
+\]</span></p>
+<p>这是 Airy 或 Stokes 方程（<a href="math.html#sec-airy" class="quarto-xref"><span>小节 3.12.1</span></a>），其两个主要解显示在 <span class="quarto-unresolved-ref">?fig-airy-flr</span> 中。解 <span class="math inline">\(Bi(s)\)</span> 不符合物理，因为它意味着 <span class="math inline">\(E_y\)</span> 在 <span class="math inline">\(s=0\)</span> 转折点之后无限增长。因此所需的解是 <span class="math inline">\(E_y(s) = Ai(s)\)</span>。转折点实际上是波场发生全反射的点。可以从以下角度理解它的出现：<span class="math inline">\(x\)</span> 方向的“有效”局部波数为 <span id="eq-flr_kx_effective"><span class="math display">\[
+k_x^2(x, \omega) = \frac{\omega^2}{V_A^2(x)} - k_y^2 - k_z^2
+\tag{17.11}\]</span></span></p>
+<p>如果 <span class="math inline">\(V_A^2\)</span> 随 <span class="math inline">\(x\)</span> 增大，也就是随 Airy 函数图中的 <span class="math inline">\(s\)</span> 增大，而 <span class="math inline">\(\omega, k_y\)</span> 和 <span class="math inline">\(k_z\)</span> 保持不变，则 <span class="math inline">\(k_x^2\)</span> 必须减小。最终 <span class="math inline">\(k_x^2\)</span> 可能变为负值，意味着波数 <span class="math inline">\(k_x\)</span> 是虚数。波将在这个转折点反射。</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode jl code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>KeyNotes.<span class="fu">plot_airy_minus_x</span>()</span></code></pre></div><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></div>
+<p>接下来，如果 <span class="math inline">\(R^2 - k_z^2 - k_y^2 &lt; 0\)</span>，可能出现 <span class="math inline">\(R^2 - k_z^2 = 0\)</span>。再次假设线性密度剖面，通过 <span class="math inline">\(R^2 = k_z^2\)</span> 定义共振点 <span class="math inline">\(x_r\)</span>，并令 <span class="math inline">\(s = x-x_r\)</span>，电场扰动在共振点 <span class="math inline">\(x - x_r = 0\)</span> 附近变为 <span id="eq-flr_wave_ey_perturbation"><span class="math display">\[
+\frac{\partial^2 E_y}{\partial s^2} - \frac{1}{s}\frac{s_t}{s-s_t}\frac{\partial E_y}{\partial s} + \alpha^2(s-s_t) E_y = 0
+\tag{17.12}\]</span></span> 其中 <span class="math inline">\(s_t = k_y^2/\alpha^2\)</span>。</p>
+<p>在共振点，该解表现出明显的奇异性，<span class="math inline">\(E_y\)</span> 无限增长。在转折点前方 <span class="math inline">\(s&gt;s_t\)</span>，解类似 Airy 函数；而在转折点后方的共振点 <span class="math inline">\(s=0\)</span> 处观察到奇异行为。我没有展示这个解，因为我不知道怎么把它写出来！现在让我们遵循 <span class="citation" data-cites="kivelson1985resonant">(<a href="#ref-kivelson1985resonant" role="doc-biblioref">Kivelson 和 Southwood 1985年</a>)</span>，考察 <span class="math inline">\(B_{1z}\)</span> 的等价扰动方程 <a href="#eq-flr_wave_bz" class="quarto-xref">式&nbsp;<span>17.10</span></a>。</p>
+<p>当我们也在 <a href="#eq-flr_wave_bz" class="quarto-xref">式&nbsp;<span>17.10</span></a> 中假设质量密度随 <span class="math inline">\(x\)</span> 线性变化，使得 <span class="math display">\[
+\begin{aligned}
+R^2 - k_z^2 &amp;= \alpha^2(x - x_r) \\
+R^2 - k_z^2 - k_y^2 &amp;= \alpha^2(x-x_t)
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(x_r = k_z^2/\alpha^2\)</span>，<span class="math inline">\(x_t = (k_z^2 + k_y^2)/\alpha^2 = x_r + k_y^2/\alpha^2\)</span>，得到 <span id="eq-flr_bz_perturbation"><span class="math display">\[
+\frac{\partial^2 B_{1z}}{\partial x^2} - \frac{1}{x-x_r}\frac{\partial B_{1z}}{\partial x} + \alpha^2(x-x_t)B_{1z} = 0
+\tag{17.13}\]</span></span></p>
+<p><span class="citation" data-cites="kivelson1986coupling">(<a href="#ref-kivelson1986coupling" role="doc-biblioref">1986年</a>)</span> 讨论了 <a href="#eq-flr_bz_perturbation" class="quarto-xref">式&nbsp;<span>17.13</span></a> 的解。满足 <span class="math inline">\(x=x_r\)</span> 和 <span class="math inline">\(R^2=k_z^2\)</span> 的奇点对应于波频率与阿尔芬模频率匹配的 <em>共振点</em>。满足 <span class="math inline">\(x=x_t\)</span> 和 <span class="math inline">\(R^2=k_y^2 + k_z^2\)</span> 的点是方程的 <em>转折点</em>。当 <span class="math inline">\(x&gt;x_t\)</span> 时，方程描述的任何波均随 <span class="math inline">\(x\)</span> 振荡；当 <span class="math inline">\(x&lt;x_t\)</span> 时，在共振奇点 <span class="math inline">\(x_r\)</span> 两侧，独立解随 <span class="math inline">\(x\)</span> 增长或消逝。</p>
+<p>许多作者推导了在 <span class="math inline">\(x=x_r\)</span> 和 <span class="math inline">\(x=x_t\)</span> 附近有效的级数解。可以用求解偏微分方程的 Frobenius 方法寻找在 <span class="math inline">\(x_r\)</span> 附近有效的解，其中解析解具有形式 <span id="eq-flr_bz_analytic"><span class="math display">\[
+R_t(x) = k_y^2(x-x_r)^2 + \mathcal{O}[(x-x_r)^4]
+\tag{17.14}\]</span></span> 而奇异解具有形式 <span id="eq-flr_bz_singular"><span class="math display">\[
+s_t(x) = 1 + \frac{1}{2}R_t(x)\ln(x_r - x) + \mathcal{O}[(x-x_r)^2]
+\tag{17.15}\]</span></span></p>
+<p>对于 <span class="math inline">\(k_y^2=\alpha^{4/3}\)</span>，<span class="math inline">\(B_{1z}\)</span> 的两个解如 <a href="#fig-flr-b1z-solutions" class="quarto-xref">图&nbsp;<span>17.5</span></a> 所示。在图的最右侧，两个函数在空间上接近正交相位，其零点间距随 <span class="math inline">\(x\)</span> 增大而减小。如后面将提到的，在此区域 WKB 近似很好，振幅和相位分别正比于 <span class="math inline">\(s^{1/4}\)</span> 和 <span class="math inline">\(s^{3/2}\)</span>。图中的振幅经过选择，使得指定时间变化 <span class="math inline">\(e^{-i\omega t}\)</span> 时，从大 <span class="math inline">\(x\)</span> 处入射的波可表示为 <span class="math inline">\(R_t(x)+iS_t(x)\)</span>。相应地，向大 <span class="math inline">\(x\)</span> 传播的模为 <span class="math inline">\(R_t(x)-iS_t(x)\)</span>。因此 <span class="math inline">\(R_t(x), S_t(x)\)</span> 表示驻波形式。然而，共振的存在（在图的最左侧）使完全反射或完美驻波解不可能出现。</p>
+<div id="fig-flr-b1z-solutions" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flr-b1z-solutions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/b1z_solutions.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flr-b1z-solutions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;17.5: 当 <span class="math inline">\(x &gt; x_r\)</span> 时 <a href="#eq-flr_bz_perturbation" class="quarto-xref">式&nbsp;<span>17.13</span></a> 的两个独立解。图示的一对解对应 <span class="math inline">\(\lambda^2/\alpha^{4/3}=1\)</span>、<span class="math inline">\(x_t/x_r = 2\)</span> 的情况。虚线是在奇点处解析的解（参见 <a href="#eq-flr_bz_analytic" class="quarto-xref">式&nbsp;<span>17.14</span></a>）。如 <a href="#eq-flr_bz_singular" class="quarto-xref">式&nbsp;<span>17.15</span></a> 所示，实线所示的解在奇点处有限，但导数无穷大。振幅经过选择，使它们在大 <span class="math inline">\(x\)</span> 处振荡解空间相位正交时匹配。
+</figcaption>
+</figure>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode jl code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@sco</span> KeyNotes.<span class="fu">plot_b1z_ode</span>()</span></code></pre></div><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></div>
+<p>可以给出如下直观的物理解释。传播进入磁层的 MHD 波是快模波，例如由磁层顶的等离子体不稳定性产生。波最终到达转折点并发生反射。如果条件有利，即存在共振点，部分快模波能量可以隧穿至共振处，在那里快模扰动耦合为阿尔芬模扰动。共振点 <em>总是</em> 位于转折点之后，但能量会隧穿到共振点，因此反射不是完全的。<a href="#fig-flr-schematic" class="quarto-xref">图&nbsp;<span>17.6</span></a> 示意了这一情形，其中假设反射点或转折点与磁层顶重合。最大耦合点或“共振模耦合”由 <span class="math inline">\(\omega = k_\parallel V_A(x)\)</span> 给出，其中 <span class="math inline">\(\omega\)</span> 是快模波频率，<span class="math inline">\(k_\parallel\)</span> 是快模波矢沿磁场方向的分量，<span class="math inline">\(V_A(x)\)</span> 是局部阿尔芬速度。这也是阿尔芬色散关系。</p>
+<div id="fig-flr-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flr-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/FLR_schematic.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flr-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;17.6: 由不稳定表面波驱动的磁力线共振示意图。
+</figcaption>
+</figure>
+</div>
+<p><a href="#eq-flr_wave_bz" class="quarto-xref">式&nbsp;<span>17.10</span></a> 有着悠久的历史：如 <span class="citation" data-cites="kivelson1986coupling">(<a href="#ref-kivelson1986coupling" role="doc-biblioref">Kivelson 和 Southwood 1986年</a>)</span> 所述，它早在 1951 年就首次出现在无线电波斜入射到电子密度逐渐增大的区域这一问题中。它也出现在计算等离子体对激光能量的吸收，以及通过注入无线电波激发内部阿尔芬波来加热等离子体的问题中。能量在等离子体中对应控制微分方程 <span class="quarto-unresolved-ref">?eq-flr-wave-bz</span> 或其等价方程奇点的位置被吸收。如果不在共振附近引入耗散或色散等额外效应，微分方程中的奇异性意味着阿尔芬波振幅会长期持续增长。</p>
+<p>一些研究（例如 <span class="citation" data-cites="kivelson1986coupling">Wright (<a href="#ref-wright1994" role="doc-biblioref">1994年</a>)</span>）倾向于用等离子体位移 <span class="math inline">\(\pmb{\xi}\)</span> 代替 <span class="math inline">\(\mathbf{u}\)</span>，其中 <span class="math inline">\(\mathbf{u} = \dot{\pmb{\xi}}\)</span>，并用扰动磁场分量 <span class="math inline">\(B_{1z}\)</span> 描述模型： <span id="eq-flr_box_displacement_b1z"><span class="math display">\[
+\begin{aligned}
+\frac{1}{V_A^2}\frac{\partial^2 \xi_x}{\partial t^2} - \frac{\partial \xi_x}{\partial z^2} &amp;= -\frac{1}{B_0}\frac{\partial B_{1z}}{\partial x} \\
+\frac{1}{V_A^2}\frac{\partial^2 \xi_y}{\partial t^2} - \frac{\partial \xi_y}{\partial z^2} &amp;= -\frac{1}{B_0}\frac{\partial B_{1z}}{\partial y} \\
+B_{1z} &amp;= - B_0 \Big( \frac{\partial \xi_x}{\partial x} + \frac{\partial \xi_y}{\partial y} \Big)
+\end{aligned}
+\tag{17.16}\]</span></span></p>
+<p>这组方程等价于 <a href="wave.html#eq-mhd_cold_b_wave" class="quarto-xref">式&nbsp;<span>10.31</span></a>。前两个方程是动量方程的 <span class="math inline">\(x\)</span> 和 <span class="math inline">\(y\)</span> 分量，最后一个方程是磁场平流方程（法拉第定律 + 欧姆定律）。回顾一下，<span class="math inline">\(B_{1z}\)</span> 是环境磁场的压缩扰动，<span class="math inline">\(\xi_y\)</span> 对应于环向阿尔芬扰动 <span class="math inline">\(u_y\)</span>。第二个方程右侧是快模的方位梯度 <span class="math inline">\(\partial B_{1z}/\partial y\)</span>，它驱动方位位移 <span class="math inline">\(\xi_y\)</span> 的响应；左侧是简单谐振子，右侧是驱动项。由于我们寻找 <span class="math inline">\(e^{i(k_y y + k_z z - \omega t)}\)</span> 形式的解，可以看到：</p>
+<ul>
+<li>如果快模的 <span class="math inline">\(k_y=0\)</span>，则没有方位梯度驱动 FLR，因此没有波耦合；</li>
+<li>如果 <span class="math inline">\(k_y \rightarrow \infty\)</span>，则 <span class="math inline">\(\xi_y \rightarrow 0\)</span>，<span class="math inline">\(\xi_x\)</span> 描述一个解耦的极向阿尔芬波。</li>
+<li>如果 <span class="math inline">\(k_y \neq 0\)</span> 或 <span class="math inline">\(\infty\)</span>，各波模相互耦合，最初位于快模中的能量可以通过模转换，在局域磁力线上变为阿尔芬波能量。</li>
+</ul>
+<p><strong>均匀密度和背景磁场</strong></p>
+<p>令 <span class="math inline">\(\rho = \text{const.}\)</span>，<span class="math inline">\(V_A = \text{const.}\)</span>。由 <a href="#eq-flr_box_displacement_b1z" class="quarto-xref">式&nbsp;<span>17.16</span></a>， <span class="math display">\[
+\begin{aligned}
+\ddot{B_{1z}} &amp;= - B_0 \Big( \frac{\partial \ddot{\xi_x}}{\partial x} + \frac{\partial \ddot{\xi_y}}{\partial y} \Big) = V_A^2 \Big( \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} + \frac{\partial^2}{\partial z^2} \Big) B_{1z} \\ &amp;= V_A^2 \nabla^2 B_{1z}
+\end{aligned}
+\]</span></p>
+<p>考虑形式为 <span class="math inline">\(e^{\mathbf{k}\cdot\mathbf{r} - i\omega t}\)</span> 的波导简正模，其中 <span class="math inline">\(\mathbf{k} = (k_x, k_y, k_z)\)</span>。快模的色散关系为 <span id="eq-flr_uniform_fast"><span class="math display">\[
+\omega^2 = V_A^2 (k_x^2 + k_y^2 + k_z^2)
+\tag{17.17}\]</span></span></p>
+<p>在无限介质中，这一关系给出无色散传播。由于我们主要关注沿波导的传播（即沿 <span class="math inline">\(y\)</span> 方向），将 <span class="math inline">\(v_p\)</span> 和 <span class="math inline">\(v_g\)</span> 定义为沿 <span class="math inline">\(\hat{y}\)</span> 的相速度和群速度。利用 <a href="#eq-flr_uniform_fast" class="quarto-xref">式&nbsp;<span>17.17</span></a> 得到 <span class="math display">\[
+\begin{aligned}
+v_p &amp;= \frac{\omega}{k_y} = \frac{k}{k_y}V_A \\
+v_g &amp;= \frac{\partial\omega}{\partial k_y} = \frac{k_y}{k}V_A
+\end{aligned}
+\]</span> 由此得到熟悉的波导关系 <span id="eq-flr_waveguide_relation"><span class="math display">\[
+v_p v_g = V_A^2
+\tag{17.18}\]</span></span></p>
+<p>剪切阿尔芬波沿磁力线方向具有相同的速度（因为等离子体是冷的）。然而，在波导中，<span class="math inline">\(x\)</span> 和 <span class="math inline">\(z\)</span> 方向的边界条件限制了波数的选择并引入色散。假设 <span class="math inline">\(x\)</span> 方向边界完全反射（例如 <span class="math inline">\(\xi_x = \frac{\partial B_{1z}}{\partial y} = 0\)</span>），<span class="math inline">\(z\)</span> 方向边界也完全反射（<span class="math inline">\(\xi_x = \xi_y = B_{1z} = 0\)</span>），后者代表闭合磁力线的电离层边界。那么 <span id="eq-flr_xz_quantized"><span class="math display">\[
+\begin{aligned}
+k_x &amp;= \pm n \pi / a,\, &amp;n = 1,2,3... \\
+k_z &amp;= \pm m \pi / c,\, &amp;m = 1,2,3...
+\end{aligned}
+\tag{17.19}\]</span></span> 其中 <span class="math inline">\(a\)</span> 是盒子在 x 方向的长度，<span class="math inline">\(c\)</span> 是盒子在 z 方向的长度（即磁力线长度）。</p>
+<p>给定 <span class="math inline">\(k_x\)</span> 和 <span class="math inline">\(k_z\)</span>，可以用 <a href="#eq-flr_uniform_fast" class="quarto-xref">式&nbsp;<span>17.17</span></a> 求出 <span class="math inline">\(k_y\)</span> 作为 <span class="math inline">\(\omega\)</span> 的函数， <span class="math display">\[
+k_y^2 = \frac{\omega^2}{V_A^2} - k_x^2 - k_y^2
+\]</span></p>
+<p>如果 <span class="math inline">\(k_y\)</span> 是实数，该模可以沿波导传播。然而，如果认为 <span class="math inline">\(x = x_m = a\)</span> 处的边界不是反射边界，而是受驱动的边界，那么适合沿外边界指定波数 <span class="math inline">\(k_y\)</span>，并在给定 <span class="math inline">\(k_z\)</span> 时求解 <span class="math inline">\(k_x\)</span>。磁层顶受到 Kelvin-Helmholtz 不稳定性驱动时就是这种情况（即 <span class="math inline">\(k_y\)</span> 由表面波给出）；20 世纪 70 年代曾提出它是磁力线共振的驱动源。在这种情况下，求得的 <span class="math inline">\(k_x\)</span> 是虚数，该模在 <span class="math inline">\(x\)</span> 方向消逝（指数衰减）。</p>
+<p><strong>非均匀密度和磁场</strong></p>
+<p>在这种情况下，最简单的假设是 <span class="math inline">\(\rho = \rho(x)\)</span>、<span class="math inline">\(\mathbf{B}_0 = B_0\hat{z}\)</span>，并且阿尔芬速度 <span class="math inline">\(V_A\)</span> 随 <span class="math inline">\(x\)</span> 单调递减，<span class="math inline">\(\partial V_A / \partial x &lt; 0\)</span>。于是再次得到 <a href="#eq-flr_wave_bz" class="quarto-xref">式&nbsp;<span>17.10</span></a>。对给定的 <span class="math inline">\(x\)</span> 方向边界条件求解该方程，得到一组正交本征函数 <span class="math inline">\(B_{1z}(x)\)</span> 和本征频率。</p>
+<p>首先注意，在 <span class="math inline">\(x_r\)</span> 处出现奇点／共振，其中 <span id="eq-flr_resonance_dispersion"><span class="math display">\[
+\omega^2 = k_z^2 V_A^2(x_r)
+\tag{17.20}\]</span></span></p>
+<p>跨过 <span class="math inline">\(x_r\)</span> 时，扰动项将发生 <span class="math inline">\(180^\circ\)</span> 相移（<a href="#eq-flr_polarization" class="quarto-xref">式&nbsp;<span>17.9</span></a>）。在共振点，能量从快模转移至阿尔芬模并被吸收。必须存在耗散，否则阿尔芬波的振幅会长期持续增长。共振磁力线附近的电离层耗散可能是限制共振振幅增长的一个重要过程。</p>
+<p>其次，存在通过 <span class="math inline">\(k_x^2 = 0\)</span> 定义的转折点 <span class="math inline">\(x_t\)</span>（固定 <span class="math inline">\(k_y, k_z, \omega\)</span>）： <span id="eq-flr_turning_dispersion"><span class="math display">\[
+\omega^2 = (k_y^2 + k_z^2)V_A^2(x_t)
+\tag{17.21}\]</span></span></p>
+<p>在 <span class="math inline">\(x_t\)</span> 右侧，正指数表示沿 <span class="math inline">\(x\)</span> 正方向向磁层顶传播的波，负指数表示远离磁层顶传播的波。这类似于不完全驻波解。跨过 <span class="math inline">\(x_t\)</span> 到左侧后，振荡解转变为一个衰减解和一个指数增长解（<a href="math.html#sec-airy" class="quarto-xref"><span>小节 3.12.1</span></a>）。</p>
+<p>如果阿尔芬速度 <span class="math inline">\(V_A\)</span> 随 <span class="math inline">\(x\)</span> 单调递减，由 <a href="#eq-flr_resonance_dispersion" class="quarto-xref">式&nbsp;<span>17.20</span></a> 和 <a href="#eq-flr_turning_dispersion" class="quarto-xref">式&nbsp;<span>17.21</span></a> 总有 <span class="math inline">\(0 &lt; x_r &lt; x_t &lt; x_m\)</span>。在低阿尔芬速度区域 <span class="math inline">\([x_t, x_m]\)</span> 中快模可以传播，而在高阿尔芬速度区域 <span class="math inline">\([0, x_t]\)</span> 中快模是消逝的。因此共振奇点 <span class="math inline">\(x_r\)</span> 位于快模的消逝尾部中。</p>
+<p><a href="#eq-flr_wave_bz" class="quarto-xref">式&nbsp;<span>17.10</span></a> 中的一阶导数项在 <span class="math inline">\(x=x_r\)</span> 附近占主导，但在传播区间 <span class="math inline">\([x_t, x_m]\)</span> 内很小。在 WKB 极限（<a href="math.html#sec-WKB" class="quarto-xref"><span>小节 3.12</span></a>）下尤其如此，此时考虑 <span class="math inline">\(x\)</span> 方向波长较短的波，即二阶导数项远大于一阶导数项。在最低阶 WKB 分析中，可以忽略一阶导数并求解 <span id="eq-flr_wave_bz_wkb"><span class="math display">\[
+\frac{\partial^2 B_{1z}}{\partial x^2} + \Big( \frac{\omega^2}{V_A^2} - k_y^2 - k_z^2 \Big) B_{1z} = 0
+\tag{17.22}\]</span></span> WKB 解的形式为 <span class="math display">\[
+B_{1z}(x) = A k_x^{-1/2} e^{i\int k_x dx} + B k_x^{-1/2}e^{-i\int k_x dx}
+\]</span> 其中 <span class="math inline">\(A\)</span> 和 <span class="math inline">\(B\)</span> 是常数，<span class="math inline">\(k_x\)</span> 是 <a href="#eq-flr_kx_effective" class="quarto-xref">式&nbsp;<span>17.11</span></a> 中定义的“有效”波数，是 <span class="math inline">\(x\)</span> 的显函数。</p>
+<p>准驻波在 <span class="math inline">\(x_t\)</span> 和 <span class="math inline">\(x_m\)</span> 之间必须满足的 Bohr-Sommerfeld 条件（或相位积分条件，<a href="math.html#sec-stokes_application" class="quarto-xref"><span>小节 3.12.4</span></a>）为 <span id="eq-cavity_eigen_wkb"><span class="math display">\[
+\int_{x_t}^{x_m} k_x(x,\omega_n) dx = (n+\alpha)\pi\qquad n = 1,2,3...
+\tag{17.23}\]</span></span> 其中 <span class="math inline">\(x_m = a\)</span> 是 <span class="math inline">\(x\)</span> 方向外边界的位置，相位因子 <span class="math inline">\(\alpha\)</span> 由 <span class="math inline">\(x\)</span> 方向的边界条件确定。对于 <span class="math inline">\(a\)</span> 处的完全反射边界（<span class="math inline">\(\xi_x=0\)</span>）以及小 x 处的消逝衰减，得到 <span class="math inline">\(\alpha = -1/4\)</span>。如果波导中存在共振，它会修正 <span class="math inline">\(\alpha\)</span>；然而，由于共振位于消逝尾部，<span class="math inline">\(\alpha\)</span> 不会发生主导阶变化。</p>
+<p><a href="#eq-cavity_eigen_wkb" class="quarto-xref">式&nbsp;<span>17.23</span></a> 是快模本征频率的积分关系：指定 <span class="math inline">\(k_y\)</span>、<span class="math inline">\(k_z\)</span> 和 <span class="math inline">\(n\)</span>（x 方向的模数），然后找到满足该条件的频率，作为第 n 个本征频率 <span class="math inline">\(\omega_n\)</span>。计算出 <span class="math inline">\(\omega_n\)</span> 后，便可以由 <a href="#eq-flr_resonance_dispersion" class="quarto-xref">式&nbsp;<span>17.20</span></a> 计算受激磁力线的位置 <span class="math inline">\(x_r\)</span>。这些是最容易观测到的离散模。</p>
+<div id="fig-flr-wright" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flr-wright-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/FLR_waveguides_Wright.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flr-wright-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;17.7: 引自 Wright 1992。
+</figcaption>
+</figure>
+</div>
+<div id="fig-flr-samson" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flr-samson-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/FLR_waveguides_Samson.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flr-samson-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;17.8: 引自 <span class="citation" data-cites="samson1992field">(<a href="#ref-samson1992field" role="doc-biblioref">Samson 等 1992年</a>)</span>。
+</figcaption>
+</figure>
+</div>
+<p><strong>受驱动的 FLR、腔体模与波导模的比较</strong></p>
+<p>表面波驱动 FLR 的解释似乎合理。然而，这一假设面临的最大问题是，映射到磁层顶的相速度与原位测量相比过高。此外，尽管 ISEE 1 和 2 多次穿越磁层顶，却没有观测到与 Kelvin-Helmholtz 波对应的磁层顶规则振荡。这两个事实表明，我们应当为驱动源寻找新的解释。</p>
+<p>20 世纪 80 年代，人们提出腔体模和波导模，以消除对受驱动 FLR 的限制。将磁层类比为腔体早于将其类比为波导。在腔体模型中，方位方向 <span class="math inline">\(\phi\)</span> 或盒模型中的 <span class="math inline">\(y\)</span> 方向是有限的，波数 <span class="math inline">\(k_y\)</span> 由给定尺度 <span class="math inline">\(b\)</span> 确定。在轴对称柱坐标 <span class="math inline">\((r,\phi,z)\)</span> 中，其中 <span class="math inline">\(\phi\)</span> 是方位角，<span class="math inline">\(z\)</span> 是沿磁力线的坐标，场具有形式 <span class="math inline">\(\sim e^{im\phi},\, m=0,1,2\)</span>。 这是该理论的弱点，因为磁层远非轴对称，也没有其他明显边界来定义腔体。如果系统类似波导，那么 <span class="math inline">\(k_y\)</span> 可以取连续值，波导允许宽频带传播。</p>
+<p>如果改用波导模型，方位方向（或 <span class="math inline">\(y\)</span> 方向）不施加边界条件。 理论上，连续谱的波模 <span class="math inline">\(k_y\)</span> 可以激发 FLR，离散共振频率由 Bohr-Sommerfeld 条件 <a href="#eq-cavity_eigen_wkb" class="quarto-xref">式&nbsp;<span>17.23</span></a> 确定，其中环向和极向谐波由 <span class="math inline">\(k_z\)</span> 给出。快波导模的离散频谱适合驱动一系列阿尔芬共振；然而，模的连续频谱是否能够驱动离散频率处的共振并不明显。一个使波导模解释更有说服力的关键观察结果是 <em>只有小的 <span class="math inline">\(k_y\)</span> 对共振有贡献</em>。（<span class="citation" data-cites="walker1992spatial">(<a href="#ref-walker1992spatial" role="doc-biblioref">Walker 等 1992年</a>)</span>、[Wright 1992]、<span class="citation" data-cites="wright1994">(<a href="#ref-wright1994" role="doc-biblioref">Wright 1994年</a>)</span>）。如果 <span class="math inline">\(k_y\)</span> 不固定（但 <span class="math inline">\(k_z\)</span> 固定），那么 <a href="#eq-cavity_eigen_wkb" class="quarto-xref">式&nbsp;<span>17.23</span></a> 就是波导的色散关系，将 <span class="math inline">\(\omega\)</span> 表示为 <span class="math inline">\(k_y\)</span> 的函数。阿尔芬速度强烈依赖于 L 壳，典型标度为 <span class="math inline">\(\sim L^{-3}\)</span>。因此，如果转折点 <span class="math inline">\(x_t\)</span> 位于磁层内部足够深的地方，则满足 <span class="math inline">\(\omega^2/V_A^2 \gg k_y^2 + k_z^2\)</span> 的范围对积分 <a href="#eq-cavity_eigen_wkb" class="quarto-xref">式&nbsp;<span>17.23</span></a> 的贡献最大。结果是在很宽的波长范围内，频率对 <span class="math inline">\(k_y\)</span> 非常不敏感。只有当 <span class="math inline">\(k_y\)</span> 相当大时才不是如此，此时转折点接近磁层顶，波不会深入磁层。每个波导模具有相速度 <span class="math inline">\(\omega/k_y\)</span> 和群速度 <span class="math inline">\(\mathrm{d}\omega/dk_y\)</span>。由于 <a href="#eq-cavity_eigen_wkb" class="quarto-xref">式&nbsp;<span>17.23</span></a> 将 <span class="math inline">\(\omega\)</span> 定义为 <span class="math inline">\(k_y\)</span> 的函数，可以将 <a href="#eq-flr_kx_effective" class="quarto-xref">式&nbsp;<span>17.11</span></a> 代入 <a href="#eq-cavity_eigen_wkb" class="quarto-xref">式&nbsp;<span>17.23</span></a> 并对 <span class="math inline">\(k_y\)</span> 求导（假设 <span class="math inline">\(\alpha\)</span> 为常数）： <span class="math display">\[
+\begin{aligned}
+\frac{\partial}{\partial k_y}\int_{x_t}^{x_m}\Big(\frac{\omega^2}{V_A(x)^2}-k_y^2 - k_z^2\Big)^{1/2}dx = 0 \\
+\int_{x_t}^{x_m}\frac{1}{2}k_x^{-1}\Big( \frac{1}{V_A^2}\frac{\partial \omega^2}{\partial k_y} - 2k_y \Big)dx = 0 \\
+\frac{\omega}{k_y}\frac{\partial\omega}{\partial k_y}\int_{x_t}^{x_m}k_x^{-1}V_A^{-2}dx = \int_{x_t}^{x_m} k_x^{-1}dx
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+v_p v_g \equiv \frac{\omega}{k_y}\frac{\mathrm{d}\omega}{dk_y} = \frac{\int_{x_t}^{x_m}k_x^{-1}dx}{\int_{x_t}^{x_m}V_A^{-2}k_x^{-1}dx}
+\]</span></p>
+<p>右侧是以 <span class="math inline">\(k_x^{-1}\)</span> 为权重函数的 <span class="math inline">\(V_A^{-2}\)</span> 加权平均值的倒数。因此可以写为 <span id="eq-flr_waveguide_relation_modified"><span class="math display">\[
+v_p v_g = \left&lt;V_A^{-2}\right&gt;^{-1}
+\tag{17.24}\]</span></span></p>
+<p>在充满阿尔芬速度为 <span class="math inline">\(V_A\)</span> 的等离子体的均匀波导中，可以恢复著名的波导关系 <a href="#eq-flr_waveguide_relation" class="quarto-xref">式&nbsp;<span>17.18</span></a>。在阿尔芬速度并非在整个波导中恒定的更复杂情况下，<a href="#eq-flr_waveguide_relation_modified" class="quarto-xref">式&nbsp;<span>17.24</span></a> 的右侧是适当加权的 <span class="math inline">\(V_A^{-2}\)</span> 平均值。一般而言，相速度 <span class="math inline">\(v_p\)</span> 远大于波导内的平均阿尔芬速度，群速度 <span class="math inline">\(v_g\)</span> 则远小于它。这也与 <span class="math inline">\(\omega\)</span> 对 <span class="math inline">\(k_y\)</span> 的弱依赖、因而 <span class="math inline">\(v_g\)</span> 很小的结果一致。其结果是，即使波导两端开放，能量沿波导传播所需的时间也比振荡周期长。</p>
+<p>因此，波导模型提出了如下解释。太阳风中的扰动沿磁层顶运动，在边界上产生以速度 <span class="math inline">\(v_w\)</span> 向磁尾传播的扰动。通常 <span class="math inline">\(v_w \gg V_A\)</span>。这种扰动很可能激发相速度等于 <span class="math inline">\(v_w\)</span> 的波导模。由于这些模的频率对 <span class="math inline">\(k_y\)</span> 非常不敏感，无论速度如何，都会激发相同的频率（由 <span class="math inline">\(x\)</span> 和 <span class="math inline">\(z\)</span> 方向的本征模确定）。与波一起运动的扰动可以持续向波输入能量。这要求 <span class="math display">\[
+k_y = \frac{\omega}{v_w}
+\]</span> 即，<em>方位波数由源的速度决定，而不是由 <span class="math inline">\(y\)</span> 方向的边界条件决定</em>。 因此，无须依赖腔体模型的共振模，就得到了离散波数值和离散快模频谱。</p>
+<p>这种扰动可能来自不止一种源。如果它来自太阳风中的脉冲，则预期波导响应是在其各模的固有频率上振铃，增长时间尺度为建立该模所需的时间，衰减时间尺度则由向共振泄漏及在电离层或其他地方的损失决定。另一种可能是波导模由 Kelvin-Helmholtz 不稳定性激发。在这种情况下，可以预期所有波导模都会被持续激发，并且只要太阳风速度和磁层顶特性保持不变，就会持续受到驱动。</p>
+</section>
+</section>
+<section id="能量分析" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="能量分析"><span class="header-section-number">17.3</span> 能量分析</h2>
+<p>???</p>
+<p>非导引快模横跨背景磁场带入磁层的能量以导引阿尔芬波的形式积累在共振模耦合平面内（即 <a href="#fig-box-config" class="quarto-xref">图&nbsp;<span>17.3</span></a> 中通过 <span class="math inline">\(x_r\)</span> 的 y–z 平面）。正是非导引模与导引模之间的共振模耦合所造成的这种局域能量积累构成了磁力线共振。这种波能积累可以描述为 <span class="math display">\[
+\frac{\partial w}{\partial t} + \nabla\cdot\mathbf{S} = -h
+\]</span> 其中 <span class="math inline">\(w\)</span> 是波能密度，<span class="math inline">\(\mathbf{S}\)</span> 是 Poynting 通量，<span class="math inline">\(h\)</span> 是耗散项，描述例如电离层焦耳加热造成的能量损失。由于背景参数只沿径向变化，该方程简化为 <span class="math display">\[
+\frac{\partial w}{\partial t} = -\frac{\mathrm{d}}{\mathrm{d}r}S_x - h
+\]</span></p>
+<p>沿径向对耦合区的宽度积分，得到以下速率方程： <span class="math display">\[
+\frac{\partial W}{\partial t} = c_e S_{ng} - S_h^{\text{off}} - H
+\]</span> 其中 <span class="math inline">\(W\)</span> 是耦合过程中积累的单位面积能量，<span class="math inline">\(c_e\)</span> 是耦合效率，<span class="math inline">\(S_{ng}\)</span> 是非导引模的入射 Poynting 通量，<span class="math inline">\(S_g^{\text{off}}\)</span> 是非导引模所耦合到的模的 Poynting 通量“偏离导引方向”分量。加入 <span class="math inline">\(S_g^{\text{off}}\)</span> 项可以考虑耦合到非严格导引模所造成的能量损失。耦合波模具有有限的偏离导引方向分量时，能量积累效率会降低，甚至可能阻止共振建立。如果耦合波的横向尺度变得足够小，使有限离子回旋半径或有限电子惯性变得重要，就可能出现这样的分量。此时耦合模是 <em>动理学阿尔芬模</em>。参数 <span class="math inline">\(c_e\)</span> 表示耦合效率，即非导引模能量中转换为导引模的比例。最后，<span class="math inline">\(H\)</span> 给出沿 <span class="math inline">\(x\)</span> 方向积分的耗散损失。</p>
+<p>现在考察理想 MHD 区域中的速率方程是有启发性的。由于阿尔芬模是严格导引的模，其 Poynting 通量恰好平行于背景磁场。换言之，<span class="math inline">\(S_h^{\text{off}}=0\)</span>，方程变为 <span class="math display">\[
+\frac{\partial W}{\partial t} = c_e S_{\text{fast}}
+\]</span> 其中 <span class="math inline">\(S_{\text{fast}} = S_{ng}\)</span> 是非导引 MHD 模的 Poynting 通量。因此，由于没有向外的能量输运来平衡入射的快模 Poynting 通量，耦合区的能量密度持续增长。不过，电离层焦耳加热提供了显著的耗散机制，H 限制了能量密度。</p>
+<p>共振模耦合只是发生磁力线共振的 <em>必要</em> 条件。<em>充分</em> 条件是与严格导引模发生临界耦合，且耗散缺失到足以使共振获得足够能量的程度。</p>
+</section>
+<section id="sec-flr-nonMHD" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="sec-flr-nonMHD"><span class="header-section-number">17.4</span> 非 MHD 效应</h2>
+<p>如前面各节所示，使用冷流体方法可以简单地理解波吸收的某些特征。在冷等离子体描述中，阿尔芬共振是压缩波方程 <a href="#eq-flr_wave_bz" class="quarto-xref">式&nbsp;<span>17.10</span></a> 的一个奇点。可以通过绕过阿尔芬共振奇点进行解析延拓来求解压缩波方程；此时共振处存在 Poynting 通量损失，波能转换为阿尔芬波。另一种方法是对模转换过程进行动理学描述，其中涉及两个传播模，即压缩波和具有色散的动理学阿尔芬波；二者在共振位置附近耦合，能量从前者转换到后者。如果进一步考虑热等离子体，随着温度升高，<em>多普勒频移</em> 会展宽共振，使耦合区更加延展。因此，计入有限温度和 KAW 中的 <span class="math inline">\(E_\parallel\)</span> 可以消除冷流体模型中的奇点，阿尔芬共振吸收的能量表现为共振附近的电子加热。</p>
+<p>回顾一下，对于背景等离子体参数沿垂直于磁场方向具有一维非均匀性的等离子体，线性化 MHD 方程可以写成关于 <span class="math inline">\(\delta p_1 = B_0\delta B_\parallel + \delta p\)</span> 和 <span class="math inline">\(\delta B_\perp\)</span> 的耦合方程组 <span id="eq-mhd-1d-inhomogeneous-P-Bperp1"><span class="math display">\[
+-i k_\parallel\left( 1-\frac{k_\parallel^2 c_s^2}{\omega^2} \right) \delta p_1 = \left( 1+\frac{c_s^2}{v_A^2}-\frac{k_\parallel^2 c_s^2}{\omega^2} \right) B_0^2 \nabla_\perp\cdot\left( \frac{\delta \mathbf{B}_\perp}{B_0} \right)
+\tag{17.25}\]</span></span> 以及 <span id="eq-mhd-1d-inhomogeneous-P-Bperp2"><span class="math display">\[
+\left( \omega^2 - k_\parallel^2 V_A^2 \right) B_0 \delta\mathbf{B}_\perp = ik_\parallel v_A^2 \nabla_\perp \delta p_1
+\tag{17.26}\]</span></span></p>
+<p>在更高频率的情况下，阿尔芬共振条件 <a href="#eq-flr_resonance_dispersion" class="quarto-xref">式&nbsp;<span>17.20</span></a> 修正为 <span id="eq-alfven-resonance-2fluid"><span class="math display">\[
+\omega^2 = k_\parallel^2 V_A^2(1-\omega^2/\omega_{ci}^2)^2
+\tag{17.27}\]</span></span> 这是由于有限离子拉莫尔半径效应 [Stix, 1992]。</p>
+<p>计入电子惯性或离子拉莫尔半径修正等非 MHD 效应，可以消除阿尔芬共振奇点。<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>利用双流体理论，可以将 <a href="#eq-mhd-1d-inhomogeneous-P-Bperp2" class="quarto-xref">式&nbsp;<span>17.26</span></a> 替换为 <span id="eq-2fluid-1d-inhomogeneous-P-Bperp3"><span class="math display">\[
+\left[ \omega^2(1-\lambda_e^2\nabla_\perp^2) -k_\parallel^2 v_A^2(1-r_{Ls}^2\nabla_\perp^2) \right] B_0\delta B_\perp = ik_\parallel v_A^2\nabla_\perp \delta p_1
+\tag{17.28}\]</span></span> 这包含电子惯性效应，其中 <span class="math inline">\(\lambda_e = c/\omega_{pe}\)</span> 是等离子体趋肤深度或电子惯性长度；也包含 <em>离子声拉莫尔半径尺度</em> <span class="math inline">\(r_{Ls}^2= k_B T_E/m_i\Omega_i^2\)</span> 上的电子压强效应。电子压强与电子惯性效应的相对重要性由 <span class="math inline">\(r_{Ls}/\lambda_e\)</span> 决定：如果 <span class="math inline">\(r_{Ls}/\lambda_e = nk_B T_e/\mu_0 B^2 \sqrt{m_i/m_e} &gt; 1\)</span>，则压强效应占主导，这发生在 <span class="math inline">\(\beta_e / 2 &gt; \sqrt{m_e/m_i} = 0.02\)</span> 时。在磁层顶附近，电子惯性效应通常不重要，除非在 <span class="math inline">\(k_\parallel \rightarrow 0\)</span> 的位置，例如剪切磁场或磁重联几何构型中。</p>
+<p>因此，通常考虑用离子动理学效应消除奇点，最终得到快波与满足色散关系 <a href="wave.html#eq-kaw_dispersion_ion_approxi" class="quarto-xref">式&nbsp;<span>10.81</span></a> 的动理学阿尔芬波之间的耦合。利用动理学理论，<a href="#eq-mhd-1d-inhomogeneous-P-Bperp2" class="quarto-xref">式&nbsp;<span>17.26</span></a> 可以修正为 <span id="eq-kinetic-1d-inhomogeneous-P-Bperp"><span class="math display">\[
+\left[ \omega^2 \hat{K}_1 - k_\parallel^2 v_A^2\left( 1+\frac{T_e}{T_i}\hat{K}_2 \right) \right] B_0\delta B_\perp = ik_\parallel v_A^2\nabla_\perp \delta p_1
+\tag{17.29}\]</span></span> 其中 <span class="math display">\[
+\begin{aligned}
+\hat{K}_1 = ??? \\
+\hat{K}_2 = ???
+\end{aligned}
+\]</span></p>
+<p>可以证明，在某些近似（Padé 近似和 <span class="math inline">\(\zeta_e\ll 1\)</span>）下，<a href="#eq-kinetic-1d-inhomogeneous-P-Bperp" class="quarto-xref">式&nbsp;<span>17.29</span></a> 的左侧变成动理学阿尔芬波： <span id="eq-1d-kaw"><span class="math display">\[
+k_\parallel^2 v_A^2 \left[ 1 + \left(1+\frac{T_e}{T_i}\right)k_\perp^2 r_{iL}^2 \right] = ik_\parallel v_A^2\nabla_\perp \delta p_1
+\tag{17.30}\]</span></span></p>
+<p>当 <span class="math inline">\(\zeta_i = \omega/\sqrt{2}k_\parallel v_{i,th} \sim 1\)</span> 时，离子朗道阻尼可能很重要（从 Bellan 的书中我能感觉到这一点，但究竟是怎样的???）。</p>
+<p>根据冷 MHD 理论，非零方位／y 波数是波耦合的必要条件（<a href="#eq-flr_box_displacement_b1z" class="quarto-xref">式&nbsp;<span>17.16</span></a>）。然而，如 <span class="citation" data-cites="karney1979alfven">(<a href="#ref-karney1979alfven" role="doc-biblioref">1979年</a>)</span> 最初指出的，有限频率效应可以消除 <span class="math inline">\(k_y=0\)</span> 时的解耦。能量吸收率可以表示为 <span class="math inline">\(k_y\)</span> 和 <span class="math inline">\(k_z\)</span> 的函数，因此即使 <span class="math inline">\(k_y=0\)</span>，只要 <span class="math inline">\(k_z l^2 (\omega/\Omega_i)\neq 0\)</span>（<span class="math inline">\(l\)</span> 是与 <span class="math inline">\(\omega, v_A, \Omega_i\)</span> 和 <span class="math inline">\(k_z\)</span> 有关的长度尺度），仍然可以发生能量吸收。</p>
+</section>
+<section id="非线性效应" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="非线性效应"><span class="header-section-number">17.5</span> 非线性效应</h2>
+<p>冷离子理论及其对有限 <span class="math inline">\(k_\perp r_{iL}\)</span> 的扩展预言，泵浦 KAW 可以通过参数不稳定性（<a href="nonlinear.html#sec-parametric" class="quarto-xref"><span>小节 18.4</span></a>）非线性衰变为一个离子声模和一个低边带子 KAW。</p>
+</section>
+<section id="三维-flr" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="三维-flr"><span class="header-section-number">17.6</span> 三维 FLR</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-glassmeier1999" class="csl-entry" role="listitem">
+Glassmeier, Karl-Heinz, Carsten Othmer, Rüdiger Cramm, Martin Stellmacher, 和 Mark Engebretson. 1999年. <span>《Magnetospheric field line resonances: A comparative planetology approach》</span>. <em>Surveys in Geophysics</em> 20 (1): 61～109. <a href="https://doi.org/10.1023/A:1006659717963">https://doi.org/10.1023/A:1006659717963</a>.
+</div>
+<div id="ref-hughes1994" class="csl-entry" role="listitem">
+Hughes, W Jeffrey. 1994年. <span>《Magnetospheric ULF waves: A tutorial with a historical perspective》</span>. <em>Solar wind sources of magnetospheric ultra-low-frequency waves</em> 81: 1～11. <a href="https://doi.org/10.1029/GM081p0001">https://doi.org/10.1029/GM081p0001</a>.
+</div>
+<div id="ref-karney1979alfven" class="csl-entry" role="listitem">
+Karney, CFF, FW Perkins, 和 Y-C Sun. 1979年. <span>《Alfven resonance effects on magnetosonic modes in large tokamaks》</span>. <em>Physical Review Letters</em> 42 (24): 1621. <a href="https://doi.org/10.1103/PhysRevLett.42.1621">https://doi.org/10.1103/PhysRevLett.42.1621</a>.
+</div>
+<div id="ref-kivelson1985resonant" class="csl-entry" role="listitem">
+Kivelson, Margaret G, 和 David J Southwood. 1985年. <span>《Resonant ULF waves: A new interpretation》</span>. <em>Geophysical Research Letters</em> 12 (1): 49～52. <a href="https://doi.org/10.1029/GL012i001p00049">https://doi.org/10.1029/GL012i001p00049</a>.
+</div>
+<div id="ref-kivelson1986coupling" class="csl-entry" role="listitem">
+Kivelson, Margaret G, 和 David J Southwood. 1986年. <span>《Coupling of global magnetospheric MHD eigenmodes to field line resonances》</span>. <em>Journal of Geophysical Research: Space Physics</em> 91 (A4): 4345～51. <a href="https://doi.org/10.1029/JA091iA04p04345">https://doi.org/10.1029/JA091iA04p04345</a>.
+</div>
+<div id="ref-radoski1966" class="csl-entry" role="listitem">
+Radoski, Henry R, 和 Robert L Carovillano. 1966年. <span>《Axisymmetric plasmasphere resonances: Toroidal mode》</span>. <em>The Physics of Fluids</em> 9 (2): 285～91. <a href="https://doi.org/10.1063/1.1761671">https://doi.org/10.1063/1.1761671</a>.
+</div>
+<div id="ref-samson1992field" class="csl-entry" role="listitem">
+Samson, JC, BG Harrold, JM Ruohoniemi, RA Greenwald, 和 ADM Walker. 1992年. <span>《Field line resonances associated with MHD waveguides in the magnetosphere》</span>. <em>Geophysical Research Letters</em> 19 (5): 441～44. <a href="https://doi.org/10.1029/92GL00116">https://doi.org/10.1029/92GL00116</a>.
+</div>
+<div id="ref-southwood1974some" class="csl-entry" role="listitem">
+Southwood, DJ. 1974年. <span>《Some features of field line resonances in the magnetosphere》</span>. <em>Planetary and Space Science</em> 22 (3): 483～91. <a href="https://doi.org/10.1016/0032-0633(74)90078-6">https://doi.org/10.1016/0032-0633(74)90078-6</a>.
+</div>
+<div id="ref-walker1992spatial" class="csl-entry" role="listitem">
+Walker, ADM, Jo M Ruohoniemi, KB Baker, RA Greenwald, 和 JC Samson. 1992年. <span>《Spatial and temporal behavior of ULF pulsations observed by the Goose Bay HF radar》</span>. <em>Journal of Geophysical Research: Space Physics</em> 97 (A8): 12187～202. <a href="https://doi.org/10.1029/92JA00329">https://doi.org/10.1029/92JA00329</a>.
+</div>
+<div id="ref-wright1994" class="csl-entry" role="listitem">
+Wright, Andrew N. 1994年. <span>《Dispersion and wave coupling in inhomogeneous MHD waveguides》</span>. <em>Journal of Geophysical Research: Space Physics</em> 99 (A1): 159～67. <a href="https://doi.org/10.1029/93JA02206">https://doi.org/10.1029/93JA02206</a>.
+</div>
+<div id="ref-zong2017interaction" class="csl-entry" role="listitem">
+Zong, Qiugang, Robert Rankin, 和 Xuzhi Zhou. 2017年. <span>《The interaction of ultra-low-frequency pc3-5 waves with charged particles in Earth’s magnetosphere》</span>. <em>Reviews of Modern Plasma Physics</em> 1: 1～90. <a href="https://doi.org/10.1007/s41614-017-0011-4">https://doi.org/10.1007/s41614-017-0011-4</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>查阅 Lin、Hasegawa、Chen、Johnson 和 Cheng 的论文。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/gyrokinetics.html" class="pagination-link" aria-label="回旋动理学">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/nonlinear.html" class="pagination-link" aria-label="非线性效应">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/flr.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

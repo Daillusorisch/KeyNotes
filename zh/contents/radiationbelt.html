@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>25&nbsp; 辐射带 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/aurora.html" rel="next">
+<link href="../contents/ionosphere.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/radiationbelt.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#辐射带中的波" id="toc-辐射带中的波" class="nav-link active" data-scroll-target="#辐射带中的波"><span class="header-section-number">25.1</span> 辐射带中的波</a>
+  <ul class="collapse">
+  <li><a href="#波的来源" id="toc-波的来源" class="nav-link" data-scroll-target="#波的来源"><span class="header-section-number">25.1.1</span> 波的来源</a></li>
+  </ul></li>
+  <li><a href="#建模" id="toc-建模" class="nav-link" data-scroll-target="#建模"><span class="header-section-number">25.2</span> 建模</a>
+  <ul class="collapse">
+  <li><a href="#耦合不同时间尺度的物理过程" id="toc-耦合不同时间尺度的物理过程" class="nav-link" data-scroll-target="#耦合不同时间尺度的物理过程"><span class="header-section-number">25.2.1</span> 耦合不同时间尺度的物理过程</a></li>
+  </ul></li>
+  <li><a href="#损失" id="toc-损失" class="nav-link" data-scroll-target="#损失"><span class="header-section-number">25.3</span> 损失</a></li>
+  <li><a href="#等离子体层" id="toc-等离子体层" class="nav-link" data-scroll-target="#等离子体层"><span class="header-section-number">25.4</span> 等离子体层</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/radiationbelt.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-radiation_belt" class="quarto-section-identifier"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://en.wikipedia.org/wiki/Van_Allen_radiation_belt">范艾伦辐射带</a>是由行星磁层俘获并束缚在行星周围的高能带电粒子区域，其中大多数粒子来自太阳风。地球具有内辐射带和外辐射带。</p>
+<ol type="1">
+<li>内辐射带</li>
+</ol>
+<ul>
+<li>MeV 质子、100 keV 电子</li>
+<li>0.2 - 2 <span class="math inline">\(R_\text{E}\)</span>（L 1 - 3）</li>
+</ul>
+<ol start="2" type="1">
+<li>外辐射带</li>
+</ol>
+<ul>
+<li>0.1 - 10 MeV 电子</li>
+<li>3 - 10 <span class="math inline">\(R_\text{E}\)</span>（外边界为磁层顶）</li>
+</ul>
+<p>截至 20 世纪 90 年代，我们对其物理机制的认识如下：</p>
+<ol type="1">
+<li>低能电子从太阳风注入磁层。</li>
+<li>电子通过磁重联、亚暴及其伴随的电场向行星输运。</li>
+<li>电子绕行星漂移。</li>
+<li>磁场涨落引起向内或向外的扩散。</li>
+<li>电子因第一绝热不变量守恒而获得能量。</li>
+<li>电子因与大气碰撞、到达磁层顶以及向外径向扩散而损失。</li>
+</ol>
+<p>磁暴期间，磁层顶受到压缩，因此更多电子在磁层顶损失。如果镜点深入大气内部，带电粒子将沉降到大气中，并因碰撞而损失。 由于观测和理论都存在不足，仍有许多未解之谜。例如，经典理论无法解释电子变化（间歇性注入、快速损失）的时间尺度！</p>
+<p>1998 年，出现了两种新理论：</p>
+<ol type="1">
+<li>增强的径向扩散</li>
+</ol>
+<ul>
+<li>太阳风流经磁层，驱动 K-H 不稳定性，进而激发 ULF 波。</li>
+<li>ULF 波激发 FLR（<a href="flr.html" class="quarto-xref"><span>章节 17</span></a>）。</li>
+<li>结果是否是更快的径向扩散过程？</li>
+</ul>
+<ol start="2" type="1">
+<li>波动加速</li>
+</ol>
+<ul>
+<li>亚暴、对流、等离子体不稳定性。</li>
+<li>波将电子加速至 MeV 能量。</li>
+</ul>
+<p>波动加速，更确切地说是波粒相互作用，已得到广泛的理论研究，并与地球、木星和土星的观测数据进行比较。</p>
+<section id="辐射带中的波" class="level2" data-number="25.1">
+<h2 data-number="25.1" class="anchored" data-anchor-id="辐射带中的波"><span class="header-section-number">25.1</span> 辐射带中的波</h2>
+<div id="fig-radiation-belt-waves" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-radiation-belt-waves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs40623-021-01508-y/MediaObjects/40623_2021_1508_Figa_HTML.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-radiation-belt-waves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;25.1: 影响地球辐射带中高能电子的多种波模示意图，从北极上空观察。
+</figcaption>
+</figure>
+</div>
+<ul>
+<li><p>低混杂波：???</p></li>
+<li><p>哨声波（<a href="wave.html#sec-CPDR" class="quarto-xref"><span>小节 10.6</span></a>）</p></li>
+<li><p>合唱波</p>
+<ul>
+<li>1-5 kHz（<span class="math inline">\(0.1-1.0\,f_{ce}\)</span>），清晰的窄带</li>
+<li>高度非线性</li>
+<li>不是由闪电产生，而是由自然等离子体不稳定性产生（嘶声波也是如此）。</li>
+<li>电子各向异性</li>
+<li>损失锥散射</li>
+</ul></li>
+<li><p>嘶声波</p>
+<ul>
+<li>等离子体层中无明显结构的宽带信号，类似于可听见的嘶嘶声</li>
+</ul></li>
+</ul>
+<div id="fig-arase-waves" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arase-waves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://www.eoportal.org/api/cms/documents/163813/3290385/ERG_Auto6.jpeg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arase-waves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;25.2: ERG（Arase）航天器的原位观测。ERG 航天器在磁层中观测到合唱波和被散射的电子，它们是脉动极光的起源。被散射的电子沉降到大气中，导致极光发光。合唱波及相关电子散射的间歇性出现导致极光脉动。
+</figcaption>
+</figure>
+</div>
+<p>在 20 世纪 90 年代之前，人们知道辐射带中的波会从带电粒子获取能量，对粒子而言这是一种损失过程。Richard Thorne 及其同事提出，波也可能是高能粒子的来源（[Horne &amp; Thorne], 1998, 2003, 2005a,b）。如果是这样，<em>波粒相互作用必然破坏绝热不变量</em>。</p>
+<p>波粒相互作用理论从热等离子体动理学理论出发（<a href="kinetic.html#sec-HPDR" class="quarto-xref"><span>小节 12.10.1</span></a>）。当分母趋于 0 时，共振条件得到满足。观测表明波频率低于回旋频率。那么怎么会发生共振呢？答案是需要考虑多普勒频移。</p>
+<section id="波的来源" class="level3" data-number="25.1.1">
+<h3 data-number="25.1.1" class="anchored" data-anchor-id="波的来源"><span class="header-section-number">25.1.1</span> 波的来源</h3>
+<p>共振可以产生电流 =&gt; 这一电流能产生更高频率的辐射吗？</p>
+<p>哨声波可以用线性理论解释。然而，合唱波和嘶声波高度非线性，因此无法用线性理论解释。我们推测它们由自然等离子体不稳定性引起，但对这些不稳定性究竟是什么仍知之甚少。</p>
+<p>粗略地说，回旋共振期间的物理图景如下：</p>
+<ol type="1">
+<li>波将源电子扩散进入损失锥 =&gt; 电子损失和波增长。</li>
+<li>波使俘获电子扩散 =&gt; 能量扩散导致电子加速。</li>
+</ol>
+</section>
+</section>
+<section id="建模" class="level2" data-number="25.2">
+<h2 data-number="25.2" class="anchored" data-anchor-id="建模"><span class="header-section-number">25.2</span> 建模</h2>
+<p>人们已经建立了三维 Fokker-Planck 扩散模型<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>（例如 <span class="citation" data-cites="glauert2014three">(<a href="#ref-glauert2014three" role="doc-biblioref">Glauert 等 2014年</a>)</span>）来模拟辐射带电子。在地球辐射带中，经过相位平均的相空间密度 <span class="math inline">\(f(p,r,t)\)</span> 的演化可由扩散方程描述（另见 <a href="kinetic.html#eq-fokker_planck" class="quarto-xref">式&nbsp;<span>12.19</span></a>）： <span id="eq-fokker_planck_general"><span class="math display">\[
+\frac{\partial f}{\partial t} = \sum_{i,j}\frac{\partial}{\partial J_i}\left[ D_{ij}\frac{\partial f}{\partial J_j} \right]
+\tag{25.1}\]</span></span></p>
+<p>这里 <span class="math inline">\(D_{ij}\)</span> 是扩散系数，<span class="math inline">\(J_i\)</span> 是作用积分，<span class="math inline">\(J_1 = 2\pi m_e \mu/|q|\)</span>、<span class="math inline">\(J_2 = J\)</span> 和 <span class="math inline">\(J_3 = q|\phi|\)</span>，其中 <span class="math inline">\(\mu,J\)</span> 和 <span class="math inline">\(\phi\)</span> 是带电粒子运动的绝热不变量，<span class="math inline">\(m_e\)</span> 是电子质量，<span class="math inline">\(q\)</span> 是电荷。绝热不变量不便于可视化，也不易与数据联系起来，因此许多作者将其变换到其他坐标。一种选择是使用俯仰角、能量和 <span class="math inline">\(L^\ast=2\pi M/(|\phi| R_\text{E})\)</span>（<a href="single.html#eq-Lstar" class="quarto-xref">式&nbsp;<span>7.48</span></a>）作为三个独立变量，其中 <span class="math inline">\(M=8.22\times 10^{22}\, \text{A}\,\text{m}^2\)</span> 是地球偶极场的磁矩，<span class="math inline">\(R_\text{E}\)</span> 是地球半径。</p>
+<p>假设磁场为偶极场，将坐标变换为赤道俯仰角 <span class="math inline">\(\alpha\)</span>、动能 <span class="math inline">\(E\)</span> 和 <span class="math inline">\(L^\ast\)</span>，并忽略某些交叉导数，<a href="kinetic.html#eq-fokker_planck" class="quarto-xref">式&nbsp;<span>12.19</span></a> 可写为 <span id="eq-fokker_planck_convenient"><span class="math display">\[
+\begin{aligned}
+\frac{\partial f}{\partial t} =&amp; \frac{1}{g(\alpha)}\frac{\partial}{\partial \alpha}\bigg\rvert_{E,L} g(\alpha)\left( D_{\alpha\alpha}\frac{\partial f}{\partial\alpha}\bigg\rvert_{E,L} + D_{\alpha E}\frac{\partial f}{\partial E}\bigg\rvert_{\alpha,L} \right) \\
+&amp;+ \frac{1}{A(E)}\frac{\partial}{\partial E}\bigg\rvert_{\alpha,L} A(E) \left( D_{EE}\frac{\partial f}{\partial E}\bigg\rvert_{\alpha,L} + D_{E\alpha}\frac{\partial f}{\partial \alpha}\bigg\rvert_{E,L} \right) \\
+&amp;+ L^2 \frac{\partial}{\partial L}\bigg\rvert_{\mu,J}\left( \frac{D_{LL}}{L^2}\frac{\partial f}{\partial L}\bigg\rvert_{\mu,J} \right)
+\end{aligned}
+\tag{25.2}\]</span></span> 其中 <span class="math display">\[
+\begin{aligned}
+g(\alpha) = T(\alpha)\sin 2\alpha \\
+A(E) = (E+E_0)(E(E+2E_0))^{1/2}
+\end{aligned}
+\]</span> 而 <span class="math inline">\(E_0\)</span> 是电子静止质量能。<span class="math inline">\(T(\alpha)\)</span> 与弹跳周期有关，在偶极场中可近似为 <span class="math display">\[
+T(\alpha) = \big(1.3802 - 0.3198(\sin\alpha + \sin^{1/2} \alpha) \big)
+\]</span></p>
+<p><span class="math inline">\(D_{\alpha\alpha},\, D_{\alpha E}=D_{E\alpha},\, D_{EE}\)</span> 和 <span class="math inline">\(D_{LL}\)</span> 分别是经过_漂移平均_和_弹跳平均_的俯仰角扩散系数、俯仰角与能量混合扩散系数、能量扩散系数和径向扩散系数。当需要明确说明它们经过漂移和弹跳平均时，分别写作 <span class="math inline">\(\left&lt; D_{\alpha\alpha} \right&gt;^d, \left&lt; D_{\alpha E} \right&gt;^d, \left&lt; D_{EE} \right&gt;^d\)</span> 和 <span class="math inline">\(\left&lt; D_{LL} \right&gt;^d\)</span>。</p>
+<p>弹跳平均的俯仰角和能量扩散率定义为 <span class="math display">\[
+\begin{aligned}
+\left&lt; D_{\alpha\alpha} \right&gt; &amp;\equiv \left&lt; \frac{(\Delta\alpha)^2}{2\Delta t} \right&gt; \\
+\left&lt; D_{\alpha E} \right&gt; &amp;\equiv \left&lt; \frac{(\Delta\alpha \Delta E)^2}{2\Delta t} \right&gt; \\
+\left&lt; D_{EE} \right&gt; &amp;\equiv \left&lt; \frac{(\Delta E)^2}{2\Delta t} \right&gt;
+\end{aligned}
+\]</span> 其单位分别为 <span class="math inline">\(\text{s}^{-1}, \text{J}\text{s}^{-1}\)</span> 和 <span class="math inline">\(\text{J}^2\text{s}^{-1}\)</span>。</p>
+<p>可以加入形式为 <span class="math inline">\(f/\tau_L\)</span> 的损失项，以表示因碰撞而向大气的损失。这里，损失时间尺度 <span class="math inline">\(\tau_L\)</span> 在损失锥内等于弹跳时间的 1/4，在其他位置为无穷大。作为一级近似，可以忽略交叉项，将 <a href="#eq-fokker_planck_convenient" class="quarto-xref">式&nbsp;<span>25.2</span></a> 简化为 <span id="eq-fokker_planck_nocrossterm"><span class="math display">\[
+\begin{aligned}
+\frac{\partial f}{\partial t} =&amp; \frac{1}{g(\alpha)}\frac{\partial}{\partial \alpha}\bigg\rvert_{E,L} g(\alpha)\left( D_{\alpha\alpha}\frac{\partial f}{\partial\alpha}\bigg\rvert_{E,L}\right) \\
+&amp;+ \frac{1}{A(E)}\frac{\partial}{\partial E}\bigg\rvert_{\alpha,L} A(E) \left( D_{EE}\frac{\partial f}{\partial E}\bigg\rvert_{\alpha,L}\right) \\
+&amp;+ L^2 \frac{\partial}{\partial L}\bigg\rvert_{\mu,J}\left( \frac{D_{LL}}{L^2}\frac{\partial f}{\partial L}\bigg\rvert_{\mu,J} \right) \\
+&amp;- \frac{f}{\tau_L}
+\end{aligned}
+\tag{25.3}\]</span></span></p>
+<p>右侧前三项分别表示俯仰角扩散、能量扩散和径向扩散。最后一项描述向大气的损失。俯仰角扩散来自波粒相互作用及与大气的库仑碰撞，后者仅在损失锥内显著。能量扩散由波粒相互作用引起，径向扩散则由与地球磁场和电场大尺度涨落的相互作用引起。扩散系数基于从数据中得到的统计波模型。根据扩散系数的选取，Fokker-Planck 方程可以是线性、准线性或非线性的。</p>
+<p>为了进一步简化，我们只考虑径向扩散和损失项。 准线性假设如下：</p>
+<ul>
+<li>宽带波谱（相位随机），通常假设为以单个主导模式为中心的高斯分布</li>
+<li>低振幅涨落（没有非线性相互作用）</li>
+<li>“共振极限”（不稳定性的线性增长率趋于 0）</li>
+<li>ULF 波粒相互作用被合并到扩散系数中</li>
+</ul>
+<p>即使准线性理论适用，径向扩散系数仍有多种不确定性的来源：</p>
+<ul>
+<li>背景磁场模型</li>
+<li>弹跳和漂移平均消除了对磁地方时（MLT）的依赖</li>
+<li>波的方位向结构（即功率在不同模数上的分布）</li>
+</ul>
+<p>鉴于观测数据有限，我们希望估计未知参数 <span class="math inline">\(D_{LL}, \tau_L\)</span>。这称为_反问题_。2000 年，Brautigam 和 Albert 提出了径向扩散系数对 <span class="math inline">\(K_p\)</span> 和 L 的依赖关系： <span class="math display">\[
+D_{LL} \approx 10^{-0.506 K_p(t) - 9.325}L^10
+\]</span></p>
+<p>标准的统计方法是应用贝叶斯参数估计，即寻找参数分布，并根据新的观测修正结果。然而，这种方法在高维情况下难以应用，通常需要采用马尔可夫链蒙特卡洛（MCMC）方法。例如，假设参数可以写成以下形式： <span class="math display">\[
+\begin{aligned}
+D_{LL}(L, t) &amp;= 10^(a K_p(t) + b)L^c \\
+\tau_L(L, t) &amp;= \left\{
+\begin{array}{lr}
+(a_0 + a_1 L + a_2 L^2) / K_p(t) &amp; \text{当 } L\le L_{pp} \\ a_3 / K_p(t) &amp; \text{当 } L &gt; L_{pp}
+\end{array}
+\right.
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(L_{pp}\)</span> 是等离子体层顶的位置，可以通过某些近似进行估计。我们引入一组随机变量，这些变量经 MCMC 得到的后验分布给出最佳拟合。</p>
+<p>一个新趋势是<a href="https://youtu.be/5C913ApaxUY">利用物理信息机器学习来学习系数</a>。首先，可能需要约束系数的形式，以避免反问题不适定。假设物理损失项由漂移系数 <span class="math inline">\(C\)</span> 描述： <span class="math display">\[
+\frac{\partial f}{\partial t} = L^2 \frac{\partial}{\partial L}\bigg\rvert_{\mu,J}\left( \frac{D_{LL}}{L^2}\frac{\partial f}{\partial L}\bigg\rvert_{\mu,J} \right) - \frac{\partial Cf}{\partial L}
+\]</span></p>
+<p><em>物理信息神经网络</em>（PINN）的任务是将方程的预期形式嵌入神经网络的损失项，基于统计推断出最优的 <span class="math inline">\(D_{LL}\)</span> 和 <span class="math inline">\(C\)</span>。由于这是统计方法，我们可以构建和检验变量之间任何没有物理解释的关系，这一点受到很多批评。例如，有人可能会问，怎么能让相空间分布 <span class="math inline">\(f\)</span> 只依赖于 <span class="math inline">\(t\)</span> 和 <span class="math inline">\(L\)</span>？从物理角度看，信息并不完整；但从数据角度看，它可能确实“有效”，因为神经网络本质上是一种_通用高维函数逼近器_。</p>
+<section id="耦合不同时间尺度的物理过程" class="level3" data-number="25.2.1">
+<h3 data-number="25.2.1" class="anchored" data-anchor-id="耦合不同时间尺度的物理过程"><span class="header-section-number">25.2.1</span> 耦合不同时间尺度的物理过程</h3>
+<p>如果只考察低频范围，高频波粒相互作用对等离子体表现为扩散过程。因此，耦合的思路是在宏观尺度上用扩散系数模拟辐射带效应，而不是在相同时间尺度上模拟所有过程。</p>
+</section>
+</section>
+<section id="损失" class="level2" data-number="25.3">
+<h2 data-number="25.3" class="anchored" data-anchor-id="损失"><span class="header-section-number">25.3</span> 损失</h2>
+<p>对电子加速机制的定量理解仍然不足，主要是由于缺乏对损失机制的理解。</p>
+<ul>
+<li>弹跳损失锥</li>
+<li>漂移损失锥</li>
+</ul>
+</section>
+<section id="等离子体层" class="level2" data-number="25.4">
+<h2 data-number="25.4" class="anchored" data-anchor-id="等离子体层"><span class="header-section-number">25.4</span> 等离子体层</h2>
+<p>等离子体层是地球磁层内一个包含_高密度、低温_等离子体的区域。它位于磁层最内侧，从地表上方约 1,000 千米延伸到 60,000 千米。等离子体层由地球磁场形成，磁场将带电粒子俘获在该区域，在地球周围形成一个环面状结构。</p>
+<div id="fig-plasmasphere" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plasmasphere-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://www.nasa.gov/sites/default/files/images/470173main_magnetosphere2_full.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plasmasphere-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;25.3: 等离子体层和辐射带构成内磁层。
+</figcaption>
+</figure>
+</div>
+<p>等离子体层中的等离子体主要由离子和电子组成，其温度远低于、密度远高于磁层其他区域的等离子体。</p>
+<ul>
+<li><span class="math inline">\(T \in [10^3, 10^4]\,\mathrm{K}\)</span></li>
+<li><span class="math inline">\(N \in [10^1, 10^2]\,\mathrm{cm}^{-3}\)</span></li>
+</ul>
+<p>等离子体层在地球磁层的动力学及其与太阳风的相互作用中发挥重要作用。它能够影响无线电波的传播，特别是用于通信和导航的无线电波，也可能有助于北极光和南极光的形成。</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-glauert2014three" class="csl-entry" role="listitem">
+Glauert, Sarah A, Richard B Horne, 和 Nigel P Meredith. 2014年. <span>《Three-dimensional electron radiation belt simulations using the BAS Radiation Belt Model with new diffusion models for chorus, plasmaspheric hiss, and lightning-generated whistlers》</span>. <em>Journal of Geophysical Research: Space Physics</em> 119 (1): 268～89. <a href="https://doi.org/10.1002/2013JA019281">https://doi.org/10.1002/2013JA019281</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Fokker-Planck 方程的一般形式还包括平流项；由于漂移与扩散相比可以忽略，这里忽略该项。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/ionosphere.html" class="pagination-link" aria-label="电离层">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/aurora.html" class="pagination-link" aria-label="极光">
+        <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/radiationbelt.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>

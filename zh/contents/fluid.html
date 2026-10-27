@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; 作为流体的等离子体 – 等离子体物理笔记</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/diffres.html" rel="next">
+<link href="../contents/single.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d53496bf52050e7fcc534778dffabd89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a9199681efa584071f275371100a1fa0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../language-switch.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../contents/fluid.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">等离子体物理笔记</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/henry2004y/KeyNotes/tree/master/zh/" title="源代码" class="quarto-navigation-tool px-1" aria-label="源代码"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="切换深色模式"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="搜索"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">关于</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">绪论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">数学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/theoretical_mechanics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">理论力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/relativity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">相对论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/unit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">单位换算</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/single.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/fluid.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diffres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/wave.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">波动</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/emhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">电子磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kinetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">动力学理论</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">稳定性</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/reconnection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">磁重联</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/kmhd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">动理学磁流体力学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gyrokinetics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">回旋动理学</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/flr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">磁力线共振</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">非线性效应</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/turbulence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">湍流</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/geometry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">几何</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/solarwind.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">太阳风</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/shock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">激波</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/magnetosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">磁层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ionosphere.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">电离层</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/radiationbelt.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">辐射带</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/aurora.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">极光</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/gc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">导引中心</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">宇宙射线</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/boundary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">边界条件</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/pic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">粒子网格法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/hybrid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">混合方法</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">色散关系</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/raytracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">射线追踪</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">测试</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/inductance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">电感</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/capacitance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">电容</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">附录</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">参考文献</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#定义" id="toc-定义" class="nav-link active" data-scroll-target="#定义"><span class="header-section-number">8.1</span> 定义</a></li>
+  <li><a href="#等离子体与普通电磁学的关系" id="toc-等离子体与普通电磁学的关系" class="nav-link" data-scroll-target="#等离子体与普通电磁学的关系"><span class="header-section-number">8.2</span> 等离子体与普通电磁学的关系</a>
+  <ul class="collapse">
+  <li><a href="#麦克斯韦方程" id="toc-麦克斯韦方程" class="nav-link" data-scroll-target="#麦克斯韦方程"><span class="header-section-number">8.2.1</span> 麦克斯韦方程</a></li>
+  <li><a href="#磁性材料的经典处理" id="toc-磁性材料的经典处理" class="nav-link" data-scroll-target="#磁性材料的经典处理"><span class="header-section-number">8.2.2</span> 磁性材料的经典处理</a></li>
+  <li><a href="#电介质的经典处理" id="toc-电介质的经典处理" class="nav-link" data-scroll-target="#电介质的经典处理"><span class="header-section-number">8.2.3</span> 电介质的经典处理</a></li>
+  <li><a href="#等离子体的介电常数" id="toc-等离子体的介电常数" class="nav-link" data-scroll-target="#等离子体的介电常数"><span class="header-section-number">8.2.4</span> 等离子体的介电常数</a></li>
+  </ul></li>
+  <li><a href="#流体方程" id="toc-流体方程" class="nav-link" data-scroll-target="#流体方程"><span class="header-section-number">8.3</span> 流体方程</a>
+  <ul class="collapse">
+  <li><a href="#连续性方程" id="toc-连续性方程" class="nav-link" data-scroll-target="#连续性方程"><span class="header-section-number">8.3.1</span> 连续性方程</a></li>
+  <li><a href="#动量方程" id="toc-动量方程" class="nav-link" data-scroll-target="#动量方程"><span class="header-section-number">8.3.2</span> 动量方程</a></li>
+  <li><a href="#状态方程" id="toc-状态方程" class="nav-link" data-scroll-target="#状态方程"><span class="header-section-number">8.3.3</span> 状态方程</a></li>
+  </ul></li>
+  <li><a href="#sec-2fluid" id="toc-sec-2fluid" class="nav-link" data-scroll-target="#sec-2fluid"><span class="header-section-number">8.4</span> 双流体模型</a>
+  <ul class="collapse">
+  <li><a href="#五矩" id="toc-五矩" class="nav-link" data-scroll-target="#五矩"><span class="header-section-number">8.4.1</span> 五矩</a></li>
+  <li><a href="#六矩" id="toc-六矩" class="nav-link" data-scroll-target="#六矩"><span class="header-section-number">8.4.2</span> 六矩</a></li>
+  <li><a href="#五矩十矩" id="toc-五矩十矩" class="nav-link" data-scroll-target="#五矩十矩"><span class="header-section-number">8.4.3</span> 五矩／十矩</a></li>
+  <li><a href="#特征波速" id="toc-特征波速" class="nav-link" data-scroll-target="#特征波速"><span class="header-section-number">8.4.4</span> 特征波速</a></li>
+  </ul></li>
+  <li><a href="#广义欧姆定律" id="toc-广义欧姆定律" class="nav-link" data-scroll-target="#广义欧姆定律"><span class="header-section-number">8.5</span> 广义欧姆定律</a>
+  <ul class="collapse">
+  <li><a href="#基本定义和假设" id="toc-基本定义和假设" class="nav-link" data-scroll-target="#基本定义和假设"><span class="header-section-number">8.5.1</span> 基本定义和假设</a></li>
+  <li><a href="#各种粒子的运动方程" id="toc-各种粒子的运动方程" class="nav-link" data-scroll-target="#各种粒子的运动方程"><span class="header-section-number">8.5.2</span> 各种粒子的运动方程</a></li>
+  <li><a href="#前提" id="toc-前提" class="nav-link" data-scroll-target="#前提"><span class="header-section-number">8.5.3</span> 前提</a></li>
+  <li><a href="#推导" id="toc-推导" class="nav-link" data-scroll-target="#推导"><span class="header-section-number">8.5.4</span> 推导</a></li>
+  <li><a href="#广义欧姆定律的简化" id="toc-广义欧姆定律的简化" class="nav-link" data-scroll-target="#广义欧姆定律的简化"><span class="header-section-number">8.5.5</span> 广义欧姆定律的简化</a></li>
+  <li><a href="#讨论" id="toc-讨论" class="nav-link" data-scroll-target="#讨论"><span class="header-section-number">8.5.6</span> 讨论</a></li>
+  <li><a href="#多离子系统中的欧姆定律" id="toc-多离子系统中的欧姆定律" class="nav-link" data-scroll-target="#多离子系统中的欧姆定律"><span class="header-section-number">8.5.7</span> 多离子系统中的欧姆定律</a></li>
+  </ul></li>
+  <li><a href="#sec-mhd" id="toc-sec-mhd" class="nav-link" data-scroll-target="#sec-mhd"><span class="header-section-number">8.6</span> 磁流体力学</a>
+  <ul class="collapse">
+  <li><a href="#sec-mhd-ohm" id="toc-sec-mhd-ohm" class="nav-link" data-scroll-target="#sec-mhd-ohm"><span class="header-section-number">8.6.1</span> 磁流体力学欧姆定律</a></li>
+  <li><a href="#理想磁流体力学" id="toc-理想磁流体力学" class="nav-link" data-scroll-target="#理想磁流体力学"><span class="header-section-number">8.6.2</span> 理想磁流体力学</a></li>
+  <li><a href="#霍尔磁流体力学" id="toc-霍尔磁流体力学" class="nav-link" data-scroll-target="#霍尔磁流体力学"><span class="header-section-number">8.6.3</span> 霍尔磁流体力学</a></li>
+  </ul></li>
+  <li><a href="#sec-fluid-drift-perp" id="toc-sec-fluid-drift-perp" class="nav-link" data-scroll-target="#sec-fluid-drift-perp"><span class="header-section-number">8.7</span> 垂直于 B 的流体漂移</a></li>
+  <li><a href="#平行于-b-的流体漂移" id="toc-平行于-b-的流体漂移" class="nav-link" data-scroll-target="#平行于-b-的流体漂移"><span class="header-section-number">8.8</span> 平行于 B 的流体漂移</a></li>
+  <li><a href="#sec-plasma_approximation" id="toc-sec-plasma_approximation" class="nav-link" data-scroll-target="#sec-plasma_approximation"><span class="header-section-number">8.9</span> 等离子体近似</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/fluid.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-fluid" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">作为流体的等离子体</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>等离子体中的情况比单粒子轨道复杂得多；<span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 场并非预先给定，而是由电荷自身的位置和运动决定。我们必须求解一个自洽问题：找到一组粒子轨道和场分布，使得粒子沿这些轨道运动时产生这些场，而这些场又使粒子沿着恰好相同的轨道运动。而且这一切都必须在随时间变化的情况下完成。听起来很困难，但实际上并非如此。</p>
+<p>我们已经看到，典型的等离子体密度可能为每 <span class="math inline">\(\text{m}^3\)</span> 有 <span class="math inline">\(10^{18}\)</span> 对离子–电子。如果每个粒子都沿复杂轨道运动，而且必须逐一追踪，那么预测等离子体行为将毫无希望。幸运的是，通常不必这样做，因为令人惊讶的是，真实实验中观察到的大多数等离子体现象——或许多达 80%——可以用一个相当粗略的模型解释。这就是流体力学中使用的模型：忽略单个粒子的身份，只考虑流体元的运动。当然，在等离子体中，流体含有电荷。在普通流体中，粒子之间频繁的碰撞使流体元中的粒子一起运动。这样的模型竟然适用于通常碰撞并不频繁的等离子体，令人惊讶。但我们将看到这是有原因的。</p>
+<p>更精细的处理方法——等离子体动力学理论——需要更多数学计算。动力学理论的介绍见 <a href="kinetic.html" class="quarto-xref"><span>章节 12</span></a>。</p>
+<p>在某些等离子体问题中，流体理论和动力学理论都不足以描述等离子体的行为。此时只能回到逐一追踪粒子轨道的繁琐过程。在即使动力学理论也远不能解释观察结果的情况下，穷举式计算机模拟可以在弥合理论与实验之间的差距方面发挥重要作用。</p>
+<section id="定义" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="定义"><span class="header-section-number">8.1</span> 定义</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>变量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(m_s\)</span></td>
+<td>质量</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(q_s\)</span></td>
+<td>电荷</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(n_s\)</span></td>
+<td>数密度</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\rho_s\)</span></td>
+<td>质量密度</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\sigma_s, \rho^\ast\)</span></td>
+<td>电荷密度（<span class="math inline">\(=n_s q_s\)</span>）</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(T_s\)</span></td>
+<td>温度</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(p_s\)</span></td>
+<td>标量压力</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathbf{u}_s\)</span></td>
+<td>流动速度</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mathbf{J}_s\)</span></td>
+<td>电流密度（<span class="math inline">\(=\rho_s^\ast \mathbf{u}_s\)</span>）</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(e_s\)</span></td>
+<td>总能量密度（<span class="math inline">\(=\frac{\rho_s\mathbf{u_s}^2}{2} + \frac{p_s}{\gamma - 1}\)</span>）</td>
+</tr>
+</tbody>
+</table>
+<p>其中 <span class="math inline">\(s\)</span> 表示粒子种类（例如 <span class="math inline">\(\text{H}^+, \text{O}^+\)</span>）。不要将这里的 <span class="math inline">\(\sigma\)</span> 与电导率混淆。于是，不带下标的总量可写为 <span class="math display">\[
+\begin{aligned}
+&amp;n=\sum_s{n_s} \\
+&amp;\rho=\sum_{s}\rho_s=\sum_{s}{m_s n_s} \\
+&amp;p=\sum_s{p_s} \\
+&amp;T=\sum_s{\frac{n_s}{n}T_s} \\
+&amp;\mathbf{u}=\frac{1}{\rho}\sum_s \rho_s \mathbf{u}_s \\
+&amp;\mathbf{v}_s=\mathbf{u}_s -\mathbf{u},\quad \text{第 } s^{th} \text{ 种粒子的相对速度} \\
+&amp;\sigma = \sum_s{\sigma_s}=\sum_s{q_s n_s} \\
+&amp;\mathbf{J}=\sum_s{\mathbf{J}_s}=\sum_s{\sigma_s \mathbf{u}_s}=\sum_s{\sigma_s}\mathbf{v}_s+\mathbf{u}\sum_s{\sigma_s}=\sum_s{\sigma_s \mathbf{v}_s}+\sigma\mathbf{u}=\mathbf{J}_{cd}+ \mathbf{J}_{cv} \\
+&amp;\quad \text{其中 } \mathbf{J}_{cd}=\sum_s{\sigma_s}\mathbf{v}_s \text{ 是传导电流密度} \\
+&amp;\quad \quad \quad \quad\mathbf{J}_{cv}=\sigma \mathbf{u} \text{ 是对流电流密度} \\
+&amp;e=\frac{1}{\rho}\sum_s{\rho_s e_s} + e_f =\frac{\rho u^2}{2} + \frac{p}{\gamma - 1} + e_f \text{（动能 + 内能 + 场能）}
+\end{aligned}
+\]</span></p>
+<p>其中 <span class="math inline">\(\mathbf{v}_s\)</span> 是第 <span class="math inline">\(s\)</span> 种粒子的相对速度，<span class="math inline">\(\mathbf{J}_{cd}\)</span> 是传导电流密度，<span class="math inline">\(\mathbf{J}_{cv}\)</span> 是对流电流密度，最后一式依次包含动能、内能和场能。</p>
+<p>容易验证 <span class="math display">\[
+\sum_s{\rho_s\mathbf{v}_s}=0
+\]</span></p>
+<p>在本笔记中，我们尽量用 <span class="math inline">\(\mathbf{v}\)</span> 表示各粒子种类或单个粒子的速度，用 <span class="math inline">\(\mathbf{u}\)</span> 表示整体流动速度。</p>
+<p>每种粒子有 5 个独立未知量：<span class="math inline">\(n_j, \mathbf{u}_j, p_j\)</span>。压力可以用温度 <span class="math inline">\(T_j\)</span> 代替。此外，还有 6 个电磁场量：<span class="math inline">\(\mathbf{B}, \mathbf{E}\)</span>。对于由离子和电子组成的双流体描述，总共有 <span class="math inline">\(5*2+6=16\)</span> 个未知量，因此需要 16 个方程来确定系统。</p>
+</section>
+<section id="等离子体与普通电磁学的关系" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="等离子体与普通电磁学的关系"><span class="header-section-number">8.2</span> 等离子体与普通电磁学的关系</h2>
+<section id="麦克斯韦方程" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="麦克斯韦方程"><span class="header-section-number">8.2.1</span> 麦克斯韦方程</h3>
+<p>在真空中： <span id="eq-maxwell_vacuum"><span class="math display">\[
+\begin{aligned}
+\epsilon_0 \nabla\cdot\mathbf{E} &amp;= \sigma \\
+\nabla\times\mathbf{E} &amp;= -\dot{\mathbf{B}} \\
+\nabla\cdot\mathbf{B} &amp;= 0 \\
+\nabla\times\mathbf{B} &amp;= \mu_0 (\mathbf{J}+\epsilon_0\dot{\mathbf{E}})
+\end{aligned}
+\tag{8.1}\]</span></span></p>
+<p>在介质中： <span id="eq-maxwell_medium"><span class="math display">\[
+\begin{aligned}
+\nabla\cdot\mathbf{D} &amp;= \sigma \\
+\nabla\times\mathbf{E} &amp;= -\dot{\mathbf{B}} \\
+\nabla\cdot\mathbf{B} &amp;= 0 \\
+\nabla\times\mathbf{H} &amp;= \mathbf{J}+\dot{\mathbf{D}} \\
+\mathbf{D} &amp;= \epsilon\mathbf{E} \\
+\mathbf{B} &amp;= \mu\mathbf{H}
+\end{aligned}
+\tag{8.2}\]</span></span></p>
+<p><span class="math inline">\(\sigma\)</span> 和 <span class="math inline">\(\mathbf{J}\)</span> 表示“自由”电荷密度和电流密度。介质的极化和磁化所产生的“束缚”电荷密度和电流密度，已包含在通过 <span class="math inline">\(\epsilon\)</span> 和 <span class="math inline">\(\mu\)</span> 定义的 <span class="math inline">\(\mathbf{D}\)</span> 和 <span class="math inline">\(\mathbf{H}\)</span> 中。在等离子体中，构成等离子体的离子和电子相当于“束缚”电荷和电流。由于这些电荷的运动很复杂，试图将其影响归入 <span class="math inline">\(\epsilon\)</span> 和 <span class="math inline">\(\mu\)</span> 两个常数并不实际。因此，在等离子体物理中通常使用真空方程，其中 <span class="math inline">\(\sigma\)</span> 和 <span class="math inline">\(\mathbf{J}\)</span> 包含外部和内部的_全部_电荷及电流。</p>
+<p>注意，在真空方程中我们使用了 <span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span>，而非与其通过常数 <span class="math inline">\(\epsilon_0\)</span> 和 <span class="math inline">\(\mu_0\)</span> 关联的对应量 <span class="math inline">\(\mathbf{D}\)</span> 和 <span class="math inline">\(\mathbf{H}\)</span>。这是因为力 <span class="math inline">\(q\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{J}\times\mathbf{B}\)</span> 取决于 <span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span>，而非 <span class="math inline">\(\mathbf{D}\)</span> 和 <span class="math inline">\(\mathbf{H}\)</span>；只要处理真空方程，就没有必要引入后两个量。</p>
+</section>
+<section id="磁性材料的经典处理" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="磁性材料的经典处理"><span class="header-section-number">8.2.2</span> 磁性材料的经典处理</h3>
+<p>由于每个回旋粒子都有磁矩，合乎逻辑的做法似乎是将等离子体视为磁导率为 <span class="math inline">\(\mu_m\)</span> 的磁性材料。<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 为了了解实践中为什么_不_这样做，先回顾通常如何处理磁性材料。</p>
+<p>例如，一块铁的铁磁畴具有磁矩 <span class="math inline">\(\mu_i\)</span>，产生单位体积的整体磁化强度 <span class="math display">\[
+\mathbf{M} = \frac{1}{V}\sum_i\mu_i
+\]</span> 它的作用相当于束缚电流密度 <span class="math display">\[
+\mathbf{J}_b = \nabla\times\mathbf{M}
+\]</span></p>
+<p>在真空安培定律中，<span class="math inline">\(\mathbf{J}\)</span> 必须包括这一电流和“自由”电流，即外加电流 <span class="math inline">\(\mathbf{J}_f\)</span>： <span class="math display">\[
+\mu_0^{-1}\nabla\times\mathbf{B} = \mathbf{J}_f + \mathbf{J}_b + \epsilon_0 \dot{\mathbf{E}}
+\]</span></p>
+<p>我们希望通过将 <span class="math inline">\(\mathbf{J}_b\)</span> 包含在 <span class="math inline">\(\mathbf{H}\)</span> 的定义中，把方程写成简单形式 <span class="math display">\[
+\nabla\times\mathbf{H} = \mathbf{J}_f + \epsilon_0\dot{\mathbf{E}}
+\]</span> 为此可令 <span class="math display">\[
+\mathbf{H} = \mu_0^{-1}\mathbf{B} - \mathbf{M}
+\]</span></p>
+<p>为了得到 <span class="math inline">\(\mathbf{B}\)</span> 与 <span class="math inline">\(\mathbf{H}\)</span> 之间的简单关系，假设 <span class="math inline">\(\mathbf{M}\)</span> 与 <span class="math inline">\(\mathbf{B}\)</span> 或 <span class="math inline">\(\mathbf{H}\)</span> 成正比： <span class="math display">\[
+\mathbf{M} = \chi_m \mathbf{H}
+\]</span></p>
+<p>常数 <span class="math inline">\(\chi_m\)</span> 是磁化率。于是有 <span class="math display">\[
+\mathbf{B} = \mu_0(1+\chi_m)\mathbf{H} \equiv \mu_m \mathbf{H}
+\]</span></p>
+<p>由于 <span class="math inline">\(\mathbf{M}\)</span> 与 <span class="math inline">\(\mathbf{H}\)</span> 之间存在线性关系，才可能得到 <span class="math inline">\(\mathbf{B}\)</span> 与 <span class="math inline">\(\mathbf{H}\)</span> 之间的这种简单关系。</p>
+<p>在有磁场的等离子体中，每个粒子都具有磁矩 <span class="math inline">\(\mu_\alpha\)</span>，而 <span class="math inline">\(\mathbf{M}\)</span> 是 1 <span class="math inline">\(\text{m}^3\)</span> 内所有这些 <span class="math inline">\(\mu_\alpha\)</span> 的和。但此时有 <span class="math display">\[
+\mu_\alpha = \frac{mv_{\perp\alpha}^2}{2B}\propto \frac{1}{B}\quad \mathbf{M}\propto \frac{1}{B}
+\]</span></p>
+<p><span class="math inline">\(\mathbf{M}\)</span> 与 <span class="math inline">\(\mathbf{H}\)</span>（或 <span class="math inline">\(\mathbf{B}\)</span>）的关系不再是线性的，我们不能以常数 <span class="math inline">\(\mu_m\)</span> 写出 <span class="math inline">\(\mathbf{B} = \mu_m\mathbf{H}\)</span>。因此，将等离子体视为磁性介质并无用处。</p>
+</section>
+<section id="电介质的经典处理" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="电介质的经典处理"><span class="header-section-number">8.2.3</span> 电介质的经典处理</h3>
+<p>单位体积的极化强度 <span class="math inline">\(\mathbf{P}\)</span> 是各个电偶极子的偶极矩 <span class="math inline">\(\mathbf{p}_i\)</span> 之和。它产生束缚电荷密度 <span id="eq-bound_charge_polarization"><span class="math display">\[
+\sigma_b = -\nabla\cdot\mathbf{P}
+\tag{8.3}\]</span></span></p>
+<p>在真空方程中，必须同时计入束缚电荷和自由电荷： <span class="math display">\[
+\epsilon_0\nabla\cdot\mathbf{E} = \sigma_f + \sigma_b
+\]</span></p>
+<p>我们希望通过将 <span class="math inline">\(\sigma_b\)</span> 包含在 <span class="math inline">\(\mathbf{D}\)</span> 的定义中，把方程写成简单形式 <span class="math display">\[
+\nabla\cdot\mathbf{D} = \sigma_f
+\]</span> 为此可令 <span class="math display">\[
+\mathbf{D} = \epsilon_0\mathbf{E} + \mathbf{P} \equiv \epsilon \mathbf{E}
+\]</span></p>
+<p>如果 <span class="math inline">\(\mathbf{P}\)</span> 与 <span class="math inline">\(\mathbf{E}\)</span> 线性正比， <span class="math display">\[
+\mathbf{P} = \epsilon_0 \chi_e\mathbf{E}
+\]</span> 那么 <span class="math inline">\(\epsilon\)</span> 是常数，由下式给出： <span class="math display">\[
+\epsilon = (1+\chi_e)\epsilon_0
+\]</span></p>
+<p>没有先验理由认为上述关系不能在等离子体中成立，因此可以尝试求出等离子体中 <span class="math inline">\(\epsilon\)</span> 的表达式。</p>
+</section>
+<section id="等离子体的介电常数" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="等离子体的介电常数"><span class="header-section-number">8.2.4</span> 等离子体的介电常数</h3>
+<p>我们在 <a href="single.html#sec-time-varying_E" class="quarto-xref"><span>小节 7.4</span></a> 中看到，波动的 <span class="math inline">\(\mathbf{E}\)</span> 场会产生极化电流 <span class="math inline">\(\mathbf{J}_p\)</span>。由连续性方程，这又会产生极化电荷： <span class="math display">\[
+\frac{\partial \sigma_p}{\partial t} + \nabla\cdot\mathbf{J}_p = 0
+\]</span></p>
+<p>这相当于 <a href="#eq-bound_charge_polarization" class="quarto-xref">式&nbsp;<span>8.3</span></a>，不过如前所述，只有电场随时间变化时，等离子体中才会出现极化效应。由于我们有 <span class="math inline">\(\mathbf{J}_p\)</span> 的显式表达式，却没有 <span class="math inline">\(\sigma_p\)</span> 的显式表达式，使用安培定律更方便： <span class="math display">\[
+\nabla\times\mathbf{B} = \mu_0(\mathbf{J}_f +\mathbf{J}_p + \epsilon\dot{\mathbf{E}})
+\]</span></p>
+<p>我们希望把它写成 <span class="math display">\[
+\nabla\times\mathbf{B} = \mu_0(\mathbf{J}_f + \epsilon\dot{\mathbf{E}})
+\]</span></p>
+<p>为此可令 <span class="math display">\[
+\epsilon = \epsilon_0 + \frac{j_p}{\dot{E}}
+\]</span></p>
+<p>由 <span class="math inline">\(\mathbf{J}_p\)</span> 的 <a href="single.html#eq-polarization_current" class="quarto-xref">式&nbsp;<span>7.12</span></a>，得到 <span id="eq-dielectric_constant_low-frequency"><span class="math display">\[
+\epsilon = \epsilon_0 + \frac{\rho}{B^2}\quad \text{或}\quad \epsilon_R\equiv \frac{\epsilon}{\epsilon_0} = 1+\frac{\mu_0\rho c^2}{B^2}
+\tag{8.4}\]</span></span></p>
+<p>这就是_横向运动的低频等离子体介电常数_。这些限定是必要的，因为我们的 <span class="math inline">\(\mathbf{J}_p\)</span> 表达式只适用于 <span class="math inline">\(\omega^2\ll\omega_c^2\)</span> 且 <span class="math inline">\(\mathbf{E}\)</span> 垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的情况。当然，<span class="math inline">\(\epsilon\)</span> 的一般表达式非常复杂，几乎一页纸都写不下。</p>
+<p>注意，当 <span class="math inline">\(\rho\rightarrow 0\)</span> 时，<span class="math inline">\(\epsilon_R\)</span> 趋于其真空值 1，正如它应该的那样。当 <span class="math inline">\(B\rightarrow\infty\)</span> 时，<span class="math inline">\(\epsilon_R\)</span> 也趋于 1。这是因为此时极化漂移 <span class="math inline">\(\mathbf{v}_p\)</span> 消失，粒子不会响应横向电场而运动。在普通实验室等离子体中，<a href="#eq-dielectric_constant_low-frequency" class="quarto-xref">式&nbsp;<span>8.4</span></a> 的第二项远大于 1。例如，如果 <span class="math inline">\(n=10^{16}\,\text{m}^{-3}\)</span> 且 <span class="math inline">\(B=0.1\,\text{T}\)</span>，对于氢有 <span class="math display">\[
+\frac{\mu_0\rho c^2}{B^2} = \frac{(4\pi\times 10^{-7})(10^{16})(1.67\times 10^{-27})(3\times 10^8)^2}{(0.1)^2} = 189
+\]</span></p>
+<p>这意味着等离子体中粒子产生的电场会大幅改变外加场。具有较大 <span class="math inline">\(\epsilon\)</span> 的等离子体会屏蔽交变场，正如具有较小 <span class="math inline">\(\lambda_D\)</span> 的等离子体会屏蔽直流场一样。</p>
+</section>
+</section>
+<section id="流体方程" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="流体方程"><span class="header-section-number">8.3</span> 流体方程</h2>
+<p>在 <span class="citation" data-cites="chen2016introduction">(<a href="#ref-chen2016introduction" role="doc-biblioref">Chen 2016年</a>)</span> 中，这部分是在关于扩散的第 5.7 章介绍的，这有点奇怪。在 <span class="citation" data-cites="bellan2008fundamentals">(<a href="#ref-bellan2008fundamentals" role="doc-biblioref">Bellan 2008年</a>)</span> 中，这部分是在第 2 章介绍的：先推导弗拉索夫方程，再进行简化，得到双流体和磁流体力学模型。</p>
+<section id="连续性方程" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="连续性方程"><span class="header-section-number">8.3.1</span> 连续性方程</h3>
+<p>每种粒子的质量守恒积分形式为 <span class="math display">\[
+\frac{\mathrm{d}}{\mathrm{d}t}\int_V \rho_s dx^3=0
+\]</span></p>
+<p>物质守恒要求体积 V 中的粒子总数 <span class="math inline">\(N_s\)</span> 只能在粒子穿过该体积边界表面 S 存在净通量时发生变化。由于粒子通量密度为 <span class="math inline">\(n_s\mathbf{u}_s\)</span>，根据散度定理有 <span class="math display">\[
+\frac{\partial N_s}{\partial t} = \int_V\frac{\partial n_s}{\partial t}dV = -\oint n\mathbf{u}_s\cdot \mathrm{d}\mathbf{S} = - \int_V \nabla\cdot(n_s\mathbf{u}_s)dV
+\]</span></p>
+<p>由于这对任意体积 V 都必须成立，被积函数必定相等： <span id="eq-continuity-species"><span class="math display">\[
+\frac{\partial n_s}{\partial t} + \nabla\cdot(n_s\mathbf{u}_s) = 0
+\tag{8.5}\]</span></span></p>
+<p>每种粒子都有一个这样的_连续性方程_。粒子的源或汇应加在右侧。</p>
+</section>
+<section id="动量方程" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="动量方程"><span class="header-section-number">8.3.2</span> 动量方程</h3>
+<p>麦克斯韦方程告诉我们，对于给定的等离子体状态，<span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 是什么。为了求解自洽问题，我们还需要一个给出等离子体对给定 <span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 响应的方程。在流体近似中，我们认为等离子体由两种或更多种相互贯穿的流体组成，每种粒子对应一种流体。在最简单的情况，即只有一种离子时，需要两个运动方程：一个对应带正电的离子流体，另一个对应带负电的电子流体。在部分电离的气体中，还需要一个中性原子流体的方程。中性流体仅通过碰撞与离子和电子相互作用。离子和电子流体由于各自产生的 <span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 场，即使没有碰撞也会相互作用。</p>
+<p>单个粒子的运动方程为 <span id="eq-single_motion"><span class="math display">\[
+m\frac{\mathrm{d}\mathbf{v}}{\mathrm{d}t} = q(\mathbf{E}+\mathbf{v}\times\mathbf{B})
+\tag{8.6}\]</span></span></p>
+<p>首先假设没有碰撞和热运动。于是流体元中的所有粒子一起运动，粒子的平均速度 <span class="math inline">\(\mathbf{u}\)</span> 与单个粒子的速度 <span class="math inline">\(\mathbf{v}\)</span> 相同。只需将 <a href="#eq-single_motion" class="quarto-xref">式&nbsp;<span>8.6</span></a> 乘以密度 <span class="math inline">\(n\)</span>，即可得到流体方程： <span id="eq-single_fluid1"><span class="math display">\[
+mn\frac{\mathrm{d}\mathbf{u}}{\mathrm{d}t} = qn(\mathbf{E}+\mathbf{u}\times\mathbf{B})
+\tag{8.7}\]</span></span></p>
+<p>然而，这种形式使用起来并不方便。在 <a href="#eq-single_motion" class="quarto-xref">式&nbsp;<span>8.6</span></a> 中，时间导数是在_粒子的位置_求取的。另一方面，我们希望得到针对_空间中固定位置_的流体元的方程，因为否则处理起来不切实际。考虑一杯咖啡中的一滴奶油，将其视为流体元。搅拌咖啡时，这滴奶油变形成细丝，最终散布到整杯咖啡中，失去自身的形态。然而，杯中固定位置的流体元虽然不断有粒子进出，却保持其位置上的身份。</p>
+<p>为了变换到固定参考系中的变量，考虑一维 x 空间中流体的任意性质 <span class="math inline">\(\mathbf{G}(x,t)\)</span>。<span class="math inline">\(\mathbf{G}\)</span> 在_随流体运动的参考系中_随时间的变化是两项之和： <span class="math display">\[
+\frac{\mathrm{d}\mathbf{G}(x,t)}{\mathrm{d}t} = \frac{\partial \mathbf{G}}{\partial t} + \frac{\partial \mathbf{G}}{\partial x}\frac{\partial x}{\partial t} = \frac{\partial \mathbf{G}}{\partial t} + u_x\frac{\partial \mathbf{G}}{\partial x}
+\]</span></p>
+<p>右侧第一项表示空间中固定点处 <span class="math inline">\(\mathbf{G}\)</span> 的变化，第二项表示观察者随流体进入 <span class="math inline">\(\mathbf{G}\)</span> 不同的区域时所看到的变化。在三维中，这推广为 <span class="math display">\[
+\frac{\mathrm{d}\mathbf{G}}{\mathrm{d}t} = \frac{\partial \mathbf{G}}{\partial t} + (\mathbf{u}\cdot\nabla)\mathbf{G}
+\]</span></p>
+<p>这称为_对流导数_（<a href="math.html#eq-convective-derivative" class="quarto-xref">式&nbsp;<span>3.2</span></a>）。</p>
+<p>对于等离子体，取 <span class="math inline">\(\mathbf{G}\)</span> 为流体速度 <span class="math inline">\(\mathbf{u}\)</span>，将 <a href="#eq-single_fluid1" class="quarto-xref">式&nbsp;<span>8.7</span></a> 写为 <span class="math display">\[
+mn\Big[\frac{\partial\mathbf{u}}{\partial t} + (\mathbf{u}\cdot\nabla)\mathbf{u}\Big] = qn(\mathbf{E}+\mathbf{u}\times\mathbf{B})
+\]</span></p>
+<p>其中 <span class="math inline">\(\partial\mathbf{u}/\partial t\)</span> 是固定参考系中的时间导数。</p>
+<p><strong>应力张量</strong> –&gt; 标量压力</p>
+<p><span id="eq-single_fluid2"><span class="math display">\[
+mn\Big[\frac{\partial\mathbf{u}}{\partial t} + (\mathbf{u}\cdot\nabla)\mathbf{u}\Big] = qn(\mathbf{E}+\mathbf{u}\times\mathbf{B}) - \nabla p
+\tag{8.8}\]</span></span></p>
+<p>这里所展示的只是一个特例：通过 x 方向的运动传递 x 方向的动量；我们假设流体各向同性，因此相同的结果适用于 y 和 z 方向。但例如也可以通过 x 方向的运动传递 y 方向的动量。这种剪切应力不能用标量 <span class="math inline">\(p\)</span> 表示，而必须用张量 <span class="math inline">\(\mathbf{P}\)</span>，即应力张量表示；其分量 <span class="math inline">\(P_{ij}= mn\overline{v_i v_j}\)</span> 同时指定运动方向和所涉及的动量分量。一般情况下，<span class="math inline">\(\nabla p\)</span> 项由 <span class="math inline">\(-\nabla\cdot\mathbf{P}\)</span> 代替。</p>
+<p>当分布函数为各向同性的麦克斯韦分布时，<span class="math inline">\(\mathbf{P}\)</span> 写为 <span class="math display">\[
+\mathbf{P} = \begin{pmatrix}p &amp; 0 &amp; 0 \\ 0 &amp; p &amp; 0 \\ 0 &amp; 0 &amp; p\end{pmatrix}
+\]</span></p>
+<p><span class="math inline">\(-\nabla\cdot\mathbf{P} = \nabla p\)</span>。在磁场存在时，等离子体可以有两个温度 <span class="math inline">\(T_\perp\)</span> 和 <span class="math inline">\(T_\parallel\)</span>。在这种情况下，存在两个压力 <span class="math inline">\(T_\perp\)</span> 和 <span class="math inline">\(T_\parallel\)</span>。此时会有两个压力 <span class="math inline">\(p_\perp = nk_B T_\perp\)</span> 和 <span class="math inline">\(p_\parallel = nk_B T_\parallel\)</span>。应力张量于是为 <span class="math display">\[
+\mathbf{P} = \begin{pmatrix}p_\perp &amp; 0 &amp; 0 \\ 0 &amp; p_\perp &amp; 0 \\ 0 &amp; 0 &amp; p_\parallel\end{pmatrix}
+\]</span></p>
+<p>其中第三行或第三列的坐标方向是 <span class="math inline">\(\mathbf{B}\)</span> 的方向。这仍是对角张量，表明在垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的平面内各向同性。</p>
+<p>在普通流体中，<span class="math inline">\(\mathbf{P}\)</span> 的非对角分量通常与黏性有关。粒子发生碰撞后，其平均速度方向与最后一次碰撞地点的流体速度 <span class="math inline">\(\mathbf{u}\)</span> 方向一致。这一动量在下一次碰撞时传递给另一个流体元。这倾向于使不同位置的 <span class="math inline">\(\mathbf{u}\)</span> 相等，由此产生的对剪切流动的阻力就是我们直观理解的黏性。平均自由程越长，动量传递得越远，黏性也越大。在等离子体中，即使没有碰撞，也会出现类似效应。粒子（特别是离子）的拉莫尔回旋使它们进入等离子体的不同区域，并倾向于使这些区域的流体速度相等。拉莫尔半径而非平均自由程决定了这种无碰撞黏性的尺度。它是一种_有限拉莫尔半径效应_，除碰撞黏性之外还会出现，并与非均匀 <span class="math inline">\(\mathbf{E}\)</span> 场中的 <span class="math inline">\(\mathbf{v}_E\)</span> 漂移密切相关（<a href="single.html#eq-vE" class="quarto-xref">式&nbsp;<span>7.11</span></a>）。</p>
+<section id="碰撞" class="level4" data-number="8.3.2.1">
+<h4 data-number="8.3.2.1" class="anchored" data-anchor-id="碰撞"><span class="header-section-number">8.3.2.1</span> 碰撞</h4>
+<p>如果存在中性气体，带电流体将通过碰撞与之交换动量。每次碰撞损失的动量与相对速度 <span class="math inline">\(\mathbf{u}-\mathbf{u}_0\)</span> 成正比，其中 <span class="math inline">\(\mathbf{u}_0\)</span> 是中性流体速度。如果平均碰撞间隔时间 <span class="math inline">\(\tau\)</span> 近似为常数，产生的力项可以粗略写为 <span class="math inline">\(-mn(\mathbf{u}-\mathbf{u}_0)/\tau\)</span>。运动方程可以推广为包含各向异性压力和中性粒子碰撞： <span id="eq-momentum_single"><span class="math display">\[
+mn\Big[\frac{\partial\mathbf{u}}{\partial t} + (\mathbf{u}\cdot\nabla)\mathbf{u}\Big] = qn(\mathbf{E}+\mathbf{u}\times\mathbf{B}) - \nabla\cdot\overleftrightarrow{P} - \frac{mn(\mathbf{u}-\mathbf{u}_0)}{\tau}
+\tag{8.9}\]</span></span></p>
+<p>它也可以写为（包括压力项和其他力） <span class="math display">\[
+\rho\frac{\mathrm{d}\mathbf{u}}{\mathrm{d}t}=(\rho^\ast \mathbf{E}+\mathbf{J}\times\mathbf{B})-\nabla\cdot\overleftrightarrow{P}+\mathbf{f}_n
+\]</span></p>
+<p>或者写为等价的守恒形式： <span class="math display">\[
+\frac{\partial (\rho\mathbf{u})}{\partial t}+\nabla\cdot(\rho\mathbf{u}\mathbf{u})=(\rho^\ast \mathbf{E}+\mathbf{J}\times\mathbf{B})-\nabla\cdot\overleftrightarrow{P}+\mathbf{f}_n
+\]</span></p>
+<p>这里尚未计入带电粒子之间的碰撞；将在 sec-collision 中讨论，添加该节！</p>
+</section>
+<section id="与普通流体力学的比较" class="level4" data-number="8.3.2.2">
+<h4 data-number="8.3.2.2" class="anchored" data-anchor-id="与普通流体力学的比较"><span class="header-section-number">8.3.2.2</span> 与普通流体力学的比较</h4>
+<p>普通流体遵循纳维–斯托克斯方程</p>
+<p><span id="eq-navier_stokes"><span class="math display">\[
+\rho\Big[ \frac{\partial\mathbf{u}}{\partial t} + (\mathbf{u}\cdot\nabla)\mathbf{u} \Big] = -\nabla p + \rho\nu\nabla^2\mathbf{u}
+\tag{8.10}\]</span></span></p>
+<p>除了没有电磁力和不同粒子种类之间的碰撞（因为只有一种粒子）之外，这与 <a href="#eq-momentum_single" class="quarto-xref">式&nbsp;<span>8.9</span></a> 相同。黏性项 <span class="math inline">\(\rho\nu\nabla^2\mathbf{u}\)</span> 中，<span class="math inline">\(\nu\)</span> 是运动黏性系数；在没有磁场时，该项正是 <span class="math inline">\(\nabla\cdot\overleftrightarrow{P} - \nabla p\)</span> 的碰撞部分。</p>
+<p><a href="#eq-navier_stokes" class="quarto-xref">式&nbsp;<span>8.10</span></a> 描述粒子间频繁碰撞的流体。另一方面，推导 <a href="#eq-momentum_single" class="quarto-xref">式&nbsp;<span>8.9</span></a> 时没有对碰撞率作出任何明确说明。既然这两个方程除 <span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 项外相同，<a href="#eq-momentum_single" class="quarto-xref">式&nbsp;<span>8.9</span></a> 真的可以描述一种等离子体粒子吗？答案是有条件的肯定，原因也会告诉我们流体理论的局限。这一点极需澄清——仍有相当多的人认为流体理论假定了碰撞，因此不相信磁流体力学可以用来描述等离子体。</p>
+<p>在推导 <a href="#eq-momentum_single" class="quarto-xref">式&nbsp;<span>8.9</span></a> 时，我们实际上隐含地假设了存在大量碰撞。这个假设出现在应力张量的推导中（<a href="kinetic.html#sec-kinetic-fluid-moments" class="quarto-xref"><span>小节 12.4</span></a>），当时我们将速度分布取为麦克斯韦分布。这种分布一般由频繁碰撞产生。然而，这个假设仅用于对 <span class="math inline">\(v^2\)</span> 取平均。任何具有相同平均值的其他分布都会给出相同答案。因此，流体理论对偏离麦克斯韦分布并不十分敏感，但在某些情况下这些偏离很重要，此时必须使用动力学理论。</p>
+<p>Irving Langmuir 的一项经验观察也支持流体理论。在使用以他的名字命名的静电探针时，Langmuir 发现电子分布函数比碰撞率所能解释的情况更接近麦克斯韦分布。这一现象称为_朗缪尔佯谬_，有时被归因于高频振荡。这一佯谬尚无令人满意的解决方法，但它似乎是等离子体物理中自然条件对我们有利的少数例子之一。</p>
+<p>流体模型适用于等离子体的另一个原因是，磁场如果存在，在某种意义上可以起到碰撞的作用。当粒子受到例如 <span class="math inline">\(\mathbf{E}\)</span> 场的加速时，如果允许其自由流动，它的速度会不断增加。碰撞频繁时，粒子达到与 <span class="math inline">\(\mathbf{E}\)</span> 成正比的极限速度。例如，铜导线中的电子以速度 <span class="math inline">\(\mathbf{v}=\mu\mathbf{E}\)</span> 一起漂移，其中 <span class="math inline">\(\mu\)</span> 是迁移率。磁场也通过迫使粒子沿拉莫尔轨道回旋来限制自由流动。等离子体中的电子也以与 <span class="math inline">\(\mathbf{E}\)</span> 成正比的速度一起漂移，即 <span class="math inline">\(\mathbf{v}_E=\mathbf{E}\times\mathbf{B}/B^2\)</span>。在这个意义上，无碰撞等离子体的行为类似于有碰撞流体。当然，粒子确实可以_沿_磁场自由流动，而流体图像并不特别适合描述该方向的运动。<em>对于垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的运动，流体理论是很好的近似</em>。</p>
+</section>
+</section>
+<section id="状态方程" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="状态方程"><span class="header-section-number">8.3.3</span> 状态方程</h3>
+<p>还需要一个关系来闭合方程组。完整的描述需要能量方程。然而，最简单的方法是使用联系 <span class="math inline">\(p\)</span> 和 <span class="math inline">\(n\)</span> 的热力学状态方程： <span id="eq-eos_adiabatic"><span class="math display">\[
+p = C\rho^\gamma
+\tag{8.11}\]</span></span></p>
+<p>其中 <span class="math inline">\(C\)</span> 是常数，<span class="math inline">\(\gamma\)</span> 是比热比 <span class="math inline">\(C_p/C_\nu\)</span>。因此 <span class="math inline">\(\nabla p\)</span> 项由下式给出： <span id="eq-eos_nabla_p"><span class="math display">\[
+\frac{\nabla p}{p} = \gamma \frac{\nabla n}{n}
+\tag{8.12}\]</span></span></p>
+<p>对于等温压缩，有 <span class="math display">\[
+\nabla p = \nabla(nk_B T) = k_B T\nabla n
+\]</span></p>
+<p>因此显然 <span class="math inline">\(\gamma=1\)</span>。对于绝热压缩，<span class="math inline">\(k_B T\)</span> 也会变化，使 <span class="math inline">\(\gamma\)</span> 的值大于 1。如果 <span class="math inline">\(N\)</span> 是自由度数，<span class="math inline">\(\gamma\)</span> 由下式给出： <span class="math display">\[
+\gamma = (2+N)/N
+\]</span></p>
+<p>状态方程的有效性要求热流可以忽略，即热导率低。同样，这一条件在垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的方向上比平行方向更容易成立。幸运的是，大多数基本现象都可以通过状态方程的粗略假设得到充分描述。</p>
+</section>
+</section>
+<section id="sec-2fluid" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="sec-2fluid"><span class="header-section-number">8.4</span> 双流体模型</h2>
+<p>除了弗拉索夫理论（<a href="kinetic.html" class="quarto-xref"><span>章节 12</span></a>），我们还可以使用更简单但同样强大的双流体模型，其中电子和离子被视为两种不同的流体。根据压力项的形式，可以得到五矩、六矩或十矩方程。</p>
+<section id="五矩" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="五矩"><span class="header-section-number">8.4.1</span> 五矩</h3>
+<p>五矩指 <span class="math inline">\((\rho, \mathbf{u}, p)\)</span>。在绝热或等温假设下，可以不使用压力或能量方程，而用状态方程取代。为简单起见，令等离子体只有两种粒子：离子和电子；推广到更多种粒子很简单。此时电荷密度和电流密度为 <span class="math display">\[
+\begin{aligned}
+\sigma &amp;= n_i q_i + n_e q_e \\
+\mathbf{J} &amp;= n_i q_i \mathbf{v}_i + n_e q_e \mathbf{v}_e
+\end{aligned}
+\]</span></p>
+<p>我们将忽略碰撞和黏性。完整方程组为： <span id="eq-fluid_set"><span class="math display">\[
+\begin{aligned}
+\epsilon_0\nabla\cdot\mathbf{E} = n_i q_i + n_e q_e \\
+\nabla\times\mathbf{E} = -\dot{\mathbf{B}} \\
+\nabla\cdot\mathbf{B} = 0 \\
+\mu_0^{-1}\nabla\times\mathbf{B} = n_i q_i \mathbf{u}_i + n_e q_e \mathbf{u}_e + \epsilon_0\dot{\mathbf{E}} \\
+m_jn_j\Big[ \frac{\partial\mathbf{u}_j}{\partial t}+(\mathbf{u}_j\cdot\nabla)\mathbf{u}_j\Big] = q_j n_j (\mathbf{E}+\mathbf{u}_j\times\mathbf{B}) - \nabla p_j\quad j=i,e \\
+\frac{\partial n_j}{\partial t} + \nabla\cdot(n_j\mathbf{u}_j) = 0\quad j=i,e \\
+p_j = C_j n_j^\gamma\quad j=i,e
+\end{aligned}
+\tag{8.13}\]</span></span> 其中 <span class="math inline">\(C_j\)</span> 是常数，<span class="math inline">\(\gamma\)</span> 是绝热指数，所用近似见 <span class="quarto-unresolved-ref">?tbl-eos-approx</span>。</p>
+<table class="caption-top table">
+<caption>状态方程近似。{#tbl-eos-approx}</caption>
+<colgroup>
+<col style="width: 24%">
+<col style="width: 57%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>条件</th>
+<th>状态方程</th>
+<th>名称</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(v_\mathrm{ph} \gg v_{ts}\)</span></td>
+<td><span class="math inline">\(p_s\sim n_s^\gamma\)</span></td>
+<td>绝热</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(v_\mathrm{ph} \ll v_{ts}\)</span></td>
+<td><span class="math inline">\(p_s=n_s k_B T_s\)</span>, <span class="math inline">\(T_s=\mathrm{const.}\)</span></td>
+<td>等温</td>
+</tr>
+</tbody>
+</table>
+<p>有 16 个标量未知量：<span class="math inline">\(n_i, n_e, p_i, p_e, \mathbf{u}_i, \mathbf{u}_e, \mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span>。如果将每个矢量方程算作三个标量方程，表面上共有 18 个标量方程。然而，两个麦克斯韦方程是多余的，因为其中两个方程可以由另外两个方程的散度得到。联立求解这组含 16 个未知量的 16 个方程，即可在流体近似下得到自洽的场和运动。</p>
+</section>
+<section id="六矩" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="六矩"><span class="header-section-number">8.4.2</span> 六矩</h3>
+<p>对于单原子气体，所有带电流体（以 <span class="math inline">\(s\)</span> 为下标）的六矩方程可写为： <span id="eq-6-moment-fluids"><span class="math display">\[
+\begin{aligned}
+\frac{\partial \rho_s}{\partial t} + \nabla\cdot(\rho_s\mathbf{u}_s) = 0 \\
+\frac{\partial (\rho_s\mathbf{u}_s)}{\partial t} + \nabla\cdot\left[ \rho_s\mathbf{u}_s\mathbf{u}_s + p_{s\perp}\pmb{I} + (p_{s\parallel} - p_{s\perp})\hat{b}\hat{b} \right] = \frac{q_s}{m_s}\rho_s(\mathbf{E} + \mathbf{u}_s\times\mathbf{B}) \\
+\frac{\partial p_{s\parallel}}{\partial t} + \nabla\cdot(p_{s\parallel}\mathbf{u}_s) = -2p_{s\parallel}\hat{b}\cdot(\hat{b}\cdot\nabla)\mathbf{u}_s \\
+\frac{\partial p_{s\perp}}{\partial t} + \nabla\cdot(p_{s\perp}\mathbf{u}_s) = -p_{s\perp}(\nabla\cdot\mathbf{u}_s) + p_{s\perp}\hat{b}\cdot(\hat{b}\cdot\nabla)\mathbf{u}_s
+\end{aligned}
+\tag{8.14}\]</span></span></p>
+<p><a href="#eq-6-moment-fluids" class="quarto-xref">式&nbsp;<span>8.14</span></a> 中的两个压力方程可以合并，得到平均压力 <span class="math inline">\(p=(2p_\perp + p_\parallel)/3\)</span> 的方程： <span id="eq-6-moment_average_p"><span class="math display">\[
+\frac{\partial p_s}{\partial t} + \nabla\cdot(p_s\mathbf{u}_s) = (p_s - p_{s\parallel})\hat{b}\cdot(\hat{b}\cdot\nabla)\mathbf{u}_s - \left( p_s - \frac{p_{s\parallel}}{3} \right)\nabla\cdot\mathbf{u}_s
+\tag{8.15}\]</span></span></p>
+<p>也可以求解每种粒子的流体力学能量密度 <span class="math inline">\(e = \frac{\rho_s\mathbf{u}^2}{2} + \frac{p_s}{\gamma - 1}\)</span>： <span class="math display">\[
+\frac{\partial e_s}{\partial t} + \nabla\cdot\left[ \mathbf{u}_s(e_s+p_s) + \mathbf{u}_s\cdot(p_{s\parallel} - p_{s\perp})\hat{b}\hat{b} \right] = \frac{q_s}{m_s}\rho_s \mathbf{u}_s\cdot\mathbf{E}
+\]</span></p>
+<p>这更接近守恒形式，有助于得到更好的激波跃迁条件。但要注意，平行压力方程仍在绝热假设下求解，因此不能正确捕捉非绝热加热。此外，能量密度中没有包含磁能，所以跃迁条件只是近似的（我认为这更多是数值方面的考虑）。一般来说，上述方程的右侧还可以有许多对应于重力、电荷交换、化学反应、碰撞等的源项。</p>
+<p>电场 <span class="math inline">\(\mathbf{E}\)</span> 和磁场 <span class="math inline">\(\mathbf{B}\)</span> 由麦克斯韦方程得到： <span class="math display">\[
+\begin{aligned}
+\frac{\partial \mathbf{B}}{\partial t} + \nabla\times\mathbf{E} &amp;= 0 \\
+\frac{\partial \mathbf{E}}{\partial t} - c^2\nabla\times\mathbf{B} &amp;= -c^2\mu_0\mathbf{J} \\
+\nabla\cdot\mathbf{E} &amp;= \frac{\rho_c}{\epsilon_0} \\
+\nabla\cdot\mathbf{B} &amp;= 0
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(\rho_c = \sum_s (q_s/m_s)\rho_s\)</span> 是总电荷密度，<span class="math inline">\(\mathbf{J}=\sum_s(q_s/m_s)\rho_s\mathbf{u}_s\)</span> 是电流密度。</p>
+<p>最后两个方程是对初始条件的约束；在数值计算中不能保证它们始终成立。经典方法包括双曲或抛物清理，以及面心配置的 Yee 型网格。</p>
+</section>
+<section id="五矩十矩" class="level3" data-number="8.4.3">
+<h3 data-number="8.4.3" class="anchored" data-anchor-id="五矩十矩"><span class="header-section-number">8.4.3</span> 五矩／十矩</h3>
+<p><span class="citation" data-cites="wang2020exact">(<a href="#ref-wang2020exact" role="doc-biblioref">Wang 等 2020年</a>)</span></p>
+<ul>
+<li><p>每种粒子的连续性方程 <span class="math display">\[
+\frac{\partial(m_s n_s)}{\partial t} + \frac{\partial(m_sn_su_{j,s})}{\partial x_j} = 0
+\]</span></p></li>
+<li><p>每种粒子的动量方程 <span class="math display">\[
+n_s m_s\frac{\mathrm{d}\mathbf{u}_s}{\mathrm{d}t} = n_s q_s(\mathbf{E}+\mathbf{u}\times\mathbf{B}) - \nabla\cdot\overleftrightarrow{P}_s - \mathbf{R}_{s\alpha}
+\]</span> 或者用爱因斯坦记号表示， <span class="math display">\[
+\begin{aligned}
+\frac{\partial(m_s n_s u_{i,s})}{\partial t} = n_s q_s (E_i + \epsilon_{ijk}u_{j,s}B_k) -\frac{\partial \mathcal{P}_{ij,s}}{\partial x_j} - R_{i,s\alpha}
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(\epsilon_{ijk}\)</span> 是列维–奇维塔符号。各阶矩定义为 <span class="math display">\[
+\begin{aligned}
+n_s(\mathbf{x}) &amp;\equiv \int f_s \mathrm{d}\mathbf{v} \\
+u_{i,s}(\mathbf{x}) &amp;\equiv \frac{1}{n_s(\mathbf{x})}\int v_i f_s \mathrm{d}\mathbf{v} \\
+\mathcal{P}_{ij,s}(\mathbf{x}) &amp;\equiv m_s \int v_i v_j f_s \mathrm{d}\mathbf{v}
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(f_s(\mathbf{x},\mathbf{v},t)\)</span> 是相空间分布函数。为方便起见，下文省略下标 <span class="math inline">\(s\)</span>。为完整起见，<span class="math inline">\(\mathcal{P}_{ij}\)</span> 与更熟悉的热压力张量 <span class="math display">\[
+P_{ij} \equiv m\int(v_i - u_i)(v_i - u_i)f\mathrm{d}\mathbf{v}
+\]</span> 之间的关系为 <span class="math display">\[
+\mathcal{P}_{ij} = P_{ij} + nm u_i u_j
+\]</span></p></li>
+</ul>
+<p>为简单起见，忽略黏性耗散等非理想效应。电场和磁场 <span class="math inline">\(\mathbf{E}\)</span> 与 <span class="math inline">\(\mathbf{B}\)</span> 根据麦克斯韦方程演化： <span class="math display">\[
+\begin{aligned}
+\frac{\partial\mathbf{B}}{\partial t} + \nabla\times\mathbf{E} = 0 \\
+\frac{\partial\mathbf{E}}{\partial t} - c^2\nabla\times\mathbf{B} = -\frac{1}{\epsilon_0}\sum_s q_s n_s \mathbf{u}_s \\
+\nabla\cdot\mathbf{B} = 0 \\
+\nabla\cdot\mathbf{E} = \epsilon_0^{-1}\sum_s n_s q_s
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(c=1/\sqrt(\mu_0\epsilon_0)\)</span> 是光速。</p>
+<p>为了闭合方程组，必须指定二阶矩 <span class="math inline">\(\mathcal{P}_{ij}\)</span> 或 <span class="math inline">\(P_{ij}\)</span>。例如，冷流体闭合直接令 <span class="math inline">\(P_{ij}=0\)</span>，而等温状态方程（EOS）假设温度为常数。或者，假设热通量为零且压力张量各向同性，可以对 <span class="math inline">\(P_{ij} = p I_{ij}\)</span> 写出绝热状态方程， <span class="math display">\[
+\frac{\partial\mathcal{\epsilon}}{\partial t} + \nabla\cdot\left[ (p+\mathcal{\epsilon})\mathbf{u} \right] = nq\mathbf{u}\cdot\mathbf{E}
+\]</span> 其中 <span class="math display">\[
+\mathcal{\epsilon} \equiv \frac{p}{\gamma-1} + \frac{1}{2}mn\mathbf{u}^2
+\]</span> 是流体总能量（热能加动能），<span class="math inline">\(\gamma\)</span> 是绝热指数，对于完全电离的等离子体取 <span class="math inline">\(5/3\)</span>。对于包含 <span class="math inline">\(S\)</span> 种粒子（<span class="math inline">\(s=1,...,S\)</span>）的等离子体，这个系统是闭合的，共有 <span class="math inline">\(5S+6\)</span> 个方程，这里称为_五矩_模型。通过保留压力张量全部六个分量的演化方程，可以得到更一般的模型，即所谓的_十矩_模型： <span id="eq-ten-moment"><span class="math display">\[
+\frac{\mathcal{P}_{ij,s}}{\partial t} + \frac{\partial \mathcal{Q}_{ijm,s}}{\partial x_m} = n_sq_su_{i,s}E_j + \frac{q_s}{m_s}\epsilon_{iml}\mathcal{P}_{mj,s}B_l
+\tag{8.16}\]</span></span> 其中三阶矩 <span class="math display">\[
+\mathcal{Q}_{ijm,s}(\mathbf{x}) \equiv m_s\int v_i v_j v_m f_s\mathrm{d}\mathbf{v}
+\]</span> 与流体参考系中定义的热通量张量 <span class="math display">\[
+Q_{ijm} \equiv m\int (v_i-u_i)(v_j-u_j)(v_m-u_m)\mathrm{d}\mathbf{v}
+\]</span> 之间的关系为 <span class="math display">\[
+\mathcal{Q}_{ijm} = Q_{ijm} + u_i\mathcal{P}_{jm} - 2nm u_i u_j u_m
+\]</span></p>
+<p>同样，必须通过对热通量张量作某种近似来闭合这里的方程。另一种方法是纳入更高阶矩的演化方程，例如热通量张量的十个独立分量的演化方程。</p>
+<p>理论上，在电子质量趋于零（<span class="math inline">\(m_e \rightarrow 0\)</span>）和光速趋于无穷大（<span class="math inline">\(c\rightarrow\infty\)</span>）的渐近极限下，多流体–麦克斯韦方程趋于霍尔磁流体力学（MHD）。双流体图像中的所有波和效应都被保留，例如光波、电子和离子惯性效应，包括离子回旋波和哨声波。特别是，通过适当设计热通量闭合，十矩模型可以类似回旋动理学模型，部分捕捉朗道阻尼等非局域动力学效应。</p>
+<p>尽管多流体–麦克斯韦模型比磁流体力学等约化的渐近模型提供了更完整的等离子体描述，它们的使用却不那么频繁。原因是涉及快速的动力学尺度。保留电子惯性会引入等离子体频率和回旋时间尺度，而非中性会引入德拜长度的空间尺度。此外，当使用显式格式时，纳入位移电流意味着必须分辨电磁波。幸运的是，动力学尺度造成的限制_只通过动量方程、安培定律和压力方程中的非双曲源项引入_。因此，可以_单独精确更新源项_或_使用隐式算法_，从而消除这些限制（注意：BATSRUS 使用点隐式格式）。这允许采用更大的时间步长并显著加速计算，特别是在使用真实的电子／离子质量比时。光速约束仍然存在，但可以通过使用较小的光速值和／或对麦克斯韦方程使用子步进来大幅放宽。当然，隐式麦克斯韦求解器，或者达尔文近似<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>等约化电磁方程组，也可以放宽时间步长限制。</p>
+</section>
+<section id="特征波速" class="level3" data-number="8.4.4">
+<h3 data-number="8.4.4" class="anchored" data-anchor-id="特征波速"><span class="header-section-number">8.4.4</span> 特征波速</h3>
+<p>五矩／六矩／十矩方程中最快的波速是光速 <span class="math inline">\(c\)</span>。理论上，特征波速应当彼此一致，并在各向同性的五矩情形下退化为磁流体力学的结果。</p>
+<p>然而，在数值计算中，在数值通量中使用 <span class="math inline">\(c\)</span> 会使格式产生相当大的数值扩散（？）。离散时间步长受到基于光速的 Courant–Friedrichs–Lewy（CFL）条件限制。实际计算中，可以把光速降低到比最快流速和快波速度快 2–3 倍的值，以加快模拟。</p>
+</section>
+</section>
+<section id="广义欧姆定律" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="广义欧姆定律"><span class="header-section-number">8.5</span> 广义欧姆定律</h2>
+<p>广义欧姆定律可以从双流体方程推导出来。朗道曾指出，用双流体方程描述等离子体行为的有效性基于这样的事实：离子和电子各自达到平衡麦克斯韦分布的时间尺度，远小于不同粒子种类之间热交换的时间尺度。欧姆定律建立在电子、离子和中性粒子之间的碰撞之上，用于描述 <span class="math inline">\(\mathbf{J}\)</span> 与 <span class="math inline">\(\mathbf{E},\,\mathbf{B},\,\mathbf{u}\)</span> 之间的关系。</p>
+<section id="基本定义和假设" class="level3" data-number="8.5.1">
+<h3 data-number="8.5.1" class="anchored" data-anchor-id="基本定义和假设"><span class="header-section-number">8.5.1</span> 基本定义和假设</h3>
+<p>假设等离子体由电子和电离的 <span class="math inline">\(\textrm{H}^+\)</span> 组成。分别用 <span class="math inline">\(e,\, i,\, a\)</span> 作为电子、离子和中性粒子的下标。 <span class="math display">\[
+\begin{aligned}
+q_e=-q_i=-e \\
+m_e\ll m_i \approx m_a
+\end{aligned}
+\]</span></p>
+<p>利用 <a href="introduction.html#eq-saha" class="quarto-xref">式&nbsp;<span>2.1</span></a> 中的电离度定义， <span id="eq-ionization_degree"><span class="math display">\[
+\alpha=\frac{n_i}{n_i+n_a}
+\tag{8.17}\]</span></span> 得到 <span class="math display">\[
+\begin{aligned}
+\frac{n_i}{n_a}&amp;=\frac{\alpha}{1-\alpha}\\
+\frac{n_i}{2n_i+n_a}&amp;=\frac{\alpha}{1+\alpha}\\
+\frac{n_a}{2n_i+n_a}&amp;=\frac{1-\alpha}{1+\alpha}
+\end{aligned}
+\]</span></p>
+<p>准中性假设给出 <span class="math display">\[
+\begin{aligned}
+\rho_e^\ast+\rho_i^\ast =0\ \Rightarrow\ n_e=n_i \\
+\rho_e=m_e n_e \ll \rho_i=m_i n_i
+\end{aligned}
+\]</span></p>
+<p>假设系统是处于热平衡的理想气体， <span class="math display">\[
+\begin{aligned}
+T_e=T_i=T_a \\
+p=p_e+p_i+p_a
+\end{aligned}
+\]</span></p>
+<p>利用 <a href="#eq-ionization_degree" class="quarto-xref">式&nbsp;<span>8.17</span></a> 中定义的电离度，得到 <span class="math display">\[
+\begin{aligned}
+p_e = p_i = \frac{n_i}{2n_i+n_a} p = \frac{\alpha}{1+\alpha} p \\
+p_a = \frac{n_a}{2n_i+n_a}p = \frac{1-\alpha}{1+\alpha}p
+\end{aligned}
+\]</span> 此外，有 <span class="math display">\[
+v_{e,th}\gg v_{i,th}
+\]</span></p>
+<p>假设流动速度远小于热速度， <span class="math display">\[
+|\mathbf{v}_s|\ll |\mathbf{v}_{s,th}|,\quad s=e,\, i,\, a.
+\]</span></p>
+<p>特征时间尺度必须满足 <span class="math inline">\(\tau_0\gg \tau_{\text{collision}}\)</span>。</p>
+<p>最后，在推导中忽略黏性和非电磁力。</p>
+<p>质子相对于等离子体整体速度的平均速度、电子与离子的速度差以及中性粒子的平均速度分别为 <span class="math display">\[
+\begin{aligned}
+\mathbf{v}_i&amp;=\mathbf{u}_i-\mathbf{u} \\
+\mathbf{v}_{ei}&amp;=\mathbf{u}_e-\mathbf{u}_i \\
+\mathbf{u}_a&amp;=\mathbf{u}-\frac{n_i}{n_a}\left(\mathbf{v}_i+\frac{m_e}{m_i}\mathbf{v}_{ei}\right)
+\end{aligned}
+\]</span></p>
+<p>电子相对于质子和中性粒子的平均动量为 <span class="math display">\[
+\begin{aligned}
+\mathbf{I}_{ei}&amp;=m_e\mathbf{v}_{ei} \\
+\mathbf{I}_{ea}&amp;=m_e\left[\left( 1+\frac{n_im_e}{n_a m_i}\right)\mathbf{v}_{ei}+\left( 1+\frac{n_i}{n_a}\right)\mathbf{v}_i\right]\approx m_e\left[ \mathbf{v}_{ei}+\left(\frac{1}{1-\alpha}\right)\mathbf{v}_i \right] \\
+\mathbf{I}_{ia}&amp;=m_i(\mathbf{u}_i-\mathbf{u}_a)=m_i (\mathbf{v}_i+\mathbf{u}-\mathbf{u}_a)=\frac{1}{1-\alpha}m_i\mathbf{v}_i+\frac{\alpha}{1-\alpha}m_e\mathbf{v}_{ei}
+\end{aligned}
+\]</span></p>
+<p>注意，根据牛顿第三定律，<span class="math inline">\(\Delta \mathbf{I}_{sk}=-\Delta \mathbf{I}_{ks}\)</span>。</p>
+</section>
+<section id="各种粒子的运动方程" class="level3" data-number="8.5.2">
+<h3 data-number="8.5.2" class="anchored" data-anchor-id="各种粒子的运动方程"><span class="header-section-number">8.5.2</span> 各种粒子的运动方程</h3>
+<section id="电子" class="level4" data-number="8.5.2.1">
+<h4 data-number="8.5.2.1" class="anchored" data-anchor-id="电子"><span class="header-section-number">8.5.2.1</span> 电子</h4>
+<p><span id="eq-electron_motion_ohm"><span class="math display">\[
+\begin{aligned}
+m_en_e\frac{d\mathbf{u}_e}{dt}&amp;=m_en_i\frac{d}{dt}\left(\mathbf{v}_{ei}+\mathbf{v}_i+\mathbf{u}\right) \\
+&amp;=-\nabla p_e - n_i e \left[ \mathbf{E}+(\mathbf{v}_{ei}+\mathbf{v}_i+\mathbf{u})\times\mathbf{B} \right]+\mathbf{f}_e^c
+\end{aligned}
+\tag{8.18}\]</span></span> 其中碰撞力为 <span id="eq-electron_motion_ohm_f"><span class="math display">\[
+\mathbf{f}_e^c=-n_i m_e\mathbf{v}_{ei}\left(\tau_{ei}^{-1}+\tau_{ea}^{-1}\right)-\frac{1}{1-\alpha}n_i m_e\mathbf{v}_i\tau_{ea}^{-1}
+\tag{8.19}\]</span></span></p>
+<p><em>证明</em>：</p>
+<p><span class="math inline">\(\mathbf{f}_{sk}^c\cdot\tau_{sk}=n_s\Delta \mathbf{I}_{sk}\)</span>，其中 <span class="math inline">\(\tau_{sk}\)</span> 是平均碰撞间隔。 <span class="math display">\[
+\Delta \mathbf{I}_{sk}=-\Delta \mathbf{I}_{ks}
+\]</span></p>
+<p>假设为弹性碰撞，有 <span class="math display">\[
+\begin{aligned}
+\Delta\mathbf{I}_{sk}&amp;=-\frac{m_sm_k}{m_s+m_k}\mathbf{v}_{sk} \\
+\Rightarrow \Delta\mathbf{I}_{ek}&amp;=-\frac{m_k}{m_e+m_k}m_e\mathbf{v}_{ek}\approx -\mathbf{I}_{ek}\text{（忽略电子质量）}\\
+\Delta\mathbf{I}_{ia}&amp;=-\frac{m_a}{m_a+m_i}m_i\mathbf{v}_{ia}\approx -\frac{1}{2}\mathbf{I}_{ia}\text{（离子质量=中子质量）}
+\end{aligned}
+\]</span></p>
+<p>因此电子的碰撞力为 <span class="math display">\[
+\mathbf{f}_e^c=-n_i\mathbf{I}_{ei}\tau_{ei}^{-1}-n_i\mathbf{I}_{ea}\tau_{ea}^{-1}=-n_i m_e\mathbf{v}_{ei}\left(\tau_{ei}^{-1}+\tau_{ea}^{-1}\right)-\frac{1}{1-\alpha}n_i m_e\mathbf{v}_i\tau_{ea}^{-1}
+\]</span> 离子与中性粒子之间的碰撞力为 <span class="math display">\[
+\mathbf{f}_{ia}^c=-\frac{1}{2}n_i\mathbf{I}_{ia}\tau_{ia}^{-1}
+\]</span> □</p>
+</section>
+<section id="质子" class="level4" data-number="8.5.2.2">
+<h4 data-number="8.5.2.2" class="anchored" data-anchor-id="质子"><span class="header-section-number">8.5.2.2</span> 质子</h4>
+<p><span id="eq-proton_motion_ohm"><span class="math display">\[
+m_i n_i\frac{d\mathbf{u}_i}{dt}=m_i n_i\frac{d}{dt}(\mathbf{v}_i+\mathbf{u})=-\nabla p_i+n_i e\left[ \mathbf{E}+\left(\mathbf{v}_i+\mathbf{u}\times\mathbf{B}\right) \right]+\mathbf{f}_i^c
+\tag{8.20}\]</span></span> 其中碰撞力为 <span id="eq-proton_motion_ohm_f"><span class="math display">\[
+\mathbf{f}_{i}^c=\mathbf{f}_{ia}^c+\mathbf{f}_{ie}^c=n_im_e\mathbf{v}_{ei}\tau_{ei}^{-1}-\frac{\alpha}{2(1-\alpha)}n_im_e\mathbf{v}_{ei}\tau_{ia}^{-1}-\frac{1}{2(1-\alpha)}n_i m_i\mathbf{v}_i\tau_{ia}^{-1}
+\tag{8.21}\]</span></span></p>
+</section>
+<section id="整个等离子体" class="level4" data-number="8.5.2.3">
+<h4 data-number="8.5.2.3" class="anchored" data-anchor-id="整个等离子体"><span class="header-section-number">8.5.2.3</span> 整个等离子体</h4>
+<p>如果不考虑其他力对等离子体的作用，并忽略电子质量（<span class="math inline">\(m_en_e\ll m_in_i\)</span>）， <span id="eq-plasma_motion_ohm"><span class="math display">\[
+m_i(n_i+n_a)\frac{d\mathbf{u}}{dt}=-\nabla p+\mathbf{J}\times\mathbf{B}=-\nabla p-n_i e\mathbf{v}_{ei}\times\mathbf{B}
+\tag{8.22}\]</span></span> 其中总电流密度为 <span class="math display">\[
+\mathbf{J}=\sum_s{n_s q_s\mathbf{u}_s}=-n_i e(\mathbf{v}_{ei}+\mathbf{v}_i+\mathbf{u})+n_i e(\mathbf{v}_i+\mathbf{u})=-n_i e\mathbf{v}_{ei}
+\]</span> 从物理上说，我们通常将等离子体中的电流看作电子和离子之间的速度差。</p>
+</section>
+</section>
+<section id="前提" class="level3" data-number="8.5.3">
+<h3 data-number="8.5.3" class="anchored" data-anchor-id="前提"><span class="header-section-number">8.5.3</span> 前提</h3>
+<p>如果存在外加磁场，而导体并非静止，而是以速度 <span class="math inline">\(\mathbf{u}\)</span> 运动，则必须添加一项，以计入载流子所受洛伦兹力引起的电流： <span class="math display">\[
+\mathbf{J}=\sigma(\mathbf{E}+\mathbf{u}\times\mathbf{B})
+\]</span> 其中 <span class="math inline">\(\sigma\)</span> 是电导率。</p>
+<p>在运动导体的静止参考系中，由于 <span class="math inline">\(\mathbf{u}=0\)</span>，这一项消失。这并不矛盾，因为静止参考系中的电场与实验室参考系中的电场不同：<span class="math inline">\(\mathbf{E}^\prime = \mathbf{E} + \mathbf{u}\times\mathbf{B}\)</span>。电场和磁场具有相对性，并通过洛伦兹变换相联系。</p>
+<p>如果由于外加电压或电场随时间变化，电流 <span class="math inline">\(\mathbf{J}\)</span> 是交变的，那么必须在电阻之外加入电抗，以计入自感（见电阻抗）。如果频率很高或导体呈线圈状，电抗可能很强。（hyzhou：这与有质动力有关。我对此有一些疑问，因为这里忽略了所有速度的时间导数，这又使该推导仅适用于定常系统。显然的问题是，广义欧姆定律可能不适用于随时间变化的系统！）</p>
+</section>
+<section id="推导" class="level3" data-number="8.5.4">
+<h3 data-number="8.5.4" class="anchored" data-anchor-id="推导"><span class="header-section-number">8.5.4</span> 推导</h3>
+<p>可以忽略的项：</p>
+<ul>
+<li><p><a href="#eq-electron_motion_ohm" class="quarto-xref">式&nbsp;<span>8.18</span></a> 中的 <span class="math inline">\(\frac{d\mathbf{v}_e}{dt}\)</span> 和 <a href="#eq-proton_motion_ohm" class="quarto-xref">式&nbsp;<span>8.20</span></a> 中的 <span class="math inline">\(\frac{d\mathbf{v}_i}{dt}\)</span>，因为 <span class="math inline">\(|\mathbf{v}|\ll |\mathbf{v}_\mathrm{th}|\)</span>。</p></li>
+<li><p><a href="#eq-electron_motion_ohm" class="quarto-xref">式&nbsp;<span>8.18</span></a> 中的 <span class="math inline">\(\frac{d\mathbf{u}}{dt}\)</span>。根据 <a href="#eq-plasma_motion_ohm" class="quarto-xref">式&nbsp;<span>8.22</span></a> 和 <span class="math inline">\(m_e \ll m_i\)</span>， <span class="math display">\[
+m_en_i\frac{d\mathbf{u}}{dt}=\frac{m_e}{m_i}\frac{n_i}{n_i+n_a}\left(-\nabla p-n_i e\mathbf{v}_{ei}\times\mathbf{B}\right)\ll 1
+\]</span></p></li>
+</ul>
+<p>由 <a href="#eq-electron_motion_ohm" class="quarto-xref">式&nbsp;<span>8.18</span></a>， <span class="math display">\[
+m_e n_i\frac{d\mathbf{u}}{dt}=-\nabla p_e -n_i e\mathbf{v}_{ei}\times\mathbf{B}-n_ie [\mathbf{E}+(\mathbf{v}_i+\mathbf{u})\times\mathbf{B}]+\mathbf{f}_e^c
+\]</span></p>
+<p>上面两个方程给出 <span id="eq-Ohm_derivation1"><span class="math display">\[
+\begin{aligned}
+0=&amp;-\nabla p_e -n_i e\mathbf{v}_{ei}\times\mathbf{B}-n_ie [\mathbf{E}+(\mathbf{v}_i+\mathbf{u})\times\mathbf{B}] \\
+&amp; -n_i m_e\mathbf{v}_{ei}\left(\tau_{ei}^{-1}+\tau_{ea}^{-1}\right)-\frac{1}{1-\alpha}n_i m_e\mathbf{v}_i\tau_{ea}^{-1}
+\end{aligned}
+\tag{8.23}\]</span></span></p>
+<p><a href="#eq-proton_motion_ohm" class="quarto-xref">式&nbsp;<span>8.20</span></a>、<a href="#eq-plasma_motion_ohm" class="quarto-xref">式&nbsp;<span>8.22</span></a> 和 <a href="#eq-Ohm_derivation1" class="quarto-xref">式&nbsp;<span>8.23</span></a> 是推导广义欧姆定律所需的三个主要方程。</p>
+<p>如果将回旋周期与碰撞时间的比值定义为 <span class="math display">\[
+\begin{aligned}
+\kappa_{ei} &amp;\equiv \frac{1}{\Omega_e \tau_{ei}}=\frac{m_e}{eB}\tau_{ei}^{-1} \\
+\kappa_{ea} &amp;\equiv \frac{1}{\Omega_e \tau_{ea}}=\frac{m_e}{eB}\tau_{ea}^{-1} \\
+\kappa_{ia}&amp;\equiv \frac{1}{2\Omega_i \tau_{ia}}=\frac{m_i}{2eB}\tau_{ia}^{-1}
+\end{aligned}
+\]</span> 并将离子电流密度定义为 <span class="math display">\[
+\mathbf{J}_i=n_i e\mathbf{v}_i
+\]</span> 则可将上述三个主要方程写为 <span id="eq-Ohm_derivation2"><span class="math display">\[
+0=-\nabla p_e -n_i e(\mathbf{E}+\mathbf{u}\times\mathbf{B}) + \mathbf{J}\times\mathbf{B}-\mathbf{J}_i\times\mathbf{B}+(\kappa_{ei}+\kappa_{ea})B\mathbf{J}-\frac{1}{1-\alpha}\kappa_{ea}B\mathbf{J}_i
+\tag{8.24}\]</span></span></p>
+<p><span id="eq-Ohm_derivation3"><span class="math display">\[
+\begin{aligned}
+m_in_i\frac{d\mathbf{u}}{dt}=&amp;-\nabla p_i+n_i e(\mathbf{E}+\mathbf{u}\times\mathbf{B})+\mathbf{J}_i\times\mathbf{B} \\ &amp;-(\kappa_{ei}-\frac{\alpha}{1-\alpha}\frac{m_e}{m_i}\kappa_{ia})B\mathbf{J}-\frac{1}{1-\alpha}\kappa_{ia}B\mathbf{J}_i
+\end{aligned}
+\tag{8.25}\]</span></span></p>
+<p><span id="eq-Ohm_derivation4"><span class="math display">\[
+\frac{1}{\alpha}m_i n_i\frac{d\mathbf{u}}{dt}=-\nabla p+\mathbf{J}\times\mathbf{B}
+\tag{8.26}\]</span></span></p>
+<p>从 <a href="#eq-Ohm_derivation4" class="quarto-xref">式&nbsp;<span>8.26</span></a> 和 <a href="#eq-Ohm_derivation2" class="quarto-xref">式&nbsp;<span>8.24</span></a> 中减去 <a href="#eq-Ohm_derivation3" class="quarto-xref">式&nbsp;<span>8.25</span></a>，得到离子电流密度 <span class="math display">\[
+\begin{aligned}
+\mathbf{J}_i&amp;=\frac{1-\alpha}{(\kappa_{ea}+\kappa_{ia})B}\left[ \alpha\nabla p -\nabla(p_e+p_i)+(1-\alpha)\mathbf{J}\times\mathbf{B}+(\kappa_{ea}+\frac{\alpha}{1-\alpha}\frac{m_e}{m_i}\kappa_{ia})B\mathbf{J}\right] \\
+&amp;=\frac{1-\alpha}{(\kappa_{ea}+\kappa_{ia})B}\left[ \frac{\alpha(\alpha-1)}{\alpha+1}\nabla p+(1-\alpha)\mathbf{J}\times\mathbf{B}+(\kappa_{ea}+\frac{\alpha}{1-\alpha}\frac{m_e}{m_i}\kappa_{ia})B\mathbf{J}\right]
+\end{aligned}
+\]</span></p>
+<p>接着可以从三个主要方程中消去 <span class="math inline">\(\frac{d\mathbf{u}}{dt}\)</span> 和 <span class="math inline">\(\mathbf{J}_i\)</span>，得到广义欧姆定律 <span class="math display">\[
+\begin{aligned}
+\nabla p_e +\frac{\alpha(\alpha-1)}{\alpha+1}r_e \nabla p=&amp;-n_i e(\mathbf{E}+\mathbf{u}\times\mathbf{B})
++\left[1-2r_e(1-\alpha)-\alpha\frac{m_e}{m_i}r_i\right]\mathbf{J}\times\mathbf{B} \\
+&amp;+\left[\kappa_{ei}-(1-r_e)\kappa-\frac{\alpha}{1-\alpha}\frac{m_e}{m_i}r_e\kappa_{ia}\right]B\mathbf{J} \\
+&amp;+\frac{(1-\alpha)^2}{(\kappa_{ea}+\kappa_{ia})B}\left[ \frac{\alpha}{\alpha+1}\nabla p\times\mathbf{B}-\mathbf{J}\times\mathbf{B}\times\mathbf{B} \right]
+\end{aligned}
+\]</span> 其中 <span class="math display">\[
+r_e=\frac{\kappa_{ea}}{\kappa_{ea}+\kappa_{ia}},\quad r_i=\frac{\kappa_{ia}}{\kappa_{ea}+\kappa_{ia}}
+\]</span></p>
+</section>
+<section id="广义欧姆定律的简化" class="level3" data-number="8.5.5">
+<h3 data-number="8.5.5" class="anchored" data-anchor-id="广义欧姆定律的简化"><span class="header-section-number">8.5.5</span> 广义欧姆定律的简化</h3>
+<ol type="1">
+<li>如果质子的平均自由程远小于电子的平均自由程，即质子的截面远小于电子的截面， <span class="math display">\[
+\begin{aligned}
+&amp;\frac{\tau_{ia}}{\tau_{ea}}=\frac{l_{ia}\cdot v_{e,th}}{l_{ea}\cdot v_{i,th}}\propto \Big(\frac{m_i}{m_e}\Big)^{1/2}\cdot\frac{l_{ia}}{l_ea}\ll  \Big(\frac{m_i}{m_e}\Big)^{1/2} \\
+\Rightarrow &amp;\frac{\kappa_{ea}}{\kappa_{ia}}=2\frac{\Omega_i \tau_{ia}}{\Omega_e\tau_{ea}}\propto 2\frac{m_e}{m_i}\cdot\frac{\tau_{ia}}{\tau_{ea}}\propto2\Big( \frac{m_e}{m_i}\Big)^{1/2}\cdot\frac{l_{ia}}{l_{ea}}\ll 1 \\
+\Rightarrow &amp;r_e=\frac{\kappa_{ea}}{\kappa_{ea}+\kappa_{ia}}\ll1\quad
+r_i=\frac{\kappa_{ia}}{\kappa_{ea}+\kappa_{ia}}\approx 1
+\end{aligned}
+\]</span></li>
+</ol>
+<p>因此有 <span class="math display">\[
+\begin{aligned}
+\nabla p_e=&amp;-n_i e(\mathbf{E}+\mathbf{u}\times\mathbf{B})+\mathbf{J}\times\mathbf{B}+(\kappa_{ei}+\kappa_{ea})B\mathbf{J}+
+\frac{(1-\alpha)^2}{\kappa_{ia}B}\left[ \frac{\alpha}{\alpha+1}\nabla p\times\mathbf{B}-\mathbf{J}\times\mathbf{B}\times\mathbf{B} \right] \\
+\mathbf{J}=&amp;\frac{n_i e}{(\kappa_{ei}+\kappa_{ea})B}\left(\mathbf{E}+\mathbf{u}\times\mathbf{B}\right)+
+\frac{1}{(\kappa_{ei}+\kappa_{ea})B}\left( \nabla p_e-\mathbf{J}\times\mathbf{B}\right) \\
+&amp;-\frac{(1-\alpha)^2}{\kappa_{ia}(\kappa_{ei}+\kappa_{ea})B}\left[ \frac{\alpha}{\alpha+1}\nabla p\times\mathbf{B}-\mathbf{J}\times\mathbf{B}\times\mathbf{B} \right]
+\end{aligned}
+\]</span></p>
+<ol start="2" type="1">
+<li><p>如果电磁场占主导地位，即电磁力 <span class="math inline">\(\gg\)</span> 热压力梯度，<span class="math inline">\(|\mathbf{J}\times\mathbf{B}|\gg |\nabla p|\sim |\nabla p_e|\)</span>，则 <span class="math display">\[
+\mathbf{J}=\sigma(\mathbf{E}+\mathbf{u}\times\mathbf{B})-\frac{\sigma}{n_i e}\mathbf{J}\times\mathbf{B}+
+\frac{\sigma}{n_i e}\frac{2(1-\alpha)^2 \Omega_i\tau_{ia}}{B}\mathbf{J}\times\mathbf{B}\times\mathbf{B}
+\]</span> 其中 <span class="math inline">\(\sigma\)</span> 是电导率， <span class="math display">\[
+\sigma=\frac{n_i e^2}{m_e(\tau_{ei}^{-1}+\tau_{ea}^{-1})}
+\]</span></p></li>
+<li><p>对于完全电离的等离子体，<span class="math inline">\(\alpha=1\ \Rightarrow\ \kappa_{ea}=\kappa_{ia}=0\)</span>，有 <span class="math display">\[
+\mathbf{J}=\sigma(\mathbf{E}+\mathbf{u}\times\mathbf{B})+\frac{\sigma}{n_i e}\left(\nabla p_e -\mathbf{J}\times\mathbf{B}\right)
+\]</span> 其中 <span class="math display">\[
+\sigma=\frac{n_i e^2\tau_{ei}}{m_e}
+\]</span></p></li>
+</ol>
+<p>注意，这里的电子压力梯度项展示了一个惊人的效应：它可以从无到有地产生电磁场！这是天体物理学中描述电磁场起源的一种理论。</p>
+<ol start="4" type="1">
+<li><p>对于完全电离的等离子体，如果电磁场占主导地位，有 <span class="math display">\[
+\begin{aligned}
+\mathbf{J}=\sigma(\mathbf{E}+\mathbf{u}\times\mathbf{B}) -\frac{\sigma}{n_i e}\mathbf{J}\times\mathbf{B}=
+\sigma(\mathbf{E}+\mathbf{u}\times\mathbf{B}) -\Omega_e \tau_{ei}\mathbf{J}\times\mathbf{b}
+\end{aligned}
+\]</span></p></li>
+<li><p>如果磁场很弱且等离子体密度很高，即 <span class="math inline">\(n_i \gg 1,\ |\mathbf{B}|\ll 1\)</span>， <span class="math display">\[
+\mathbf{J}=\sigma(\mathbf{E}+\mathbf{u}\times\mathbf{B})
+\]</span></p></li>
+</ol>
+</section>
+<section id="讨论" class="level3" data-number="8.5.6">
+<h3 data-number="8.5.6" class="anchored" data-anchor-id="讨论"><span class="header-section-number">8.5.6</span> 讨论</h3>
+<p>在 <a href="#sec-mhd-ohm" class="quarto-xref"><span>小节 8.6.1</span></a> 中，我们将看到，通过假设电子惯性远小于洛伦兹力可以得到相对简单的形式；当只考虑垂直于磁场的速度时，这是一个很好的近似。</p>
+<p><span id="eq-genearlized_ohm_law"><span class="math display">\[
+\mathbf{E} = -\mathbf{u}\times\mathbf{B} + \eta\mathbf{J} + \frac{1}{en}\mathbf{J}\times\mathbf{B}-\frac{1}{en}\nabla\cdot\overleftrightarrow{P}_e +\frac{m_e}{ne^2}\Big[ \frac{\partial \mathbf{J}}{\partial t}+\nabla\cdot(\mathbf{J}\mathbf{u}+\mathbf{u}\mathbf{J}) \Big]
+\tag{8.27}\]</span></span></p>
+<p>右侧第一项是_对流项_，第二项是_电阻率项_（<em>传导项</em>），第三项称为_霍尔项_，第四项是_电子压力项_，第五项称为_电子惯性项_，因为它与电子质量成正比。</p>
+<p>注意，<span class="math inline">\(\mathbf{u}\)</span> 和 <span class="math inline">\(\mathbf{J}\)</span> 都是一阶矩：<span class="math inline">\(\mathbf{u}\)</span> 是电子和离子一阶矩的（加权）和，而 <span class="math inline">\(\mathbf{J}\)</span> 是它们的差。广义欧姆定律实际上是电子和离子一阶矩方程的差。<em>广义欧姆定律是控制 <span class="math inline">\(\mathbf{J}\)</span> 随时间演化的方程</em>。还要注意，保留位移电流的安培定律是控制 <span class="math inline">\(\mathbf{E}\)</span> 随时间演化的方程。然而，在电阻性磁流体力学近似中，分别忽略安培定律和欧姆定律中的时间导数项 <span class="math inline">\(\partial \mathbf{E}/\partial t\)</span> 和 <span class="math inline">\(\partial \mathbf{J} /\partial t\)</span>。在这种近似下，直接求解欧姆定律确定 <span class="math inline">\(\mathbf{E}\)</span>，直接求解安培定律确定 <span class="math inline">\(\mathbf{J}\)</span>。[Introduction to plasma physics: with space and laboratory applications, D. A. Gurnett and A. Bhattacharjee.]</p>
+<p><span class="math display">\[
+\underbrace{\mathbf{E}}_{a} + \underbrace{\mathbf{u}\times\mathbf{B}}_{b} - \underbrace{\frac{1}{\sigma}\mathbf{J}}_{c} - \underbrace{\frac{\mathbf{J}\times\mathbf{B}}{en_e}}_{d} + \underbrace{\frac{1}{n_e e}\nabla(n_e k_B T_e)}_{e} = 0
+\]</span></p>
+<p>将上式各项记为 a 至 e。根据单流体磁流体力学动量方程，令 <span class="math inline">\(\omega\)</span> 为扰动速度的振荡频率，标量形式的变量表示相应量的特征大小， <span id="eq-mhd_scale"><span class="math display">\[
+\begin{aligned}
+\rho\big( \frac{\partial \mathbf{u}}{\partial t}+\mathbf{u}\cdot\nabla\mathbf{u}\big) = \mathbf{J}\times\mathbf{B} - \nabla p +\rho\mathbf{g} \\
+\Rightarrow \omega\rho U\sim J B
+\end{aligned}
+\tag{8.28}\]</span></span></p>
+<p>利用磁流体力学的假设，广义欧姆定律中各项之间的关系为 <span class="math display">\[
+\begin{aligned}
+\frac{b}{d} &amp;= \frac{UB}{JB/en_e} = \frac{en_eUB}{\omega \rho U} = \frac{en_e B}{\omega n_e m_i} = \frac{\Omega_i}{\omega} \gg 1 \\
+\frac{c}{d} &amp;= \frac{J/\sigma}{JB/en_e} = \frac{en_e}{B\sigma} = \frac{en_e}{Be^2 n_e/\nu_{ei} m_e} = \frac{\nu_{ei}}{\Omega_e} \ll 1 \\
+\frac{b}{d} &amp;= \frac{U}{J/en_e} \ll 1,\ \text{如果 } \mathbf{J} \text{ 由 } \mathbf{u}_e \text{ 承载}
+\end{aligned}
+\]</span> 如果电流主要由电子承载，这就与磁流体力学中 <span class="math inline">\(\mathbf{u}\ll \mathbf{u}_e\)</span> 的假设产生直接矛盾。（压力项的尺度如何？梯度意味着它与系统大小有关；压力是否意味着它也与热运动有关？）</p>
+<p>电子压力项还有一个有趣之处。如果假设等离子体各向同性，<span class="math inline">\(n_i=n_e\)</span>，并假设绝热过程满足 <span class="math inline">\(P/n^\gamma=C\)</span>，其中 <span class="math inline">\(C\)</span> 是常数，<span class="math inline">\(\gamma\)</span> 是绝热指数，则有 <span id="eq-E_grad_pe"><span class="math display">\[
+\begin{aligned}
+\mathbf{E}_{\nabla P_e} &amp;= \frac{\nabla P_e}{n} = \frac{\nabla P_i}{n} = \frac{\nabla(Cn^\gamma)}{n} \\
+&amp;= C\gamma n^{\gamma-2}\nabla n = C\frac{\gamma}{\gamma-1}\nabla n^{\gamma-1}
+\end{aligned}
+\tag{8.29}\]</span></span></p>
+<p><a href="#eq-E_grad_pe" class="quarto-xref">式&nbsp;<span>8.29</span></a> 表明，相应的电场是只与密度有关的势场。</p>
+</section>
+<section id="多离子系统中的欧姆定律" class="level3" data-number="8.5.7">
+<h3 data-number="8.5.7" class="anchored" data-anchor-id="多离子系统中的欧姆定律"><span class="header-section-number">8.5.7</span> 多离子系统中的欧姆定律</h3>
+<p><span id="eq-genearlized_ohm_law_multiion"><span class="math display">\[
+\begin{aligned}
+\mathbf{E} &amp;= -\sum_i\mathbf{u}_i\times\mathbf{B} + \eta\mathbf{J} + \frac{1}{en_e}\mathbf{J}\times\mathbf{B}-\frac{1}{en_e}\nabla\cdot\overleftrightarrow{P}_e \\
+&amp;+\frac{m_e}{n_e e^2}\Big[ \frac{\partial \mathbf{J}}{\partial t}+\nabla\cdot(\mathbf{J}\mathbf{u}+\mathbf{u}\mathbf{J}) \Big]
+\end{aligned}
+\tag{8.30}\]</span></span></p>
+<p>其中准中性条件成立： <span class="math display">\[
+en_e = \sum_i q_i n_i
+\]</span></p>
+</section>
+</section>
+<section id="sec-mhd" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="sec-mhd"><span class="header-section-number">8.6</span> 磁流体力学</h2>
+<p>在双流体系统中，粒子运动由各粒子种类的平均速度 <span class="math inline">\(\mathbf{u}_e, \mathbf{u}_i\)</span> 和压力 <span class="math inline">\(\overleftrightarrow{P}_e, \overleftrightarrow{P}_i\)</span> 描述；压力反映了速度相对于平均值的随机偏离的均方。磁流体力学是对等离子体的另一种描述，其中不再用 <span class="math inline">\(\mathbf{u}_e,\mathbf{u}_i\)</span> 描述平均运动，而是使用由它们线性组合得到的两个新速度变量。如下面所示，这也意味着必须采用稍有不同的压力定义。</p>
+<p>这些类似速度的新变量是：</p>
+<ol type="1">
+<li><p>电流密度 <span class="math display">\[
+\mathbf{J} = \sum_s n_s q_s\mathbf{u}_s
+\]</span> 它本质上是离子和电子之间的相对速度；以及</p></li>
+<li><p>质心速度 <span class="math display">\[
+\mathbf{u} = \frac{1}{\rho}\sum_s m_s n_s \mathbf{u}_s
+\]</span> 其中 <span class="math display">\[
+\rho = \sum_s m_s n_s
+\]</span> 是总质量密度。</p></li>
+</ol>
+<p>磁流体力学主要关注等离子体的_低频_、<em>长波长</em>、_磁性_行为。磁流体力学有三个基本假设： <span class="math display">\[
+\begin{aligned}
+\epsilon\omega/4\pi\sigma&amp; \ll 1, \\
+(v/c)^2&amp;\ll 1,\\
+\lambda/ L&amp; \ll 1,
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(\omega\)</span> 是等离子体频率，<span class="math inline">\(v\)</span> 是等离子体整体速度，<span class="math inline">\(\lambda\)</span> 是平均自由程，<span class="math inline">\(L\)</span> 是系统特征长度。</p>
+<p>理想磁流体力学的标准量级关系也可以写为 <span class="math display">\[
+\epsilon \sim \omega/\Omega_c \sim k\rho
+\]</span> 其中等离子体变化的频率尺度 <span class="math inline">\(\omega\)</span> 远小于回旋频率 <span class="math inline">\(\Omega_c\)</span>，变化的空间尺度 <span class="math inline">\(1/k\)</span> 远大于回旋半径 <span class="math inline">\(\rho\)</span>。（这里 <span class="math inline">\(\epsilon\)</span> 表示一个“小”值。）因此它涵盖与压缩阿尔芬波、剪切阿尔芬波及其不稳定性、离子声波，以及朗道阻尼等离子和电子动力学效应有关的现象。然而，它不包括漂移波或其他微观不稳定性，因为这些现象来自有限拉莫尔半径（FLR）效应，而此类效应在通常的磁流体力学量级关系中消失。</p>
+<p>单流体磁流体力学在某种程度上并不一致，因为只有一个速度。不能使用通过速度定义电流的方法，电流只能由安培定律（不含位移电流）给出，即 <span class="math inline">\(\mathbf{J}=\nabla\times\mathbf{B}/\mu_0\)</span>。</p>
+<p>将 <a href="#eq-continuity-species" class="quarto-xref">式&nbsp;<span>8.5</span></a> 乘以 <span class="math inline">\(m_s\)</span> 并对粒子种类求和，得到磁流体力学连续性方程 <span id="eq-continuity-mhd"><span class="math display">\[
+\frac{\partial\rho}{\partial t} + \nabla\cdot(\rho\mathbf{u}) = 0
+\tag{8.31}\]</span></span></p>
+<p>为了得到磁流体力学运动方程，对弗拉索夫方程求一阶矩，将单种粒子的动量方程乘以 <span class="math inline">\(m_s\)</span> 并对粒子种类求和， <span id="eq-1st-moment-vlasov-MHD"><span class="math display">\[
+\frac{\partial}{\partial t}\sum_s m_s \int\mathbf{v}f_s\mathrm{d}\mathbf{v} + \frac{\partial}{\partial\mathbf{x}}\cdot\sum_s\int m_s \mathbf{v}\mathbf{v}f_s\mathrm{d}\mathbf{v} + \sum_s q_s \int\mathbf{v}\frac{\partial}{\partial\mathbf{v}}\cdot [(\mathbf{E}+\mathbf{v}\times\mathbf{B})f_s] = 0
+\tag{8.32}\]</span></span></p>
+<p>右侧为零，因为 <span class="math inline">\(\mathbf{R}_{ei} + \mathbf{R}_{ie}=0\)</span>，即整个等离子体不能对自身施加阻力。现在定义相对于 <span class="math inline">\(\mathbf{u}\)</span> 的随机速度（而不是像双流体方程中那样相对于 <span class="math inline">\(\mathbf{u}_s\)</span>），以便将第二项写为 <span id="eq-momentum-flux-vlasov-MHD"><span class="math display">\[
+\sum_s\int m_s \mathbf{v}\mathbf{v}f_s\mathrm{d}\mathbf{v} = \sum_s\int m_s (\mathbf{v}^\prime + \mathbf{u})(\mathbf{v}^\prime + \mathbf{u})f_s\mathrm{d}\mathbf{v} = \sum_s\int m_s \mathbf{v}^\prime\mathbf{v}^\prime f_s\mathrm{d}\mathbf{v} + \rho\mathbf{u}\mathbf{u}
+\tag{8.33}\]</span></span> 这里利用了 <span class="math inline">\(\sum_s\int m_s \mathbf{v}^\prime f\mathrm{d}\mathbf{v} = 0\)</span> 来消去关于 <span class="math inline">\(\mathbf{v}^\prime\)</span> 的一次项。现在根据相对于 <span class="math inline">\(\mathbf{u}\)</span> 的随机速度定义磁流体力学压力张量： <span id="eq-pressure-def-MHD"><span class="math display">\[
+\overleftrightarrow{P}^{\mathrm{MHD}} = \sum_s \int m_s \mathbf{v}^\prime\mathbf{v}^\prime f_s\mathrm{d}\mathbf{v}
+\tag{8.34}\]</span></span></p>
+<p>将 <a href="#eq-momentum-flux-vlasov-MHD" class="quarto-xref">式&nbsp;<span>8.33</span></a> 和 <a href="#eq-pressure-def-MHD" class="quarto-xref">式&nbsp;<span>8.34</span></a> 代入 <a href="#eq-1st-moment-vlasov-MHD" class="quarto-xref">式&nbsp;<span>8.32</span></a>，对加速度项分部积分，并对粒子种类求和，得到磁流体力学运动方程 <span id="eq-momentum-MHD"><span class="math display">\[
+\frac{\partial(\rho\mathbf{u})}{\partial t} + \nabla\cdot(\rho\mathbf{u}\mathbf{u}) = \left( \sum_s n_s q_s \right)\mathbf{E} + \mathbf{J}\times\mathbf{B} - \nabla\cdot\overleftrightarrow{P}^{\mathrm{MHD}}
+\tag{8.35}\]</span></span></p>
+<p>磁流体力学通常用于描述空间尺度足够大、使等离子体基本呈中性的现象，即 <span class="math inline">\(\sum_s n_s q_s = 0\)</span>，因此可以去掉 <span class="math inline">\(\mathbf{E}\)</span> 项。与双流体情形一样，<a href="#eq-momentum-MHD" class="quarto-xref">式&nbsp;<span>8.35</span></a> 左侧包含一个因子乘以磁流体力学连续性方程，因为左侧可以展开为 <span class="math display">\[
+\begin{aligned}
+\frac{\partial(\rho\mathbf{u})}{\partial t} + \nabla\cdot(\rho\mathbf{u}\mathbf{u}) &amp;= \left[ \cancel{\frac{\partial\rho}{\partial t} + \nabla\cdot(\rho\mathbf{u})} \right]\mathbf{u} + \rho\frac{\partial\mathbf{u}}{\partial t} + \rho\mathbf{u}\cdot\nabla\mathbf{u} \\
+&amp;= \rho \left( \frac{\partial\mathbf{u}}{\partial t} + \mathbf{u}\cdot\nabla\mathbf{u} \right)
+\end{aligned}
+\]</span></p>
+<p>由此得到磁流体力学运动方程的标准形式， <span id="eq-motion-MHD"><span class="math display">\[
+\rho\frac{\mathrm{D}\mathbf{u}}{\mathrm{D}t} = \mathbf{J}\times\mathbf{B} - \nabla\cdot\overleftrightarrow{P}^{\mathrm{MHD}}
+\tag{8.36}\]</span></span> 其中 <span class="math display">\[
+\frac{\mathrm{D}}{\mathrm{D}t} \equiv \frac{\partial}{\partial t} + \mathbf{u}\cdot\nabla
+\]</span> 是使用质心速度定义的对流导数。这种记号用于强调与单种粒子处理方法的区别。对磁流体力学压力张量的标量近似，将推迟到讨论磁流体力学欧姆定律及其含义之后再进行。</p>
+<section id="sec-mhd-ohm" class="level3" data-number="8.6.1">
+<h3 data-number="8.6.1" class="anchored" data-anchor-id="sec-mhd-ohm"><span class="header-section-number">8.6.1</span> 磁流体力学欧姆定律</h3>
+<p><a href="#eq-motion-MHD" class="quarto-xref">式&nbsp;<span>8.36</span></a> 提供了一个联系 <span class="math inline">\(\mathbf{J}\)</span> 和 <span class="math inline">\(\mathbf{u}\)</span> 的方程；现在来寻找另一个方程。为此，考虑双流体电子运动方程， <span id="eq-electron-momentum-mhd"><span class="math display">\[
+m_e\frac{\mathrm{d}\mathbf{u}_e}{\mathrm{d}t} = -e(\mathbf{E}+\mathbf{u}_e\times\mathbf{B}) - \frac{1}{n_e}\nabla(n_e k_B T_e) - \nu_{ei}m_e(\mathbf{u}_e - \mathbf{u}_i)
+\tag{8.37}\]</span></span></p>
+<p>在磁流体力学中，我们关注大空间尺度的低频现象。如果现象的特征时间尺度比电子回旋运动的时间尺度长，那么电子惯性项 <span class="math inline">\(m_e \mathrm{d}\mathbf{u}_e/\mathrm{d}t\)</span> 与磁力项 <span class="math inline">\(-e(\mathbf{u}_e\times\mathbf{B})\)</span> 相比很小，可以去掉。这一假设对于垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的速度是合理的，但对于平行于 <span class="math inline">\(\mathbf{B}\)</span> 的速度分量可能是很差的近似，因为平行速度不会产生磁力。由于 <span class="math inline">\(\mathbf{u}_e - \mathbf{u}_i = -\mathbf{J}/n_e e\)</span> 且 <span class="math inline">\(\mathbf{u}_i\simeq \mathbf{u}\)</span>，<a href="#eq-electron-momentum-mhd" class="quarto-xref">式&nbsp;<span>8.37</span></a> 简化为广义欧姆定律 <span id="eq-ohm-law-mhd"><span class="math display">\[
+\mathbf{E} + \mathbf{u}\times\mathbf{B} - \frac{1}{n_e e}\mathbf{J}\times\mathbf{B} + \frac{1}{n_e e}\nabla(n_e k_B T_e) = \eta\mathbf{J}
+\tag{8.38}\]</span></span></p>
+<p>（如果考虑电荷大于 1 的离子种类会怎样？）左侧的 <span class="math inline">\(-\mathbf{J}\times\mathbf{B}/n_e e\)</span> 项称为_霍尔项_，在以下两种情况中的任意一种下都可以忽略：</p>
+<ol type="1">
+<li>磁流体力学运动方程 <a href="#eq-motion-MHD" class="quarto-xref">式&nbsp;<span>8.36</span></a> 中的压力项与另外两项相比较小，可以忽略，因而另外两项必须平衡，得到 <span class="math display">\[
+|\mathbf{J}|\sim \omega\rho|\mathbf{u}|/|\mathbf{B}|
+\]</span></li>
+</ol>
+<p>其中 <span class="math inline">\(\omega\sim\mathrm{D}/\mathrm{D}t\)</span> 是该现象的特征频率。此时将霍尔项与 U×B 项比较可知，霍尔项小一个 <span class="math inline">\(\sim \omega/\omega_{ci}\)</span> 的因子，其中 <span class="math inline">\(\omega_{ci}=q_i B/m_i\)</span> 是离子回旋频率。因此，对于特征频率远小于 <span class="math inline">\(\omega_{ci}\)</span> 的现象，忽略霍尔项是合理的。</p>
+<ol start="2" type="1">
+<li>电子–离子碰撞频率远大于电子回旋频率 <span class="math inline">\(\omega_{ce}=q_e B /m_e\)</span>。此时霍尔项与右侧电阻项 <span class="math inline">\(\eta\mathbf{J}=(m_e\nu_{ei}/n_e e^2)\mathbf{J}\)</span> 相比小一个 <span class="math inline">\(\omega_{ce}/\nu_{ei}\)</span> 的因子，因此可以忽略。</li>
+</ol>
+</section>
+<section id="理想磁流体力学" class="level3" data-number="8.6.2">
+<h3 data-number="8.6.2" class="anchored" data-anchor-id="理想磁流体力学"><span class="header-section-number">8.6.2</span> 理想磁流体力学</h3>
+<p>如果忽略霍尔项，系统称为理想磁流体力学。通常不直接使用 <a href="#eq-ohm-law-mhd" class="quarto-xref">式&nbsp;<span>8.38</span></a>，而是利用其旋度得到感应方程 <span class="math display">\[
+-\frac{\partial\mathbf{B}}{\partial t} + \nabla\times(\mathbf{u}\times\mathbf{B}) - \frac{1}{n_e e}\nabla n_e\times\nabla k_B T_e = \nabla\times\left( \frac{\eta}{\mu_0}\nabla\times\mathbf{B} \right)
+\]</span></p>
+<p>通常密度梯度与温度梯度平行，因此可以去掉热电动势项 <span class="math inline">\((n_e e)^{-1}\nabla n_e\times\nabla k_B T_e\)</span>，或者常常直接忽略热项；此时感应方程简化为 <span id="eq-mhd-induction"><span class="math display">\[
+-\frac{\partial\mathbf{B}}{\partial t} + \nabla\times(\mathbf{u}\times\mathbf{B}) = \nabla\times\left( \frac{\eta}{\mu_0}\nabla\times\mathbf{B} \right)
+\tag{8.39}\]</span></span> 或者写成欧姆定律的形式 <span id="eq-ideal-mhd-ohm-law"><span class="math display">\[
+\mathbf{E} + \mathbf{u}\times\mathbf{B} = \eta\mathbf{J}
+\tag{8.40}\]</span></span></p>
+<p>如果电阻项 <span class="math inline">\(\eta\mathbf{J}\)</span> 与 <a href="#eq-ideal-mhd-ohm-law" class="quarto-xref">式&nbsp;<span>8.40</span></a> 中其他项相比小到可以忽略，那么称等离子体为_理想的_或_完全导电的_。由电磁理论的洛伦兹变换可知 <span class="math display">\[
+\mathbf{E}+\mathbf{u}\times\mathbf{B} = \mathbf{E}^\prime
+\]</span> 其中 <span class="math inline">\(\mathbf{E}^\prime\)</span> 是以速度 <span class="math inline">\(\mathbf{u}\)</span> 运动的参考系中观测到的电场。这意味着，在以速度 <span class="math inline">\(\mathbf{u}\)</span> 运动的参考系中，理想等离子体的磁通不随时间变化，否则法拉第定律将意味着运动参考系中存在电场。磁通冻结概念是理想磁流体力学的基本“基石”。虽然这个概念通常是极好的近似，但必须记住，当电子惯性项、电子压力项或霍尔项中的任何一项变得重要时，这一概念就会失效，并导致不同的、更复杂的行为。</p>
+<p>磁通冻结概念常以稍有不同的形式表述为磁场冻结，即常说磁力线冻结在等离子体中，使等离子体和磁力线作为一个整体一起运动。虽然这种观点相当直观且有用，但它存在一些歧义，因为在某些情况下理想等离子体实际上可以穿过磁力线运动。在这些情况下，尽管等离子体穿过磁力线运动，其内部磁通仍然守恒。</p>
+<p>下面通过直接计算穿过表面 <span class="math inline">\(S(t)\)</span> 的磁通变化率，正式证明磁通冻结性质。该表面由物质线 <span class="math inline">\(C(t)\)</span> 界定，即由随等离子体运动的闭合曲线界定。磁通为 <span class="math display">\[
+\Phi(t) = \int_{S(t)} \mathbf{B}(\mathbf{x},t)\cdot\mathrm{d}\mathbf{s}
+\]</span> 磁通随时间变化的原因可以是：（i）<span class="math inline">\(\mathbf{B}(t)\)</span> 显式依赖时间；或（ii）等离子体运动导致表面 <span class="math inline">\(S(t)\)</span> 变化。因此磁通变化率为 <span class="math display">\[
+\frac{\mathrm{D}\Phi}{\mathrm{D}t} = \lim_{\delta t\rightarrow 0}\left( \frac{ \int_{S(t+\delta t)} \mathbf{B}(\mathbf{x},t+\delta t)\cdot\mathrm{d}\mathbf{s} - \int_{S(t)} \mathbf{B}(\mathbf{x},t)\cdot\mathrm{d}\mathbf{s} }{\delta t} \right)
+\]</span></p>
+<p>边界曲线 <span class="math inline">\(C\)</span> 的线元 <span class="math inline">\(\mathrm{d}\mathbf{l}\)</span> 的位移为 <span class="math inline">\(\mathbf{u}\delta t\)</span>，其中 <span class="math inline">\(\mathbf{u}\)</span> 是该线元的速度。此位移引起的面积增量为 <span class="math inline">\(\Delta S = \mathbf{u}\delta t\times\mathrm{d}\mathbf{l}\)</span>。因此磁通变化率可表示为 <span class="math display">\[
+\begin{aligned}
+\frac{\mathrm{D}\Phi}{\mathrm{D}t} &amp;= \lim_{\delta t\rightarrow 0}\left( \frac{ \int_{S(t+\delta t)} \left(\mathbf{B}+\delta t\frac{\partial\mathbf{B}}{\partial t}\right)\cdot\mathrm{d}\mathbf{s} - \int_{S(t)} \mathbf{B}\cdot\mathrm{d}\mathbf{s} }{\delta t} \right) \\
+&amp;= \lim_{\delta t\rightarrow 0}\left( \frac{ \int_{S(t)} \left(\mathbf{B}+\delta t\frac{\partial\mathbf{B}}{\partial t}\right)\cdot\mathrm{d}\mathbf{s} + \oint_C\mathbf{B}\cdot\mathbf{u}\delta t\times\mathrm{d}\mathbf{l} - \int_{S(t)} \mathbf{B}\cdot\mathrm{d}\mathbf{s} }{\delta t} \right) \\
+&amp;= \int_{S(t)}\frac{\partial\mathbf{B}}{\partial t}\cdot\mathrm{d}\mathbf{s} + \oint_C\mathbf{B}\cdot\mathbf{u}\times\mathrm{d}\mathbf{l} \\
+&amp;= \int_{S(t)}\frac{\partial\mathbf{B}}{\partial t}\cdot\mathrm{d}\mathbf{s} + \oint_C\mathrm{d}\mathbf{l}\cdot(\mathbf{B}\cdot\mathbf{u}) \\
+&amp;= \int_{S(t)}\left[ \frac{\partial\mathbf{B}}{\partial t} + \nabla\times(\mathbf{B}\times\mathbf{u}) \right]\cdot\mathrm{d}\mathbf{S}
+\end{aligned}
+\]</span></p>
+<p>因此，如果 <span id="eq-induction-ideal-mhd"><span class="math display">\[
+\frac{\partial\mathbf{B}}{\partial t} + \nabla\times(\mathbf{B}\times\mathbf{u}) = 0
+\tag{8.41}\]</span></span> 那么 <span class="math display">\[
+\frac{\mathrm{D}\Phi}{\mathrm{D}t} = 0
+\]</span> 所以与任意闭合物质线相交链的磁通保持不变。因此，磁通冻结在理想等离子体中，因为当 <span class="math inline">\(\eta = 0\)</span> 时，<a href="#eq-mhd-induction" class="quarto-xref">式&nbsp;<span>8.39</span></a> 简化为 <a href="#eq-induction-ideal-mhd" class="quarto-xref">式&nbsp;<span>8.41</span></a>。<a href="#eq-induction-ideal-mhd" class="quarto-xref">式&nbsp;<span>8.41</span></a> 称为理想磁流体力学感应方程。</p>
+<section id="状态方程-1" class="level4" data-number="8.6.2.1">
+<h4 data-number="8.6.2.1" class="anchored" data-anchor-id="状态方程-1"><span class="header-section-number">8.6.2.1</span> 状态方程</h4>
+<p><strong>双绝热定律</strong></p>
+<p>采用与推导 <a href="#eq-eos_adiabatic" class="quarto-xref">式&nbsp;<span>8.11</span></a> 或 <a href="kinetic.html#eq-adiabatic1" class="quarto-xref">式&nbsp;<span>12.28</span></a> 类似的方法，可得到磁流体力学绝热关系 <span class="math display">\[
+\frac{p^{\mathrm{MHD}}}{\rho^\gamma} = \mathrm{const}.
+\]</span> 其中仍有 <span class="math inline">\(\gamma=(N+2)/N\)</span>，<span class="math inline">\(N\)</span> 是系统的维数。上一节已经证明，磁通在等离子体参考系中守恒。这意味着，如 <a href="#fig-b-flux-tube" class="quarto-xref">图&nbsp;<span>8.1</span></a> 所示，最初与磁通管占据相同体积的等离子体管，其演化受到约束，使得穿过等离子体管横截面的 <span class="math inline">\(\int\mathbf{B}\cdot\mathrm{d}\mathbf{s}\)</span> 保持不变。对于横截面无限小的磁通管，横截面上的磁场近似均匀，可以写成 <span class="math inline">\(BA = \mathrm{const}\)</span>，其中 <span class="math inline">\(A\)</span> 是横截面积。</p>
+<div id="fig-b-flux-tube" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-b-flux-tube-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/magnetic_flux_tube.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-b-flux-tube-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;8.1: 磁通为 <span class="math inline">\(\Phi=BA\)</span> 的磁通管。
+</figcaption>
+</figure>
+</div>
+<p>为这一磁化等离子体定义两个温度：<span class="math inline">\(T_\perp\)</span>，对应垂直于磁场方向的运动；以及 <span class="math inline">\(T_\parallel\)</span>，对应平行于磁场方向的运动。如果由于某种原因（例如各向异性加热或压缩），温度出现 <span class="math inline">\(T_\perp \neq T_\parallel\)</span> 的各向异性，而且碰撞不频繁，那么这种各向异性将持续很长时间，因为碰撞是使两个温度达到平衡的机制。因此，我们不假设磁流体力学压力完全各向同性，而考虑限制较少的情形，其压力张量为 <span class="math display">\[
+\overleftrightarrow{P}^{\mathrm{MHD}} =
+\begin{bmatrix}
+p_\perp &amp; 0 &amp; 0 \\ 0 &amp; p_\perp &amp; 0 \\ 0 &amp; 0 &amp; p_\parallel
+\end{bmatrix} =
+p_\perp\mathbf{I} + (p_\parallel - p_\perp)\hat{b}\hat{b}
+\]</span></p>
+<p>上面矩阵的前两个坐标（类似 <span class="math inline">\(x, y\)</span>）表示垂直于局部磁场 <span class="math inline">\(\mathbf{B}\)</span> 的方向，第三个坐标（类似 <span class="math inline">\(z\)</span>）表示平行于 <span class="math inline">\(\mathbf{B}\)</span> 的方向。右侧的张量表达式与之等价（这里 <span class="math inline">\(\mathbf{I}\)</span> 是单位张量），但允许任意曲线几何。现在分别为垂直和平行方向建立绝热关系：</p>
+<ul>
+<li><p>平行方向：此时维数为 <span class="math inline">\(N = 1\)</span>，因此 <span class="math inline">\(\gamma = 3\)</span>，绝热定律给出 <span id="eq-parallel-p-rho-1D"><span class="math display">\[
+\frac{p_\parallel^{1D}}{\rho_{1D}^3}=\mathrm{const.}
+\tag{8.42}\]</span></span> 其中 <span class="math inline">\(\rho_{1D}\)</span> 是_一维_质量密度，即 <span class="math inline">\(\rho_{1D}\sim 1/L\)</span>，其中 <span class="math inline">\(L\)</span> 是 <a href="#fig-b-flux-tube" class="quarto-xref">图&nbsp;<span>8.1</span></a> 中沿磁通管方向的长度。此前一直隐含使用的三维质量密度满足 <span class="math inline">\(\rho\sim 1/LA\)</span>，其中 <span class="math inline">\(A\)</span> 是磁通管的横截面积；类似地，三维压力满足 <span class="math inline">\(p_\parallel \sim \rho T_\parallel\)</span>。但必须注意，<span class="math inline">\(p_\parallel^{1D}\sim\rho_{1D}T_\parallel\)</span>，因此利用 <span class="math inline">\(BA=\mathrm{const.}\)</span>，可以将 <a href="#eq-parallel-p-rho-1D" class="quarto-xref">式&nbsp;<span>8.42</span></a> 改写为 <span class="math display">\[
+\mathrm{const.} = \frac{p_\parallel^{1D}}{\rho_{1D}^3} \sim \frac{\rho_{1D}T_\parallel}{\rho_{1D}^3} \sim T_\parallel \rho_{1D}^2 \sim \left( \frac{1}{LA} \right) T_\parallel (LA)^3 B^2
+\]</span> 或者 <span id="eq-CGL-par"><span class="math display">\[
+\frac{p_\parallel B^2}{\rho^3} = \mathrm{const.}
+\tag{8.43}\]</span></span></p></li>
+<li><p>垂直方向：此时维数为 <span class="math inline">\(N = 2\)</span>，因此 <span class="math inline">\(\gamma = 2\)</span>，绝热定律给出 <span id="eq-perpendicular-p-rho-2D"><span class="math display">\[
+\frac{p_\perp^{2D}}{\rho_{2D}^2}=\mathrm{const.}
+\tag{8.44}\]</span></span> 其中 <span class="math inline">\(p_\perp^{2D}\)</span> 是二维垂直压力，其量纲是单位面积的能量；<span class="math inline">\(\rho_{2D}\)</span> 是二维质量密度，其量纲是单位面积的质量。因此 <span class="math inline">\(\rho_{2D}\sim 1/A\)</span>，所以 <span class="math inline">\(p_\perp^{2D}\sim\rho_{2D}T_\perp \sim T_\perp/A\)</span>，此时可将 <a href="#eq-perpendicular-p-rho-2D" class="quarto-xref">式&nbsp;<span>8.44</span></a> 改写为 <span class="math display">\[
+\mathrm{const.} = \frac{p_\parallel B^2}{\rho^3} = T_\perp A \sim \left( \frac{1}{LA} \right) T_\perp \frac{LA}{B}
+\]</span> 或者 <span id="eq-CGL-perp"><span class="math display">\[
+\frac{p_\perp}{\rho B} = \mathrm{const.}
+\tag{8.45}\]</span></span></p></li>
+</ul>
+<p><a href="#eq-CGL-par" class="quarto-xref">式&nbsp;<span>8.43</span></a> 和 <a href="#eq-CGL-perp" class="quarto-xref">式&nbsp;<span>8.45</span></a> 称为双绝热定律或 CGL 定律，以最先建立这些定律的 Chew、Goldberger 和 Low <span class="citation" data-cites="cgl1956">(<a href="#ref-cgl1956" role="doc-biblioref">Chew 等 1956年</a>)</span> 的名字命名。</p>
+<p><strong>单绝热定律</strong></p>
+<p>如果碰撞足够频繁，使垂直和平行温度达到平衡，那么压力张量变为完全各向同性，系统维数为 <span class="math inline">\(N = 3\)</span>，因此 <span class="math inline">\(\gamma = 5/3\)</span>。此时只有一个压力和一个温度，绝热关系变为 <span id="eq-single-adiabatic"><span class="math display">\[
+\frac{p}{\rho^{5/3}} = \mathrm{const.}
+\tag{8.46}\]</span></span></p>
+</section>
+<section id="麦克斯韦方程的磁流体力学近似" class="level4" data-number="8.6.2.2">
+<h4 data-number="8.6.2.2" class="anchored" data-anchor-id="麦克斯韦方程的磁流体力学近似"><span class="header-section-number">8.6.2.2</span> 麦克斯韦方程的磁流体力学近似</h4>
+<p>磁流体力学的各种假设使麦克斯韦方程可以作简化近似。特别是，磁流体力学中的电中性假设使泊松方程成为多余，因为泊松方程规定非中性与电场静电分量之间的关系。电中性假设也对电流密度有影响。为了说明这一点，将双流体连续性方程乘以 <span class="math inline">\(q_s\)</span>，再对粒子种类求和，得到电荷守恒方程 <span id="eq-charge-conservation"><span class="math display">\[
+\frac{\partial}{\partial t}\left( \sum_s n_s q_s \right) + \nabla\cdot\mathbf{J} = 0
+\tag{8.47}\]</span></span></p>
+<p>因此，电中性意味着 <span class="math display">\[
+\nabla\cdot\mathbf{J} = 0
+\]</span></p>
+<p>现在考虑安培定律 <span class="math display">\[
+\nabla\times\mathbf{B} = \mu_0\mathbf{J} + \mu_0\epsilon_0\dot{\mathbf{E}}
+\]</span></p>
+<p>取散度得到 <span class="math display">\[
+\nabla\cdot
+\]</span> 如果使用泊松方程，这与 <a href="#eq-charge-conservation" class="quarto-xref">式&nbsp;<span>8.47</span></a> 等价。</p>
+<p>最后，磁流体力学限于特征速度 <span class="math inline">\(V_{\mathrm{ph}}\)</span> 远小于真空光速 <span class="math inline">\(c=(\mu_0 \epsilon_0)^{-1/2}\)</span> 的现象。同样，假设 <span class="math inline">\(t_{\mathrm{char}}\)</span> 表示给定现象的特征时间尺度，<span class="math inline">\(l_{\mathrm{char}}\)</span> 表示相应的特征长度尺度，因此 <span class="math inline">\(V_{\mathrm{ph}}\sim l_{\mathrm{char}}/t_{\mathrm{char}}\)</span>。法拉第方程给出量级关系 <span class="math display">\[
+\nabla\times\mathbf{E} = -\dot{\mathbf{B}} \rightarrow E \sim B l_{\mathrm{char}}/t_{\mathrm{char}}
+\]</span> 比较安培定律中位移电流项与左侧的大小，可得 <span class="math display">\[
+\frac{\mu_0\epsilon_0|\dot{\mathbf{E}}|}{|\nabla\times\mathbf{B}|} \sim \frac{c^{-2} E/t_{\mathrm{char}}}{B/l_{\mathrm{char}}} \sim \left( \frac{V_{\mathrm{ph}}}{c} \right)^2
+\]</span></p>
+<p>因此，如果 <span class="math inline">\(V_{\mathrm{ph}} \ll c\)</span>，可以从安培定律中去掉位移电流项，得到所谓的“前麦克斯韦”形式（即达尔文近似） <span id="eq-ampere-pre-maxwell"><span class="math display">\[
+\nabla\times\mathbf{B} = \mu_0 \mathbf{J}
+\tag{8.48}\]</span></span></p>
+<p>对 <a href="#eq-ampere-pre-maxwell" class="quarto-xref">式&nbsp;<span>8.48</span></a> 取散度得到 <span class="math inline">\(\nabla\cdot\mathbf{J}=0\)</span>，因此不需要单独指定它。</p>
+</section>
+<section id="完整的理想磁流体力学方程组" class="level4" data-number="8.6.2.3">
+<h4 data-number="8.6.2.3" class="anchored" data-anchor-id="完整的理想磁流体力学方程组"><span class="header-section-number">8.6.2.3</span> 完整的理想磁流体力学方程组</h4>
+<p>在最通常的意义上，理想磁流体力学包含可压缩、绝热、无黏性流体的方程： <span id="eq-ideal-mhd"><span class="math display">\[
+\begin{aligned}
+\frac{\partial \rho}{\partial t} + \nabla\cdot(\rho\mathbf{u}) = 0 \\
+\frac{\partial \rho\mathbf{u}}{\partial t} + \nabla\cdot\left( \rho\mathbf{u}\mathbf{u} - \frac{1}{\mu_0}\mathbf{B}\mathbf{B} + \frac{\mathbf{B}^2}{2\mu_0} + p \right) = 0 \\
+\frac{\partial e}{\partial t} + \nabla\cdot\left[ (e + p_\text{tot})\mathbf{u} - \frac{1}{\mu_0}\mathbf{B}(\mathbf{B}\cdot\mathbf{u}) \right] = 0 \\
+\frac{\partial \mathbf{B}}{\partial t} - \nabla\times(\mathbf{u}\times\mathbf{B}) = 0 \\
+e = \frac{\rho \mathbf{u}^2}{2} + \frac{p}{\gamma - 1} + \frac{\mathbf{B}^2}{2\mu_0}
+\end{aligned}
+\tag{8.49}\]</span></span> 其中 <span class="math inline">\(\rho\)</span> 是质量密度，<span class="math inline">\(\mathbf{u}\)</span> 是速度，<span class="math inline">\(e\)</span> 是总能量密度，<span class="math inline">\(\mathbf{B}\)</span> 是磁场，<span class="math inline">\(p\)</span> 是热压力，<span class="math inline">\(p_\text{tot} = p + p_B = p + \mathbf{B}^2/(2\mu_0)\)</span> 是总压力，<span class="math inline">\(\gamma\)</span> 是绝热指数（比热比）。 理想磁流体力学不包含任何类型的微观耗散（黏性、电阻或传导）。注意 <a href="#eq-ideal-mhd" class="quarto-xref">式&nbsp;<span>8.49</span></a> 中只出现一个常数 <span class="math inline">\(\mu_0\)</span>。引入温度时又出现一个新常数 <span class="math inline">\(R\equiv 2k_B/m\)</span>： <span class="math display">\[
+p = \rho\, R\, T
+\]</span></p>
+<p>模拟中经常使用无量纲单位。无量纲单位下的 <a href="#eq-ideal-mhd" class="quarto-xref">式&nbsp;<span>8.49</span></a> 可写为 <span id="eq-ideal-mhd-dimensionless"><span class="math display">\[
+\begin{aligned}
+\frac{\partial \rho_\ast}{\partial t_\ast} + \nabla_\ast\cdot(\rho_\ast\mathbf{u}_\ast) = 0 \\
+\frac{\partial \rho_\ast\mathbf{u}_\ast}{\partial t_\ast} + \nabla_\ast\cdot\left( \rho_\ast\mathbf{u}_\ast\mathbf{u}_\ast - \mathbf{B}_\ast\mathbf{B}_\ast + \frac{\mathbf{B}_\ast^2}{2} + p_\ast \right) = 0 \\
+\frac{\partial e_\ast}{\partial t_\ast} + \nabla_\ast\cdot\left[ (e_\ast + p_\ast)\mathbf{u}_\ast - \mathbf{B}_\ast(\mathbf{B}_\ast\cdot\mathbf{u}_\ast) \right] = 0 \\
+\frac{\partial \mathbf{B}_\ast}{\partial t_\ast} - \nabla_\ast\times(\mathbf{u}_\ast\times\mathbf{B}_\ast) = 0 \\
+\mathcal{E}_\ast = \frac{\rho_\ast \mathbf{u}_\ast\cdot\mathbf{u}_\ast}{2} + \frac{p_\ast}{\gamma - 1} + \frac{\mathbf{B}_\ast^2}{2}
+\end{aligned}
+\tag{8.50}\]</span></span> 其中下标 <span class="math inline">\(\ast\)</span> 表示无量纲单位中的变量，绝热状态方程为 <span class="math display">\[
+p_\ast = \rho_\ast T_\ast
+\]</span></p>
+<p>在更偏理论的推导中，为简单起见，能量方程被单绝热定律 <a href="#eq-single-adiabatic" class="quarto-xref">式&nbsp;<span>8.46</span></a> 或双绝热定律 <a href="#eq-CGL-par" class="quarto-xref">式&nbsp;<span>8.43</span></a> 和 <a href="#eq-CGL-perp" class="quarto-xref">式&nbsp;<span>8.45</span></a> 取代。<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> 如果去掉各向同性假设，转而像 <a href="#eq-6-moment-fluids" class="quarto-xref">式&nbsp;<span>8.14</span></a> 中那样分别使用平行和垂直分量的压力方程，就得到各向异性磁流体力学方程：<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> <span id="eq-aniso-mhd"><span class="math display">\[
+\begin{aligned}
+\frac{\partial \rho_s}{\partial t} + \nabla\cdot(\rho_s\mathbf{u}_s) = 0 \\
+\frac{\partial (\rho_s\mathbf{u}_s)}{\partial t} + \nabla\cdot\left[ \rho_s\mathbf{u}_s\mathbf{u}_s + p_{s\perp}\pmb{I} + (p_{s\parallel} - p_{s\perp})\hat{b}\hat{b} - \frac{1}{\mu_0}\left( \mathbf{B}\mathbf{B} - \frac{B^2}{2}\pmb{I} \right) \right] = 0 \\
+\frac{\partial\mathbf{B}}{\partial t} - \nabla\times\left( \mathbf{u}_s \times\mathbf{B} \right) = 0 \\
+\frac{\partial p_{s\parallel}}{\partial t} + \nabla\cdot(p_{s\parallel}\mathbf{u}_s) + 2p_{s\parallel}\hat{b}\cdot(\hat{b}\cdot\nabla)\mathbf{u}_s = \frac{\delta p_{s\parallel}}{\delta t} \\
+\frac{\partial p_{s}}{\partial t} + \nabla\cdot(p_{s}\mathbf{u}_s) + \frac{2}{3}p_{s\perp}(\nabla\cdot\mathbf{u}_s) + \frac{2}{3}(p_\parallel - p_\perp)\hat{b}\cdot(\hat{b}\cdot\nabla)\mathbf{u}_s = 0
+\end{aligned}
+\tag{8.51}\]</span></span></p>
+<p>为了捕捉不连续面两侧的跃迁条件，需要用守恒形式的能量方程代替总压力方程： <span id="eq-aniso-energy"><span class="math display">\[
+\frac{\partial e}{\partial t} + \nabla\cdot\left[ \mathbf{u}\left( e+p_\perp + \frac{\mathbf{B}^2}{2\mu_0} + \mathbf{u}\cdot\left( (p_\parallel - p_\perp)\hat{b}\hat{b} - \frac{\mathbf{B}\mathbf{B}}{2\mu_0}  \right) \right) \right]
+\tag{8.52}\]</span></span> 其中总能量密度为 <span id="eq-aniso-e"><span class="math display">\[
+e = \frac{\rho \mathbf{u}^2}{2} + \frac{p}{\gamma - 1} + \frac{\mathbf{B}^2}{2\mu_0}
+\tag{8.53}\]</span></span></p>
+<p>与各向异性压力极限有关的等离子体不稳定性，即消防水管不稳定性、镜像不稳定性和离子回旋不稳定性，可能包含磁流体力学无法完全描述的动力学效应（<a href="kmhd.html" class="quarto-xref"><span>章节 15</span></a>）。此外，普通全局磁流体力学模拟的网格分辨率可能甚至不足以分辨磁流体不稳定性。</p>
+<ul>
+<li><p>消防水管不稳定性的判据 <span id="eq-firehose-threshold"><span class="math display">\[
+\frac{p_\parallel}{p_\perp} &gt; 1 + \frac{\mathbf{B}^2}{\mu_0 p_\perp}
+\tag{8.54}\]</span></span></p></li>
+<li><p>镜像不稳定性的判据 <span id="eq-mirror-threshold"><span class="math display">\[
+\frac{p_\perp}{p_\parallel} &gt; 1 + \frac{\mathbf{B}^2}{2\mu_0 p_\perp}
+\tag{8.55}\]</span></span></p></li>
+<li><p>离子回旋不稳定性的判据 <span id="eq-aic-threshold"><span class="math display">\[
+\frac{p_\perp}{p_\parallel} &gt; 1 + C_1\left(\frac{\mathbf{B}^2}{2\mu_0 p_\parallel}\right)^{C_2}
+\tag{8.56}\]</span></span> 其中，根据磁层观测 [Anderson+ 1996; Gary+ 1995]，可以取平均值 <span class="math inline">\(C_1 = 0.3\)</span> 和 <span class="math inline">\(C_2 = 0.5\)</span>。</p></li>
+</ul>
+<p>这些不稳定性的影响由 <a href="#eq-aniso-mhd" class="quarto-xref">式&nbsp;<span>8.51</span></a> 第四个方程右侧的平行压力碰撞项表示： <span id="eq-aniso-relaxation"><span class="math display">\[
+\frac{\delta p_\parallel}{\delta t} = \frac{\bar{p}_\parallel - p_\parallel}{\tau}
+\tag{8.57}\]</span></span> 其中 <span class="math inline">\(\bar{p}_\parallel\)</span> 是由 <a href="#eq-firehose-threshold" class="quarto-xref">式&nbsp;<span>8.54</span></a>、<a href="#eq-mirror-threshold" class="quarto-xref">式&nbsp;<span>8.55</span></a> 和 <a href="#eq-aic-threshold" class="quarto-xref">式&nbsp;<span>8.56</span></a> 得到的边际稳定平行压力。<a href="#eq-aniso-relaxation" class="quarto-xref">式&nbsp;<span>8.57</span></a> 称为不稳定性引起的压力弛豫项，弛豫时间 <span class="math inline">\(\tau\)</span> 与其增长率有关。</p>
+<p>这些方程自洽地描述了满足我们所作全部假设的现象，即：</p>
+<ol type="1">
+<li>由于特征长度远大于德拜长度，等离子体是电中性的；</li>
+<li>所研究现象的特征速度远小于光速；</li>
+<li>压力梯度和密度梯度平行，因此没有电热电动势；</li>
+<li>时间尺度远长于电子和离子的回旋周期。</li>
+</ol>
+<p>尽管这些假设是自洽的，它们未必能准确描述真实等离子体，因此磁流体力学模型虽然直观易懂，使用时仍必须谨慎。</p>
+<p>最后还可以按另一种方式对磁流体力学等离子体分类，即按照磁力 <span class="math inline">\(\mathbf{J}\times\mathbf{B}\)</span> 与流体力学力 <span class="math inline">\(\nabla\cdot\overleftrightarrow{P}\)</span> 的相对重要性分类。如果磁力与流体力学力相比可以忽略，那么使用磁流体力学就没有多大意义，因为此时方程组只是经典流体力学。因此，磁流体力学中有实际意义的情况是磁力和流体力学力的重要性相当，或者磁力远比流体力学力重要。利用 <a href="#eq-ampere-pre-maxwell" class="quarto-xref">式&nbsp;<span>8.48</span></a>，将流体力学力与磁力的标称比值定义为 <span class="math display">\[
+\beta = \frac{p}{B^2/2\mu_0} \sim \frac{\nabla\cdot\overleftarrow{P}}{\mathbf{J}\times\mathbf{B}} \sim \frac{p/L}{B^2/2\mu_0 L}
+\]</span></p>
+<p>假设两种力的特征梯度尺度长度 <span class="math inline">\(L\)</span> 相当，因此在比较时可以约去。在低 <span class="math inline">\(\beta\)</span> 等离子体中，<span class="math inline">\(B^2/2\mu_0\)</span> 远大于 <span class="math inline">\(p\)</span>，因此流体力学力与磁力相比可以忽略；而在 <span class="math inline">\(\beta = \mathcal{O}(1)\)</span> 的等离子体中，磁力和流体力学力相当。不同的 <span class="math inline">\(\beta\)</span> 区域对后续章节中许多近似的有效性有重要影响。</p>
+</section>
+</section>
+<section id="霍尔磁流体力学" class="level3" data-number="8.6.3">
+<h3 data-number="8.6.3" class="anchored" data-anchor-id="霍尔磁流体力学"><span class="header-section-number">8.6.3</span> 霍尔磁流体力学</h3>
+<p>作为理想／电阻性磁流体力学模型的扩展，霍尔磁流体力学通过在广义欧姆定律中重新引入霍尔项，将电子和离子的运动解耦： <span id="eq-ohm-law-hall"><span class="math display">\[
+\mathbf{E} = -\mathbf{u}\times\mathbf{B}+\eta\mathbf{J}+\frac{1}{en}\mathbf{J}\times\mathbf{B} - \frac{\nabla p_e}{ne}
+\tag{8.58}\]</span></span> 右侧第一项是对流项，第二项是电阻项，第三项是霍尔项，第四项是电子压力梯度项。标量电子压力由电子压力张量简化而来，而后者由独立的电子压力方程得到。</p>
+<p>霍尔磁流体力学方程为 <span id="eq-hall_mhd"><span class="math display">\[
+\begin{aligned}
+\frac{\partial\rho}{\partial t}&amp;=-\nabla\cdot \left(\rho \mathbf{u} \right) \\
+\frac{\partial (\rho\mathbf{u})}{\partial t}&amp;=-\nabla\cdot \left(\rho\mathbf{u}\mathbf{u}+(p+p_e)\bar{\bar{I}}+\frac{B^2}{2\mu_0}\bar{\bar{I}}-\frac{\mathbf{B}\mathbf{B}}{\mu_0} \right) \\
+\frac{\partial e}{\partial t}&amp;=-\nabla\cdot\left[ \left(\epsilon+p\right)\mathbf{u} +(\epsilon_e + p_e)\mathbf{u}_e+\mathbf{u}_e\cdot\left(\frac{\mathbf{B}^2}{\mu_0}\bar{\bar{I}}-\frac{\mathbf{B}\mathbf{B}}{\mu_0}\right) - \mathbf{B}\times\eta\mathbf{J} \right] \\
+\frac{\partial \mathbf{B}}{\partial t} &amp;= -\nabla\times\left[ \mathbf{u}_e \times\mathbf{B} + \eta\mathbf{J} - \frac{\nabla p_e}{ne}\right] \\
+\frac{\partial p_e}{\partial t} + \nabla\cdot \left(p_e\mathbf{u}_e \right)&amp;=-(\gamma-1)p_e\nabla\cdot\mathbf{u}_e
+\end{aligned}
+\tag{8.59}\]</span></span> 其中 <span class="math inline">\(\bar{\bar{I}}\)</span> 是单位矩阵，<span class="math inline">\(\rho\)</span> 是质量密度，<span class="math inline">\(\mathbf{u}\)</span> 是等离子体整体速度，<span class="math inline">\(\mathbf{B}\)</span> 是磁场，<span class="math inline">\(p_e\)</span> 是电子压力，<span class="math inline">\(p\)</span> 是离子热压力，<span class="math inline">\(\mathbf{J}=\nabla\times\mathbf{B}/\mu_0\)</span> 是电流密度，<span class="math inline">\(\epsilon=\rho\mathbf{u}^2/2 + p / (\gamma - 1)\)</span> 是流体力学能量密度，<span class="math inline">\(\epsilon_e=\rho\mathbf{u}_e^2/2 + p_e / (\gamma - 1)\)</span> 是电子流体力学能量密度。霍尔速度定义为 <span id="eq-hall-velocity"><span class="math display">\[
+\mathbf{v}_H=-\frac{\mathbf{J}}{ne}
+\tag{8.60}\]</span></span> 电子整体速度为 <span id="eq-hall-electron-velocity"><span class="math display">\[
+\mathbf{u}_e = \mathbf{u} + \mathbf{v}_H
+\tag{8.61}\]</span></span></p>
+<p>总能量密度为 <span class="math display">\[
+e = \epsilon + \epsilon_e + \frac{\mathbf{B}^2}{2\mu_0} = \frac{1}{2}\rho \mathbf{u}^2+\frac{1}{\gamma-1}(p+p_e)+\frac{\mathbf{B}^2}{2\mu_0}
+\]</span> 其中 <span class="math inline">\(\gamma\)</span> 是绝热指数。注意，在霍尔磁流体力学中，只有 <span class="math inline">\((\rho,\mathbf{u},\mathbf{B},p,p_e)\)</span> 是未知量；其他都是派生量。</p>
+<p>为了回到理想磁流体力学方程，只需忽略霍尔速度 <a href="#eq-hall-velocity" class="quarto-xref">式&nbsp;<span>8.60</span></a>，并在能量守恒方程和感应方程中用 <span class="math inline">\(\mathbf{u}\)</span> 代替 <span class="math inline">\(\mathbf{u}_e\)</span>。<em>注意，这并不意味着理想磁流体力学中的电流密度为零：它只是在推导坡印廷通量中的电场以及感应方程时被忽略的项。</em></p>
+<p>需要认识到的重要一点是，理想磁流体力学没有固有尺度，而霍尔磁流体力学给系统引入了一个新的特征长度尺度——离子惯性长度 <span class="math inline">\(d_i\)</span>。在理想磁流体力学中，当等离子体 beta 较低时，剪切阿尔芬模式和快磁声模式的速度变得近似相等。这称为_简并_，意味着很难区分这两种模式，因为它们基本上以相同速度传播。在霍尔磁流体力学中，当波长与 <span class="math inline">\(d_i\)</span> 可比时，剪切阿尔芬模式与快磁声模式之间的区别变得清晰：</p>
+<ol type="1">
+<li>快磁声波（哨声波）受电子动力学影响，在霍尔磁流体力学框架内以较高频率传播。</li>
+<li>剪切阿尔芬波（动力学阿尔芬波或阿尔芬–离子回旋波）主要由离子动力学驱动，倾向于以较低频率传播。</li>
+</ol>
+</section>
+</section>
+<section id="sec-fluid-drift-perp" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="sec-fluid-drift-perp"><span class="header-section-number">8.7</span> 垂直于 B 的流体漂移</h2>
+<p>由于流体元由许多单个粒子组成，如果各个导引中心存在垂直于 <span class="math inline">\(\mathbf{B}\)</span> 的漂移，我们会预期流体也存在这样的漂移。然而，由于 <span class="math inline">\(\nabla p\)</span> 项只出现在流体方程中，因此存在一种与其相关的漂移，流体元有这种漂移，而粒子没有。对于每种粒子，有运动方程 <span id="eq-momentum_single_fluid_ratio"><span class="math display">\[
+mn\Big[ \underbrace{\frac{\partial\mathbf{u}}{\partial t}}_{1}+\underbrace{(\mathbf{u}\cdot\nabla)\mathbf{u}}_{2}\Big] = q n (\mathbf{E}+\underbrace{\mathbf{u}\times\mathbf{B}}_{3}) - \nabla p
+\tag{8.62}\]</span></span></p>
+<p>考虑第 1 项与第 3 项之比： <span class="math display">\[
+\frac{\text{第 }1\text{ 项}}{\text{第 }3\text{ 项}} \approx \bigg\lvert\frac{mni\omega v_\perp}{qnv_\perp B}\bigg\rvert \approx \frac{\omega}{\omega_c}
+\]</span></p>
+<p>这里取 <span class="math inline">\(\partial/\partial t=i\omega\)</span>，只关注 <span class="math inline">\(\mathbf{v}_\perp\)</span>。对于相对于 <span class="math inline">\(\omega_c\)</span> 所对应时间尺度而言缓慢的漂移，可以忽略第 1 项。我们还将忽略 <span class="math inline">\((\mathbf{u}\cdot\nabla)\mathbf{u}\)</span> 项，并在事后证明这样做是合理的。令 <span class="math inline">\(\mathbf{E}\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 均匀，但 <span class="math inline">\(n\)</span> 和 <span class="math inline">\(p\)</span> 具有梯度。这是磁约束等离子体柱中的通常情形（图 3.4，添加插图！）。将 <a href="#eq-momentum_single_fluid_ratio" class="quarto-xref">式&nbsp;<span>8.62</span></a> 与 B 叉乘，得到（忽略左侧）</p>
+<p><span class="math display">\[
+\begin{aligned}
+0 &amp;= qn[\mathbf{E}\times\mathbf{B}+(\mathbf{u}_\perp\times\mathbf{B})\times\mathbf{B}] - \nabla p\times\mathbf{B} \\
+&amp;= qn[\mathbf{E}\times\mathbf{B}+\mathbf{B}(\cancel{\mathbf{u}_\perp\cdot\mathbf{B}})-\mathbf{u}_\perp\mathbf{B}^2] - \nabla p\times\mathbf{B} \\
+&amp;= qn[\mathbf{E}\times\mathbf{B}-\mathbf{u}_\perp\mathbf{B}^2] - \nabla p\times\mathbf{B}
+\end{aligned}
+\]</span></p>
+<p>因此， <span class="math display">\[
+\mathbf{u}_\perp = \frac{\mathbf{E}\times\mathbf{B}}{B^2} -\frac{\nabla p \times\mathbf{B}}{qnB^2} \equiv \mathbf{u}_E + \mathbf{u}_D
+\]</span> 其中 <span class="math display">\[
+\mathbf{u}_E\equiv\frac{\mathbf{E}\times\mathbf{B}}{B^2}\quad\mathbf{E}\times\mathbf{B}\,\text{漂移}
+\]</span></p>
+<p><span id="eq-diamagnetic_drift"><span class="math display">\[
+\mathbf{u}_D\equiv-\frac{\nabla p\times\mathbf{B}}{qnB^2}\quad\text{抗磁漂移}
+\tag{8.63}\]</span></span></p>
+<p><span class="math inline">\(\mathbf{u}_E\)</span> 是 <span class="math inline">\(\mathbf{E}\times\mathbf{B}\)</span> 漂移，与导引中心的漂移相同；现在还有一种新的漂移 <span class="math inline">\(\mathbf{u}_D\)</span>，称为抗磁漂移。由于 <span class="math inline">\(\mathbf{u}_D\)</span> 垂直于梯度方向，如果 <span class="math inline">\(\mathbf{E}=0\)</span>，忽略 <span class="math inline">\((\mathbf{u}\cdot\nabla)\mathbf{u}\)</span> 是合理的。如果 <span class="math inline">\(\mathbf{E}=-\nabla\phi\neq 0\)</span>（即势场），当 <span class="math inline">\(\nabla\phi\)</span> 和 <span class="math inline">\(\nabla p\)</span> 方向相同时，<span class="math inline">\((\mathbf{u}\cdot\nabla)\mathbf{u}\)</span> 仍为零；否则可能出现涉及 <span class="math inline">\((\mathbf{u}\cdot\nabla)\mathbf{u}\)</span> 的更复杂解。</p>
+<p>借助 <a href="#eq-eos_nabla_p" class="quarto-xref">式&nbsp;<span>8.12</span></a>，可以将抗磁漂移写为 <span id="eq-diamagnetic_drift_eos"><span class="math display">\[
+\mathbf{u}_D = \pm \frac{\gamma k_B T}{eB}\frac{\hat{z}\times\nabla n}{n}
+\tag{8.64}\]</span></span></p>
+<p>特别是，对于图 3.4（添加该图！）所示几何形状中的等温等离子体，其中 <span class="math inline">\(\nabla n = \partial n\partial r\hat{r} = n^\prime\hat{r}\)</span>（<span class="math inline">\(n^\prime &lt; 0\)</span>），有以下使用过 Q 装置的实验人员熟悉的公式： <span class="math display">\[
+\begin{aligned}
+\mathbf{u}_{Di} &amp;= \frac{k_B T_i}{eB}\frac{n^\prime}{n}\hat{\theta} \\
+\mathbf{u}_{De} &amp;= -\frac{k_B T_e}{eB}\frac{n^\prime}{n}\hat{\theta}
+\end{aligned}
+\]</span></p>
+<p>这种漂移的物理原因可从 <a href="#fig-diamagnetic-drift" class="quarto-xref">图&nbsp;<span>8.2</span></a> 看出。图中画出了离子在磁场中的回旋轨道。轨道的密度表明密度梯度指向左侧。穿过任何固定体积元时，向下运动的离子比向上运动的离子多，因为向下运动的离子来自密度更高的区域。因此，存在垂直于 <span class="math inline">\(\nabla n\)</span> 和 <span class="math inline">\(\mathbf{B}\)</span> 的流体漂移，<em>尽管导引中心是静止的</em>。抗磁漂移随 <span class="math inline">\(q\)</span> 的符号反转，因为回旋方向反转。<span class="math inline">\(\mathbf{u}_D\)</span> 的大小与质量无关，因为速度对质量的 <span class="math inline">\(m^{-1/2}\)</span> 依赖被拉莫尔半径的 <span class="math inline">\(m^{1/2}\)</span> 依赖抵消——质量较小时，一次回旋所采样的密度梯度更少。</p>
+<div id="fig-diamagnetic-drift" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-diamagnetic-drift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/origin_diamagnetic_drift.jpeg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diamagnetic-drift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;8.2: 抗磁漂移的起源。
+</figcaption>
+</figure>
+</div>
+<p>由于离子和电子向相反方向漂移，因此存在抗磁电流。对于 <span class="math inline">\(\gamma=Z=1\)</span>，它由下式给出： <span id="eq-diamagnetic_curent"><span class="math display">\[
+\mathbf{J}_D = ne(\mathbf{u}_{Di} + \mathbf{u}_{De}) = \frac{\mathbf{B}}{B^2}\times\nabla\left( p_i + p_e \right) = (k_B T_i + k_B T_e)\frac{\mathbf{B}\times\nabla n}{B^2}
+\tag{8.65}\]</span></span></p>
+<p>在粒子图像中，如果导引中心不漂移，人们不会预期测到电流。在流体图像中，只要存在压力梯度，就有电流 <span class="math inline">\(\mathbf{J}_D\)</span> 流动。如果考虑所有实验都必须在有限大小的等离子体中进行，这两种观点就可以协调。假设等离子体处在一个刚性盒子中（图 3.6，添加该图！）。如果从单粒子图像计算电流，就必须计入边缘处沿摆线轨道运动的粒子。由于左边的粒子比右边多，存在向下的净电流，与流体图像一致。</p>
+<p>读者可能对这种解释不满意，因为它要求指定反射壁。如果壁面吸收粒子或者被移除，就会发现由于两种粒子中一种——拉莫尔半径较大的那种——比另一种收集得更多，会形成电场。于是导引中心将发生漂移，模型也就失去了简单性。另一种方法是想象用电流探针测量抗磁电流（图 3.7，添加该图！）。它不过是一个带磁性材料铁芯的变压器。初级绕组是穿过铁芯的等离子体电流，次级绕组是绕铁芯的多匝线圈。令整个装置无限薄，使其不截获任何粒子。从图 3.7 可以清楚看出，由于左侧密度高于右侧，将测得向上的净电流，因此抗磁电流是真实电流。从这个例子可以看出，使用单粒子图像可能相当棘手。流体理论直接应用时通常能给出正确结果，尽管其中包含抗磁漂移之类的“虚构”漂移。</p>
+<p>单粒子图像中出现的梯度 B 漂移和曲率漂移又如何？曲率漂移也存在于流体图像中，因为流体元中的所有粒子沿弯曲磁场运动时都会感受到离心力。必须在流体运动方程右侧增加一项 <span class="math inline">\(\bar{F}_{cf} = \overline{nmv_\parallel^2}/R_c = nk_B T_\parallel / R_c\)</span>。这相当于重力 <span class="math inline">\(mng\)</span>，其中 <span class="math inline">\(g = k_BT_\parallel/m R_c\)</span>，并导致漂移 <span class="math inline">\(\mathbf{u}_g=(m/q)(\mathbf{g}\times\mathbf{B})/B^2\)</span>，与粒子图像相同（<a href="single.html#eq-gravity_drift" class="quarto-xref">式&nbsp;<span>7.5</span></a>）。</p>
+<div id="fig-nonuniform-B-no-grad-drift" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-nonuniform-B-no-grad-drift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/grad-B_no_drift_nonuniform_B.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nonuniform-B-no-grad-drift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;8.3: 在非均匀 B 场中，导引中心发生漂移，但流体元不发生漂移。
+</figcaption>
+</figure>
+</div>
+<p>然而，流体不存在梯度 B 漂移。可以从热力学角度证明，磁场不会影响麦克斯韦分布。这是因为洛伦兹力垂直于 <span class="math inline">\(\mathbf{v}\)</span>，不能改变任何粒子的能量。没有 <span class="math inline">\(\mathbf{B}\)</span> 时最可能的分布 <span class="math inline">\(f(\mathbf{v})\)</span>，在有 <span class="math inline">\(\mathbf{B}\)</span> 时仍然是最可能的分布。如果 <span class="math inline">\(f(\mathbf{v})\)</span> 在非均匀 <span class="math inline">\(\mathbf{B}\)</span> 场中仍为麦克斯韦分布，且没有密度梯度，那么带入任何固定流体元的净动量为零。尽管各个导引中心发生漂移，流体却没有漂移；任何固定流体元中的粒子漂移相互抵消。为了直观地看出这一点，考虑在非均匀 <span class="math inline">\(\mathbf{B}\)</span> 场中穿过一个流体元的两个粒子的轨道（<a href="#fig-nonuniform-B-no-grad-drift" class="quarto-xref">图&nbsp;<span>8.3</span></a>）。由于没有 <span class="math inline">\(\mathbf{E}\)</span> 场，拉莫尔半径只因 B 的梯度而变化；粒子没有加速，运动期间能量保持不变。如果两个粒子的能量相同，它们在流体元内部将具有相同的速度和拉莫尔半径。因此，将它们的速度相加得到流体速度时，每对粒子的贡献完全抵消。</p>
+<p>当存在非均匀 <span class="math inline">\(\mathbf{E}\)</span> 场时，不容易协调流体图像和粒子图像。此时 <a href="single.html#sec-nonuniform_E" class="quarto-xref"><span>小节 7.3</span></a> 中的有限拉莫尔半径效应既引起导引中心漂移，也引起流体漂移，但二者并不相同；事实上，它们的符号相反！粒子漂移已在 <a href="single.html" class="quarto-xref"><span>章节 7</span></a> 中计算，而流体漂移可以由 <span class="math inline">\(\mathbf{P}\)</span> 的非对角分量计算。要解释有限拉莫尔半径效应如何不同极其困难。图 3.6 那样的简单图像行不通，因为必须考虑如下微妙之处：在没有密度梯度时，导引中心的密度与粒子的密度并不相同！（？？？）</p>
+<p>（我需要仔细思考这些图像。）</p>
+</section>
+<section id="平行于-b-的流体漂移" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="平行于-b-的流体漂移"><span class="header-section-number">8.8</span> 平行于 B 的流体漂移</h2>
+<p>流体运动方程的 <span class="math inline">\(z\)</span> 分量为 <span id="eq-fluid_momentum_parallel"><span class="math display">\[
+mn\left[ \frac{\partial u_z}{\partial t} + (\mathbf{u}\cdot\nabla)u_z\right] = qn E_z - \frac{\partial\phi}{\partial z}
+\tag{8.66}\]</span></span></p>
+<p>对流项通常可以忽略，因为它比 <span class="math inline">\(\partial u_z/\partial t\)</span> 项小得多。这里避免复杂的论证，只考虑 <span class="math inline">\(u_z\)</span> 在空间上均匀的情况。利用 <a href="#eq-fluid_momentum_parallel" class="quarto-xref">式&nbsp;<span>8.66</span></a>，得到 <span id="eq-fluid_momentum_parallel_simple"><span class="math display">\[
+\frac{\partial u_z}{\partial t} = \frac{q}{m}E_z - \frac{\gamma k_B T}{mn}\frac{\partial n}{\partial z}
+\tag{8.67}\]</span></span></p>
+<p>这表明流体在静电力和压力梯度力的共同作用下沿 <span class="math inline">\(\mathbf{B}\)</span> 加速。将 <a href="#eq-fluid_momentum_parallel_simple" class="quarto-xref">式&nbsp;<span>8.67</span></a> 应用于无质量电子，可以得到一个特别重要的结果。取极限 <span class="math inline">\(m\rightarrow 0\)</span>，并指定 <span class="math inline">\(q=-e\)</span> 和 <span class="math inline">\(\mathbf{E}=-\nabla\phi\)</span>，得到 <span class="math display">\[
+qE_z = e\frac{\partial\phi}{\partial z} = \frac{\gamma k_B T_e}{n}\frac{\partial n}{\partial z}
+\]</span></p>
+<p>电子的迁移性很高，其热导率几乎无限大。因此可以假设电子等温并取 <span class="math inline">\(\gamma = 1\)</span>。积分得到 <span class="math display">\[
+e\phi = k_B T_e \ln n + C
+\]</span> 或者 <span id="eq-boltzmann_relation"><span class="math display">\[
+n = n_0 \exp(e\phi/k_B T_e)
+\tag{8.68}\]</span></span></p>
+<p>这正是电子的_玻尔兹曼关系_。</p>
+<p>其物理含义是：电子质量小、迁移性很高，如果受到净力，会很快被加速到高能量。由于电子不能大批离开某一区域而不留下大量离子电荷，电子受到的静电力和压力梯度力必须高度平衡。这一条件导致玻尔兹曼关系。注意，<a href="#eq-boltzmann_relation" class="quarto-xref">式&nbsp;<span>8.68</span></a> <em>分别适用于每一条磁力线</em>。除非存在使电子跨越 <span class="math inline">\(\mathbf{B}\)</span> 运动的机制，否则不同磁力线可以任意带有不同电势。磁力线终止处的导体可以提供这样的机制，实验人员必须仔细考虑这些端部效应。</p>
+<div id="fig-boltzmann-relation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boltzmann-relation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/boltzmann_relation.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boltzmann-relation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;8.4: 密度与电势之间玻尔兹曼关系的物理原因。
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-boltzmann-relation" class="quarto-xref">图&nbsp;<span>8.4</span></a> 以图示方式说明等离子体中存在局部密度团块时发生的情况。令密度梯度指向图中央，并假设 <span class="math inline">\(k_B T\)</span> 为常数。于是压力梯度也指向中央。由于等离子体准中性，电子和离子流体都存在这一梯度。考虑作用在电子流体上的压力梯度力 <span class="math inline">\(\mathbf{F}_p\)</span>。它将迁移性高的电子从中心向外驱走，留下离子。由此产生的正电荷形成电场 <span class="math inline">\(\mathbf{E}\)</span>，该电场对电子施加的力 <span class="math inline">\(\mathbf{F}_E\)</span> 与 <span class="math inline">\(\mathbf{F}_p\)</span> 方向相反。只有当 <span class="math inline">\(\mathbf{F}_E = -\mathbf{F}_p\)</span> 时才能达到稳态。如果 <span class="math inline">\(\mathbf{B}\)</span> 是常数，<span class="math inline">\(\mathbf{E}\)</span> 是静电场 <span class="math inline">\(\mathbf{E}=-\nabla\phi\)</span>，则在 <span class="math inline">\(n\)</span> 较大的中心处 <span class="math inline">\(\phi\)</span> 必须较大。这正是 <a href="#eq-boltzmann_relation" class="quarto-xref">式&nbsp;<span>8.68</span></a> 告诉我们的结果。对严格中性的偏离会自行调整，恰好产生足够的电荷来建立平衡电子受力所需的 <span class="math inline">\(\mathbf{E}\)</span> 场。</p>
+</section>
+<section id="sec-plasma_approximation" class="level2" data-number="8.9">
+<h2 data-number="8.9" class="anchored" data-anchor-id="sec-plasma_approximation"><span class="header-section-number">8.9</span> 等离子体近似</h2>
+<p>前面的例子揭示了等离子体一个应用广泛的重要特征。我们习惯于在给定电荷密度 <span class="math inline">\(\sigma\)</span> 时，通过泊松方程求解 <span class="math inline">\(\mathbf{E}\)</span>。在等离子体中，一般采用相反的过程：从运动方程求出 <span class="math inline">\(\mathbf{E}\)</span>，泊松方程只用于求出 <span class="math inline">\(\sigma\)</span>。原因是等离子体具有保持中性的强烈倾向。如果离子运动，电子就会跟随。<span class="math inline">\(\mathbf{E}\)</span> 必须自行调整，使电子和离子的轨道保持中性。电荷密度处于次要地位；它会自行调整，使泊松方程得到满足。当然，这只适用于电子惯性不起作用的低频运动。</p>
+<p>在等离子体中，通常可以同时假设 <span class="math inline">\(n_i=n_e\)</span> 和 <span class="math inline">\(\nabla\cdot\mathbf{E}\neq 0\)</span>。我们将其称为_等离子体近似_。它是等离子体的一个基本特征，初学者很难理解。<em>除非无法避免，否则不要用泊松方程求 <span class="math inline">\(\mathbf{E}\)</span>！</em> 在流体方程组 <a href="#eq-fluid_set" class="quarto-xref">式&nbsp;<span>8.13</span></a> 中，现在可以去掉泊松方程，并通过令 <span class="math inline">\(n_i = n_e = n\)</span> 消去一个未知量。</p>
+<p>_等离子体近似_与前面讨论的准中性条件几乎相同，但具有更精确的含义。准中性是指等离子体处于静止状态时保持中性的一般趋势，而等离子体近似是一种甚至可以用于波动的数学捷径。只要这些运动足够慢，使离子和电子都有时间运动，用方程 <span class="math inline">\(n_i=n_e\)</span> 代替泊松方程就是一个很好的近似。当然，如果只有一种粒子能运动，另一种不能跟随，例如在高频电子波中，那么等离子体近似不成立，必须由麦克斯韦方程 <a href="#eq-maxwell_vacuum" class="quarto-xref">式&nbsp;<span>8.1</span></a> 而非离子和电子运动方程求出 <span class="math inline">\(\mathbf{E}\)</span>。保留位移电流的安培定律给出 <span class="math inline">\(\mathbf{E}\)</span> 随时间的演化：</p>
+<p><span class="math display">\[
+\frac{\mathrm{d}\mathbf{E}}{\mathrm{d}t} = \frac{1}{\epsilon_0}\left( \frac{\nabla\times\mathbf{B}}{\mu_0} - \mathbf{J} \right)
+\]</span></p>
+<p>在讨论离子波理论时，我们将回到等离子体近似有效性的问题。届时将清楚为什么在推导德拜屏蔽时必须使用泊松方程。对于电子波，我们还可以证明，使用一个简单的“修正”电子测试粒子模型，在保持磁场不变的同时更新电场，可以保留等离子体振荡和电子伯恩斯坦波。</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bellan2008fundamentals" class="csl-entry" role="listitem">
+Bellan, Paul M. 2008年. <em>Fundamentals of plasma physics</em>. Cambridge University Press.
+</div>
+<div id="ref-chen2016introduction" class="csl-entry" role="listitem">
+Chen, Francis F. 2016年. <em>Introduction to plasma physics and controlled fusion</em>. 卷 1. Springer.
+</div>
+<div id="ref-cgl1956" class="csl-entry" role="listitem">
+Chew, GF, ML Goldberger, 和 FE Low. 1956年. <span>《The Boltzmann equation and the one-fluid hydromagnetic equations in the absence of particle collisions》</span>. <em>Proceedings of the Royal Society of London. Series A. Mathematical and Physical Sciences</em> 236 (1204): 112～18. <a href="https://doi.org/10.1098/rspa.1956.0116">https://doi.org/10.1098/rspa.1956.0116</a>.
+</div>
+<div id="ref-wang2020exact" class="csl-entry" role="listitem">
+Wang, Liang, Ammar H Hakim, Jonathan Ng, Chuanfei Dong, 和 Kai Germaschewski. 2020年. <span>《Exact and locally implicit source term solvers for multifluid-Maxwell systems》</span>. <em>Journal of Computational Physics</em> 415: 109510. <a href="https://doi.org/10.1016/j.jcp.2020.109510">https://doi.org/10.1016/j.jcp.2020.109510</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>我们给磁导率加上下标 m，以区别于绝热不变量 <span class="math inline">\(\mu\)</span>。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>达尔文近似通过忽略安培定律中的 <span class="math inline">\(\partial\mathbf{E}\partial t\)</span> 来忽略光波。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>在存在不连续面时，绝热定律无法描述跃变，必须利用能量方程的守恒性质。<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>其中某些项与 <a href="#eq-6-moment-fluids" class="quarto-xref">式&nbsp;<span>8.14</span></a> 稍有不同。Meng Xing 在 BATSRUS 各向异性磁流体力学论文中提到，多方指数取为 5/3。还要注意，这里的未知量是总压力 <span class="math inline">\(p\)</span>，而不是垂直压力 <span class="math inline">\(p_\perp\)</span>。<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const path = window.location.pathname;
+  const isChinese = /^zh(?:-|$)/i.test(document.documentElement.lang);
+  const chapter = path.match(/\/contents\/([^/]+\.html)$/);
+  const destination = chapter
+    ? (isChinese ? '../../contents/' : '../zh/contents/') + chapter[1]
+    : (isChinese ? '../' : 'zh/');
+  const label = isChinese ? 'English' : '中文';
+  const button = document.createElement('a');
+  const target = new URL(destination, window.location.href);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  button.href = target.href;
+  button.textContent = label;
+  button.className = 'language-switch';
+  button.setAttribute('aria-label', label === '中文' ? '切换到中文' : 'Switch to English');
+  document.body.appendChild(button);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/single.html" class="pagination-link" aria-label="单粒子运动">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">单粒子运动</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/diffres.html" class="pagination-link" aria-label="扩散与电阻率">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">扩散与电阻率</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/henry2004y/KeyNotes/edit/master/zh/contents/fluid.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li></ul></div></div></div></footer></body></html>
